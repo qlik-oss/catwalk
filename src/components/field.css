@@ -1,0 +1,46 @@
+
+.field {
+  background: rgb(249, 249, 249);
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border-top: 1px solid rgb(201, 201, 201);
+}
+
+.field.filtered {
+  /*background-image: linear-gradient(to top, rgba(0, 255, 0, 0.1), rgba(0, 255, 0, 0.1));
+  background-color: #fff;*/
+  font-style: italic;
+}
+
+.field .name,
+.field .gwg {
+  display: flex;
+  flex: 1 1;
+  margin: 0 6px;
+}
+
+.field .name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+  display: inline-block;
+}
+
+.field .gwg {
+  display: flex;
+  min-width: 100px;
+  height: 0.5rem;
+  border: 1px solid rgb(201, 201, 201);
+  border-radius: 3px;
+  justify-content: space-between;
+  background: #fff;
+}
+
+.field .gwg .green {
+  background: rgb(155, 210, 60);
+}
+
+.field .gwg .grey {
+  background: rgb(210, 210, 210);
+}

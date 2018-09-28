@@ -1,0 +1,182 @@
+$tableBackground: #888;
+$gridBackground: #000;
+$assocborder: #999;
+
+.model2 {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 1;
+  background-color: $gridBackground;
+}
+
+
+.model2 .betweener {
+  position: relative;
+  height: 41px;
+}
+
+.model2 .tableheader {
+  font-weight: bold;
+  color: white;
+  cursor: crosshair;
+}
+
+.vertcell {
+  box-sizing: border-box;
+  position: relative;
+}
+.keycell {
+   box-sizing: border-box;
+   border: 1px solid $assocborder;
+}
+.insideTable {
+  box-sizing: border-box;
+  border: 1px solid #999;
+}
+
+
+.model2 .association-to-right {
+  z-index: 1000;
+  position: absolute;
+  top: 6px;
+  right: -6px;
+  width: 6px;
+}
+.model2 .association-to-right-a {
+  box-sizing: border-box;
+  width: 6px;
+  height: 6px;
+  background-color: black;
+  border-left: 1px solid $assocborder;
+  border-bottom: 1px solid $assocborder;
+  border-bottom-left-radius: 12px;
+}
+.model2 .association-to-right-b {
+  box-sizing: border-box;
+  width: 6px;
+  height: 15px;
+
+}
+.model2 .association-to-right-c {
+  box-sizing: border-box;
+  width: 6px;
+  height: 6px;
+  border-left: 1px solid $assocborder;
+  border-top: 1px solid $assocborder;
+  border-top-left-radius: 12px;
+  background-color: black
+}
+.model2 .association-to-left {
+  box-sizing: border-box;
+  z-index: 1000;
+  position: absolute;
+  top: 6px;
+  left: -6px;
+  width: 6px;
+}
+.model2 .association-to-left-a {
+  box-sizing: border-box;
+  width: 6px;
+  height: 6px;
+  background-color: black;
+  border-right: 1px solid $assocborder;
+  border-bottom: 1px solid $assocborder;
+  border-bottom-right-radius: 12px;
+}
+.model2 .association-to-left-b {
+  box-sizing: border-box;
+  width: 6px;
+  height: 15px;
+
+}
+.model2 .association-to-left-c {
+  box-sizing: border-box;
+  width: 6px;
+  height: 6px;
+  border-right: 1px solid $assocborder;
+  border-top: 1px solid $assocborder;
+  border-top-right-radius: 12px;
+  background-color: black
+}
+
+.model2 .association-to-left:nth-child(0) {
+  border: 1px solid red;
+}
+
+.model2 .association-to-left:nth-child(0) {
+  border: 1px solid red;
+}
+
+.model2 .betweener .lineyinner {
+  z-index: 1000;
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  border-bottom: 1px solid $assocborder;
+  border-top: 1px solid $assocborder;
+
+  left: -6px;
+  right: -6px;
+}
+
+.model2 .betweener.insideTable {
+  background-color: $tableBackground;
+}
+
+.model2 .colset {
+  justify-self: auto;
+  display: flex;
+  overflow: scroll;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.model2 .colset .column {
+  margin: 5px;
+}
+
+.model2 .colset .vertcell {
+
+}
+
+.model2 .listboxcolset {
+  position: relative;
+  justify-self: flex-end;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: white;
+  flex-shrink: 0;
+
+}
+
+.model2 .listboxcolumn {
+
+}
+
+.model2 .closer {
+  cursor: pointer;
+}
+
+
+
+.model2 .tableAtPlay .tableheader {
+  background-color: lightyellow;
+  color: black;
+
+}
+
+
+.notKeyAtPlay  {
+  opacity: 0.5
+}
+.model2 .tableAtPlay .insideTable {
+  background-color: #DCA;
+}
+.model2 .notTableAtPlay .insideTable {
+  background-color: #333;
+  border: 1px solid #444;
+}
+.notTableAtPlay .tableheader {
+  opacity: 50%
+}
