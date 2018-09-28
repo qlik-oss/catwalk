@@ -1,0 +1,55 @@
+.table {
+  border: 1px solid rgb(201, 201, 201);
+  border-radius: 6px;
+  background-clip: padding-box;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.table.expanded {
+  height: 100%;
+}
+
+.table.has-selections .header {
+  background: rgba(40, 120, 40, 0.7);
+  color: white;
+}
+
+.table ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.table .header {
+  font-weight: bold;
+  background: rgb(242, 242, 242);
+  padding: 6px;
+  display: grid;
+  align-items: center;
+  grid-auto-flow: column;
+  justify-content: space-between;
+}
+
+.table .toggle {
+  user-select: none;
+}
+
+.table .item {
+  cursor: pointer;
+  height: 100%;
+}
+
+.table .field {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.table .selected .field {
+  color: #fff;
+  background: linear-gradient(to top, rgb(120, 120, 120), rgb(100, 100, 100));
+}

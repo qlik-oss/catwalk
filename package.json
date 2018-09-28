@@ -1,0 +1,34 @@
+{
+  "name": "core-data-modelling",
+  "version": "0.0.1",
+  "description": "Get Qlik Associative Engine data model insights.",
+  "author": "QlikTech International AB",
+  "license": "MIT",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production parcel build --experimental-scope-hoisting src/index.html",
+    "start": "parcel src/index.html",
+    "lint": "eslint --ext .js,.jsx .",
+    "lint:fix": "eslint --ext .js,.jsx --fix ."
+  },
+  "dependencies": {
+    "enigma.js": "^2.2.1",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.1",
+    "react-outside-click-handler": "1.2.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.6",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.0.1",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.0",
+    "eslint-plugin-react": "^7.10.0",
+    "parcel-bundler": "^1.9.7"
+  }
+}

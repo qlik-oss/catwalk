@@ -1,0 +1,42 @@
+.selections {
+  background: rgb(241, 241, 241);
+  border-bottom: 1px solid rgb(205, 205, 205);
+  display: flex;
+  overflow: auto;
+  height: 42px;
+}
+
+.selections li {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6px 12px;
+  width: 120px;
+  background: rgb(250, 250, 250);
+  border-right: 1px solid rgb(215, 215, 215);
+  box-sizing: border-box;
+}
+
+.selections strong {
+  width: 100%;
+  display: block;
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.selections .clear {
+  width: 48px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.selections .none {
+  align-self: center;
+  height: 100%;
+}
+
+.selections .gwg {
+  margin-top: 6px;
+  height: 6px;
+}
