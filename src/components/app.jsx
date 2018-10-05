@@ -6,16 +6,25 @@ import Model2 from './model2';
 
 import './app.css';
 
-export default function App(props) {
-  const { app } = props;
-  return (
-    <div className="app">
-      <Selections app={app} />
-      <Model2 app={app} />
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { app } = this.props;
+
+    return (
+      <div className="app">
+        <Selections app={app} />
+        <Model2 app={app} />
+      </div>
+    );
+  }
 }
 
 App.propTypes = {
   app: PropTypes.object.isRequired,
 };
+
+export default App;

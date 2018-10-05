@@ -130,4 +130,4 @@ Filterbox.propTypes = {
   onClose: PropTypes.func,
 };
 
-export default Filterbox;
+export default withModel(withLayout(Filterbox));

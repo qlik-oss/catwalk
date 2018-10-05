@@ -12,29 +12,37 @@ import './index.css';
 // algorithm in parcel:
 window.React = React;
 
-
-function setupApp(global) {
+async function setupApp(global) {
   if (process.env.ENGINE_URL) {
     // assume we're attaching to a session:
-    return global.getActiveDoc();
+    return await global.getActiveDoc();
   }
-  return global.openDoc('/data/drugcases.qvf');
+  return await global.openDoc('/data/drugcases.qvf');
 }
 
 class Index extends React.Component {
   constructor() {
     super();
+    this.state = { app: null, error: null };
+    this.getApp();
+  }
+
+  async getApp() {
     const session = enigma.create(config);
-    session.open()
-      .then(setupApp)
-      .then(app => this.setState({ app }))
-      .catch(error => this.setState({ error }));
-    this.state = { session };
+    try {
+      const global = await session.open();
+      const app = await setupApp(global);
+      this.setState({ session, app });
+    } catch (error) {
+      this.setState({ error });
+    }
   }
 
   componentWillUnmount() {
     const { session } = this.state;
-    session.close();
+    if (session) {
+      session.close();
+    }
   }
 
   render() {
@@ -43,14 +51,10 @@ class Index extends React.Component {
       return (
         <div className="error">
           <div>
-            <h1>
-Initialization failed
-            </h1>
+            <h1>Initialization failed</h1>
             {' '}
             <pre>
-              <code>
-                {error.stack}
-              </code>
+              <code>{error.stack}</code>
             </pre>
           </div>
         </div>
@@ -59,18 +63,13 @@ Initialization failed
     if (!app) {
       return null;
     }
-    return (
-      <App app={app} />
-    );
+    return <App app={app} />;
   }
 }
 
-ReactDOM.render(
-  <Index />,
-  document.getElementById('root'),
-);
+ReactDOM.render(<Index />, document.getElementById('root'));
 
-if (module.hot) {
-  // used for hot module replacement during development:
-  module.hot.accept();
-}
+// if (module.hot) {
+//   // used for hot module replacement during development:
+//   module.hot.accept();
+// }

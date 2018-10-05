@@ -1,7 +1,7 @@
 {
   "presets": [
-    "env",
-    "react",
-    "stage-2"
-  ]
+    ["@babel/preset-env", { "targets": { "browsers": "last 2 versions" } }],
+    "@babel/preset-react"
+  ],
+  "plugins": ["@babel/plugin-transform-runtime"]
 }
