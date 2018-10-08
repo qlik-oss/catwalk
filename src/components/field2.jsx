@@ -1,13 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import withModel from './withModel';
+import withLayout from './withLayout';
+
 import './field2.scss';
 
 function makeRandomSelection(model) {
   model.getLayout().then((layout) => {
     if (layout.qListObject.qDataPages[0].qMatrix) {
-      const possible = layout.qListObject.qDataPages[0].qMatrix.filter(i => i[0].qState === 'O').map(i => i[0].qElemNumber);
-      model.selectListObjectValues('/qListObjectDef', possible.slice(0, possible.length * Math.random()), true);
+      const possible = layout.qListObject.qDataPages[0].qMatrix
+        .filter(i => i[0].qState === 'O')
+        .map(i => i[0].qElemNumber);
+      model.selectListObjectValues(
+        '/qListObjectDef',
+        possible.slice(0, possible.length * Math.random()),
+        true,
+      );
     } else {
       console.log('No qMatrix', model);
     }
@@ -15,7 +24,7 @@ function makeRandomSelection(model) {
 }
 
 function fieldText(fieldName, dimInfo) {
-  let text = fieldName;
+  const text = fieldName;
   return text;
   // if (!dimInfo) {
   //   return fieldName;
@@ -35,52 +44,58 @@ function fieldText(fieldName, dimInfo) {
 function fieldCounts(dimInfo, field) {
   let str = '';
   if (field.qnPresentDistinctValues !== field.qnTotalDistinctValues) {
-    str = `${dimInfo.qStateCounts.qSelected + dimInfo.qStateCounts.qOption} of ${field.qnTotalDistinctValues}(${field.qnPresentDistinctValues})`;
+    str = `${dimInfo.qStateCounts.qSelected + dimInfo.qStateCounts.qOption} of ${
+      field.qnTotalDistinctValues
+    }(${field.qnPresentDistinctValues})`;
   } else {
-    str = `${dimInfo.qStateCounts.qSelected + dimInfo.qStateCounts.qOption} of ${field.qnPresentDistinctValues}`;
+    str = `${dimInfo.qStateCounts.qSelected + dimInfo.qStateCounts.qOption} of ${
+      field.qnPresentDistinctValues
+    }`;
   }
 
   return str;
 }
 
-export default class Field2 extends React.Component {
+class Field2 extends React.Component {
   constructor() {
     super();
-    this.boundRefresh = this.refresh.bind(this);
-    this.state = {
-      layout: null,
-    };
+    // this.boundRefresh = this.refresh.bind(this);
+    // this.state = {
+    //   layout: null,
+    // };
   }
 
-  componentWillMount() {
-    const { app, field } = this.props;
-    app.getOrCreateListbox(field).then((model) => {
-      if (!process.env.ENGINE_URL && Math.random() > 0.8) {
-        makeRandomSelection(model);
-      }
-      this.setState({ model });
-      model.on('changed', this.boundRefresh);
-      this.refresh();
-    });
-  }
+  // componentWillMount() {
+  //   const { app, field } = this.props;
+  //   app.getOrCreateListbox(field).then((model) => {
+  //     if (!process.env.ENGINE_URL && Math.random() > 0.8) {
+  //       makeRandomSelection(model);
+  //     }
+  //     this.setState({ model });
+  //     model.on('changed', this.boundRefresh);
+  //     this.refresh();
+  //   });
+  // }
 
-  componentWillUnmount() {
-    const { model } = this.state;
-    model.removeListener('changed', this.boundRefresh);
-    // Make sure pending promises doesn't trigger any internal
-    // react logic after we're unmounted. It's either this,
-    // or wrapping all promises so that we can reject them...
-    this.setState = () => {};
-  }
+  // componentWillUnmount() {
+  //   const { model } = this.state;
+  //   model.removeListener('changed', this.boundRefresh);
+  //   // Make sure pending promises doesn't trigger any internal
+  //   // react logic after we're unmounted. It's either this,
+  //   // or wrapping all promises so that we can reject them...
+  //   this.setState = () => {};
+  // }
 
-  refresh() {
-    const { model } = this.state;
-    model.getLayout().then(layout => this.setState({ layout }));
-  }
+  // refresh() {
+  //   const { model } = this.state;
+  //   model.getLayout().then(layout => this.setState({ layout }));
+  // }
 
   render() {
-    const { field, fieldData, onlyBar } = this.props;
-    const { layout } = this.state;
+    const {
+      field, fieldData, onlyBar, layout,
+    } = this.props;
+    // const { layout } = this.state;
     if (!layout) {
       return null;
     }
@@ -89,8 +104,8 @@ export default class Field2 extends React.Component {
     // the search, see https://jira.qlikdev.com/browse/QLIK-89627:
     const total = layout.qListObject.qDimensionInfo.qCardinal;
     const states = layout.qListObject.qDimensionInfo.qStateCounts;
-    const green = { width: `${Math.ceil(states.qSelected / total * 100)}%` };
-    const grey = { width: `${Math.ceil(states.qExcluded / total * 100)}%` };
+    const green = { width: `${Math.ceil((states.qSelected / total) * 100)}%` };
+    const grey = { width: `${Math.ceil((states.qExcluded / total) * 100)}%` };
 
     let classes = `field2 ${fieldData.qKeyType}`;
 
@@ -119,7 +134,12 @@ export default class Field2 extends React.Component {
       </div>
     );
     const bar = (
-      <div className="gwg" title={`${states.qSelected} selected, ${states.qOption + states.qAlternative} possible, ${states.qExcluded} excluded, total of ${total} values. ${descriptions}`}>
+      <div
+        className="gwg"
+        title={`${states.qSelected} selected, ${states.qOption + states.qAlternative} possible, ${
+          states.qExcluded
+        } excluded, total of ${total} values. ${descriptions}`}
+      >
         <span className="green" style={green} />
         <span className="grey" style={grey} />
         <div className="bartext">
@@ -169,3 +189,8 @@ Field2.propTypes = {
 Field2.defaultProps = {
   onlyBar: false,
 };
+
+export default withModel(
+  withLayout(Field2),
+  async (app, props) => await app.getOrCreateListbox(props.field),
+);

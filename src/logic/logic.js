@@ -240,7 +240,7 @@ class QueryModel {
   }
 
   getFieldsSortedByAssocDepth(currentTable, tablesAlreadyAdded) {
-    console.log('Get depth', currentTable, tablesAlreadyAdded);
+    //console.log('Get depth', currentTable, tablesAlreadyAdded);
     const self = this;
 
     const countDepth = (tableName, fieldName, traversedTables) => {
@@ -276,7 +276,7 @@ class QueryModel {
       tablesAlreadyAdded.forEach((tableName) => {
         traversedTables[tableName] = true;
       });
-      console.log('depth', currentTable, fieldName, countDepth(currentTable, fieldName, traversedTables));
+     // console.log('depth', currentTable, fieldName, countDepth(currentTable, fieldName, traversedTables));
     });
 
     const result = this.fieldsOfTable(currentTable).slice(0);
@@ -291,16 +291,16 @@ class QueryModel {
 
     // Iterate over all keys for the current table
     const keyFields = this.getFieldsSortedByAssocDepth(currentTable, this.resultTableList);
-    console.log(`${depth}Add table:`, currentTable, keyFields);
+    //console.log(`${depth}Add table:`, currentTable, keyFields);
     keyFields.forEach((keyField) => {
       const existIndex = this.originalFieldNamesSortedByKeyAndName.indexOf(keyField);
       if (existIndex >= 0) {
         // Move the key from the original list of fields into the result list
         this.originalFieldNamesSortedByKeyAndName.splice(existIndex, 1);
         this.resultFieldList.push(keyField);
-        console.log(`${depth}Add key`, keyField);
+        //console.log(`${depth}Add key`, keyField);
       } else {
-        console.log(`${depth}(key already added)`, keyField);
+        //console.log(`${depth}(key already added)`, keyField);
       }
       const tablesOfNewKey = this.tablesOfField(keyField);
       // Iterate over all tables associated with the key and register them for analysis
@@ -311,9 +311,9 @@ class QueryModel {
           this.analyzeTable(tableName, tablesAlreadyAnalyzed, `${depth + keyField}.${tableName}/`);
         } else if (this.resultTableList.indexOf(tableName) === -1) {
           this.resultTableList.push(tableName);
-          console.log(`${depth} *** table already analyzed, adding anyway:`, tableName);
+          //console.log(`${depth} *** table already analyzed, adding anyway:`, tableName);
         } else {
-          console.log(`${depth} *** table already added:`, tableName);
+          //console.log(`${depth} *** table already added:`, tableName);
         }
       });
     });

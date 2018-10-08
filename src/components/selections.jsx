@@ -1,67 +1,66 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import AppConsumer from './context';
 
 import Field from './field';
-
+import withModel from './withModel';
+import withLayout from './withLayout';
 import './selections.css';
 
-export default class Selections extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
+class Selections extends React.Component {
+  constructor(...args) {
+    super(...args);
 
-  componentDidMount() {
-    const { app } = this.props;
-    app.createSessionObject({
-      qInfo: { qType: 'selections' },
-      qSelectionObjectDef: {},
-    }).then((object) => {
-      this.setState({ object });
-      object.on('changed', () => this.refresh());
-      this.refresh();
-    });
-  }
-
-  refresh() {
-    const { object } = this.state;
-    object.getLayout().then(layout => this.setState({ layout }));
+    // this.state.definition = {
+    //   qInfo: { qType: 'selections' },
+    //   qSelectionObjectDef: {},
+    // };
   }
 
   render() {
-    const { app } = this.props;
-    const { layout } = this.state;
+    const { app, layout } = this.props;
     if (!layout) {
+      console.log('layout null');
       return null;
     }
     const items = layout.qSelectionObject.qSelections.map(item => (
       <li key={item.qField}>
-        <strong title={item.qField}>
-          {item.qField}
-        </strong>
+        <strong title={item.qField}>{item.qField}</strong>
         <Field app={app} field={item.qField} onlyBar />
       </li>
     ));
     if (!items.length) {
-      items.push((
+      items.push(
         <li key="none" className="none">
-No selections made.
-        </li>
-      ));
+          No selections made.
+        </li>,
+      );
     }
     return (
       <ul className="selections">
         <li key="clear" className="clear" onClick={() => app.clearAll()}>
-          <i className="material-icons">
-close
-          </i>
+          <i className="material-icons">close</i>
         </li>
         {items}
       </ul>
     );
   }
 }
+const definition = {
+  qInfo: { qType: 'selections' },
+  qSelectionObjectDef: {},
+};
 
 Selections.propTypes = {
-  app: PropTypes.object.isRequired,
+  model: PropTypes.object.isRequired,
+  layout: PropTypes.object.isRequired,
+  createModelFunc: PropTypes.func,
 };
+
+export default withModel(
+  withLayout(Selections),
+  async app => await app.createSessionObject({
+    qInfo: { qType: 'selections' },
+    qSelectionObjectDef: {},
+  }),
+);
