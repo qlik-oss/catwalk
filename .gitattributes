@@ -1,6 +1,6 @@
 *.png binary
+*.qvf binary
 *.html text eol=lf
 *.css text eol=lf
 *.jsx text eol=lf
 *.yml text eol=lf
-
