@@ -20,6 +20,7 @@ export class AppProvider extends React.Component {
     super(props);
     this.state = {
       app: null,
+      error: null,
     };
   }
 
@@ -30,8 +31,7 @@ export class AppProvider extends React.Component {
       const appHandle = await setupApp(global);
       this.setState({ session, app: appHandle });
     } catch (error) {
-      // this.setState({ error });
-      // console.log(`Fix this error handling: error: ${JSON.stringify(error)}`);
+      this.setState({ error });
     }
   }
 
@@ -44,7 +44,10 @@ export class AppProvider extends React.Component {
 
   render() {
     const { children } = this.props;
-    const { app } = this.state;
+    const { app, error } = this.state;
+    if (error) {
+      throw error;
+    }
     return app && (
       <AppContext.Provider value={app}>
         {children}
