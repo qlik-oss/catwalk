@@ -142,7 +142,7 @@ $assocborder: #999;
 }
 
 .model .listboxcolumn {
-
+  font-size: 1.5em;
 }
 
 .model .closer {
@@ -162,7 +162,7 @@ $assocborder: #999;
   opacity: 0.5
 }
 .model .tableAtPlay .insideTable {
-  background-color: #DCA;
+  background-color: $tableBackground;
 }
 .model .notTableAtPlay .insideTable {
   background-color: $tableBackground;

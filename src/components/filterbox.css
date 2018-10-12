@@ -1,4 +1,5 @@
 .filterbox {
+  font-size: 1.5rem;
   max-height: 25vh;
   overflow: auto;
   user-select: none;
