@@ -1,13 +1,5 @@
-// function space(len) {
-//   if (!len) {
-//     len = 0;
-//   }
-//   let result = '';
-//   for (let i = 0; i < len; i++) {
-//     result += '   ';
-//   }
-//   return result;
-// }
+// Kudos to https://gist.github.com/jedfoster/7939513 for this
+// functionality
 function mixColors(color1, color2, weight) {
   function dec2hex(d) { return d.toString(16); }
 
