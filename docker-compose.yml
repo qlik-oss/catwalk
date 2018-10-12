@@ -10,6 +10,5 @@ services:
       -S DocumentDirectory=/data
     ports:
       - 9076:9076
-      - 4848:9076
     volumes:
       - ./data:/data

@@ -34,8 +34,6 @@ export class Field extends React.Component {
       return null;
     }
 
-    // there is currently no cardinal value that is unaffected by
-    // the search, see https://jira.qlikdev.com/browse/QLIK-89627:
     const total = layout.qListObject.qDimensionInfo.qCardinal;
     const states = layout.qListObject.qDimensionInfo.qStateCounts;
     const green = { width: `${Math.ceil((states.qSelected / total) * 100)}%` };
