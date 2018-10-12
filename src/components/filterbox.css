@@ -1,0 +1,42 @@
+.filterbox {
+  max-height: 25vh;
+  overflow: auto;
+  user-select: none;
+  border: 1px solid rgb(201, 201, 201);
+  border-top: 0;
+  background: #fff;
+  box-sizing: border-box;
+  color: #333;
+  flex-shrink: 0;
+}
+
+.filterbox.empty p {
+  padding: 0.5rem 2rem;
+}
+
+/*.filterbox .header {
+}*/
+
+.filterbox .item {
+  cursor: pointer;
+  padding: 6px;
+}
+
+.filterbox .state-S {
+  background: #019b39;
+  color: white;
+}
+
+.filterbox .state-X {
+  background: rgba(210, 210, 210, 0.8);
+}
+
+.filterbox .search {
+  padding: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 0;
+  font-size: 14px;
+  background: none;
+  border-top: 1px solid rgb(201, 201, 201);
+}
