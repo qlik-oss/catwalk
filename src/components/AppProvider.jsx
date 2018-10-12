@@ -46,10 +46,7 @@ export class AppProvider extends React.Component {
     const { children } = this.props;
     const { app } = this.state;
     return app && (
-      <AppContext.Provider value={
-        app
-      }
-      >
+      <AppContext.Provider value={app}>
         {children}
       </AppContext.Provider>
     );
