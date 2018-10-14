@@ -20,23 +20,23 @@ function withModel(WrappedComponent, createModel) {
       this.setState = () => {};
     }
 
-    handleError(error) {
-      this.setState({ model: null, error });
-    }
-
     async updateModel() {
       const { app } = this.props;
       try {
         const model = await createModel(app, this.props);
         this.setState({ model, error: null });
       } catch (error) {
-        this.handleError(error);
+        this.setState({ model: null, error });
       }
     }
 
     render() {
       const { model, error } = this.state;
-      if (!model || error) {
+      if (error) {
+        throw error;
+      }
+
+      if (!model) {
         return null;
       }
 

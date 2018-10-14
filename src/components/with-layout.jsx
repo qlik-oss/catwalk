@@ -32,10 +32,6 @@ function withLayout(WrappedComponent) {
       this.setState = () => {};
     }
 
-    handleError(error) {
-      this.setState({ layout: null, error });
-    }
-
     async updateLayout(firstTime) {
       const { model } = this.props;
       try {
@@ -43,13 +39,17 @@ function withLayout(WrappedComponent) {
         if (firstTime) model.on('changed', this.updateLayout);
         this.setState({ layout, error: null });
       } catch (error) {
-        this.handleError(error);
+        this.setState({ layout: null, error });
       }
     }
 
     render() {
       const { layout, error } = this.state;
-      if (!layout || error) {
+      if (error) {
+        throw error;
+      }
+      
+      if (!layout) {
         return null;
       }
       return <WrappedComponent {...this.props} layout={layout} />;
