@@ -1,5 +1,5 @@
-$tableBackground: #888;
-$gridBackground: #000;
+$tableBackground: #4b4b4b;
+$gridBackground: #4b4b4b;
 $assocborder: #999;
 
 .model {
@@ -12,91 +12,88 @@ $assocborder: #999;
 
 .model .betweener {
   position: relative;
-  height: 41px;
+  height: 5em;
 }
 
 .model .tableheader {
+  font-size: 1.5em;
   font-weight: bold;
   color: white;
   cursor: crosshair;
 }
 
 .vertcell {
+  height: 5em;
   box-sizing: border-box;
   position: relative;
+  margin: 1em 0;
 }
 .keycell {
-   box-sizing: border-box;
-   border: 1px solid $assocborder;
+  height: 5em;
+  margin: 1em 0;
+  box-sizing: border-box;
 }
 .insideTable {
+  height:5em;
+  margin: 1em 0;
   box-sizing: border-box;
-  border: 1px solid #999;
 }
 
 
 .model .association-to-right {
   z-index: 1000;
   position: absolute;
-  top: 6px;
-  right: -6px;
-  width: 6px;
+  top: 1em;
+  right: -1em;
+  width: 1em;
 }
 .model .association-to-right-a {
   box-sizing: border-box;
-  width: 6px;
-  height: 6px;
-  background-color: black;
-  border-left: 1px solid $assocborder;
-  border-bottom: 1px solid $assocborder;
-  border-bottom-left-radius: 12px;
+  width: 1em;
+  height: 1em;
+  background-color: $tableBackground;
+  border-bottom-left-radius: 1.5em;
 }
 .model .association-to-right-b {
   box-sizing: border-box;
-  width: 6px;
-  height: 15px;
+  width: 1em;
+  height: 1em;
 
 }
 .model .association-to-right-c {
   box-sizing: border-box;
-  width: 6px;
-  height: 6px;
-  border-left: 1px solid $assocborder;
-  border-top: 1px solid $assocborder;
-  border-top-left-radius: 12px;
-  background-color: black
+  width: 1em;
+  height: 1em;
+  border-top-left-radius: 1.5em;
+  background-color: $tableBackground;
 }
 .model .association-to-left {
   box-sizing: border-box;
   z-index: 1000;
   position: absolute;
-  top: 6px;
-  left: -6px;
-  width: 6px;
+  top: 1em;
+  left: -1em;
+  width: 1em;
 }
 .model .association-to-left-a {
   box-sizing: border-box;
-  width: 6px;
-  height: 6px;
-  background-color: black;
-  border-right: 1px solid $assocborder;
-  border-bottom: 1px solid $assocborder;
-  border-bottom-right-radius: 12px;
+  width: 1em;
+  height: 1em;
+  background-color: $tableBackground;
+  border-bottom-right-radius: 1.5em;
 }
 .model .association-to-left-b {
   box-sizing: border-box;
-  width: 6px;
-  height: 15px;
+  width: 1em;
+  height: 1em;
 
 }
 .model .association-to-left-c {
   box-sizing: border-box;
-  width: 6px;
-  height: 6px;
-  border-right: 1px solid $assocborder;
-  border-top: 1px solid $assocborder;
-  border-top-right-radius: 12px;
-  background-color: black
+  width: 1em;
+  height: 1em;
+  border-top-right-radius: 1.5em;
+  background-color: $tableBackground;
 }
 
 .model .association-to-left:nth-child(0) {
@@ -110,13 +107,11 @@ $assocborder: #999;
 .model .betweener .lineyinner {
   z-index: 1000;
   position: absolute;
-  top: 12px;
-  bottom: 12px;
-  border-bottom: 1px solid $assocborder;
-  border-top: 1px solid $assocborder;
+  top: 2em;
+  bottom: 2em;
 
-  left: -6px;
-  right: -6px;
+  left: -1em;
+  right: -1em;
 }
 
 .model .betweener.insideTable {
@@ -132,11 +127,7 @@ $assocborder: #999;
 }
 
 .model .colset .column {
-  margin: 5px;
-}
-
-.model .colset .vertcell {
-
+  margin: 1em;
 }
 
 .model .listboxcolset {
@@ -151,7 +142,7 @@ $assocborder: #999;
 }
 
 .model .listboxcolumn {
-
+  font-size: 1.5em;
 }
 
 .model .closer {
@@ -171,11 +162,10 @@ $assocborder: #999;
   opacity: 0.5
 }
 .model .tableAtPlay .insideTable {
-  background-color: #DCA;
+  background-color: $tableBackground;
 }
 .model .notTableAtPlay .insideTable {
-  background-color: #333;
-  border: 1px solid #444;
+  background-color: $tableBackground;
 }
 .notTableAtPlay .tableheader {
   opacity: 50%

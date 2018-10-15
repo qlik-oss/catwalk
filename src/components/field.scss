@@ -1,53 +1,37 @@
-$perfect-key-color: #cceeff;
-$primary-key-color: #ccffcc;
-$foreign-key-color: #ffddbb;
-
 .field {
+  height:5em;
   align-items: center;
+  font-size: 1rem;
   padding: 2px;
   position: relative;
   cursor: pointer;
+  border-radius: 0.3em;
+  box-sizing: border-box;
 }
 
 .field.filtered {
-  /*background-image: linear-gradient(to top, rgba(0, 255, 0, 0.1), rgba(0, 255, 0, 0.1));
-  background-color: #fff;*/
   font-style: italic;
 }
 
 .field .name,
 .field .gwg {
+  font-size: 1.5em;
   display: flex;
   flex: 1 1;
-  margin: 0 0px;
-  color: black;
+  color: #4b4b4b;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .field .name {
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: pre;
   display: inline-block;
-  font-size: 12px;
+  font-size: 1.5em;
 }
 
-.field.PERFECT_KEY {
-  background-color: $perfect-key-color;
-}
-.field.PRIMARY_KEY {
-  background-color: $primary-key-color;
-}
-.field.ANY_KEY {
-  background-color: $foreign-key-color;
-}
 .field.NOT_KEY {
   background-color: lightgrey;
-}
-
-.field .sub {
-  position: absolute;
-  top: 55px;
-  left: 60px;
 }
 
 .field .gwg {
@@ -67,7 +51,7 @@ $foreign-key-color: #ffddbb;
 }
 
 .field .gwg .bartext {
-  font-size: 10px;
+  font-size: 1em;
   position: absolute;
-  right: 8px;
+  right: 1em;
 }
