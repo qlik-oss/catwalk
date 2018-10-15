@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import ErrorBoundary from './components/error-boundary';
 import App from './components/app';
 
 import './index.css';
@@ -10,30 +11,11 @@ import './index.css';
 // algorithm in parcel:
 window.React = React;
 
-class Index extends React.Component {
-  constructor() {
-    super();
-    this.state = { error: null };
-  }
-
-  render() {
-    const { error } = this.state;
-    if (error) {
-      return (
-        <div className="error">
-          <div>
-            <h1>Initialization failed</h1>
-            {' '}
-            <pre>
-              <code>{error.stack}</code>
-            </pre>
-          </div>
-        </div>
-      );
-    }
-    return <App />;
-  }
-}
+const Index = () => (
+  <ErrorBoundary>
+    <App />
+  </ErrorBoundary>
+);
 
 ReactDOM.render(<Index />, document.getElementById('root'));
 

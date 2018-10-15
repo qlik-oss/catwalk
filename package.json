@@ -11,26 +11,26 @@
     "lint:fix": "eslint --ext .js,.jsx --fix ."
   },
   "dependencies": {
-    "enigma.js": "^2.3.0",
-    "prop-types": "^15.6.2",
-    "react": "^16.5.0",
-    "react-dom": "^16.4.1",
-    "react-outside-click-handler": "^1.2.2",
-    "node-sass": "^4.9.3"
+    "enigma.js": "2.3.0",
+    "prop-types": "15.6.2",
+    "react": "16.5.2",
+    "react-dom": "16.5.2",
+    "react-outside-click-handler": "1.2.2",
+    "node-sass": "4.9.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/core": "7.1.2",
+    "@babel/plugin-transform-runtime": "7.1.0",
     "@babel/plugin-transform-async-to-generator": "7.1.0",
     "@babel/preset-env": "7.1.0",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-react": "7.0.0",
     "babel-eslint": "10.0.1",
-    "cross-env": "^5.2.0",
-    "eslint": "^5.0.1",
-    "eslint-config-airbnb": "^17.0.0",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-jsx-a11y": "^6.1.0",
-    "eslint-plugin-react": "^7.10.0",
-    "parcel-bundler": "^1.9.7"
+    "cross-env": "5.2.0",
+    "eslint": "5.7.0",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.2",
+    "eslint-plugin-react": "7.11.1",
+    "parcel-bundler": "1.10.3"
   }
 }
