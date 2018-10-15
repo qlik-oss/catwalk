@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "cross-env NODE_ENV=production parcel build --experimental-scope-hoisting src/index.html",
-    "start": "parcel src/index.html",
+    "start": "parcel src/index.html --open",
     "lint": "eslint --ext .js,.jsx .",
     "lint:fix": "eslint --ext .js,.jsx --fix ."
   },
