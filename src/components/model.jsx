@@ -81,7 +81,7 @@ export class Model extends React.Component {
         <div className={columnClasses} key={tableName}>
           <div className="vertcell tableheader" tablez={tableName}>
             <div>{tableName}</div>
-            <div>{queryModel.tables[tableName].qNoOfRows}</div>
+            <div className="nbr-of-rows">{queryModel.tables[tableName].qNoOfRows}</div>
           </div>
           <div>
             {queryModel.resultFieldList.map((fieldName) => {
@@ -114,14 +114,14 @@ export class Model extends React.Component {
                     {x.hasAssociationToLeft ? (
                       <div className="association-to-left" style={assocStyle}>
                         <div className="association-to-left-a" />
-                        <div className="association-to-left-b" />
+                        <div className="association-to-left-b" style={assocStyle} />
                         <div className="association-to-left-c" />
                       </div>
                     ) : null}
                     {x.hasAssociationToRight ? (
                       <div className="association-to-right" style={assocStyle}>
                         <div className="association-to-right-a" />
-                        <div className="association-to-right-b" />
+                        <div className="association-to-right-b" style={assocStyle} />
                         <div className="association-to-right-c" />
                       </div>
                     ) : null}

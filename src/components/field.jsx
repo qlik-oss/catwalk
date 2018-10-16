@@ -66,19 +66,9 @@ export class Field extends React.Component {
     );
 
     const bar = (
-      <div
-        className="gwg"
-        title={`${states.qSelected} selected, ${states.qOption
-          + states.qAlternative} possible, ${
-          states.qExcluded
-        } excluded, total of ${total} values. ${descriptions}`}
-      >
+      <div className="gwg">
         <span className="green" style={green} />
         <span className="grey" style={grey} />
-        <div className="bartext">
-          {' '}
-          {fieldCounts(layout.qListObject.qDimensionInfo, fieldData, onlyBar)}
-        </div>
       </div>
     );
     if (onlyBar) {
@@ -86,14 +76,23 @@ export class Field extends React.Component {
     }
 
     const fieldStyle = {
-      backgroundColor: fieldData.backgroundColor,
+      border: `2px solid ${fieldData.backgroundColor}`,
     };
     return (
-      <div>
-        <div className={classes} style={fieldStyle}>
-          {name}
-          {bar}
+      <div
+        className={classes}
+        style={fieldStyle}
+        title={`${states.qSelected} selected, ${states.qOption
+          + states.qAlternative} possible, ${
+          states.qExcluded
+        } excluded, total of ${total} values. ${descriptions}`}
+      >
+        {name}
+        <div className="bartext">
+          {' '}
+          {fieldCounts(layout.qListObject.qDimensionInfo, fieldData, onlyBar)}
         </div>
+        {bar}
       </div>
     );
   }

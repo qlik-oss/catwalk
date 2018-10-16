@@ -1,5 +1,6 @@
-$tableBackground: #4b4b4b;
-$gridBackground: #4b4b4b;
+$tableBackground: #f2f2f2;
+$gridBackground: #f2f2f2;
+$evenColumnBackground: #f6f6f6;
 $assocborder: #999;
 
 .model {
@@ -9,41 +10,49 @@ $assocborder: #999;
   background-color: $gridBackground;
 }
 
-
 .model .betweener {
   position: relative;
-  height: 5em;
+  height: 7em;
 }
 
 .model .tableheader {
+  min-height: 5em;
+  height: 5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   font-size: 1.5em;
   font-weight: bold;
-  color: white;
-  cursor: crosshair;
+  color: #404040;
+  cursor: pointer;
+  .nbr-of-rows{
+    font-weight: 400;
+  }
 }
 
 .vertcell {
-  height: 5em;
+  height: 7em;
   box-sizing: border-box;
   position: relative;
   margin: 1em 0;
 }
 .keycell {
-  height: 5em;
+  height: 7em;
   margin: 1em 0;
   box-sizing: border-box;
 }
 .insideTable {
-  height:5em;
+  height:7em;
   margin: 1em 0;
   box-sizing: border-box;
 }
 
 
 .model .association-to-right {
-  z-index: 1000;
+  z-index: 0;
   position: absolute;
-  top: 1em;
+  top: 2.5em;
   right: -1em;
   width: 1em;
 }
@@ -56,8 +65,8 @@ $assocborder: #999;
 }
 .model .association-to-right-b {
   box-sizing: border-box;
-  width: 1em;
-  height: 1em;
+  width: 3.5em;
+  height: .5em;
 
 }
 .model .association-to-right-c {
@@ -69,9 +78,9 @@ $assocborder: #999;
 }
 .model .association-to-left {
   box-sizing: border-box;
-  z-index: 1000;
+  z-index: 0;
   position: absolute;
-  top: 1em;
+  top: 2.5em;
   left: -1em;
   width: 1em;
 }
@@ -84,9 +93,9 @@ $assocborder: #999;
 }
 .model .association-to-left-b {
   box-sizing: border-box;
-  width: 1em;
-  height: 1em;
-
+  width: 3.5em;
+  height: .5em;
+  transform: translateX(-2.5em);
 }
 .model .association-to-left-c {
   box-sizing: border-box;
@@ -107,11 +116,11 @@ $assocborder: #999;
 .model .betweener .lineyinner {
   z-index: 1000;
   position: absolute;
-  top: 2em;
-  bottom: 2em;
+  top: 3.5em;
+  bottom: 3em;
 
-  left: -1em;
-  right: -1em;
+  left: -3.5em;
+  right: -3.5em;
 }
 
 .model .betweener.insideTable {
@@ -127,8 +136,35 @@ $assocborder: #999;
 }
 
 .model .colset .column {
-  margin: 1em;
+  box-sizing: border-box;
+  padding: 3.5em;
+  
 }
+.model .colset .column:nth-child(even) {
+  background-color: $evenColumnBackground;
+  .association-to-left {
+    &-a,
+    &-c {
+      background-color: $evenColumnBackground;
+    }
+  }
+  .association-to-right {
+    &-a,
+    &-c {
+      background-color: $evenColumnBackground;
+    }
+  }
+  .betweener.insideTable {
+    background-color: $evenColumnBackground;
+  }
+}
+
+.model .tableAtPlay .tableheader {
+  color: #00b14e;
+  text-decoration: #00b14e underline;
+  
+}
+
 
 .model .listboxcolset {
   position: relative;
@@ -149,13 +185,6 @@ $assocborder: #999;
   cursor: pointer;
 }
 
-
-
-.model .tableAtPlay .tableheader {
-  background-color: lightyellow;
-  color: black;
-
-}
 
 
 .notKeyAtPlay  {
