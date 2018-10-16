@@ -20,7 +20,7 @@ export class AppProvider extends React.Component {
     const session = enigma.create(config);
     try {
       const global = await session.open();
-      const appHandle = await global.openDoc(config.app);
+      const appHandle = await global.getDoc(); // Mixin from ./src/enigma/get-doc
       this.setState({ session, app: appHandle });
     } catch (error) {
       this.setState({ error });
