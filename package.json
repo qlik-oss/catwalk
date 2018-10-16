@@ -5,7 +5,7 @@
   "author": "QlikTech International AB",
   "license": "MIT",
   "scripts": {
-    "build": "cross-env NODE_ENV=production parcel build --experimental-scope-hoisting src/index.html",
+    "build": "cross-env NODE_ENV=production parcel build src/index.html",
     "start": "parcel src/index.html",
     "lint": "eslint --ext .js,.jsx .",
     "lint:fix": "eslint --ext .js,.jsx --fix ."
