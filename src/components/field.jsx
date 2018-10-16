@@ -74,7 +74,7 @@ export class Field extends React.Component {
     if (onlyBar) {
       return bar;
     }
-    
+
     const fieldStyle = {
       border: `2px solid ${fieldData.backgroundColor}`,
     };
