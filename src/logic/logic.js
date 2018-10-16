@@ -20,11 +20,11 @@ function mixColors(color1, color2, weight) {
 function colorOfField(field) {
   switch (field.qKeyType) {
     case 'PERFECT_KEY':
-      return '#CCEEFF';
+      return '#398ab5';
     case 'PRIMARY_KEY':
-      return '#CCFFCC';
+      return '#00993f';
     default:
-      return '#FFDDBB';
+      return '#f29600';
   }
 }
 
@@ -216,12 +216,13 @@ class QueryModel {
           const endCell = this.grid[fieldName][endTableName];
           const startColor = colorOfField(cell);
           const endColor = colorOfField(endCell);
-          for (let tmid = t + 1; tmid < endT; tmid += 1) {
+          for (let tmid = t; tmid < endT; tmid += 1) {
             const midTableName = this.resultTableList[tmid];
             const midCell = this.grid[fieldName][midTableName];
 
             const midStartColor = mixColors(endColor, startColor, (tmid - t) / (endT - t));
             const midEndColor = mixColors(endColor, startColor, (tmid - t + 1) / (endT - t));
+
             midCell.cssBackgroundImage = `linear-gradient(to right, ${midStartColor} , ${midEndColor})`;
           }
         }
