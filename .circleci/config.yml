@@ -1,0 +1,33 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10-stretch-browsers-legacy
+
+    working_directory: ~/catwalk
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: npm-dependency-cache-{{ checksum "package.json" }}
+
+      - run:
+          name: Install dependencies
+          command:
+            npm install --quiet
+
+      - run:
+          name: Run ESLint
+          command:
+            npm run lint
+
+      - run:
+          name: Build
+          command:
+            npm run build
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: npm-dependency-cache-{{ checksum "package.json" }}

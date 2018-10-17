@@ -48,7 +48,7 @@ function withLayout(WrappedComponent) {
       if (error) {
         throw error;
       }
-      
+
       if (!layout) {
         return null;
       }
