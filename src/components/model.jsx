@@ -192,7 +192,7 @@ export class Model extends React.Component {
           className="colset"
           onClick={evt => this.onClick(evt)}
           role="tablist"
-          tabIndex={0}
+          tabIndex={-1}
         >
           {gridz}
         </div>

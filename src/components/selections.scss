@@ -1,0 +1,45 @@
+.selections {
+  width: 100%;
+  font-size: 1rem;
+  height: 6em;
+  position:relative;
+  align-self:flex-start;
+  background: #fff;
+  border-bottom: 1px solid #d9d9d9;
+  display: flex;
+  overflow: auto;
+  flex-shrink: 0;
+
+  li {
+    font-size: 1.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    box-sizing: border-box;
+  }
+
+  .clear {
+    width: 5em;
+    padding: none;
+    background: #fff;
+    cursor: pointer;
+    border-right: 1px solid #d9d9d9;
+  }
+
+  .none {
+    padding: 1em;
+    align-self: center;
+    height: 100%;
+  }
+
+  .field {
+    border: none;
+    margin-left: 1em;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.15);
+    height: 5em;
+    padding: .2em;
+  }
+
+}
