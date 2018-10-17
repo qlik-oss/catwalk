@@ -8,7 +8,7 @@ const ERR_ABORTED = 15;
 
 const config = {
   schema,
-  url: new URLSearchParams(document.location.search).get('session'),
+  url: new URLSearchParams(document.location.search).get('session') || `ws://localhost:9076/app/${+new Date()}`,
   createSocket: url => new WebSocket(url),
   mixins: [listCache, layoutCache, getDoc],
   responseInterceptors: [{
