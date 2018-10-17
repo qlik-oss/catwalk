@@ -11,16 +11,6 @@ class ScrollArea extends React.Component {
     };
   }
 
-  componentDidMount() {
-    window.addEventListener('mouseup', this.onMouseUp);
-    window.addEventListener('mousemove', this.onMouseMove);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('mouseup', this.onMouseUp);
-    window.removeEventListener('mousemove', this.onMouseMove);
-  }
-
   onMouseUp = () => {
     const { isScrolling, scrollAreaStyle } = this.state;
     if (isScrolling) {
