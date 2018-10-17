@@ -4,7 +4,7 @@ import Field from './field';
 import withApp from './with-app';
 import withModel from './with-model';
 import withLayout from './with-layout';
-import './selections.css';
+import './selections.scss';
 
 export const Selections = (props) => {
   const { app, layout } = props;
@@ -13,8 +13,7 @@ export const Selections = (props) => {
   }
   const items = layout.qSelectionObject.qSelections.map(item => (
     <li key={item.qField}>
-      <strong title={item.qField}>{item.qField}</strong>
-      <Field field={item.qField} fieldData={item} onlyBar />
+      <Field field={item.qField} fieldData={item} />
     </li>
   ));
   if (!items.length) {

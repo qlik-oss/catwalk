@@ -7,14 +7,6 @@ import config from '../enigma/config';
 export const AppContext = React.createContext(null);
 const AppConsumer = AppContext.Consumer;
 
-async function setupApp(global) {
-  if (process.env.ENGINE_URL) {
-    // assume we're attaching to a session:
-    return global.getActiveDoc();
-  }
-  return global.openDoc('/data/drugcases.qvf');
-}
-
 export class AppProvider extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +20,7 @@ export class AppProvider extends React.Component {
     const session = enigma.create(config);
     try {
       const global = await session.open();
-      const appHandle = await setupApp(global);
+      const appHandle = await global.getDoc(); // Mixin from ./src/enigma/get-doc
       this.setState({ session, app: appHandle });
     } catch (error) {
       this.setState({ error });
