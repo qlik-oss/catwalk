@@ -9,7 +9,10 @@ import './field.scss';
 
 function fieldCounts(dimInfo, field) {
   let str = '';
-  if (field.qnPresentDistinctValues !== field.qnTotalDistinctValues) {
+  if (!field.qnTotalDistinctValues) {
+    str = `${dimInfo.qStateCounts.qSelected
+      + dimInfo.qStateCounts.qOption} of ${dimInfo.qCardinal}`;
+  } else if (field.qnPresentDistinctValues !== field.qnTotalDistinctValues) {
     str = `${dimInfo.qStateCounts.qSelected
       + dimInfo.qStateCounts.qOption} of ${field.qnTotalDistinctValues}(${
       field.qnPresentDistinctValues
@@ -18,7 +21,6 @@ function fieldCounts(dimInfo, field) {
     str = `${dimInfo.qStateCounts.qSelected
       + dimInfo.qStateCounts.qOption} of ${field.qnPresentDistinctValues}`;
   }
-
   return str;
 }
 
@@ -60,7 +62,7 @@ export const Field = (props) => {
       <div>{field}</div>
     </div>
   );
-  
+
   const fieldStyle = {
     border: `2px solid ${fieldData.backgroundColor}`,
   };
