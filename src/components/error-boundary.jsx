@@ -6,7 +6,7 @@ class ErrorBoundary extends React.Component {
     super(props);
     this.state = {
       error: false,
-      engineURL: 'ws://localhost:9076/app/drugcases',
+      engineURL: new URLSearchParams(document.location.search).get('engine_url') || 'ws://localhost:9076/app/drugcases',
     };
 
     this.handleChange = this.handleChange.bind(this);
