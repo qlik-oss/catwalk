@@ -24,7 +24,6 @@
 
 .field .name,
 .field .gwg {
-  font-size: 1.5em;
   flex: 0 0 auto;
   display: flex;
   color: #404040;
@@ -37,6 +36,7 @@
   white-space: pre;
   display: inline-block;
   font-size: 1.5em;
+  line-height: 2rem;
   font-weight: 600;
 }
 
@@ -44,7 +44,7 @@
   background-color: #fff;
 }
 
-.field .gwg {
+.gwg {
   background-color: #f2f2f2;
   display: flex;
   flex: 0 0 auto;
@@ -53,15 +53,15 @@
   justify-content: space-between;
 }
 
-.field .gwg .green {
+.gwg .green {
   background-color: #019b39;
 }
 
-.field .gwg .grey {
+.gwg .grey {
   background: #b4b4b4;
 }
 
-.field .bartext {
-  font-size: 1.5em;
-  margin-bottom: .5rem;
+.bartext {
+  font-size: 1.375em;
+  line-height: 2rem;
 }

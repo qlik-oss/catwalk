@@ -133,6 +133,9 @@ $assocborder: #999;
   overflow: scroll;
   justify-content: flex-start;
   align-items: flex-start;
+  &:focus {
+    outline: none;
+  }
 }
 
 .model .colset .column {
