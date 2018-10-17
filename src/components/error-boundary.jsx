@@ -6,7 +6,7 @@ class ErrorBoundary extends React.Component {
     super(props);
     this.state = {
       error: false,
-      wsURL: 'ws://localhost:9076/app/drugcases',
+      engineURL: 'ws://localhost:9076/app/drugcases',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -18,18 +18,18 @@ class ErrorBoundary extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({ wsURL: event.target.value });
+    this.setState({ engineURL: event.target.value });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const { wsURL } = this.state;
-    window.history.replaceState({}, '', `${window.location.pathname}?session=${encodeURI(wsURL)}`);
+    const { engineURL } = this.state;
+    window.history.replaceState({}, '', `${window.location.pathname}?engine_url=${encodeURI(engineURL)}`);
     window.location.reload(false);
   }
 
   render() {
-    const { error, wsURL } = this.state;
+    const { error, engineURL } = this.state;
     const { children } = this.props;
     if (error) {
       return (
@@ -45,7 +45,7 @@ class ErrorBoundary extends React.Component {
             <form onSubmit={this.handleSubmit}>
               <label> {/* eslint-disable-line */}
                 Qlik Assosiative Engine WS URL:
-                <input type="text" value={wsURL} onChange={this.handleChange} />
+                <input type="text" value={engineURL} onChange={this.handleChange} />
               </label>
               <input type="submit" value="Reload" />
             </form>
