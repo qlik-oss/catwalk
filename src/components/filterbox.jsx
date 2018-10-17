@@ -9,6 +9,9 @@ import './filterbox.css';
 
 const KEY_ENTER = 13;
 
+function preventDefaultFn(event) {
+  event.stopPropagation();
+}
 export class Filterbox extends React.Component {
   constructor() {
     super();
@@ -53,7 +56,8 @@ export class Filterbox extends React.Component {
     }
   }
 
-  toggleValue(item) {
+  toggleValue(event, item) {
+    event.stopPropagation();
     const { model } = this.props;
     model.selectListObjectValues('/qListObjectDef', [item.qElemNumber], true);
   }
@@ -71,7 +75,7 @@ export class Filterbox extends React.Component {
         <li
           key={item.qElemNumber}
           className={classes}
-          onClick={() => this.toggleValue(item)}
+          onClick={event => this.toggleValue(event, item)}
         >
           {item.qText
             + (item.qFrequency && item.qFrequency !== '1'
@@ -97,7 +101,7 @@ export class Filterbox extends React.Component {
       );
     }
     return (
-      <div className="filterbox" style={style}>
+      <div role="Listbox" tabIndex="-1" className="filterbox" style={style} onClick={preventDefaultFn}>
         {search}
         <ul className="items">{items}</ul>
       </div>
@@ -120,4 +124,4 @@ Filterbox.propTypes = {
   onClose: PropTypes.func,
 };
 
-export default withApp(withModel(withLayout(Filterbox), (app, props) => app.getOrCreateListbox(props.field, 1000)));
+export default withApp(withModel(withLayout(Filterbox), (app, props) => app.getOrCreateListbox(props.field, 20)));

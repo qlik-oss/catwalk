@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import renderDebouncer from './render-debouncer';
 
 function withModel(WrappedComponent, createModel) {
   class WithModel extends React.Component {
@@ -24,9 +25,9 @@ function withModel(WrappedComponent, createModel) {
       const { app } = this.props;
       try {
         const model = await createModel(app, this.props);
-        this.setState({ model, error: null });
+        renderDebouncer(() => this.setState({ model, error: null }));
       } catch (error) {
-        this.setState({ model: null, error });
+        renderDebouncer(() => this.setState({ model: null, error }));
       }
     }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import renderDebouncer from './render-debouncer';
 
 function withLayout(WrappedComponent) {
   class WithLayout extends React.Component {
@@ -37,9 +38,9 @@ function withLayout(WrappedComponent) {
       try {
         const layout = await model.getLayout();
         if (firstTime) model.on('changed', this.updateLayout);
-        this.setState({ layout, error: null });
+        renderDebouncer(() => this.setState({ layout, error: null }));
       } catch (error) {
-        this.setState({ layout: null, error });
+        renderDebouncer(() => this.setState({ layout: null, error }));
       }
     }
 

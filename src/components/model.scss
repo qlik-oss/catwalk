@@ -118,7 +118,6 @@ $assocborder: #999;
   position: absolute;
   top: 3.5em;
   bottom: 3em;
-
   left: -3.5em;
   right: -3.5em;
 }
@@ -188,7 +187,7 @@ $assocborder: #999;
 
 
 .notKeyAtPlay  {
-  opacity: 0.5
+  /*disabled for now*/
 }
 .model .tableAtPlay .insideTable {
   background-color: $tableBackground;

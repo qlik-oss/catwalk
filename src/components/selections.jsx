@@ -12,26 +12,22 @@ export const Selections = (props) => {
     return null;
   }
   const items = layout.qSelectionObject.qSelections.map(item => (
-    <li key={item.qField}>
-      <strong title={item.qField}>{item.qField}</strong>
-      <Field field={item.qField} fieldData={item} onlyBar />
-    </li>
+    <Field field={item.qField} fieldData={item} />
   ));
   if (!items.length) {
     items.push(
-      <li key="none" className="none">
+      <div key="none" className="none">
         No selections made.
-      </li>,
+      </div>,
     );
   }
   return (
-
-    <ul className="selections">
+    <div className="selections">
       <li key="clear" className="clear" onClick={() => app.clearAll()}>
         <i className="material-icons">close</i>
       </li>
       {items}
-    </ul>
+    </div>
   );
 };
 

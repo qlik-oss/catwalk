@@ -216,14 +216,21 @@ class QueryModel {
           const endCell = this.grid[fieldName][endTableName];
           const startColor = colorOfField(cell);
           const endColor = colorOfField(endCell);
-          for (let tmid = t; tmid < endT; tmid += 1) {
+          for (let tmid = t + 1; tmid < endT; tmid += 1) {
             const midTableName = this.resultTableList[tmid];
             const midCell = this.grid[fieldName][midTableName];
 
-            const midStartColor = mixColors(endColor, startColor, (tmid - t) / (endT - t));
-            const midEndColor = mixColors(endColor, startColor, (tmid - t + 1) / (endT - t));
+            const midStartColor = mixColors(endColor, startColor, (tmid - t - 1) / (endT - t - 1));
+            const midEndColor = mixColors(endColor, startColor, (tmid - t) / (endT - t - 1));
 
             midCell.cssBackgroundImage = `linear-gradient(to right, ${midStartColor} , ${midEndColor})`;
+          }
+          if (t + 1 === endT) {
+            // The associated cells are adjacent so add some css info to shade
+            // the tiny assocation bar parts
+            const midColor = mixColors(startColor, endColor, 0.5);
+            cell.cssRightAssocationBackgroundImage = `linear-gradient(to right, ${startColor} , ${midColor})`;
+            endCell.cssLeftAssocationBackgroundImage = `linear-gradient(to right, ${midColor} , ${endColor})`;
           }
         }
       }

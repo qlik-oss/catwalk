@@ -6,7 +6,6 @@ import atplay from '../logic/atplay';
 
 import './model.scss';
 import Field from './field';
-import Filterbox from './filterbox';
 import withApp from './with-app';
 import withModel from './with-model';
 
@@ -85,6 +84,12 @@ export class Model extends React.Component {
           </div>
           <div>
             {queryModel.resultFieldList.map((fieldName) => {
+              const isFilterboxOpen = openListboxes[fieldName];
+              const cellContainerStyle = {};
+              if (isFilterboxOpen) {
+                cellContainerStyle.height = '24em';
+              }
+
               const x = queryModel.grid[fieldName][tableName];
               if (x && !x.isEmpty) {
                 let classes = 'vertcell keycell';
@@ -104,24 +109,52 @@ export class Model extends React.Component {
                 const assocStyle = {
                   backgroundColor: x.backgroundColor,
                 };
+
+
+
+
+                let leftAssocStyle;
+                if (x.cssLeftAssocationBackgroundImage) {
+                  leftAssocStyle = {
+                    backgroundImage: x.cssLeftAssocationBackgroundImage,
+                  };
+                } else {
+                  leftAssocStyle = {
+                    backgroundColor: x.backgroundColor,
+                  };
+                }
+                let rightAssocStyle;
+                if (x.cssRightAssocationBackgroundImage) {
+                  rightAssocStyle = {
+                    backgroundImage: x.cssRightAssocationBackgroundImage,
+                  };
+                } else {
+                  rightAssocStyle = {
+                    backgroundColor: x.backgroundColor,
+                  };
+                }
+
+
+
                 return (
                   <div
                     className={classes}
+                    style={cellContainerStyle}
                     key={`${tableName}:${fieldName}`}
                     fieldz={fieldName}
                   >
-                    <Field field={fieldName} fieldData={x} />
+                    <Field field={fieldName} fieldData={x} showFilterbox={isFilterboxOpen} />
                     {x.hasAssociationToLeft ? (
                       <div className="association-to-left" style={assocStyle}>
                         <div className="association-to-left-a" />
-                        <div className="association-to-left-b" style={assocStyle} />
+                        <div className="association-to-left-b" style={leftAssocStyle} />
                         <div className="association-to-left-c" />
                       </div>
                     ) : null}
                     {x.hasAssociationToRight ? (
                       <div className="association-to-right" style={assocStyle}>
                         <div className="association-to-right-a" />
-                        <div className="association-to-right-b" style={assocStyle} />
+                        <div className="association-to-right-b" style={rightAssocStyle} />
                         <div className="association-to-right-c" />
                       </div>
                     ) : null}
@@ -148,7 +181,7 @@ export class Model extends React.Component {
                 return null;
               }
               return (
-                <div className="vertcell" key={`${tableName}:${fieldName}`}>
+                <div className="vertcell" key={`${tableName}:${fieldName}`} style={cellContainerStyle}>
                   <div className={classes}>
                     <div
                       className={x.betweenKeys && !x.isKey ? 'lineyinner ' : ''}
@@ -161,6 +194,7 @@ export class Model extends React.Component {
           </div>
           <div>
             {queryModel.tables[tableName].qFields.map((field) => {
+              const isFilterboxOpen = openListboxes[field.qName];
               if (field.qKeyType === 'NOT_KEY') {
                 let classes = 'vertcell';
                 if (atPlayModel.keysAtPlay[field.qName]) {
@@ -169,13 +203,19 @@ export class Model extends React.Component {
                   classes += ' notKeyAtPlay';
                 }
 
+                const cellContainerStyle = {};
+                if (isFilterboxOpen) {
+                  cellContainerStyle.height = '30em';
+                }
+
                 return (
                   <div
                     className={classes}
                     fieldz={field.qName}
                     key={field.qName}
+                    style={cellContainerStyle}
                   >
-                    <Field field={field.qName} fieldData={field} />
+                    <Field field={field.qName} fieldData={field} showFilterbox={isFilterboxOpen}/>
                   </div>
                 );
               }
@@ -197,17 +237,17 @@ export class Model extends React.Component {
           {gridz}
         </div>
 
-        <div className="listboxcolset" onClick={evt => this.onClick(evt)} role="tablist" tabIndex={-1}>
-          {Object.keys(openListboxes).map(fieldName => (
-            <div className="listboxcolumn" key={fieldName}>
-              <span>{fieldName}</span>
-              <span className="closer" fieldz={fieldName}>
-                [close]
-              </span>
-              <Filterbox field={fieldName} />
-            </div>
-          ))}
-        </div>
+        {/*<div className="listboxcolset" onClick={evt => this.onClick(evt)} role="tablist" tabIndex={-1}>*/}
+          {/*{Object.keys(openListboxes).map(fieldName => (*/}
+            {/*<div className="listboxcolumn" key={fieldName}>*/}
+              {/*<span>{fieldName}</span>*/}
+              {/*<span className="closer" fieldz={fieldName}>*/}
+                {/*[close]*/}
+              {/*</span>*/}
+              {/*<Filterbox field={fieldName} />*/}
+            {/*</div>*/}
+          {/*))}*/}
+        {/*</div>*/}
       </div>
     );
   }

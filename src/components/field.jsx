@@ -6,6 +6,7 @@ import withModel from './with-model';
 import withLayout from './with-layout';
 
 import './field.scss';
+import Filterbox from './filterbox';
 
 function fieldCounts(dimInfo, field, onlyBar) {
   let str = '';
@@ -28,7 +29,7 @@ function fieldCounts(dimInfo, field, onlyBar) {
 export class Field extends React.Component {
   render() {
     const {
-      field, fieldData, onlyBar, layout,
+      field, fieldData, onlyBar, layout, showFilterbox,
     } = this.props;
     if (!layout) {
       return null;
@@ -59,25 +60,11 @@ export class Field extends React.Component {
       descriptions += ', no nulls.';
     }
 
-    const name = (
-      <div className="name">
-        <div>{field}</div>
-      </div>
-    );
-
-    const bar = (
-      <div className="gwg">
-        <span className="green" style={green} />
-        <span className="grey" style={grey} />
-      </div>
-    );
-    if (onlyBar) {
-      return bar;
-    }
 
     const fieldStyle = {
       border: `2px solid ${fieldData.backgroundColor}`,
     };
+
     return (
       <div
         className={classes}
@@ -87,28 +74,36 @@ export class Field extends React.Component {
           states.qExcluded
         } excluded, total of ${total} values. ${descriptions}`}
       >
-        {name}
+        <div className="name">
+          {field}
+        </div>
         <div className="bartext">
           {' '}
           {fieldCounts(layout.qListObject.qDimensionInfo, fieldData, onlyBar)}
         </div>
-        {bar}
+        <div className="gwg">
+          <span className="green" style={green} />
+          <span className="grey" style={grey} />
+        </div>
+        { showFilterbox ? <div className="details"><Filterbox field={field} /></div> : null}
       </div>
     );
   }
 }
-
 Field.propTypes = {
   layout: PropTypes.object,
   field: PropTypes.string.isRequired,
   fieldData: PropTypes.object,
   onlyBar: PropTypes.bool,
+  showFilterbox: PropTypes.bool,
 };
 
 Field.defaultProps = {
   layout: null,
   fieldData: null,
   onlyBar: false,
+  showFilterbox: false,
 };
+
 
 export default withApp(withModel(withLayout(Field), async (app, props) => app.getOrCreateListbox(props.field)));
