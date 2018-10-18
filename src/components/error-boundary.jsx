@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import logo from '../../catwalk.svg';
+import logo from '../catwalk.svg';
 
 import './error-boundary.scss';
 
