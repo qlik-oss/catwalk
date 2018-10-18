@@ -8,9 +8,9 @@ import withLayout from './with-layout';
 import './field.scss';
 import Filterbox from './filterbox';
 
-function fieldCounts(dimInfo, field, onlyBar) {
+function fieldCounts(dimInfo, field) {
   let str = '';
-  if (onlyBar) {
+  if (!field.qnTotalDistinctValues) {
     str = `${dimInfo.qStateCounts.qSelected
       + dimInfo.qStateCounts.qOption} of ${dimInfo.qCardinal}`;
   } else if (field.qnPresentDistinctValues !== field.qnTotalDistinctValues) {
@@ -22,7 +22,6 @@ function fieldCounts(dimInfo, field, onlyBar) {
     str = `${dimInfo.qStateCounts.qSelected
       + dimInfo.qStateCounts.qOption} of ${field.qnPresentDistinctValues}`;
   }
-
   return str;
 }
 

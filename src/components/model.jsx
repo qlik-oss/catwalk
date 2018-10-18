@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import ScrollArea from './scroll-area';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
 
@@ -224,28 +225,18 @@ export class Model extends React.Component {
     });
 
     return (
-      <div className="model">
-        <div
-          className="colset"
-          onClick={evt => this.onClick(evt)}
-          role="tablist"
-          tabIndex={0}
-        >
-          {gridz}
+      <ScrollArea className="scrollArea" height="100%" width="100%">
+        <div className="model">
+          <div
+            className="colset"
+            onClick={evt => this.onClick(evt)}
+            role="tablist"
+            tabIndex={-1}
+          >
+            {gridz}
+          </div>
         </div>
-
-        {/* <div className="listboxcolset" onClick={evt => this.onClick(evt)} role="tablist" tabIndex={-1}> */}
-        {/* {Object.keys(openListboxes).map(fieldName => ( */}
-        {/* <div className="listboxcolumn" key={fieldName}> */}
-        {/* <span>{fieldName}</span> */}
-        {/* <span className="closer" fieldz={fieldName}> */}
-        {/* [close] */}
-        {/* </span> */}
-        {/* <Filterbox field={fieldName} /> */}
-        {/* </div> */}
-        {/* ))} */}
-        {/* </div> */}
-      </div>
+      </ScrollArea>
     );
   }
 }

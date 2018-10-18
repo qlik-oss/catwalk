@@ -4,7 +4,7 @@ import Field from './field';
 import withApp from './with-app';
 import withModel from './with-model';
 import withLayout from './with-layout';
-import './selections.css';
+import './selections.scss';
 
 export const Selections = (props) => {
   const { app, layout } = props;
@@ -12,22 +12,25 @@ export const Selections = (props) => {
     return null;
   }
   const items = layout.qSelectionObject.qSelections.map(item => (
-    <div key={item.qField}><Field field={item.qField} fieldData={item} onlyBar /></div>
+    <li key={item.qField}>
+      <Field field={item.qField} fieldData={item} onlyBar />
+    </li>
   ));
   if (!items.length) {
     items.push(
-      <div key="none" className="none">
+      <li key="none" className="none">
         No selections made.
-      </div>,
+      </li>,
     );
   }
   return (
-    <div className="selections">
+
+    <ul className="selections">
       <li key="clear" className="clear" onClick={() => app.clearAll()}>
         <i className="material-icons">close</i>
       </li>
       {items}
-    </div>
+    </ul>
   );
 };
 
