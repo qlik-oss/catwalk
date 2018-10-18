@@ -4,7 +4,7 @@
   z-index: 1;
   flex-direction: column;
   min-width: 22em;
-  min-height:5em;
+  height: 100%;
   font-size: 1rem;
   background: #fff;
   cursor: pointer;
@@ -64,4 +64,22 @@
 .bartext {
   font-size: 1.375em;
   line-height: 2rem;
+}
+
+.field .details {
+  position:relative;
+  flex: 1 0 auto;
+  display: flex;
+
+  box-sizing: border-box;
+  display: flex;
+}
+
+.field .details .filterbox {
+  position:absolute;
+  display:block;
+  top: 0.5em;
+  bottom: 0;
+  left:0;
+  right:0;
 }

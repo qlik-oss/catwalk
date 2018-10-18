@@ -6,27 +6,28 @@ import withModel from './with-model';
 import withLayout from './with-layout';
 
 import './field.scss';
+import Filterbox from './filterbox';
 
 function fieldCounts(dimInfo, field) {
   let str = '';
   if (!field.qnTotalDistinctValues) {
     str = `${dimInfo.qStateCounts.qSelected
-      + dimInfo.qStateCounts.qOption} of ${dimInfo.qCardinal}`;
+    + dimInfo.qStateCounts.qOption} of ${dimInfo.qCardinal}`;
   } else if (field.qnPresentDistinctValues !== field.qnTotalDistinctValues) {
     str = `${dimInfo.qStateCounts.qSelected
-      + dimInfo.qStateCounts.qOption} of ${field.qnTotalDistinctValues}(${
+    + dimInfo.qStateCounts.qOption} of ${field.qnTotalDistinctValues}(${
       field.qnPresentDistinctValues
     })`;
   } else {
     str = `${dimInfo.qStateCounts.qSelected
-      + dimInfo.qStateCounts.qOption} of ${field.qnPresentDistinctValues}`;
+    + dimInfo.qStateCounts.qOption} of ${field.qnPresentDistinctValues}`;
   }
   return str;
 }
 
-export const Field = (props) => {
+export function Field(props) {
   const {
-    field, fieldData, layout,
+    field, fieldData, layout, showFilterbox,
   } = props;
   if (!layout) {
     return null;
@@ -57,11 +58,24 @@ export const Field = (props) => {
     descriptions += ', no nulls.';
   }
 
-  const name = (
-    <div className="name">
-      <div>{field}</div>
-    </div>
-  );
+  const isSynthetic = (fieldData.qTags && fieldData.qTags.find(item => item === '$synthetic'));
+  if (isSynthetic) {
+    const syntheticFieldStyle = {
+      border: `2px dashed ${fieldData.backgroundColor}`,
+    };
+
+    return (
+      <div
+        className={classes}
+        style={syntheticFieldStyle}
+        title="Synthetic key"
+      >
+        <div className="name">
+          {field}
+        </div>
+      </div>
+    );
+  }
 
   const fieldStyle = {
     border: `2px solid ${fieldData.backgroundColor}`,
@@ -75,7 +89,9 @@ export const Field = (props) => {
         states.qExcluded
       } excluded, total of ${total} values. ${descriptions}`}
     >
-      {name}
+      <div className="name">
+        {field}
+      </div>
       <div className="bartext">
         {' '}
         {fieldCounts(layout.qListObject.qDimensionInfo, fieldData)}
@@ -84,19 +100,22 @@ export const Field = (props) => {
         <span className="green" style={green} />
         <span className="grey" style={grey} />
       </div>
+      { showFilterbox ? <div className="details"><Filterbox field={field} /></div> : null}
     </div>
   );
-};
-
+}
 Field.propTypes = {
   layout: PropTypes.object,
   field: PropTypes.string.isRequired,
   fieldData: PropTypes.object,
+  showFilterbox: PropTypes.bool,
 };
 
 Field.defaultProps = {
   layout: null,
   fieldData: null,
+  showFilterbox: false,
 };
+
 
 export default withApp(withModel(withLayout(Field), async (app, props) => app.getOrCreateListbox(props.field)));
