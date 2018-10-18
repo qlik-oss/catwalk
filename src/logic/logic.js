@@ -28,6 +28,38 @@ function colorOfField(field) {
   }
 }
 
+function assocSymbol(field) {
+  switch (field.qKeyType) {
+    case 'PERFECT_KEY':
+      return '1';
+    case 'PRIMARY_KEY':
+      return '1';
+    default:
+      return 'n';
+  }
+}
+
+function toSubsetRatioText(qSubsetratio) {
+  if (qSubsetratio === 1) {
+    return '';
+  } if (qSubsetratio === 0) {
+    return '0 %';
+  }
+  const subsetRatioText = `${Math.round(qSubsetratio * 100)} %`;
+  if (subsetRatioText === '100 %') {
+    return '>99 %';
+  } if (subsetRatioText === '0 %') {
+    return '<1 %';
+  }
+  return subsetRatioText;
+}
+
+function toSubsetRatioTitle(field) {
+  if (!!field.qnPresentDistinctValues && !!field.qnTotalDistinctValues && field.qnPresentDistinctValues < field.qnTotalDistinctValues) {
+    return `Only ${field.qnPresentDistinctValues} out of ${field.qnTotalDistinctValues} values are present in this table.`;
+  }
+  return '';
+}
 function sortTablesBySize(tables) {
   const array = Object.values(tables);
   array.sort((a, b) => b.qNoOfRows - a.qNoOfRows);
@@ -109,6 +141,9 @@ class QueryModel {
           cell.isEmpty = false;
           cell.insideTable = true;
           cell.backgroundColor = colorOfField(cell);
+          cell.assocSymbol = assocSymbol(cell);
+          cell.subsetRatioText = toSubsetRatioText(cell.qSubsetRatio);
+          cell.subsetRatioTitle = toSubsetRatioTitle(cell);
         }
       }
     }

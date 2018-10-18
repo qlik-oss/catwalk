@@ -142,11 +142,15 @@ export class Model extends React.Component {
                     fieldz={fieldName}
                   >
                     <Field field={fieldName} fieldData={x} showFilterbox={isFilterboxOpen} />
+                    {x.subsetRatioText ? (
+                      <div className="subsetratio" title={x.subsetRatioTitle}>{x.subsetRatioText}</div>
+                    ) : null}
                     {x.hasAssociationToLeft ? (
                       <div className="association-to-left" style={assocStyle}>
                         <div className="association-to-left-a" />
                         <div className="association-to-left-b" style={leftAssocStyle} />
                         <div className="association-to-left-c" />
+                        <div className="association-to-left-d">{x.assocSymbol}</div>
                       </div>
                     ) : null}
                     {x.hasAssociationToRight ? (
@@ -154,8 +158,10 @@ export class Model extends React.Component {
                         <div className="association-to-right-a" />
                         <div className="association-to-right-b" style={rightAssocStyle} />
                         <div className="association-to-right-c" />
+                        <div className="association-to-right-d">{x.assocSymbol}</div>
                       </div>
                     ) : null}
+
                   </div>
                 );
               }
