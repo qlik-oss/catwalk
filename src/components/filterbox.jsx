@@ -68,6 +68,9 @@ export class Filterbox extends React.Component {
     if (!layout) {
       return null;
     }
+    if (!layout.qListObject.qDataPages || layout.qListObject.qDataPages.length === 0) {
+      return null;
+    }
     const items = layout.qListObject.qDataPages[0].qMatrix.map((matrixItem) => {
       const item = matrixItem[0];
       const classes = `item state-${item.qState}`;
@@ -94,9 +97,11 @@ export class Filterbox extends React.Component {
     );
     if (!items.length) {
       return (
-        <div className="filterbox empty" style={style}>
+        <div className="filterbox empty" style={style} onClick={preventDefaultFn}>
           {search}
-          <p>No values.</p>
+          <ul className="items">
+          <li>No values.</li>
+          </ul>
         </div>
       );
     }

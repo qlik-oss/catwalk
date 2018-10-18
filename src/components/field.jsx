@@ -58,11 +58,28 @@ export function Field(props) {
     descriptions += ', no nulls.';
   }
 
+  const isSynthetic = (fieldData.qTags && fieldData.qTags.find(item => item === '$synthetic'))
+  if (isSynthetic) {
+    const syntheticFieldStyle = {
+      border: `2px dashed ${fieldData.backgroundColor}`,
+    };
+
+    return (
+      <div
+        className={classes}
+        style={syntheticFieldStyle}
+        title="Synthetic key"
+      >
+        <div className="name">
+          {field}
+        </div>
+      </div>
+    );
+  }
 
   const fieldStyle = {
     border: `2px solid ${fieldData.backgroundColor}`,
   };
-
   return (
     <div
       className={classes}
