@@ -111,8 +111,6 @@ export class Model extends React.Component {
                 };
 
 
-
-
                 let leftAssocStyle;
                 if (x.cssLeftAssocationBackgroundImage) {
                   leftAssocStyle = {
@@ -133,7 +131,6 @@ export class Model extends React.Component {
                     backgroundColor: x.backgroundColor,
                   };
                 }
-
 
 
                 return (
@@ -215,7 +212,7 @@ export class Model extends React.Component {
                     key={field.qName}
                     style={cellContainerStyle}
                   >
-                    <Field field={field.qName} fieldData={field} showFilterbox={isFilterboxOpen}/>
+                    <Field field={field.qName} fieldData={field} showFilterbox={isFilterboxOpen} />
                   </div>
                 );
               }
@@ -237,17 +234,17 @@ export class Model extends React.Component {
           {gridz}
         </div>
 
-        {/*<div className="listboxcolset" onClick={evt => this.onClick(evt)} role="tablist" tabIndex={-1}>*/}
-          {/*{Object.keys(openListboxes).map(fieldName => (*/}
-            {/*<div className="listboxcolumn" key={fieldName}>*/}
-              {/*<span>{fieldName}</span>*/}
-              {/*<span className="closer" fieldz={fieldName}>*/}
-                {/*[close]*/}
-              {/*</span>*/}
-              {/*<Filterbox field={fieldName} />*/}
-            {/*</div>*/}
-          {/*))}*/}
-        {/*</div>*/}
+        {/* <div className="listboxcolset" onClick={evt => this.onClick(evt)} role="tablist" tabIndex={-1}> */}
+        {/* {Object.keys(openListboxes).map(fieldName => ( */}
+        {/* <div className="listboxcolumn" key={fieldName}> */}
+        {/* <span>{fieldName}</span> */}
+        {/* <span className="closer" fieldz={fieldName}> */}
+        {/* [close] */}
+        {/* </span> */}
+        {/* <Filterbox field={fieldName} /> */}
+        {/* </div> */}
+        {/* ))} */}
+        {/* </div> */}
       </div>
     );
   }

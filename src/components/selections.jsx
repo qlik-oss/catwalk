@@ -12,7 +12,7 @@ export const Selections = (props) => {
     return null;
   }
   const items = layout.qSelectionObject.qSelections.map(item => (
-    <Field field={item.qField} fieldData={item} />
+    <div key={item.qField}><Field field={item.qField} fieldData={item} onlyBar /></div>
   ));
   if (!items.length) {
     items.push(
