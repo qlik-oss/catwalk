@@ -21,10 +21,11 @@ function debounce(stateMutator) {
   }
   const now = new Date().getTime();
   const averageInterMutateInterval = (now - startTime) / pendingStateMutators.length;
+  const timerInterval = (averageInterMutateInterval < 32) ? averageInterMutateInterval * 3 + 4 : 100; // Never wait more than 100 ms
   timer = setTimeout(() => {
     fireAllPendingMutators();
     timer = null;
-  }, averageInterMutateInterval * 3 + 2);
+  }, timerInterval);
 }
 
 

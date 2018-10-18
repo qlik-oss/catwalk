@@ -12,22 +12,22 @@ function fieldCounts(dimInfo, field) {
   let str = '';
   if (!field.qnTotalDistinctValues) {
     str = `${dimInfo.qStateCounts.qSelected
-      + dimInfo.qStateCounts.qOption} of ${dimInfo.qCardinal}`;
+    + dimInfo.qStateCounts.qOption} of ${dimInfo.qCardinal}`;
   } else if (field.qnPresentDistinctValues !== field.qnTotalDistinctValues) {
     str = `${dimInfo.qStateCounts.qSelected
-      + dimInfo.qStateCounts.qOption} of ${field.qnTotalDistinctValues}(${
+    + dimInfo.qStateCounts.qOption} of ${field.qnTotalDistinctValues}(${
       field.qnPresentDistinctValues
     })`;
   } else {
     str = `${dimInfo.qStateCounts.qSelected
-      + dimInfo.qStateCounts.qOption} of ${field.qnPresentDistinctValues}`;
+    + dimInfo.qStateCounts.qOption} of ${field.qnPresentDistinctValues}`;
   }
   return str;
 }
 
 export function Field(props) {
   const {
-    field, fieldData, onlyBar, layout, showFilterbox,
+    field, fieldData, layout, showFilterbox,
   } = props;
   if (!layout) {
     return null;
@@ -77,7 +77,7 @@ export function Field(props) {
       </div>
       <div className="bartext">
         {' '}
-        {fieldCounts(layout.qListObject.qDimensionInfo, fieldData, onlyBar)}
+        {fieldCounts(layout.qListObject.qDimensionInfo, fieldData)}
       </div>
       <div className="gwg">
         <span className="green" style={green} />
@@ -91,14 +91,12 @@ Field.propTypes = {
   layout: PropTypes.object,
   field: PropTypes.string.isRequired,
   fieldData: PropTypes.object,
-  onlyBar: PropTypes.bool,
   showFilterbox: PropTypes.bool,
 };
 
 Field.defaultProps = {
   layout: null,
   fieldData: null,
-  onlyBar: false,
   showFilterbox: false,
 };
 

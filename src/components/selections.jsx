@@ -13,7 +13,7 @@ export const Selections = (props) => {
   }
   const items = layout.qSelectionObject.qSelections.map(item => (
     <li key={item.qField}>
-      <Field field={item.qField} fieldData={item} onlyBar />
+      <Field field={item.qField} fieldData={item} />
     </li>
   ));
   if (!items.length) {
