@@ -2,7 +2,7 @@ import React from 'react';
 
 import Selections from './selections';
 import Model from './model';
-import { AppProvider } from './AppProvider';
+import { AppProvider } from './app-provider';
 
 import './app.css';
 
