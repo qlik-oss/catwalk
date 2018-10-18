@@ -97,10 +97,10 @@ export class Filterbox extends React.Component {
     );
     if (!items.length) {
       return (
-        <div className="filterbox empty" style={style} onClick={preventDefaultFn}>
+        <div role="Listbox" tabIndex="-1" className="filterbox empty" style={style} onClick={preventDefaultFn}>
           {search}
           <ul className="items">
-          <li>No values.</li>
+            <li>No values.</li>
           </ul>
         </div>
       );

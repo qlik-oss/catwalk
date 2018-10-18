@@ -58,7 +58,7 @@ export function Field(props) {
     descriptions += ', no nulls.';
   }
 
-  const isSynthetic = (fieldData.qTags && fieldData.qTags.find(item => item === '$synthetic'))
+  const isSynthetic = (fieldData.qTags && fieldData.qTags.find(item => item === '$synthetic'));
   if (isSynthetic) {
     const syntheticFieldStyle = {
       border: `2px dashed ${fieldData.backgroundColor}`,
