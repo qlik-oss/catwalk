@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import logo from '../catwalk.svg';
+
+import './error-boundary.scss';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -35,6 +38,7 @@ class ErrorBoundary extends React.Component {
       return (
         <div className="error">
           <div>
+            <img src={logo} className="logo" alt="Logo" />
             <h1>
               Initialization failed:&nbsp;&nbsp;
               <font color="red">
