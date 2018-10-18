@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AppContext } from './AppProvider';
+import { AppContext } from './app-provider';
 
 function withApp(WrappedComponent) {
   const WithApp = props => (
