@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import renderDebouncer from './render-debouncer';
 
-function withModel(WrappedComponent, createModel) {
+function withModel(WrappedComponent, createModel, updateOnAppInvalidation) {
   class WithModel extends React.Component {
     constructor(props) {
       super(props);
@@ -11,7 +11,7 @@ function withModel(WrappedComponent, createModel) {
     }
 
     componentDidMount() {
-      this.updateModel();
+      this.updateModel(true);
     }
 
     componentWillUnmount() {
@@ -21,10 +21,13 @@ function withModel(WrappedComponent, createModel) {
       this.setState = () => {};
     }
 
-    async updateModel() {
+    async updateModel(firstTime) {
       const { app } = this.props;
       try {
         const model = await createModel(app, this.props);
+        if (firstTime && updateOnAppInvalidation) {
+          app.on('changed', this.updateModel);
+        }
         renderDebouncer(() => this.setState({ model, error: null }));
       } catch (error) {
         renderDebouncer(() => this.setState({ model: null, error }));

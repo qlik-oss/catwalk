@@ -27,19 +27,16 @@ export class Model extends React.Component {
   }
 
   async componentDidMount() {
-    const { model } = this.props;
-    const openListboxes = {};
-    const queryModel = new logic.QueryModel(model);
-    const atPlayModel = new atplay.AtPlayModel(model, openListboxes);
-    this.setState({
-      tablesAndKeys: model,
-      queryModel,
-      atPlayModel,
-      openListboxes,
-    });
+    this.updatePlay();
   }
 
-  // TODO: What is this doing in tables?
+  componentDidUpdate(prevProps) {
+    const { model } = this.props;
+    if (model !== prevProps.model) {
+      this.updatePlay();
+    }
+  }
+
   onClick(event) {
     const { queryModel, openListboxes } = this.state;
     const field = findAttribute(event, 'fieldz');
@@ -54,10 +51,29 @@ export class Model extends React.Component {
       this.setState({ atPlayModel, openListboxes, queryModel });
     } else if (table) {
       const { tablesAndKeys } = this.state;
-      // const atPlayModel = new atplay.AtPlayModel(model, openListboxes);
       const newModel = new logic.QueryModel(tablesAndKeys, table);
       this.setState({ queryModel: newModel });
     }
+  }
+
+  updatePlay() {
+    const { model } = this.props;
+    let openBoxes;
+    if (!this.state) {
+      openBoxes = {};
+    } else {
+      const { openListboxes } = this.state;
+      openBoxes = openListboxes;
+    }
+
+    const queryModel = new logic.QueryModel(model);
+    const atPlayModel = new atplay.AtPlayModel(model, openBoxes);
+    this.setState({
+      tablesAndKeys: model,
+      queryModel,
+      atPlayModel,
+      openListboxes: openBoxes,
+    });
   }
 
   render() {
@@ -249,4 +265,4 @@ Model.defaultProps = {
   model: null,
 };
 
-export default withApp(withModel(Model, async app => app.getTablesAndKeys({}, {}, 0, true, false)));
+export default withApp(withModel(Model, async app => app.getTablesAndKeys({}, {}, 0, true, false), true));
