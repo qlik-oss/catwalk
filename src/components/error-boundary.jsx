@@ -9,50 +9,30 @@ class ErrorBoundary extends React.Component {
     super(props);
     this.state = {
       error: false,
-      engineURL: new URLSearchParams(document.location.search).get('engine_url') || 'ws://localhost:9076/app/drugcases',
+      info: null,
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidCatch(error) {
-    this.setState({ error });
-  }
-
-  handleChange(event) {
-    this.setState({ engineURL: event.target.value });
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    const { engineURL } = this.state;
-    window.history.replaceState({}, '', `${window.location.pathname}?engine_url=${encodeURI(engineURL)}`);
-    window.location.reload(false);
+  componentDidCatch(error, info) {
+    this.setState({ error, info });
   }
 
   render() {
-    const { error, engineURL } = this.state;
+    const { error, info } = this.state;
     const { children } = this.props;
     if (error) {
       return (
         <div className="error">
           <div>
             <img src={logo} className="logo" alt="Logo" />
-            <h1>
-              Initialization failed:&nbsp;&nbsp;
-              <font color="red">
-                { error.message }
-              </font>
-            </h1>
-
-            <form onSubmit={this.handleSubmit}>
-              <label> {/* eslint-disable-line */}
-                Qlik Assosiative Engine WS URL:
-                <input type="text" value={engineURL} onChange={this.handleChange} />
-              </label>
-              <input type="submit" value="Reload" />
-            </form>
+            <h1>Initialization failed</h1>
+            {' '}
+            <pre>
+              <code>{error.stack}</code>
+            </pre>
+            <pre>
+              <code>{info.componentStack}</code>
+            </pre>
           </div>
         </div>
       );

@@ -1,55 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import enigma from 'enigma.js';
-import config from '../enigma/config';
-
 export const AppContext = React.createContext(null);
 const AppConsumer = AppContext.Consumer;
 
+// eslint-disable-next-line react/prefer-stateless-function
 export class AppProvider extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      app: null,
-      error: null,
-    };
-  }
+  static propTypes = {
+    app: PropTypes.object,
+    children: PropTypes.object.isRequired,
+  };
 
-  async componentDidMount() {
-    const session = enigma.create(config);
-    try {
-      const global = await session.open();
-      const appHandle = await global.getDoc(); // Mixin from ./src/enigma/get-doc
-      this.setState({ session, app: appHandle });
-    } catch (error) {
-      this.setState({ error });
-    }
-  }
-
-  componentWillUnmount() {
-    const { session } = this.state;
-    if (session) {
-      session.close();
-    }
-  }
+  static defaultProps = {
+    app: {},
+  };
 
   render() {
-    const { children } = this.props;
-    const { app, error } = this.state;
-    if (error) {
-      throw error;
-    }
-    return app && (
+    const { app, children } = this.props;
+
+    return (
       <AppContext.Provider value={app}>
         {children}
       </AppContext.Provider>
     );
   }
 }
-
-AppProvider.propTypes = {
-  children: PropTypes.object.isRequired,
-};
 
 export default AppConsumer;
