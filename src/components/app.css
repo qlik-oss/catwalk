@@ -10,3 +10,21 @@
   display: flex;
   flex-direction: column;
 }
+
+.hub, .connect {
+  flex-direction: column;
+}
+
+.hub li {
+  font-size: 20px;
+}
+
+.logo-svg {
+  height: 200px;
+  animation: fade 1s ease-in;
+}
+
+@keyframes fade {
+  0% { opacity: 0 }
+  100% { opacity: 1 }
+}

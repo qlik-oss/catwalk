@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import logo from '../catwalk.svg';
+import SVGInline from 'react-svg-inline';
 
+import catwalkAway from '../assets/catwalk-away.svg';
 import './error-boundary.scss';
 
 class ErrorBoundary extends React.Component {
@@ -24,7 +25,7 @@ class ErrorBoundary extends React.Component {
       return (
         <div className="error">
           <div>
-            <img src={logo} className="logo" alt="Logo" />
+            <SVGInline className="catwalkAway" svg={catwalkAway} />
             <h1>Initialization failed</h1>
             {' '}
             <pre>
