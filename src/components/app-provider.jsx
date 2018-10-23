@@ -21,6 +21,8 @@ export class AppProvider extends React.Component {
     try {
       const global = await session.open();
       const appHandle = await global.getDoc(); // Mixin from ./src/enigma/get-doc
+      const appProperties = await appHandle.getAppProperties();
+      appHandle.lastReloadTime = appProperties.qLastReloadTime;
       this.setState({ session, app: appHandle });
     } catch (error) {
       this.setState({ error });

@@ -50,8 +50,8 @@ export class Model extends React.Component {
       const atPlayModel = new atplay.AtPlayModel(queryModel, openListboxes);
       this.setState({ atPlayModel, openListboxes, queryModel });
     } else if (table) {
-      const { tablesAndKeys } = this.state;
-      const newModel = new logic.QueryModel(tablesAndKeys, table);
+      const { model } = this.props;
+      const newModel = new logic.QueryModel(model, table);
       this.setState({ queryModel: newModel });
     }
   }
@@ -65,11 +65,9 @@ export class Model extends React.Component {
       const { openListboxes } = this.state;
       openBoxes = openListboxes;
     }
-
     const queryModel = new logic.QueryModel(model);
-    const atPlayModel = new atplay.AtPlayModel(model, openBoxes);
+    const atPlayModel = new atplay.AtPlayModel(queryModel, openBoxes);
     this.setState({
-      tablesAndKeys: model,
       queryModel,
       atPlayModel,
       openListboxes: openBoxes,
@@ -80,7 +78,6 @@ export class Model extends React.Component {
     if (!this.state) {
       return null;
     }
-
     const { openListboxes, queryModel, atPlayModel } = this.state;
 
     const assocationsHighlighted = Object.keys(openListboxes).length > 1;
