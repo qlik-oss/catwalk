@@ -26,8 +26,8 @@ function withModel({ WrappedComponent, createModel, updateOnAppInvalidation = fa
 
     async appChanged() {
       const { app } = this.props;
-      const appProperties = await app.getAppProperties();
-      const currentReloadTime = appProperties.qLastReloadTime;
+      const appLayout = await app.getAppLayout();
+      const currentReloadTime = appLayout.qLastReloadTime;
       if (app.lastReloadTime !== currentReloadTime) {
         app.lastReloadTime = currentReloadTime;
         this.updateModel();
