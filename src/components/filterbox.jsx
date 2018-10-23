@@ -129,4 +129,4 @@ Filterbox.propTypes = {
   onClose: PropTypes.func,
 };
 
-export default withApp(withModel(withLayout(Filterbox), (app, props) => app.getOrCreateListbox(props.field, 20)));
+export default withApp(withModel({ WrappedComponent: withLayout(Filterbox), createModel: (app, props) => app.getOrCreateListbox(props.field, 20) }));

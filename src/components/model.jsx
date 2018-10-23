@@ -262,4 +262,4 @@ Model.defaultProps = {
   model: null,
 };
 
-export default withApp(withModel(Model, async app => app.getTablesAndKeys({}, {}, 0, true, false), true));
+export default withApp(withModel({ WrappedComponent: Model, createModel: async app => app.getTablesAndKeys({}, {}, 0, true, false), updateOnAppInvalidation: true }));

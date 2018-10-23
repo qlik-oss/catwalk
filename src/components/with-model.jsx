@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import renderDebouncer from './render-debouncer';
 
-function withModel(WrappedComponent, createModel, updateOnAppInvalidation) {
+function withModel({ WrappedComponent, createModel, updateOnAppInvalidation = false }) {
   class WithModel extends React.Component {
     constructor(props) {
       super(props);
