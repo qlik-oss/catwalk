@@ -6,6 +6,7 @@ import withModel from './with-model';
 import withLayout from './with-layout';
 
 import './filterbox.css';
+import VirtualGrid from './grid';
 
 const KEY_ENTER = 13;
 
@@ -64,10 +65,11 @@ export class Filterbox extends React.Component {
 
   render() {
     const { style } = this.state;
-    const { layout } = this.props;
+    const { layout, model } = this.props;
     if (!layout) {
       return null;
     }
+    console.log(layout);
     if (!layout.qListObject.qDataPages || layout.qListObject.qDataPages.length === 0) {
       return null;
     }
@@ -108,7 +110,9 @@ export class Filterbox extends React.Component {
     return (
       <div role="Listbox" tabIndex="-1" className="filterbox" style={style} onClick={preventDefaultFn}>
         {search}
-        <ul className="items">{items}</ul>
+        <div className="virtualgrid">
+          <VirtualGrid layout={layout} model={model} />
+        </div>
       </div>
     );
   }
@@ -129,4 +133,4 @@ Filterbox.propTypes = {
   onClose: PropTypes.func,
 };
 
-export default withApp(withModel(withLayout(Filterbox), (app, props) => app.getOrCreateListbox(props.field, 20)));
+export default withApp(withModel(withLayout(Filterbox), (app, props) => app.getOrCreateListbox(props.field)));

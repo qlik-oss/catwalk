@@ -84,8 +84,13 @@ function isKey(cell) {
   return cell.qKeyType && cell.qKeyType !== 'NOT_KEY';
 }
 
+function biggestTableNotAnalyzed(listOfTables, tablesAlreadyAnalyzedMap) {
+  return listOfTables.find( table => !tablesAlreadyAnalyzedMap[table]);
+}
+
+
 class QueryModel {
-  constructor(tablesAndKeys, startTable) {
+  constructor(tablesAndKeys, userChosenStartTable) {
     const grid = {};
     const fields = {};
     const tables = {};
@@ -115,14 +120,18 @@ class QueryModel {
     this.resultTableList = [];
     this.resultFieldList = [];
 
-    this.startTable = startTable || this.originalTableNamesSortedBySize[0];
-
     const tablesAlreadyAnalyzed = {};
-    tablesAlreadyAnalyzed[this.startTable] = true;
-    this.analyzeTable(this.startTable, tablesAlreadyAnalyzed, '');
+    let actualStartTable = userChosenStartTable || biggestTableNotAnalyzed(this.originalTableNamesSortedBySize, tablesAlreadyAnalyzed);
+
+    while (actualStartTable) {
+      tablesAlreadyAnalyzed[actualStartTable] = true;
+      this.analyzeTable(actualStartTable, tablesAlreadyAnalyzed, '');
+      actualStartTable = biggestTableNotAnalyzed(this.originalTableNamesSortedBySize, tablesAlreadyAnalyzed);
+    }
 
     this.fillInGridInfo(grid);
   }
+
 
   fillInGridInfo(gridIn) {
     // Fill in blanks

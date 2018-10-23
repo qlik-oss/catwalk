@@ -3,7 +3,6 @@
 
   font-size: 1.5rem;
   user-select: none;
-  border: 1px solid rgb(201, 201, 201);
   background: #fff;
   box-sizing: border-box;
   color: #333;
@@ -52,5 +51,33 @@
   margin: 2px;
   background: none;
   font-size: 1.5rem;
-  /*border-top: 1px solid rgb(201, 201, 201);*/
+  border-top: 1px solid rgb(201, 201, 201);
 }
+
+.filterbox .virtualgrid {
+  position: absolute;
+  display: block;
+  left: 0;
+  right: 0;
+  top: 2em;
+  bottom: 0;
+
+  font-size: 1.5rem;
+}
+
+.filterbox {
+  outline: none;
+}
+.filterbox .search {
+  outline: none;
+}
+.filterbox .virtualgrid .grid {
+  outline: none;
+}
+.filterbox .virtualgrid .grid {
+  outline: none;
+}
+.filterbox .virtualgrid .ReactVirtualized__Table__row {
+  outline: none;
+}
+

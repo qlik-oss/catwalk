@@ -30,7 +30,7 @@ export default {
               {
                 qTop: 0,
                 qLeft: 0,
-                qHeight: fetchValues || 6,
+                qHeight: fetchValues || 10,
                 qWidth: 1,
               },
             ],
