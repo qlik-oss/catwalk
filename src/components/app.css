@@ -17,6 +17,30 @@
 
 .hub li {
   font-size: 20px;
+  line-height: 15px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+
+.hub li span{
+  font-size: 10px;
+}
+
+.hub li:hover {
+  font-size: 30px;
+  background: #f6f6f6;
+}
+
+.hub ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  max-width: 80%;
+}
+
+.hub li:last-child {
+  border: none;
 }
 
 .logo-svg {

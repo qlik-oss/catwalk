@@ -85,7 +85,7 @@ export class App extends React.Component {
           <SVGInline className="logo" svg={logo} />
           <ul>
             {/* eslint-disable-next-line */}
-            {docs.map(doc => <li onClick={() => this.onItemClick(doc.qDocId)} key={doc.qDocId}>{doc.qTitle} | {doc.qMeta.description}</li>)}
+            {docs.map(doc => <li onClick={() => this.onItemClick(doc.qDocId)} key={doc.qDocId}>{doc.qTitle}<br /><span className="description">{doc.qMeta.description}</span></li>)}
           </ul>
         </div>
       );
