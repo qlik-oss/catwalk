@@ -8,27 +8,12 @@
   color: #333;
 }
 
-.filterbox.empty p {
-  padding: 0.5rem 2rem;
-}
 
 /*.filterbox .header {
 }*/
 
-
-.filterbox .items {
-  position: absolute;
-  top: 2em;
-  bottom: 0;
-  left:0;
-  right:0;
-  overflow-x: hidden;
-  overflow-y: auto;
-
-}
 .filterbox .item {
   cursor: pointer;
-  padding: 2px;
 }
 
 .filterbox .state-S {
@@ -54,7 +39,7 @@
   border-top: 1px solid rgb(201, 201, 201);
 }
 
-.filterbox .virtualgrid {
+.filterbox .virtualtable {
   position: absolute;
   display: block;
   left: 0;
@@ -71,13 +56,7 @@
 .filterbox .search {
   outline: none;
 }
-.filterbox .virtualgrid .grid {
-  outline: none;
-}
-.filterbox .virtualgrid .grid {
-  outline: none;
-}
-.filterbox .virtualgrid .ReactVirtualized__Table__row {
+.filterbox .virtualtable .ReactVirtualized__Table__row {
   outline: none;
 }
 

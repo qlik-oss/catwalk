@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ScrollArea from './scroll-area';
-import VirtualGrid from './grid';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
 
@@ -242,19 +241,19 @@ export class Model extends React.Component {
           >
             {gridz}
           </div>
-          {/*<div style={{*/}
-            {/*display: 'block',*/}
-            {/*position: 'absolute',*/}
-            {/*left: '100px',*/}
-            {/*top: '100px',*/}
-            {/*width: '1000px',*/}
-            {/*height: '1000px',*/}
-            {/*'background-color': 'pink',*/}
-            {/*'z-index': '10000',*/}
-          {/*}}*/}
-          {/*>*/}
-            {/*<VirtualGrid />*/}
-          {/*</div>*/}
+          {/* <div style={{ */}
+          {/* display: 'block', */}
+          {/* position: 'absolute', */}
+          {/* left: '100px', */}
+          {/* top: '100px', */}
+          {/* width: '1000px', */}
+          {/* height: '1000px', */}
+          {/* 'background-color': 'pink', */}
+          {/* 'z-index': '10000', */}
+          {/* }} */}
+          {/* > */}
+          {/* <VirtualGrid /> */}
+          {/* </div> */}
         </div>
       </ScrollArea>
     );

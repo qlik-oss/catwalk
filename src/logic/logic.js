@@ -85,7 +85,7 @@ function isKey(cell) {
 }
 
 function biggestTableNotAnalyzed(listOfTables, tablesAlreadyAnalyzedMap) {
-  return listOfTables.find( table => !tablesAlreadyAnalyzedMap[table]);
+  return listOfTables.find(table => !tablesAlreadyAnalyzedMap[table]);
 }
 
 
