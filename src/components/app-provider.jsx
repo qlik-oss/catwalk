@@ -6,15 +6,6 @@ const AppConsumer = AppContext.Consumer;
 
 // eslint-disable-next-line react/prefer-stateless-function
 export class AppProvider extends React.Component {
-  static propTypes = {
-    app: PropTypes.object,
-    children: PropTypes.object.isRequired,
-  };
-
-  static defaultProps = {
-    app: {},
-  };
-
   render() {
     const { app, children } = this.props;
 
@@ -25,5 +16,14 @@ export class AppProvider extends React.Component {
     );
   }
 }
+
+AppProvider.propTypes = {
+  app: PropTypes.object,
+  children: PropTypes.object.isRequired,
+};
+
+AppProvider.defaultProps = {
+  app: {},
+};
 
 export default AppConsumer;
