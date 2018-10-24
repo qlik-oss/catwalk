@@ -22,7 +22,6 @@ export class App extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.onItemClick = this.onItemClick.bind(this);
   }
 
   async componentDidMount() {
@@ -51,23 +50,19 @@ export class App extends React.Component {
     }
   }
 
-  onItemClick(docId) {
+  handleSubmit(event, docId) {
     let { engineURL } = this.state;
-    engineURL = `${new URL(engineURL).origin}${docId}`;
-
+    if (docId) {
+      engineURL = `${new URL(engineURL).origin}${docId}`;
+    } else {
+      event.preventDefault();
+    }
     window.history.replaceState({}, '', `${window.location.pathname}?engine_url=${encodeURI(engineURL)}`);
     window.location.reload(false);
   }
 
   handleChange(event) {
     this.setState({ engineURL: event.target.value });
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    const { engineURL } = this.state;
-    window.history.replaceState({}, '', `${window.location.pathname}?engine_url=${encodeURI(engineURL)}`);
-    window.location.reload(false);
   }
 
   render() {
@@ -85,7 +80,7 @@ export class App extends React.Component {
           <SVGInline className="logo" svg={logo} />
           <ul>
             {/* eslint-disable-next-line */}
-            {docs.map(doc => <li onClick={() => this.onItemClick(doc.qDocId)} key={doc.qDocId}>{doc.qTitle}<br /><span className="description">{doc.qMeta.description}</span></li>)}
+            {docs.map(doc => <li onClick={() => this.handleSubmit(event, doc.qDocId)} key={doc.qDocId}>{doc.qTitle}<br /><span className="description">{doc.qMeta.description}</span></li>)}
           </ul>
         </div>
       );
