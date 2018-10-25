@@ -6,7 +6,6 @@ import config from '../enigma/config';
 import Selections from './selections';
 import Model from './model';
 import logo from '../assets/catwalk.svg';
-import qlik from '../assets/Qlik-Logo_TAG.svg';
 
 import './app.css';
 
@@ -85,7 +84,6 @@ export default class App extends React.Component {
             {/* eslint-disable-next-line */}
             {docs.map(doc => <li onClick={() => this.handleSubmit(event, doc.qDocId)} key={doc.qDocId}><div className="doc-info">{doc.qTitle}<br /><span className="description">{doc.qMeta.description}</span></div></li>)}
           </ul>
-          <SVGInline className="qlik-logo" svg={qlik} />
         </div>
       );
     }
