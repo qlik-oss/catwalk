@@ -132,6 +132,7 @@ export class Filterbox extends React.Component {
           onKeyUp={this.onSearch}
           className="search"
           placeholder="Search (wildcard)"
+          onMouseDown={event => event.stopPropagation()} // Stop clicks in the textbox from reaching the scroller
         />
         <div className="virtualtable">
           <VirtualTable
