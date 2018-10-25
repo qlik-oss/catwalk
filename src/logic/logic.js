@@ -94,7 +94,6 @@ class QueryModel {
     const grid = {};
     const fields = {};
     const tables = {};
-
     const tablesNamesOfFieldMapMap = {};
     tablesAndKeys.qtr.forEach((table) => {
       tables[table.qName] = table;

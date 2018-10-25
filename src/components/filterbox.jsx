@@ -2,11 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Column from 'react-virtualized/dist/es/Table/Column';
 
-import withApp from './with-app';
-import withModel from './with-model';
-import withLayout from './with-layout';
-
-import './filterbox.css';
+import './filterbox.scss';
 import VirtualTable from './virtual-table';
 
 const KEY_ENTER = 13;
@@ -38,7 +34,7 @@ function nameCellRenderer({ rowData }) {
 }
 
 function listboxFrequencyColumnGetter({ rowData }) {
-  return rowData ? `${rowData[0].qFrequency || '1'}x` : '...';
+  return rowData ? `${rowData[0].qFrequency || '0'}x` : '...';
 }
 
 // eslint-disable-next-line react/prop-types
@@ -46,10 +42,14 @@ function freqCellRenderer({ rowData }) {
   if (!rowData) {
     return (<div>...</div>);
   }
-  if (rowData[0].qFreq > 1) {
+  if (rowData[0].qState === 'X') {
+    return (<div />);
+  }
+  if (rowData[0].qFrequency > 1) {
     return (
-      <div title={`This value occurs ${rowData[0].qFreq} times`}>
-        {`${rowData[0].qFreq}x`}
+
+      <div title={`This value occurs ${rowData[0].qFrequency} times`}>
+        {`${rowData[0].qFrequency}x`}
       </div>
     );
   }
@@ -60,7 +60,6 @@ function rowRenderer({
   defaultProps, rowData, style, columns, className, key,
 }) {
   const classes = `item state-${rowData ? rowData[0].qState : 'Loading'} ${className}`;
-
   return (
     <div
       {...defaultProps}
@@ -75,18 +74,17 @@ function rowRenderer({
 }
 
 function noRowsRenderer() {
-  return (<div className="no-values">No values</div>);
+  return <div className="no-values">No values</div>;
 }
-
 
 export class Filterbox extends React.Component {
   constructor() {
     super();
     this.onRowClick = this.onRowClick.bind(this);
-    this.onSearchClick = this.onSearchClick.bind(this);
+    this.onSearch = this.onSearch.bind(this);
   }
 
-  onSearchClick(evt) {
+  onSearch(evt) {
     const { value } = evt.target;
     const { keyCode } = evt;
     const { model } = this.props;
@@ -131,7 +129,7 @@ export class Filterbox extends React.Component {
     return (
       <div role="Listbox" tabIndex="-1" className="filterbox" onClick={preventDefaultFn}>
         <input
-          onKeyUp={this.onSearchClick}
+          onKeyUp={this.onSearch}
           className="search"
           placeholder="Search (wildcard)"
         />
@@ -153,7 +151,7 @@ export class Filterbox extends React.Component {
               cellRenderer={nameCellRenderer}
             />
             <Column
-              width={40}
+              width={50}
               label="Description"
               dataKey="description"
               flexGrow={1}
@@ -176,7 +174,6 @@ Filterbox.defaultProps = {
 Filterbox.propTypes = {
   model: PropTypes.object,
   layout: PropTypes.object,
-  field: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
 };
 
-export default withApp(withModel(withLayout(Filterbox), (app, props) => app.getOrCreateListbox(props.field)));
+export default Filterbox;

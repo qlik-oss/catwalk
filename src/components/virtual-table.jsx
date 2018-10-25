@@ -1,11 +1,9 @@
 import React from 'react';
-
 import {
   Table, AutoSizer, InfiniteLoader,
 } from 'react-virtualized';
 import 'react-virtualized/styles.css';
 import PropTypes from 'prop-types'; // only needs to be imported once
-
 
 function wrappingRowRenderer(inputParams, rowRenderer) {
   const {
@@ -17,7 +15,6 @@ function wrappingRowRenderer(inputParams, rowRenderer) {
     onRowRightClick,
     rowData,
   } = inputParams;
-
 
   const a11yProps = { 'aria-rowindex': index + 1 };
 
@@ -47,7 +44,6 @@ function wrappingRowRenderer(inputParams, rowRenderer) {
       a11yProps.onContextMenu = event => onRowRightClick({ event, index, rowData });
     }
   }
-
   return rowRenderer({ defaultProps: a11yProps, ...inputParams });
 }
 
@@ -76,7 +72,6 @@ export class VirtualTable extends React.Component {
       });
       return newState;
     }
-    // console.log('Same state');
     return null;
   }
 
@@ -87,20 +82,6 @@ export class VirtualTable extends React.Component {
       this.table.forceUpdate();
     }
   }
-
-  // onRowClick({ rowData }) {
-  //   const { model } = this.props;
-  //   if (rowData) {
-  //     if (rowData[0].qState !== 'S') {
-  //       rowData[0].qState = 'S'; // For fast visual feedback, this will be overwritten when the new layout comes.
-  //     } else {
-  //       rowData[0].qState = 'O'; // For fast visual feedback, this will be overwritten when the new layout comes.
-  //     }
-  //     this.forceUpdate();
-  //
-  //     model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], true);
-  //   }
-  // }
 
   onScroll({ scrollTop }) {
     this.scrollTop = scrollTop;
