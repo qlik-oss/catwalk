@@ -97,7 +97,10 @@ $assocborder: #999;
   box-sizing: border-box;
   text-align: center;
   background-color: white;
-  padding: 0
+  padding: 0;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px #ccc;
+  border: 1px solid #ccc;
 }
 
 .model .association-to-left {
