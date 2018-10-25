@@ -173,8 +173,13 @@ export class Filterbox extends React.Component {
       return null;
     }
 
+    let classes = 'filterbox';
+    if (layout.qSelectionInfo.qMadeSelections) {
+      classes += ' made-selections';
+    }
+
     return (
-      <div role="Listbox" tabIndex="-1" className="filterbox" onClick={preventDefaultFn} ref={this.selfRef}>
+      <div role="Listbox" tabIndex="-1" className={classes} onClick={preventDefaultFn} ref={this.selfRef}>
         <input
           onKeyUp={this.onSearch}
           className="search"
