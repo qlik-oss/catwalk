@@ -16,11 +16,12 @@
 }
 
 .doc-list li {
+  height: 34;
   font-size: 20px;
-  line-height: 15px;
+  line-height: 12px;
   padding: 10px;
   border-bottom: 1px solid #ccc;
-  transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 .doc-list li:before {
@@ -44,7 +45,8 @@
 }
 
 .doc-list li:hover {
-  font-size: 30px;
+  font-size: 21px;
+  color: #019844;
   background: #f6f6f6;
 }
 
@@ -53,8 +55,8 @@
   margin-bottom: 50px;
   list-style-type: none;
   padding: 0;
-  /* padding-left: 1em; */
-  max-width: 80%;
+  width: 80%;
+  max-width: 900px;
 }
 
 .doc-list li:last-child {
