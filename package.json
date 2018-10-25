@@ -12,18 +12,19 @@
   },
   "dependencies": {
     "enigma.js": "2.3.0",
+    "node-sass": "4.9.4",
     "prop-types": "15.6.2",
     "react": "16.5.2",
     "react-dom": "16.5.2",
     "react-outside-click-handler": "1.2.2",
-    "node-sass": "4.9.4",
+    "react-svg-inline": "2.1.1",
     "react-virtualized": "9.20.1"
   },
   "devDependencies": {
     "@babel/core": "7.1.2",
-    "@babel/plugin-transform-runtime": "7.1.0",
-    "@babel/plugin-transform-async-to-generator": "7.1.0",
     "@babel/plugin-proposal-class-properties": "7.1.0",
+    "@babel/plugin-transform-async-to-generator": "7.1.0",
+    "@babel/plugin-transform-runtime": "7.1.0",
     "@babel/preset-env": "7.1.0",
     "@babel/preset-react": "7.0.0",
     "babel-eslint": "10.0.1",
@@ -33,6 +34,7 @@
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.2",
     "eslint-plugin-react": "7.11.1",
-    "parcel-bundler": "1.10.3"
+    "parcel-bundler": "1.10.3",
+    "parcel-plugin-inlinesvg": "0.0.14"
   }
 }

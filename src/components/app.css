@@ -10,3 +10,65 @@
   display: flex;
   flex-direction: column;
 }
+
+.doc-list, .connect {
+  flex-direction: column;
+}
+
+.doc-list li {
+  height: 34;
+  font-size: 20px;
+  line-height: 12px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  transition: font-size 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.doc-list li:before {
+  content: '';
+  display: inline-block;
+  height: 2em;
+  width: 2em;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 57.53 57.53'><defs><style>.b{fill:none;stroke:#fff;stroke-miterlimit:10}</style></defs><circle cx='28.76' cy='28.76' r='28.76' fill='#009845'/><path class='b' d='M35.08 11.74c.08 1.48.1 3 .26 4.44a1.75 1.75 0 0 0 1.9 1.56c1.44.06 2.88.09 4.32.13'/><path class='b' d='M15.14 40.78v2.64a3.13 3.13 0 0 0 3.48 3.48h22.32a3.06 3.06 0 0 0 3.36-3.36V17.86a3.88 3.88 0 0 0-1.21-2.88L37.81 9.7a3.81 3.81 0 0 0-2.88-1.09H18.49a3.18 3.18 0 0 0-3.36 3.36v13.44'/><text transform='translate(11.21 37.06)' font-size='14' fill='#fff' font-family='Source Sans Pro' font-weight='700'>Q<tspan x='9.25' y='0'>VF</tspan></text></svg>");
+  
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-right:0.5em;   
+}
+
+.doc-list li span{
+  font-size: 10px;
+}
+
+.doc-info {
+  display: inline-block;
+}
+
+.doc-list li:hover {
+  font-size: 21px;
+  color: #019844;
+  background: #f6f6f6;
+}
+
+.doc-list ul {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  list-style-type: none;
+  padding: 0;
+  width: 80%;
+  max-width: 900px;
+}
+
+.doc-list li:last-child {
+  border: none;
+}
+
+.logo-svg {
+  height: 200px;
+  animation: fade 1s ease-in;
+}
+
+@keyframes fade {
+  0% { opacity: 0 }
+  100% { opacity: 1 }
+}

@@ -13,7 +13,7 @@ ul, li {
   list-style: none;
 }
 
-.error {
+.error, .doc-list, .connect {
   display: flex;
   width: 100vw;
   height: 100vh;
