@@ -13,16 +13,13 @@ export default {
             qFrequencyMode: 'V',
             qDef: {
               qFieldDefs: [field],
-              // qAutoSortByState: {
-              //   qDisplayNumberOfRows: 10
-              // },
               qSortCriterias: [
                 {
-                  // qSortByState: 1,
-                  // qSortByFrequency: 4,
-                  qSortByNumeric: 3,
-                  qSortByAscii: 2,
-                  qSortByLoadOrder: 1,
+                  qSortByState: 1,
+                  // qSortByFrequency: 1,
+                  // qSortByNumeric: 1,
+                  // qSortByAscii: 1,
+                  // qSortByLoadOrder: 1,
                 },
               ],
             },
@@ -30,7 +27,7 @@ export default {
               {
                 qTop: 0,
                 qLeft: 0,
-                qHeight: fetchValues || 6,
+                qHeight: fetchValues || 10,
                 qWidth: 1,
               },
             ],

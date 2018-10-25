@@ -3,33 +3,17 @@
 
   font-size: 1.5rem;
   user-select: none;
-  border: 1px solid rgb(201, 201, 201);
   background: #fff;
   box-sizing: border-box;
   color: #333;
 }
 
-.filterbox.empty p {
-  padding: 0.5rem 2rem;
-}
 
 /*.filterbox .header {
 }*/
 
-
-.filterbox .items {
-  position: absolute;
-  top: 2em;
-  bottom: 0;
-  left:0;
-  right:0;
-  overflow-x: hidden;
-  overflow-y: auto;
-
-}
 .filterbox .item {
   cursor: pointer;
-  padding: 2px;
 }
 
 .filterbox .state-S {
@@ -43,14 +27,39 @@
 
 .filterbox .search {
   position: absolute;
+  display: inline-block;
   top: 0;
   left: 0;
   right: 0;
   height: 2em;
   box-sizing: border-box;
   border: 0;
-  margin: 2px;
   background: none;
   font-size: 1.5rem;
-  /*border-top: 1px solid rgb(201, 201, 201);*/
+  border-top: 1px solid rgb(201, 201, 201);
+}
+
+.filterbox .virtualtable {
+  position: absolute;
+  display: block;
+  left: 0;
+  right: 0;
+  top: 2em;
+  bottom: 0;
+
+  font-size: 1.5rem;
+}
+
+.filterbox {
+  outline: none;
+}
+.filterbox .search {
+  outline: none;
+}
+.filterbox .virtualtable .ReactVirtualized__Table__row {
+  outline: none;
+}
+
+.filterbox .virtualtable .ReactVirtualized__Table__Column:first-of-type {
+  margin-left: 0;
 }

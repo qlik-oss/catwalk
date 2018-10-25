@@ -23,6 +23,9 @@ class ScrollArea extends React.Component {
   }
 
   onMouseDown = (event) => {
+    if (event.target.tagName === 'INPUT') {
+      return;
+    }
     const { isScrolling, scrollAreaStyle } = this.state;
     if (!isScrolling) {
       this.lastClientX = event.clientX;
@@ -32,7 +35,9 @@ class ScrollArea extends React.Component {
         cursor: 'grab',
       };
       this.setState({ isScrolling: true, scrollAreaStyle: { style: cursorStyle } });
-      // event.preventDefault();
+      if (document.activeElement.tagName !== 'INPUT') {
+        event.preventDefault();
+      }
     }
   }
 

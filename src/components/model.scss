@@ -76,6 +76,30 @@ $assocborder: #999;
   border-top-left-radius: 1.5em;
   background-color: $tableBackground;
 }
+.model .association-to-right-d {
+  z-index: 0;
+  position: absolute;
+  font-size: 1.5rem;
+  top: -1em;
+  left: 0.5em;
+  height: 2em;
+}
+
+.model .subsetratio {
+  z-index: 2;
+  position: absolute;
+  bottom: -0.5em;
+  right: 0.5em;
+  width: 3em;
+  font-size: 1.375rem;
+  color: darkred;
+  font-weight: bold;
+  box-sizing: border-box;
+  text-align: center;
+  background-color: white;
+  padding: 0
+}
+
 .model .association-to-left {
   box-sizing: border-box;
   z-index: 0;
@@ -104,6 +128,14 @@ $assocborder: #999;
   border-top-right-radius: 1.5em;
   background-color: $tableBackground;
 }
+.model .association-to-left-d {
+  z-index: 0;
+  position: absolute;
+  font-size: 1.5rem;
+  top: -1em;
+  right: 0.5em;
+  height: 2em;
+}
 
 .model .association-to-left:nth-child(0) {
   border: 1px solid red;
@@ -127,6 +159,8 @@ $assocborder: #999;
 }
 
 .model .colset {
+  height: max-content;
+  width: max-content;
   justify-self: auto;
   display: flex;
   justify-content: flex-start;

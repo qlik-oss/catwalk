@@ -25,9 +25,15 @@ function fieldCounts(dimInfo, field) {
   return str;
 }
 
+function firstFewValues(layout) {
+  const values = layout.qListObject.qDataPages[0].qMatrix.map(row => `${row[0].qState} ${row[0].qText || '<empty>'}`);
+  const result = `Examples values:\n${values.join('\n')}`;
+  return result;
+}
+
 export function Field(props) {
   const {
-    field, fieldData, layout, showFilterbox,
+    field, fieldData, layout, showFilterbox, model,
   } = props;
   if (!layout) {
     return null;
@@ -56,6 +62,17 @@ export function Field(props) {
     descriptions += ', has nulls';
   } else {
     descriptions += ', no nulls.';
+  }
+
+  const allExcluded = states.qExcluded === total;
+  const singleHit = states.qExcluded === total - 1;
+
+  if (allExcluded) {
+    classes += ' all-excluded';
+  }
+
+  if (singleHit) {
+    classes += ' single-hit';
   }
 
   const isSynthetic = (fieldData.qTags && fieldData.qTags.find(item => item === '$synthetic'));
@@ -87,7 +104,7 @@ export function Field(props) {
       title={`${states.qSelected} selected, ${states.qOption
         + states.qAlternative} possible, ${
         states.qExcluded
-      } excluded, total of ${total} values. ${descriptions}`}
+      } excluded, total of ${total} values. ${descriptions}\n\n${firstFewValues(layout)}`}
     >
       <div className="name">
         {field}
@@ -100,13 +117,14 @@ export function Field(props) {
         <span className="green" style={green} />
         <span className="grey" style={grey} />
       </div>
-      { showFilterbox ? <div className="details"><Filterbox field={field} /></div> : null}
+      { showFilterbox ? <div className="details"><Filterbox model={model} layout={layout} /></div> : null}
     </div>
   );
 }
 Field.propTypes = {
   layout: PropTypes.object,
   field: PropTypes.string.isRequired,
+  model: PropTypes.object.isRequired,
   fieldData: PropTypes.object,
   showFilterbox: PropTypes.bool,
 };
