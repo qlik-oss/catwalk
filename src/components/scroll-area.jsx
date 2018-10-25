@@ -32,7 +32,7 @@ class ScrollArea extends React.Component {
         cursor: 'grab',
       };
       this.setState({ isScrolling: true, scrollAreaStyle: { style: cursorStyle } });
-      // event.preventDefault();
+      event.preventDefault();
     }
   }
 

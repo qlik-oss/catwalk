@@ -138,4 +138,4 @@ Field.defaultProps = {
 };
 
 
-export default withApp(withModel(withLayout(Field), async (app, props) => app.getOrCreateListbox(props.field)));
+export default withApp(withModel({ WrappedComponent: withLayout(Field), createModel: async (app, props) => app.getOrCreateListbox(props.field) }));

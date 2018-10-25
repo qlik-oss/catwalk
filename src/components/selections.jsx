@@ -44,7 +44,10 @@ Selections.defaultProps = {
   layout: null,
 };
 
-export default withApp(withModel(withLayout(Selections), async app => app.createSessionObject({
-  qInfo: { qType: 'selections' },
-  qSelectionObjectDef: {},
-})));
+export default withApp(withModel({
+  WrappedComponent: withLayout(Selections),
+  createModel: async app => app.createSessionObject({
+    qInfo: { qType: 'selections' },
+    qSelectionObjectDef: {},
+  }),
+}));

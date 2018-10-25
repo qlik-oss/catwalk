@@ -16,7 +16,7 @@
     "react": "16.5.2",
     "react-dom": "16.5.2",
     "react-outside-click-handler": "1.2.2",
-    "node-sass": "4.9.3",
+    "node-sass": "4.9.4",
     "react-virtualized": "^9.20.1"
   },
   "devDependencies": {

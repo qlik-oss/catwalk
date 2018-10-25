@@ -159,6 +159,8 @@ $assocborder: #999;
 }
 
 .model .colset {
+  height: max-content;
+  width: max-content;
   justify-self: auto;
   display: flex;
   justify-content: flex-start;
