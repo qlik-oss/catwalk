@@ -84,10 +84,21 @@ export class Filterbox extends React.Component {
     this.onSearch = this.onSearch.bind(this);
   }
 
+  componentWillUnmount() {
+    const { model } = this.props;
+    if (this.ongoingSearch) {
+      model.abortListObjectSearch('/qListObjectDef');
+    }
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+    }
+  }
+
   onSearch(evt) {
     const { value } = evt.target;
     const { keyCode } = evt;
     const { model } = this.props;
+    this.ongoingSearch = value;
     if (keyCode === KEY_ENTER) {
       model.acceptListObjectSearch('/qListObjectDef', true);
       evt.target.blur();
@@ -132,7 +143,6 @@ export class Filterbox extends React.Component {
           onKeyUp={this.onSearch}
           className="search"
           placeholder="Search (wildcard)"
-          onMouseDown={event => event.stopPropagation()} // Stop clicks in the textbox from reaching the scroller
         />
         <div className="virtualtable">
           <VirtualTable
