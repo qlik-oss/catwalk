@@ -26,8 +26,19 @@ function fieldCounts(dimInfo, field) {
 }
 
 function firstFewValues(layout) {
-  const values = layout.qListObject.qDataPages[0].qMatrix.map(row => `${row[0].qState} ${row[0].qText || '<empty>'}`);
-  const result = `Examples values:\n${values.join('\n')}`;
+  const rowToText = row => `${row[0].qText || '<empty>'}`;
+
+  const selected = layout.qListObject.qDataPages[0].qMatrix.filter(row => row[0].qState === 'S' || row[0].qState === 'O');
+  const excluded = layout.qListObject.qDataPages[0].qMatrix.filter(row => row[0].qState === 'X');
+
+  let result = '';
+  if (selected.length > 0) {
+    result += `Example values:\n${selected.map(rowToText).join(', ')}\n`;
+  }
+  if (excluded.length > 0) {
+    result += `\nExample of excluded values:\n${excluded.map(rowToText).join(', ')}`;
+  }
+
   return result;
 }
 
