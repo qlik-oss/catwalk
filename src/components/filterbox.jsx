@@ -48,12 +48,17 @@ function freqCellRenderer({ rowData }) {
   }
 
 
-  const freq = rowData[0].qFrequency || 1;
-  const pluralized = freq > 1 ? 'times ' : 'time';
+  const freq = rowData[0].qFrequency;
+  if (freq && freq > 0) {
+    const pluralized = freq > 1 ? 'times ' : 'time';
+    return (
+      <div title={`This value occurs ${freq} ${pluralized}`}>
+        {`${freq}x`}
+      </div>
+    );
+  }
   return (
-    <div title={`This value occurs ${freq} ${pluralized}`}>
-      {`${freq}x`}
-    </div>
+    <div />
   );
 }
 freqCellRenderer.propTypes = {
@@ -86,10 +91,24 @@ export class Filterbox extends React.Component {
     super();
     this.onRowClick = this.onRowClick.bind(this);
     this.onSearch = this.onSearch.bind(this);
+    this.onDocumentClick = this.onDocumentClick.bind(this);
+    this.selfRef = React.createRef();
+  }
+
+  componentDidMount() {
+    document.addEventListener('click', this.onDocumentClick, true);
   }
 
   componentWillUnmount() {
+    document.removeEventListener('click', this.onDocumentClick, true);
+
     const { model } = this.props;
+    if (this.selectionOngoing) {
+      this.selectionOngoing = false;
+      model.endSelections(true);
+    }
+
+
     if (this.ongoingSearch) {
       model.abortListObjectSearch('/qListObjectDef');
     }
@@ -98,10 +117,19 @@ export class Filterbox extends React.Component {
     }
   }
 
+  onDocumentClick(event) {
+    const { model } = this.props;
+    if (this.selectionOngoing && !this.selfRef.current.contains(event.target)) {
+      this.selectionOngoing = false;
+      model.endSelections(true);
+    }
+  }
+
   onSearch(evt) {
     const { value } = evt.target;
     const { keyCode } = evt;
     const { model } = this.props;
+
     this.ongoingSearch = value;
     if (keyCode === KEY_ENTER) {
       model.acceptListObjectSearch('/qListObjectDef', true);
@@ -117,6 +145,10 @@ export class Filterbox extends React.Component {
 
   onRowClick({ rowData }) {
     const { model } = this.props;
+    if (!this.selectionOngoing) {
+      this.selectionOngoing = true;
+      model.beginSelections(['/qListObjectDef']);
+    }
     if (rowData) {
       if (rowData[0].qState !== 'S') {
         const rowDataToModify = rowData;
@@ -142,7 +174,7 @@ export class Filterbox extends React.Component {
     }
 
     return (
-      <div role="Listbox" tabIndex="-1" className="filterbox" onClick={preventDefaultFn}>
+      <div role="Listbox" tabIndex="-1" className="filterbox" onClick={preventDefaultFn} ref={this.selfRef}>
         <input
           onKeyUp={this.onSearch}
           className="search"

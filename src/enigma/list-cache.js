@@ -15,8 +15,8 @@ export default {
               qFieldDefs: [field],
               qSortCriterias: [
                 {
-                  qSortByState: 1,
-                  // qSortByFrequency: 1,
+                  // qSortByState: 1,
+                  qSortByFrequency: 1,
                   // qSortByNumeric: 1,
                   // qSortByAscii: 1,
                   // qSortByLoadOrder: 1,
