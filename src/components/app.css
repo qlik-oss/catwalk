@@ -68,11 +68,6 @@
   animation: fade 1s ease-in;
 }
 
-.qlik-logo-svg {
-  width: 400px;
-  animation: fade 4s ease-in;
-}
-
 @keyframes fade {
   0% { opacity: 0 }
   100% { opacity: 1 }
