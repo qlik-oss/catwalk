@@ -5,12 +5,15 @@ import SVGInline from 'react-svg-inline';
 import config from '../enigma/config';
 import Selections from './selections';
 import Model from './model';
-import { AppProvider } from './app-provider';
 import logo from '../assets/catwalk.svg';
+import qlik from '../assets/Qlik-Logo_TAG.svg';
 
 import './app.css';
 
-export class App extends React.Component {
+export const AppContext = React.createContext(null);
+export const AppConsumer = AppContext.Consumer;
+
+export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -76,12 +79,13 @@ export class App extends React.Component {
     // Render the "HUB" (global is defined == connection to engine)
     if (docs) {
       return (
-        <div className="hub">
+        <div className="doc-list">
           <SVGInline className="logo" svg={logo} />
           <ul>
             {/* eslint-disable-next-line */}
-            {docs.map(doc => <li onClick={() => this.handleSubmit(event, doc.qDocId)} key={doc.qDocId}>{doc.qTitle}<br /><span className="description">{doc.qMeta.description}</span></li>)}
+            {docs.map(doc => <li onClick={() => this.handleSubmit(event, doc.qDocId)} key={doc.qDocId}><div className="doc-info">{doc.qTitle}<br /><span className="description">{doc.qMeta.description}</span></div></li>)}
           </ul>
+          <SVGInline className="qlik-logo" svg={qlik} />
         </div>
       );
     }
@@ -108,14 +112,12 @@ export class App extends React.Component {
 
     // Render the app
     return (
-      <AppProvider app={app}>
+      <AppContext.Provider value={app}>
         <div className="app">
           <Selections />
           <Model />
         </div>
-      </AppProvider>
+      </AppContext.Provider>
     );
   }
 }
-
-export default App;
