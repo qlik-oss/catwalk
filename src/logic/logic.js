@@ -43,13 +43,13 @@ function toSubsetRatioText(qSubsetratio) {
   if (qSubsetratio === 1) {
     return '';
   } if (qSubsetratio === 0) {
-    return '0 %';
+    return '0%';
   }
-  const subsetRatioText = `${Math.round(qSubsetratio * 100)} %`;
-  if (subsetRatioText === '100 %') {
-    return '>99 %';
-  } if (subsetRatioText === '0 %') {
-    return '<1 %';
+  const subsetRatioText = `${Math.round(qSubsetratio * 100)}%`;
+  if (subsetRatioText === '100%') {
+    return '>99%';
+  } if (subsetRatioText === '0%') {
+    return '<1%';
   }
   return subsetRatioText;
 }

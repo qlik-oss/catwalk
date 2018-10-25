@@ -26,10 +26,8 @@ function fieldCounts(dimInfo, field) {
 }
 
 function firstFewValues(layout) {
-  let result = 'Example values:\n';
-  layout.qListObject.qDataPages[0].qMatrix.forEach((row) => {
-    result += `${row[0].qState} ${row[0].qText || '<empty>'}\n`;
-  });
+  const values = layout.qListObject.qDataPages[0].qMatrix.map(row => `${row[0].qState} ${row[0].qText || '<empty>'}`);
+  const result = `Examples values:\n${values.join('\n')}`;
   return result;
 }
 

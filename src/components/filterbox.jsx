@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Column from 'react-virtualized/dist/es/Table/Column';
-
-import './filterbox.scss';
 import VirtualTable from './virtual-table';
+import './filterbox.scss';
 
 const KEY_ENTER = 13;
 
@@ -15,14 +14,14 @@ function listboxNameColumnGetter({ rowData }) {
   return rowData ? rowData[0].qText : '...';
 }
 
-// eslint-disable-next-line react/prop-types
+
 function nameCellRenderer({ rowData }) {
   if (!rowData) {
     return (<div>...</div>);
   }
   let title;
   if (!rowData[0].qNum || rowData[0].qNum === 'NaN') {
-    title = `'${rowData[0].qText ? rowData[0].qText : ''}' (No numerical representation)`;
+    title = `'${rowData[0].qText || ''}' (No numerical representation)`;
   } else {
     title = `'${rowData[0].qText}' (Numerical representation: ${rowData[0].qNum})`;
   }
@@ -32,12 +31,14 @@ function nameCellRenderer({ rowData }) {
     </div>
   );
 }
+nameCellRenderer.propTypes = {
+  rowData: PropTypes.object.isRequired,
+};
 
 function listboxFrequencyColumnGetter({ rowData }) {
   return rowData ? `${rowData[0].qFrequency || '0'}x` : '...';
 }
 
-// eslint-disable-next-line react/prop-types
 function freqCellRenderer({ rowData }) {
   if (!rowData) {
     return (<div>...</div>);
@@ -45,16 +46,19 @@ function freqCellRenderer({ rowData }) {
   if (rowData[0].qState === 'X') {
     return (<div />);
   }
-  if (rowData[0].qFrequency > 1) {
-    return (
 
-      <div title={`This value occurs ${rowData[0].qFrequency} times`}>
-        {`${rowData[0].qFrequency}x`}
-      </div>
-    );
-  }
-  return <div title="This value occurs only once"> 1x </div>;
+
+  const freq = rowData[0].qFrequency || 1;
+  const pluralized = freq > 1 ? 'times ' : 'time';
+  return (
+    <div title={`This value occurs ${freq} ${pluralized}`}>
+      {`${freq}x`}
+    </div>
+  );
 }
+freqCellRenderer.propTypes = {
+  rowData: PropTypes.object.isRequired,
+};
 
 function rowRenderer({
   defaultProps, rowData, style, columns, className, key,
@@ -115,11 +119,11 @@ export class Filterbox extends React.Component {
     const { model } = this.props;
     if (rowData) {
       if (rowData[0].qState !== 'S') {
-        // eslint-disable-next-line no-param-reassign
-        rowData[0].qState = 'S'; // For fast visual feedback, this will be overwritten when the new layout comes.
+        const rowDataToModify = rowData;
+        rowDataToModify[0].qState = 'S'; // For fast visual feedback, this will be overwritten when the new layout comes.
       } else {
-        // eslint-disable-next-line no-param-reassign
-        rowData[0].qState = 'O'; // For fast visual feedback, this will be overwritten when the new layout comes.
+        const rowDataToModify = rowData;
+        rowDataToModify[0].qState = 'O'; // For fast visual feedback, this will be overwritten when the new layout comes.
       }
       this.forceUpdate(); // Force a rerender to ge the previous changes to apear
 
