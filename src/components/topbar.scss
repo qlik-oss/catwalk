@@ -1,0 +1,25 @@
+.topbar {
+  width: 100%;
+  font-size: 1rem;
+  height: 6em;
+  position:relative;
+  align-self:flex-start;
+  background: #fff;
+  border-bottom: 1px solid #d9d9d9;
+  display: flex;
+  overflow: auto;
+  flex-shrink: 0;
+  align-items: center;
+
+  .reloaded {
+    font-size: 1.5em;
+    align-self: center;
+    padding-right: 1em;
+  }
+
+  .topbarLogo .logo-svg {
+    height: 5em;
+    animation: unset;
+    cursor: pointer;
+  }
+}

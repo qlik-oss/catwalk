@@ -24,7 +24,6 @@ export const Selections = (props) => {
     );
   }
   return (
-
     <ul className="selections">
       <li key="clear" className="clear" onClick={() => app.clearAll()}>
         <i className="material-icons">close</i>

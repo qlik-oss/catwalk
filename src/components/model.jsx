@@ -262,10 +262,13 @@ export class Model extends React.Component {
 
 Model.propTypes = {
   model: PropTypes.object,
+  // eslint-disable-next-line react/no-unused-prop-types
+  lastReloadTime: PropTypes.string,
 };
 
 Model.defaultProps = {
   model: null,
+  lastReloadTime: '',
 };
 
 export default withApp(withModel({ WrappedComponent: Model, createModel: async app => app.getTablesAndKeys({}, {}, 0, true, false), updateOnAppInvalidation: true }));
