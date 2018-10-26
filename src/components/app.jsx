@@ -121,13 +121,17 @@ export default class App extends React.Component {
     }
 
     // Render the app
-    return (
-      <AppContext.Provider value={app}>
-        <div className="app">
-          <TopBar lastReloadTime={lastReloadTime} />
-          <Model lastReloadTime={lastReloadTime} />
-        </div>
-      </AppContext.Provider>
-    );
+    if (app) {
+      return (
+        <AppContext.Provider value={app}>
+          <div className="app">
+            <TopBar lastReloadTime={lastReloadTime} />
+            <Model lastReloadTime={lastReloadTime} />
+          </div>
+        </AppContext.Provider>
+      );
+    }
+
+    return null;
   }
 }
