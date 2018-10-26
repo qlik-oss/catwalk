@@ -3,7 +3,7 @@ import enigma from 'enigma.js';
 import SVGInline from 'react-svg-inline';
 
 import config from '../enigma/config';
-import Selections from './selections';
+import TopBar from './topbar';
 import Model from './model';
 import logo from '../assets/catwalk.svg';
 
@@ -24,6 +24,7 @@ export default class App extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.appChanged = this.appChanged.bind(this);
   }
 
   async componentDidMount() {
@@ -33,8 +34,8 @@ export default class App extends React.Component {
       qixGlobal = await session.open();
       const appHandle = await qixGlobal.getDoc(); // Mixin from ./src/enigma/get-doc
       const appLayout = await appHandle.getAppLayout();
-      appHandle.lastReloadTime = appLayout.qLastReloadTime;
-      this.setState({ session, app: appHandle });
+      appHandle.on('changed', this.appChanged);
+      this.setState({ session, app: appHandle, lastReloadTime: appLayout.qLastReloadTime });
     } catch (error) {
       if (qixGlobal) {
         const docs = await qixGlobal.getDocList();
@@ -46,9 +47,19 @@ export default class App extends React.Component {
   }
 
   componentWillUnmount() {
-    const { session } = this.state;
+    const { session, app } = this.state;
     if (session) {
       session.close();
+    }
+    app.removeListener('changed', this.appChanged);
+  }
+
+  async appChanged() {
+    const { app, lastReloadTime } = this.state;
+    const appLayout = await app.getAppLayout();
+    const currentReloadTime = appLayout.qLastReloadTime;
+    if (lastReloadTime !== currentReloadTime) {
+      this.setState({ lastReloadTime: appLayout.qLastReloadTime });
     }
   }
 
@@ -73,9 +84,10 @@ export default class App extends React.Component {
       docs,
       error,
       engineURL,
+      lastReloadTime,
     } = this.state;
 
-    // Render the "HUB" (global is defined == connection to engine)
+    // Render the doclist(global is defined == connection to engine)
     if (docs) {
       return (
         <div className="doc-list">
@@ -112,8 +124,8 @@ export default class App extends React.Component {
     return (
       <AppContext.Provider value={app}>
         <div className="app">
-          <Selections />
-          <Model />
+          <TopBar lastReloadTime={lastReloadTime} />
+          <Model lastReloadTime={lastReloadTime} />
         </div>
       </AppContext.Provider>
     );

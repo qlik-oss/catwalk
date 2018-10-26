@@ -4,6 +4,10 @@
   "description": "Get Qlik Associative Engine data model insights.",
   "author": "QlikTech International AB",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qlik-oss/catwalk"
+  },
   "scripts": {
     "build": "cross-env NODE_ENV=production parcel build src/index.html",
     "start": "parcel src/index.html --open",
@@ -14,11 +18,11 @@
     "enigma.js": "2.3.0",
     "node-sass": "4.9.4",
     "prop-types": "15.6.2",
-    "react": "16.5.2",
-    "react-dom": "16.5.2",
+    "react": "16.6.0",
+    "react-dom": "16.6.0",
     "react-outside-click-handler": "1.2.2",
-    "react-svg-inline": "2.1.1",
-    "react-virtualized": "9.20.1"
+    "react-svg-inline": "^2.1.1",
+    "react-virtualized": "^9.20.1"
   },
   "devDependencies": {
     "@babel/core": "7.1.2",

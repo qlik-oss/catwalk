@@ -8,39 +8,30 @@ function withModel({ WrappedComponent, createModel, updateOnAppInvalidation = fa
       super(props);
       this.state = { model: null };
       this.updateModel = this.updateModel.bind(this);
-      this.appChanged = this.appChanged.bind(this);
     }
 
     componentDidMount() {
-      this.updateModel(true);
+      this.updateModel();
+    }
+
+    componentDidUpdate(prevProps) {
+      const { lastReloadTime } = this.props;
+      if (updateOnAppInvalidation && prevProps.lastReloadTime && prevProps.lastReloadTime !== lastReloadTime) {
+        this.updateModel();
+      }
     }
 
     componentWillUnmount() {
-      const { app } = this.props;
-      app.removeListener('changed', this.appChanged);
       // Make sure pending promises doesn't trigger any internal
       // react logic after we're unmounted. It's either this,
       // or wrapping all promises so that we can reject them...
       this.setState = () => {};
     }
 
-    async appChanged() {
-      const { app } = this.props;
-      const appLayout = await app.getAppLayout();
-      const currentReloadTime = appLayout.qLastReloadTime;
-      if (app.lastReloadTime !== currentReloadTime) {
-        app.lastReloadTime = currentReloadTime;
-        this.updateModel();
-      }
-    }
-
-    async updateModel(firstTime) {
+    async updateModel() {
       const { app } = this.props;
       try {
         const model = await createModel(app, this.props);
-        if (firstTime && updateOnAppInvalidation) {
-          app.on('changed', this.appChanged);
-        }
         renderDebouncer(() => this.setState({ model, error: null }));
       } catch (error) {
         renderDebouncer(() => this.setState({ model: null, error }));

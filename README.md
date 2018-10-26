@@ -1,4 +1,4 @@
-![catwalk](./src/catwalk.svg)
+![catwalk](./src/assets/catwalk.svg)
 
 Gain data model insights quickly during its development and validation phases. This tool is useful when you want to explore your data model for whatever reason; maybe you are creating a complex load script, maybe you want to investigate associations.
 
