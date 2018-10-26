@@ -9,20 +9,17 @@
   display: flex;
   overflow: auto;
   flex-shrink: 0;
+  align-items: center;
 
   .reloaded {
     font-size: 1.5em;
-    align-self: flex-end;
+    align-self: center;
     padding-right: 1em;
-  }
-
-  .topbarLogo, .topbarLogo .SVGInline {
-    display: flex;
   }
 
   .topbarLogo .logo-svg {
     height: 5em;
     animation: unset;
-    align-self: flex-end;
+    cursor: pointer;
   }
 }

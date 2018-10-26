@@ -51,9 +51,8 @@ class TopBar extends React.Component {
         <div className="reloaded">
           {lastReloaded}
         </div>
-        <div className="topbarLogo">
+        <div className="topbarLogo" onClick={() => { window.open('https://github.com/qlik-oss/catwalk'); }} role="navigation">
           <SVGInline className="logo" svg={logo} />
-          {/* <img src={logo} alt="Logo" /> */}
         </div>
       </div>
     );
