@@ -23,7 +23,7 @@ class ErrorBoundary extends React.Component {
     const { children } = this.props;
     if (error) {
       return (
-        <div className="error">
+        <div className="center-content">
           <div>
             <SVGInline className="catwalkAway" svg={catwalkAway} />
             <h1>Initialization failed</h1>

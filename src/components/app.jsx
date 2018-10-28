@@ -1,11 +1,10 @@
 import React from 'react';
 import enigma from 'enigma.js';
-import SVGInline from 'react-svg-inline';
 
 import config from '../enigma/config';
 import TopBar from './topbar';
 import Model from './model';
-import logo from '../assets/catwalk.svg';
+import Splash from './splash';
 
 import './app.css';
 
@@ -19,11 +18,8 @@ export default class App extends React.Component {
       app: null,
       docs: null,
       error: null,
-      engineURL: new URLSearchParams(document.location.search).get('engine_url') || 'ws://localhost:9076/',
+      engineURL: config.url,
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.appChanged = this.appChanged.bind(this);
   }
 
@@ -32,10 +28,11 @@ export default class App extends React.Component {
     const session = enigma.create(config);
     try {
       qixGlobal = await session.open();
-      const appHandle = await qixGlobal.getDoc(); // Mixin from ./src/enigma/get-doc
-      const appLayout = await appHandle.getAppLayout();
-      appHandle.on('changed', this.appChanged);
-      this.setState({ session, app: appHandle, lastReloadTime: appLayout.qLastReloadTime });
+      const app = await qixGlobal.getDoc();
+      app.on('changed', this.appChanged);
+      this.setState({ session, app });
+      // trigger initial fetch:
+      app.emit('changed');
     } catch (error) {
       if (qixGlobal) {
         const docs = await qixGlobal.getDocList();
@@ -47,35 +44,21 @@ export default class App extends React.Component {
   }
 
   componentWillUnmount() {
-    const { session, app } = this.state;
+    const { app, session } = this.state;
+    if (app) {
+      app.removeListener('changed', this.appChanged);
+    }
     if (session) {
       session.close();
     }
-    app.removeListener('changed', this.appChanged);
   }
 
   async appChanged() {
     const { app, lastReloadTime } = this.state;
-    const appLayout = await app.getAppLayout();
-    const currentReloadTime = appLayout.qLastReloadTime;
-    if (lastReloadTime !== currentReloadTime) {
-      this.setState({ lastReloadTime: appLayout.qLastReloadTime });
+    const { qLastReloadTime } = await app.getAppLayout();
+    if (lastReloadTime !== qLastReloadTime) {
+      this.setState({ lastReloadTime: qLastReloadTime });
     }
-  }
-
-  handleSubmit(event, docId) {
-    let { engineURL } = this.state;
-    if (docId) {
-      engineURL = `${new URL(engineURL).origin}${docId}`;
-    } else {
-      event.preventDefault();
-    }
-    window.history.replaceState({}, '', `${window.location.pathname}?engine_url=${encodeURI(engineURL)}`);
-    window.location.reload(false);
-  }
-
-  handleChange(event) {
-    this.setState({ engineURL: event.target.value });
   }
 
   render() {
@@ -87,37 +70,14 @@ export default class App extends React.Component {
       lastReloadTime,
     } = this.state;
 
-    // Render the doclist(global is defined == connection to engine)
-    if (docs) {
+    if (!app) {
       return (
-        <div className="doc-list">
-          <SVGInline className="logo" svg={logo} />
-          <ul>
-            {/* eslint-disable-next-line */}
-            {docs.map(doc => <li onClick={() => this.handleSubmit(event, doc.qDocId)} key={doc.qDocId}><div className="doc-info">{doc.qTitle}<br /><span className="description">{doc.qMeta.description}</span></div></li>)}
-          </ul>
-        </div>
+        <Splash
+          docs={docs}
+          error={error}
+          engineURL={engineURL}
+        />
       );
-    }
-
-    // Display engine URL input (WebSocket error catched == wsURL is wrong)
-    if (error) {
-      if (error.target && error.target.constructor.name === 'WebSocket') {
-        return (
-          <div className="connect">
-            <SVGInline className="logo" svg={logo} />
-            <form onSubmit={this.handleSubmit}>
-              <label> {/* eslint-disable-line */}
-                Qlik Assosiative Engine WS URL:
-                <input type="text" value={engineURL} onChange={this.handleChange} />
-              </label>
-              <input type="submit" value="Reload" />
-            </form>
-          </div>
-        );
-      }
-
-      throw error;
     }
 
     // Render the app
