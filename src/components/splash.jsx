@@ -16,7 +16,9 @@ export default function Splash({
   function updateEngineURL(url, appId) {
     let newURL = url;
     if (appId) {
-      newURL = `${new URL(newURL).origin}${appId}`;
+      // Adding slash to support doclist for sense Desktop
+      const UniformedAppId = appId.charAt(0) === '/' ? appId : `/${appId}`;
+      newURL = `${new URL(newURL).origin}${UniformedAppId}`;
     }
     window.history.replaceState({}, '', `${window.location.pathname}?engine_url=${encodeURI(newURL)}`);
     window.location.reload(false);
