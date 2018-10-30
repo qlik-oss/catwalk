@@ -7,6 +7,7 @@ import atplay from '../logic/atplay';
 
 import './model.scss';
 import Field from './field';
+import Measurebox from './measurebox';
 import withApp from './with-app';
 import withModel from './with-model';
 
@@ -38,6 +39,9 @@ export class Model extends React.Component {
   }
 
   onClick(event) {
+    if (event.ctrlKey || event.metaKey) {
+      return;
+    }
     const { queryModel, openListboxes } = this.state;
     const field = findAttribute(event, 'fieldz');
     const table = findAttribute(event, 'tablez');
@@ -254,6 +258,20 @@ export class Model extends React.Component {
           >
             {gridz}
           </div>
+
+
+          <div style={{
+            display: 'block',
+            position: 'absolute',
+            right: '5rem',
+            bottom: '5rem',
+            zIndex: '10000',
+          }}
+          >
+            <Measurebox />
+          </div>
+
+
         </div>
       </ScrollArea>
     );

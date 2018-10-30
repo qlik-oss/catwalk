@@ -1,0 +1,11 @@
+.measurebox {
+  position: relative;
+  user-select: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+}
+
+.measure-list * {
+  flex: 1 1 auto;
+}

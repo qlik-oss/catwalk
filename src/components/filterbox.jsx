@@ -192,6 +192,7 @@ export class Filterbox extends React.Component {
             onRowClick={this.onRowClick}
             rowRenderer={rowRenderer}
             noRowsRenderer={noRowsRenderer}
+            defPath="/qListObjectDef"
           >
             <Column
               label="Name"
