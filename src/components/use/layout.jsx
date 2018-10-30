@@ -1,18 +1,30 @@
 import { useState, useEffect } from 'react';
 
 export default function useLayout(model) {
-  const [layout, setLayout] = useState(null);
+  const [layout, setLayout] = useState();
+
   useEffect(() => {
-    if (!model) return () => {};
+    if (!model) return null;
+
+    let isKilled = false;
+
     const modelChanged = async () => {
-      const newLayout = await model.getLayout();
-      setLayout(newLayout);
+      const newLayout = model.getAppLayout
+        ? await model.getAppLayout()
+        : await model.getLayout();
+      if (!isKilled) {
+        setLayout(newLayout);
+      }
     };
+
     model.on('changed', modelChanged);
     modelChanged();
+
     return () => {
+      isKilled = true;
       model.removeListener('changed', modelChanged);
     };
-  }, [model]);
+  }, [model && model.id]);
+
   return layout;
 }

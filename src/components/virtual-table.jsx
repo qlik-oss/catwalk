@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   Table, AutoSizer, InfiniteLoader,
 } from 'react-virtualized';
@@ -47,120 +47,90 @@ function wrappingRowRenderer(inputParams, rowRenderer) {
   return rowRenderer({ defaultProps: a11yProps, ...inputParams });
 }
 
-export class VirtualTable extends React.Component {
-  constructor() {
-    super();
-    this.infiniteLoaderRef = React.createRef();
-    this.table = React.createRef();
-    const state = {
-      loadedRowsMap: {},
-      layout: null,
-    };
-    this.state = state;
-    this.isRowLoaded = this.isRowLoaded.bind(this);
-    this.loadMoreRows = this.loadMoreRows.bind(this);
-    this.getRow = this.getRow.bind(this);
-    this.onScroll = this.onScroll.bind(this);
+/* function getDerivedStateFromProps(nextProps, prevState) {
+  if (nextProps.layout !== prevState.layout) {
+    // console.log('New state');
+    const newState = { layout: nextProps.layout, loadedRowsMap: {}, lastLoadedRowsMap: prevState.loadedRowsMap };
+    newState.layout.qListObject.qDataPages[0].qMatrix.forEach((row, i) => {
+      newState.loadedRowsMap[i] = row;
+    });
+    return newState;
   }
+  return null;
+} */
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.layout !== prevState.layout) {
-      // console.log('New state');
-      const newState = { layout: nextProps.layout, loadedRowsMap: {}, lastLoadedRowsMap: prevState.loadedRowsMap };
-      newState.layout.qListObject.qDataPages[0].qMatrix.forEach((row, i) => {
-        newState.loadedRowsMap[i] = row;
-      });
-      return newState;
-    }
-    return null;
-  }
+export function VirtualTable({
+  model, layout, onRowClick, rowRenderer, noRowsRenderer, children,
+}) {
+  const infiniteLoaderRef = useRef(null);
+  const [table, setTable] = useState(null);
+  const [scrollTop, setScrollTop] = useState(0);
+  const [loadedRowsMap, setLoadedRowsMap] = useState([]);
+  const [lastLoadedRowsMap, setLastLoadedRowsMap] = useState([]);
 
-  componentDidUpdate() {
-    // only do this for scrolled components!
-    if (this.scrollTop > 0) {
+  useEffect(() => {
+    if (scrollTop > 0) {
       this.infiniteLoaderRef.current.resetLoadMoreRowsCache(true); // Probably not needed
       this.table.forceUpdate();
     }
-  }
+  }, [scrollTop]);
 
-  onScroll({ scrollTop }) {
-    this.scrollTop = scrollTop;
-  }
-
-  getRow({ index }) {
-    const { loadedRowsMap, lastLoadedRowsMap } = this.state;
-    // console.log('getRow', index, loadedRowsMap[index]);
-    return loadedRowsMap[index] || lastLoadedRowsMap[index];
-  }
-
-  isRowLoaded({ index }) {
-    const { loadedRowsMap } = this.state;
-    // console.log('IsRowLoaded', index, loadedRowsMap[index]);
-    return !!loadedRowsMap[index];
-  }
-
-  loadMoreRows({ startIndex, stopIndex }) {
-    // console.log('Load more rows', startIndex, stopIndex);
-    const { loadedRowsMap } = this.state;
-    const { model } = this.props;
-
-    return model.getListObjectData('/qListObjectDef', [{
+  const onScroll = ({ _scrollTop }) => setScrollTop(_scrollTop);
+  const getRow = ({ index }) => loadedRowsMap[index] || lastLoadedRowsMap[index];
+  const isRowLoaded = ({ index }) => !!loadedRowsMap[index];
+  const loadMoreRows = async ({ startIndex, stopIndex }) => {
+    const result = await model.getListObjectData('/qListObjectDef', [{
       qTop: startIndex,
       qHeight: stopIndex - startIndex + 1,
       qLeft: 0,
       qWidth: 1,
-    }]).then((result) => {
-      const top = result[0].qArea.qTop;
-      const loadedRows = result[0].qMatrix;
-      loadedRows.forEach((row, index) => {
-        loadedRowsMap[top + index] = row;
-      });
+    }]);
+    const top = result[0].qArea.qTop;
+    const loadedRows = result[0].qMatrix;
+    loadedRows.forEach((row, index) => {
+      loadedRowsMap[top + index] = row;
     });
-  }
+    setLastLoadedRowsMap(loadedRowsMap);
+    setLoadedRowsMap(loadedRowsMap);
+  };
 
-  render() {
-    const {
-      layout, onRowClick, children, rowRenderer, noRowsRenderer,
-    } = this.props;
-
-    return (
-      <AutoSizer>
-        {({ height, width }) => (
-          <InfiniteLoader
-            isRowLoaded={this.isRowLoaded}
-            loadMoreRows={this.loadMoreRows}
-            rowCount={layout.qListObject.qSize.qcy}
-            threshold={3}
-            minimumBatchSize={100}
-            ref={this.infiniteLoaderRef}
-          >
-            {({ onRowsRendered, registerChild }) => {
-              const grab = (table) => { this.table = table; registerChild(table); };
-              return (
-                <Table
-                  height={height}
-                  width={width}
-                  ref={grab}
-                  onRowsRendered={onRowsRendered}
-                  disableHeader
-                  rowHeight={24}
-                  rowCount={layout.qListObject.qSize.qcy}
-                  rowGetter={this.getRow}
-                  tabIndex={null}
-                  onRowClick={onRowClick}
-                  onScroll={this.onScroll}
-                  rowRenderer={params => wrappingRowRenderer(params, rowRenderer)}
-                  noRowsRenderer={noRowsRenderer}
-                >
-                  {children}
-                </Table>
-              );
-            }}
-          </InfiniteLoader>)
-        }
-      </AutoSizer>
-    );
-  }
+  return (
+    <AutoSizer>
+      {({ height, width }) => (
+        <InfiniteLoader
+          isRowLoaded={isRowLoaded}
+          loadMoreRows={loadMoreRows}
+          rowCount={layout.qListObject.qSize.qcy}
+          threshold={3}
+          minimumBatchSize={100}
+          ref={infiniteLoaderRef}
+        >
+          {({ onRowsRendered, registerChild }) => {
+            const grab = (tbl) => { if (table !== tbl) setTable(tbl); registerChild(tbl); };
+            return (
+              <Table
+                height={height}
+                width={width}
+                ref={grab}
+                onRowsRendered={onRowsRendered}
+                disableHeader
+                rowHeight={24}
+                rowCount={layout.qListObject.qSize.qcy}
+                rowGetter={getRow}
+                tabIndex={null}
+                onRowClick={onRowClick}
+                onScroll={onScroll}
+                rowRenderer={params => wrappingRowRenderer(params, rowRenderer)}
+                noRowsRenderer={noRowsRenderer}
+              >
+                {children}
+              </Table>
+            );
+          }}
+        </InfiniteLoader>)
+      }
+    </AutoSizer>
+  );
 }
 
 VirtualTable.propTypes = {

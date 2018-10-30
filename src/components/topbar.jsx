@@ -7,17 +7,18 @@ import logo from '../assets/catwalk.svg';
 
 import './topbar.scss';
 
-export default function TopBar({ lastReloadTime }) {
-  const [lastReloadString, setLastReloadString] = useState(null);
+export default function TopBar({ app, appLayout: { qLastReloadTime } }) {
+  const [lastReloadString, setLastReloadString] = useState('');
   const [lastRefresh, setLastRefresh] = useState(null);
+  const [refreshTimer, setRefreshTimer] = useState(0);
 
   useEffect(() => {
     const now = new Date();
-    const lastReloaded = new Date(lastReloadTime);
+    const lastReloaded = new Date(qLastReloadTime);
     const secondsSince = (now.getTime() - lastReloaded.getTime()) / 1000;
     const minutesSince = secondsSince / 60;
     const hoursSince = secondsSince / 3600;
-    const interval = 60 * 1000;
+    const interval = 5 * 1000;
     if (secondsSince < 60) {
       setLastReloadString('App reloaded less than a minute ago.');
     } else if (hoursSince < 1) {
@@ -25,12 +26,13 @@ export default function TopBar({ lastReloadTime }) {
     } else {
       setLastReloadString(`App reloaded at ${lastReloaded.toUTCString()}`);
     }
-    setTimeout(() => setLastRefresh(now), interval);
+    setRefreshTimer(setTimeout(() => setLastRefresh(now), interval));
+    return () => clearTimeout(refreshTimer);
   }, [lastRefresh]);
 
   return (
     <div className="topbar">
-      <Selections />
+      <Selections app={app} />
       <div className="reloaded">
         {lastReloadString}
       </div>
@@ -42,9 +44,6 @@ export default function TopBar({ lastReloadTime }) {
 }
 
 TopBar.propTypes = {
-  lastReloadTime: PropTypes.string,
-};
-
-TopBar.defaultProps = {
-  lastReloadTime: '',
+  app: PropTypes.object.isRequired,
+  appLayout: PropTypes.object.isRequired,
 };

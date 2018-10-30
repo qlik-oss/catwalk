@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import useModel from './use/model';
 import useLayout from './use/layout';
-import { AppContext } from './app';
 import Field from './field';
 
 import './selections.scss';
@@ -12,15 +12,15 @@ const definition = {
   qSelectionObjectDef: {},
 };
 
-export default function Selections() {
-  const app = useContext(AppContext);
+export default function Selections({ app }) {
   const layout = useLayout(useModel(app, definition));
+
   let items;
 
   if (layout) {
     items = layout.qSelectionObject.qSelections.map(item => (
       <li key={item.qField}>
-        <Field field={item.qField} fieldData={item} />
+        <Field app={app} field={item.qField} fieldData={item} />
       </li>
     ));
     if (!items.length) {
@@ -41,3 +41,7 @@ export default function Selections() {
     </ul>
   );
 }
+
+Selections.propTypes = {
+  app: PropTypes.object.isRequired,
+};

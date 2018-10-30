@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useEffect } from 'react';
+import usePromise from 'react-use-promise';
 import enigma from 'enigma.js';
 
 import config from '../enigma/config';
+import useLayout from './use/layout';
 import TopBar from './topbar';
 import Model from './model';
 import Splash from './splash';
@@ -11,54 +13,27 @@ import './app.css';
 export const AppContext = React.createContext(null);
 export const AppConsumer = AppContext.Consumer;
 
+const useGlobal = session => usePromise(useMemo(() => session.open(), [session]));
+const useApp = global => usePromise(useMemo(() => (global ? global.getDoc() : null), [global]));
+const useDocList = (global, fetchList) => usePromise(useMemo(() => (fetchList ? global.getDocList() : null), [global, fetchList]));
+
 export default function App() {
-  const [app, setApp] = useState(null);
-  const [docs, setDocs] = useState(null);
-  const [error, setError] = useState(null);
-  const [lastReloadTime, setLastReloadTime] = useState(null);
+  const session = useMemo(() => enigma.create(config), [false]);
+  const [global, socketError] = useGlobal(session);
+  const [app, appError] = useApp(global);
+  const [docs, docsError] = useDocList(appError && global);
+  const appLayout = useLayout(app);
 
-  async function appChanged() {
-    const { qLastReloadTime } = await this.getAppLayout();
-    if (lastReloadTime !== qLastReloadTime) {
-      setLastReloadTime(qLastReloadTime);
-    }
-  }
+  useEffect(() => () => {
+    if (!app) return;
+    session.close();
+  }, [app]);
 
-  useEffect(async () => {
-    const session = enigma.create(config);
-    let qixGlobal;
-
-    try {
-      qixGlobal = await session.open();
-      const openedApp = await qixGlobal.getDoc();
-      setApp(openedApp);
-      openedApp.on('changed', appChanged);
-      appChanged.call(openedApp);
-    } catch (err) {
-      if (qixGlobal) {
-        const docList = await qixGlobal.getDocList();
-        setDocs(docList);
-      } else {
-        setError(err);
-      }
-    }
-
-    return () => {
-      if (app) {
-        app.removeListener('changed', appChanged);
-      }
-      if (session) {
-        session.close();
-      }
-    };
-    // 'false' here means we'll only execute this side-effect once
-  }, [false]);
-
-  if (!lastReloadTime) {
+  if (!appLayout) {
     return (
       <Splash
         docs={docs}
-        error={error}
+        error={socketError || docsError}
         engineURL={config.url}
       />
     );
@@ -67,8 +42,8 @@ export default function App() {
   return (
     <AppContext.Provider value={app}>
       <div className="app">
-        <TopBar lastReloadTime={lastReloadTime} />
-        <Model lastReloadTime={lastReloadTime} />
+        <TopBar app={app} appLayout={appLayout} />
+        <Model app={app} appLayout={appLayout} />
       </div>
     </AppContext.Provider>
   );

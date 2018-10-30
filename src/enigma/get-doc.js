@@ -10,9 +10,12 @@ export default {
       try {
         const activeDoc = await this.getActiveDoc();
         return activeDoc;
-      } catch (e) {
-        const doc = await this.openDoc(this.appID);
-        return doc;
+      } catch (error) {
+        if (error.code) {
+          const doc = await this.openDoc(this.appID);
+          return doc;
+        }
+        throw error;
       }
     },
   },
