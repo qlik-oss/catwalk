@@ -1,4 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, {
+  useRef, useState, useEffect, useMemo,
+} from 'react';
 import {
   Table, AutoSizer, InfiniteLoader,
 } from 'react-virtualized';
@@ -59,25 +61,28 @@ function wrappingRowRenderer(inputParams, rowRenderer) {
   return null;
 } */
 
-export function VirtualTable({
+export default function VirtualTable({
   model, layout, onRowClick, rowRenderer, noRowsRenderer, children,
 }) {
+  const debounceId = useRef(0);
   const infiniteLoaderRef = useRef(null);
   const [table, setTable] = useState(null);
-  const [scrollTop, setScrollTop] = useState(0);
-  const [loadedRowsMap, setLoadedRowsMap] = useState([]);
-  const [lastLoadedRowsMap, setLastLoadedRowsMap] = useState([]);
+  // const [scrollTop, setScrollTop] = useState(0);
+  const cachedRows = (useMemo(() => [], layout));
 
   useEffect(() => {
-    if (scrollTop > 0) {
-      this.infiniteLoaderRef.current.resetLoadMoreRowsCache(true); // Probably not needed
-      this.table.forceUpdate();
-    }
-  }, [scrollTop]);
+    clearTimeout(debounceId.current);
+    debounceId.current = setTimeout(() => {
+      cachedRows.length = 0;
+      if (!infiniteLoaderRef || !table) return;
+      infiniteLoaderRef.current.resetLoadMoreRowsCache(true); // Probably not needed
+      // table.forceUpdate();
+    });
+  }, [debounceId.current]);
 
-  const onScroll = ({ _scrollTop }) => setScrollTop(_scrollTop);
-  const getRow = ({ index }) => loadedRowsMap[index] || lastLoadedRowsMap[index];
-  const isRowLoaded = ({ index }) => !!loadedRowsMap[index];
+  const onScroll = () => {};// scroll => setScrollTop(scroll.scrollTop);
+  const getRow = ({ index }) => cachedRows[index];
+  const isRowLoaded = ({ index }) => !!cachedRows[index];
   const loadMoreRows = async ({ startIndex, stopIndex }) => {
     const result = await model.getListObjectData('/qListObjectDef', [{
       qTop: startIndex,
@@ -88,10 +93,8 @@ export function VirtualTable({
     const top = result[0].qArea.qTop;
     const loadedRows = result[0].qMatrix;
     loadedRows.forEach((row, index) => {
-      loadedRowsMap[top + index] = row;
+      cachedRows[top + index] = row;
     });
-    setLastLoadedRowsMap(loadedRowsMap);
-    setLoadedRowsMap(loadedRowsMap);
   };
 
   return (
@@ -146,5 +149,3 @@ VirtualTable.defaultProps = {
   onRowClick: () => {},
   noRowsRenderer: null,
 };
-
-export default VirtualTable;

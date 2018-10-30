@@ -48,7 +48,6 @@ function freqCellRenderer({ rowData }) {
     return (<div />);
   }
 
-
   const freq = rowData[0].qFrequency;
   if (freq && freq > 0) {
     const pluralized = freq > 1 ? 'times ' : 'time';
@@ -87,34 +86,13 @@ function noRowsRenderer() {
   return <div className="no-values">No values</div>;
 }
 
-export default function Filterbox({ model, layout }) {
-  const [containedLayout, setContainedLayout] = useState(layout);
-  const selfRef = useRef(null);
-  const [ongoingSelections, setOngoingSelections] = useState(false);
-  const [ongoingSearch, setOngoingSearch] = useState(false);
-  const [searchTimer, setSearchTimer] = useState(0);
-
-  const onSearch = (evt) => {
-    const { value } = evt.target;
-    const { keyCode } = evt;
-
-    setOngoingSearch(value);
-
-    if (keyCode === KEY_ENTER) {
-      model.acceptListObjectSearch('/qListObjectDef', true);
-      evt.target.blur();
-    } else {
-      clearTimeout(searchTimer);
-      setSearchTimer(setTimeout(
-        () => model.searchListObjectFor('/qListObjectDef', value),
-        300,
-      ));
-    }
-  };
+function useSelections(model, selfRef) {
+  const [ongoing, setOngoing] = useState(false);
+  const [, forceUpdate] = useState(null);
 
   const onRowClick = ({ rowData }) => {
-    if (!ongoingSelections) {
-      setOngoingSelections(true);
+    if (!ongoing) {
+      setOngoing(true);
       model.beginSelections(['/qListObjectDef']);
     }
     if (rowData) {
@@ -125,38 +103,76 @@ export default function Filterbox({ model, layout }) {
         const rowDataToModify = rowData;
         rowDataToModify[0].qState = 'O'; // For fast visual feedback, this will be overwritten when the new layout comes.
       }
-      setContainedLayout(containedLayout);
-      // this.forceUpdate(); // Force a rerender to ge the previous changes to apear
+      forceUpdate(Date.now());
       model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], true);
     }
   };
 
   useEffect(() => {
-    if (!model) return null;
+    if (!model || !ongoing) return;
 
     const onClick = (evt) => {
-      if (ongoingSelections && !selfRef.current.contains(evt.target)) setOngoingSelections(false);
+      if (!selfRef.current.contains(evt.target)) {
+        setOngoing(false);
+        document.removeEventListener('mouseup', onClick);
+        model.endSelections(true);
+      }
     };
 
-    document.addEventListener('click', onClick);
+    document.addEventListener('mouseup', onClick);
+  }, [ongoing]);
 
-    return () => {
-      document.removeEventListener('click', onClick);
-      clearTimeout(searchTimer);
-      model.endSelections(true);
-    };
-  }, [ongoingSelections]);
+  return { onRowClick };
+}
 
-  useEffect(() => () => {
-    if (ongoingSearch) model.abortListObjectSearch('/qListObjectDef');
-  });
+function useSearch(model) {
+  const ongoingSearch = useRef(false);
+  const searchTimer = useRef(null);
 
-  if (!containedLayout || !containedLayout.qListObject.qDataPages || containedLayout.qListObject.qDataPages.length === 0) {
+  const onSearch = (evt) => {
+    const { value } = evt.target;
+    const { keyCode } = evt;
+
+    if (!ongoingSearch.current) {
+      ongoingSearch.current = true;
+    }
+
+    if (keyCode === KEY_ENTER) {
+      ongoingSearch.current = false;
+      model.acceptListObjectSearch('/qListObjectDef', true);
+      evt.target.blur();
+    } else {
+      clearTimeout(searchTimer.current);
+      searchTimer.current = setTimeout(
+        () => model.searchListObjectFor('/qListObjectDef', value),
+        300,
+      );
+    }
+  };
+
+  const onSearchCancel = (evt) => {
+    const { target } = evt;
+    if (ongoingSearch.current) {
+      ongoingSearch.current = false;
+      target.value = '';
+      model.abortListObjectSearch('/qListObjectDef');
+    }
+  };
+
+  return { onSearch, onSearchCancel };
+}
+
+export default function Filterbox({ model, layout }) {
+  const selfRef = useRef(null);
+  const { onRowClick } = useSelections(model, selfRef);
+  const { onSearch, onSearchCancel } = useSearch(model);
+
+  if (!layout || !layout.qListObject.qDataPages || !layout.qListObject.qDataPages.length) {
     return null;
   }
 
   let classes = 'filterbox';
-  if (containedLayout.qSelectionInfo.qMadeSelections) {
+  if (layout.qSelectionInfo.qMadeSelections) {
     classes += ' made-selections';
   }
 
@@ -164,12 +180,13 @@ export default function Filterbox({ model, layout }) {
     <div role="Listbox" tabIndex="-1" className={classes} onClick={preventDefaultFn} ref={selfRef}>
       <input
         onKeyUp={onSearch}
+        onBlur={onSearchCancel}
         className="search"
         placeholder="Search (wildcard)"
       />
       <div className="virtualtable">
         <VirtualTable
-          layout={containedLayout}
+          layout={layout}
           model={model}
           onRowClick={onRowClick}
           rowRenderer={rowRenderer}
