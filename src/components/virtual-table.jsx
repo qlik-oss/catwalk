@@ -65,7 +65,7 @@ export default function VirtualTable({
 
   useEffect(() => {
     infiniteLoaderRef.current.resetLoadMoreRowsCache(true);
-    setCachedRowsOnPreviousLayout(cachedRowsOnCurrentLayout)
+    setCachedRowsOnPreviousLayout(cachedRowsOnCurrentLayout);
     setCachedRowsOnCurrentLayout(cachedRows);
   }, [layout]);
 
