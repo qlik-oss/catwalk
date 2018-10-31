@@ -1,83 +1,62 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
-class ScrollArea extends React.Component {
-  constructor(props) {
-    super(props);
-    this.scrollArea = React.createRef();
-    this.state = {
-      isScrolling: false,
-      scrollAreaStyle: { style: { height: props.height, width: props.width, overflow: 'auto' } },
-    };
-  }
+export default function ScrollArea({
+  width, height, className, children,
+}) {
+  const scrollArea = useRef(null);
+  const pan = useRef({});
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [scrollStyle, setScrollStyle] = useState({ style: { width, height, overflow: 'auto' } });
 
-  onMouseUp = () => {
-    const { isScrolling, scrollAreaStyle } = this.state;
+  const onMouseUp = () => {
     if (isScrolling) {
-      const cursorStyle = {
-        ...scrollAreaStyle.style,
-        cursor: 'unset',
-      };
-      this.setState({ isScrolling: false, scrollAreaStyle: { style: cursorStyle } });
+      const cursorStyle = { ...scrollStyle.style, cursor: 'unset' };
+      setIsScrolling(false);
+      setScrollStyle({ style: cursorStyle });
     }
-  }
+  };
 
-  onMouseDown = (event) => {
-    if (event.target.tagName === 'INPUT') {
-      return;
-    }
-    const { isScrolling, scrollAreaStyle } = this.state;
+  const onMouseDown = (evt) => {
+    if (evt.target.tagName === 'INPUT') return;
     if (!isScrolling) {
-      this.lastClientX = event.clientX;
-      this.lastClientY = event.clientY;
-      const cursorStyle = {
-        ...scrollAreaStyle.style,
-        cursor: 'grab',
-      };
-      this.setState({ isScrolling: true, scrollAreaStyle: { style: cursorStyle } });
+      const { clientX, clientY } = evt;
+      pan.current.x = clientX;
+      pan.current.y = clientY;
+      const cursorStyle = { ...scrollStyle.style, cursor: 'grab' };
+      setIsScrolling(true);
+      setScrollStyle({ style: cursorStyle });
       if (document.activeElement.tagName !== 'INPUT') {
-        event.preventDefault();
+        evt.preventDefault();
       }
     }
-  }
+  };
 
-  onMouseMove = (event) => {
-    const { isScrolling } = this.state;
+  const onMouseMove = (evt) => {
     if (isScrolling) {
-      this.scrollArea.scrollLeft -= (-this.lastClientX + (this.lastClientX = event.clientX));
-      this.scrollArea.scrollTop -= (-this.lastClientY + (this.lastClientY = event.clientY));
+      scrollArea.current.scrollLeft -= (-pan.current.x + (pan.current.x = evt.clientX));
+      scrollArea.current.scrollTop -= (-pan.current.y + (pan.current.y = evt.clientY));
     }
-  }
+  };
 
-  renderChildren(dom) {
-    return React.cloneElement(dom, {
-      onMouseUp: this.onMouseUp,
-      onMouseDown: this.onMouseDown,
-    });
-  }
+  const renderChildren = dom => React.cloneElement(dom, { onMouseUp, onMouseDown });
 
-  render() {
-    const { scrollAreaStyle } = this.state;
-    const { className, children } = this.props;
-    return (
-      <div
-        className={className}
-        {...scrollAreaStyle}
-        onMouseUp={this.onMouseUp}
-        onMouseMove={this.onMouseMove}
-        ref={(e) => { this.scrollArea = e; }}
-        role="tabList"
-        tabIndex={-1}
-      >
-        {children && this.renderChildren(children)}
-      </div>
-    );
-  }
+  return (
+    <div
+      className={className}
+      onMouseUp={onMouseUp}
+      onMouseMove={onMouseMove}
+      ref={scrollArea}
+      {...scrollStyle}
+      role="tabList"
+      tabIndex={-1}
+    >
+      {children && renderChildren(children)}
+    </div>
+  );
 }
 
 ScrollArea.propTypes = {
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
 };
-
-export default ScrollArea;
