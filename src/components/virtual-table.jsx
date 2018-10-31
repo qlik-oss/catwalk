@@ -59,13 +59,17 @@ export default function VirtualTable({
 }) {
   const infiniteLoaderRef = useRef(null);
   const [table, setTable] = useState(null);
-
+  const [cachedRowsOnPreviousLayout, setCachedRowsOnPreviousLayout] = useState([]);
+  const [cachedRowsOnCurrentLayout, setCachedRowsOnCurrentLayout] = useState([]);
   const cachedRows = (useMemo(() => extractNode(layout, defPath).qDataPages[0].qMatrix.slice(), [layout])); // Clone the qMatrix array
+
   useEffect(() => {
     infiniteLoaderRef.current.resetLoadMoreRowsCache(true);
+    setCachedRowsOnPreviousLayout(cachedRowsOnCurrentLayout)
+    setCachedRowsOnCurrentLayout(cachedRows);
   }, [layout]);
 
-  const getRow = ({ index }) => cachedRows[index];
+  const getRow = ({ index }) => cachedRows[index] || cachedRowsOnPreviousLayout[index];
   const isRowLoaded = ({ index }) => !!cachedRows[index];
 
   const loadQixData = async (nxPage) => {
