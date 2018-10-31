@@ -9,6 +9,8 @@
 }
 
 .splash .doc-list {
+  max-height: 40vh;
+  overflow: auto;
 }
 
 

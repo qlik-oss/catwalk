@@ -3,14 +3,17 @@ import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
 
 import logo from '../assets/catwalk.svg';
+import catwalkAway from '../assets/catwalk-away.svg';
 
 import './splash.css';
 
 export default function Splash({
   docs = null,
   error = null,
+  componentStack = '',
   engineURL = '',
 }) {
+  let contentLogo = logo;
   let content;
 
   function updateEngineURL(url, appId) {
@@ -74,14 +77,20 @@ export default function Splash({
       </div>
     );
   } else if (error) {
-    throw error;
+    contentLogo = catwalkAway;
+    content = (
+      <div>
+        <pre><code>{error.stack}</code></pre>
+        <pre><code>{componentStack}</code></pre>
+      </div>
+    );
   }
 
   if (content) {
     return (
       <div className="center-content">
         <div className="splash">
-          <SVGInline className="logo" svg={logo} />
+          <SVGInline className="logo" svg={contentLogo} />
           {content}
         </div>
       </div>
@@ -94,11 +103,13 @@ export default function Splash({
 Splash.propTypes = {
   docs: PropTypes.array,
   error: PropTypes.object,
+  componentStack: PropTypes.string,
   engineURL: PropTypes.string,
 };
 
 Splash.defaultProps = {
   docs: null,
   error: null,
+  componentStack: '',
   engineURL: '',
 };
