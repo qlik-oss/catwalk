@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import usePromise from 'react-use-promise';
 
 import ScrollArea from './scroll-area';
+import Field from './field';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
-
-import './model.scss';
-import Field from './field';
 import Measurebox from './measurebox';
-import withApp from './with-app';
-import withModel from './with-model';
+import './model.scss';
 
 function findAttribute(event, attrName) {
   let el = event.target;
@@ -21,272 +19,241 @@ function findAttribute(event, attrName) {
   return field;
 }
 
-export class Model extends React.Component {
-  constructor() {
-    super();
-    this.onClick = this.onClick.bind(this);
-  }
+function useTablesAndKeys(app, appLayout) {
+  const [tablesAndKeys] = usePromise(useMemo(() => app.getTablesAndKeys({}, {}, 0, true, false), [appLayout.qLastReloadTime]));
+  return tablesAndKeys;
+}
 
-  async componentDidMount() {
-    this.updatePlay();
-  }
+export default function Model({ app, appLayout }) {
+  const tablesAndKeys = useTablesAndKeys(app, appLayout);
+  const [openBoxes, setOpenBoxes] = useState({});
+  const [queryModel, setQueryModel] = useState(null);
+  const [atPlayModel, setAtPlayModel] = useState(null);
 
-  componentDidUpdate(prevProps) {
-    const { model } = this.props;
-    if (model !== prevProps.model) {
-      this.updatePlay();
-    }
-  }
+  useEffect(() => {
+    if (!tablesAndKeys) return;
+    const newOpenBoxes = {};
+    setOpenBoxes(newOpenBoxes);
+    const newQueryModel = new logic.QueryModel(tablesAndKeys);
+    setQueryModel(newQueryModel);
+    const newAtPlayModel = new atplay.AtPlayModel(queryModel, newOpenBoxes);
+    setAtPlayModel(newAtPlayModel);
+  }, [tablesAndKeys]);
 
-  onClick(event) {
-    if (event.ctrlKey || event.metaKey) {
+  const toggleField = (evt) => {
+    if (evt.ctrlKey || evt.metaKey) {
       return;
     }
     const { queryModel, openListboxes } = this.state;
-    const field = findAttribute(event, 'fieldz');
-    const table = findAttribute(event, 'tablez');
+    const field = findAttribute(evt, 'fieldz');
+    const table = findAttribute(evt, 'tablez');
     if (field) {
-      if (openListboxes[field]) {
-        delete openListboxes[field];
+      if (openBoxes[field]) {
+        delete openBoxes[field];
       } else {
-        openListboxes[field] = true;
+        openBoxes[field] = true;
       }
-      const atPlayModel = new atplay.AtPlayModel(queryModel, openListboxes);
-      this.setState({ atPlayModel, openListboxes, queryModel });
+      const newAtPlayModel = new atplay.AtPlayModel(queryModel, openBoxes);
+      setAtPlayModel(newAtPlayModel);
     } else if (table) {
-      const { model } = this.props;
-      const newModel = new logic.QueryModel(model, table);
-      this.setState({ queryModel: newModel });
+      const newQueryModel = new logic.QueryModel(tablesAndKeys, table);
+      setQueryModel(newQueryModel);
     }
+  };
+
+  if (!tablesAndKeys || !atPlayModel || !queryModel) {
+    return null;
   }
 
-  updatePlay() {
-    const { model } = this.props;
-    let openBoxes;
-    if (!this.state) {
-      openBoxes = {};
-    } else {
-      const { openListboxes } = this.state;
-      openBoxes = openListboxes;
+  const assocationsHighlighted = Object.keys(openBoxes).length > 1;
+  const gridz = queryModel.resultTableList.map((tableName) => {
+    let columnClasses = 'column';
+    if (atPlayModel.tablesAtPlay[tableName]) {
+      columnClasses += ' tableAtPlay';
+    } else if (assocationsHighlighted) {
+      columnClasses += ' notTableAtPlay';
     }
-    const queryModel = new logic.QueryModel(model);
-    const atPlayModel = new atplay.AtPlayModel(queryModel, openBoxes);
-    this.setState({
-      queryModel,
-      atPlayModel,
-      openListboxes: openBoxes,
-    });
-  }
 
-  render() {
-    if (!this.state) {
-      return null;
-    }
-    const { openListboxes, queryModel, atPlayModel } = this.state;
+    return (
+      <div className={columnClasses} key={tableName}>
+        <div className="vertcell tableheader" tablez={tableName}>
+          <div>{tableName}</div>
+          <div className="nbr-of-rows">{queryModel.tables[tableName].qNoOfRows}</div>
+        </div>
+        <div>
+          {queryModel.resultFieldList.map((fieldName) => {
+            const isFilterboxOpen = openBoxes[fieldName];
+            const cellContainerStyle = {};
+            if (isFilterboxOpen) {
+              cellContainerStyle.height = '24em';
+            }
 
-    const assocationsHighlighted = Object.keys(openListboxes).length > 1;
-
-    const gridz = queryModel.resultTableList.map((tableName) => {
-      let columnClasses = 'column';
-      if (atPlayModel.tablesAtPlay[tableName]) {
-        columnClasses += ' tableAtPlay';
-      } else if (assocationsHighlighted) {
-        columnClasses += ' notTableAtPlay';
-      }
-
-      return (
-        <div className={columnClasses} key={tableName}>
-          <div className="vertcell tableheader" tablez={tableName}>
-            <div>{tableName}</div>
-            <div className="nbr-of-rows">{queryModel.tables[tableName].qNoOfRows}</div>
-          </div>
-          <div>
-            {queryModel.resultFieldList.map((fieldName) => {
-              const isFilterboxOpen = openListboxes[fieldName];
-              const cellContainerStyle = {};
-              if (isFilterboxOpen) {
-                cellContainerStyle.height = '24em';
+            const x = queryModel.grid[fieldName][tableName];
+            if (x && !x.isEmpty) {
+              let classes = 'vertcell keycell';
+              if (x.hasAssociationToRight) {
+                classes += ' hasAssociationToRight';
+              }
+              if (x.hasAssociationToLeft) {
+                classes += ' hasAssociationToLeft';
               }
 
-              const x = queryModel.grid[fieldName][tableName];
-              if (x && !x.isEmpty) {
-                let classes = 'vertcell keycell';
-                if (x.hasAssociationToRight) {
-                  classes += ' hasAssociationToRight';
-                }
-                if (x.hasAssociationToLeft) {
-                  classes += ' hasAssociationToLeft';
-                }
-
-                if (atPlayModel.keysAtPlay[fieldName]) {
-                  classes += ' keyAtPlay';
-                } else if (assocationsHighlighted) {
-                  classes += ' notKeyAtPlay';
-                }
-
-                const assocStyle = {
-                  backgroundColor: x.backgroundColor,
-                };
-
-
-                let leftAssocStyle;
-                if (x.cssLeftAssocationBackgroundImage) {
-                  leftAssocStyle = {
-                    backgroundImage: x.cssLeftAssocationBackgroundImage,
-                  };
-                } else {
-                  leftAssocStyle = {
-                    backgroundColor: x.backgroundColor,
-                  };
-                }
-                let rightAssocStyle;
-                if (x.cssRightAssocationBackgroundImage) {
-                  rightAssocStyle = {
-                    backgroundImage: x.cssRightAssocationBackgroundImage,
-                  };
-                } else {
-                  rightAssocStyle = {
-                    backgroundColor: x.backgroundColor,
-                  };
-                }
-
-
-                return (
-                  <div
-                    className={classes}
-                    style={cellContainerStyle}
-                    key={`${tableName}:${fieldName}`}
-                    fieldz={fieldName}
-                  >
-                    <Field field={fieldName} fieldData={x} showFilterbox={isFilterboxOpen} />
-                    {x.subsetRatioText ? (
-                      <div className="subsetratio" title={x.subsetRatioTitle}>{x.subsetRatioText}</div>
-                    ) : null}
-                    {x.hasAssociationToLeft ? (
-                      <div className="association-to-left" style={assocStyle}>
-                        <div className="association-to-left-a" />
-                        <div className="association-to-left-b" style={leftAssocStyle} />
-                        <div className="association-to-left-c" />
-                        <div className="association-to-left-d">{x.assocSymbol}</div>
-                      </div>
-                    ) : null}
-                    {x.hasAssociationToRight ? (
-                      <div className="association-to-right" style={assocStyle}>
-                        <div className="association-to-right-a" />
-                        <div className="association-to-right-b" style={rightAssocStyle} />
-                        <div className="association-to-right-c" />
-                        <div className="association-to-right-d">{x.assocSymbol}</div>
-                      </div>
-                    ) : null}
-
-                  </div>
-                );
-              }
-              let classes = 'betweener';
-              if (x.betweenKeys && !x.isKey) {
-                classes += ' betweenKeys';
-              }
-              if (x.insideTable) {
-                classes += ' insideTable';
-              }
-              if (atPlayModel.keysAtPlay[fieldName] && x.betweenKeys) {
+              if (atPlayModel.keysAtPlay[fieldName]) {
                 classes += ' keyAtPlay';
               } else if (assocationsHighlighted) {
                 classes += ' notKeyAtPlay';
               }
 
-              const lineystyle = {
-                backgroundImage: x.cssBackgroundImage,
+              const assocStyle = {
+                backgroundColor: x.backgroundColor,
               };
-              if (x.isBelowKeys) {
-                return null;
+
+
+              let leftAssocStyle;
+              if (x.cssLeftAssocationBackgroundImage) {
+                leftAssocStyle = {
+                  backgroundImage: x.cssLeftAssocationBackgroundImage,
+                };
+              } else {
+                leftAssocStyle = {
+                  backgroundColor: x.backgroundColor,
+                };
               }
+              let rightAssocStyle;
+              if (x.cssRightAssocationBackgroundImage) {
+                rightAssocStyle = {
+                  backgroundImage: x.cssRightAssocationBackgroundImage,
+                };
+              } else {
+                rightAssocStyle = {
+                  backgroundColor: x.backgroundColor,
+                };
+              }
+
+
               return (
-                <div className="vertcell" key={`${tableName}:${fieldName}`} style={cellContainerStyle}>
-                  <div className={classes}>
-                    <div
-                      className={x.betweenKeys && !x.isKey ? 'lineyinner ' : ''}
-                      style={lineystyle}
-                    />
-                  </div>
+                <div
+                  className={classes}
+                  style={cellContainerStyle}
+                  key={`${tableName}:${fieldName}`}
+                  fieldz={fieldName}
+                >
+                  <Field app={app} field={fieldName} fieldData={x} showFilterbox={isFilterboxOpen} />
+                  {x.subsetRatioText ? (
+                    <div className="subsetratio" title={x.subsetRatioTitle}>{x.subsetRatioText}</div>
+                  ) : null}
+                  {x.hasAssociationToLeft ? (
+                    <div className="association-to-left" style={assocStyle}>
+                      <div className="association-to-left-a" />
+                      <div className="association-to-left-b" style={leftAssocStyle} />
+                      <div className="association-to-left-c" />
+                      <div className="association-to-left-d">{x.assocSymbol}</div>
+                    </div>
+                  ) : null}
+                  {x.hasAssociationToRight ? (
+                    <div className="association-to-right" style={assocStyle}>
+                      <div className="association-to-right-a" />
+                      <div className="association-to-right-b" style={rightAssocStyle} />
+                      <div className="association-to-right-c" />
+                      <div className="association-to-right-d">{x.assocSymbol}</div>
+                    </div>
+                  ) : null}
+
                 </div>
               );
-            })}
-          </div>
-          <div>
-            {queryModel.tables[tableName].qFields.map((field) => {
-              const isFilterboxOpen = openListboxes[field.qName];
-              if (field.qKeyType === 'NOT_KEY') {
-                let classes = 'vertcell';
-                if (atPlayModel.keysAtPlay[field.qName]) {
-                  classes += ' keyAtPlay';
-                } else if (assocationsHighlighted) {
-                  classes += ' notKeyAtPlay';
-                }
+            }
+            let classes = 'betweener';
+            if (x.betweenKeys && !x.isKey) {
+              classes += ' betweenKeys';
+            }
+            if (x.insideTable) {
+              classes += ' insideTable';
+            }
+            if (atPlayModel.keysAtPlay[fieldName] && x.betweenKeys) {
+              classes += ' keyAtPlay';
+            } else if (assocationsHighlighted) {
+              classes += ' notKeyAtPlay';
+            }
 
-                const cellContainerStyle = {};
-                if (isFilterboxOpen) {
-                  cellContainerStyle.height = '30em';
-                }
-
-                return (
-                  <div
-                    className={classes}
-                    fieldz={field.qName}
-                    key={field.qName}
-                    style={cellContainerStyle}
-                  >
-                    <Field field={field.qName} fieldData={field} showFilterbox={isFilterboxOpen} />
-                  </div>
-                );
-              }
+            const lineystyle = {
+              backgroundImage: x.cssBackgroundImage,
+            };
+            if (x.isBelowKeys) {
               return null;
-            })}
-          </div>
+            }
+            return (
+              <div className="vertcell" key={`${tableName}:${fieldName}`} style={cellContainerStyle}>
+                <div className={classes}>
+                  <div
+                    className={x.betweenKeys && !x.isKey ? 'lineyinner ' : ''}
+                    style={lineystyle}
+                  />
+                </div>
+              </div>
+            );
+          })}
         </div>
-      );
-    });
+        <div>
+          {queryModel.tables[tableName].qFields.map((field) => {
+            const isFilterboxOpen = openBoxes[field.qName];
+            if (field.qKeyType === 'NOT_KEY') {
+              let classes = 'vertcell';
+              if (atPlayModel.keysAtPlay[field.qName]) {
+                classes += ' keyAtPlay';
+              } else if (assocationsHighlighted) {
+                classes += ' notKeyAtPlay';
+              }
 
-    return (
-      <ScrollArea className="scrollArea" height="100%" width="100%">
-        <div className="model">
-          <div
-            className="colset"
-            onClick={evt => this.onClick(evt)}
-            role="tablist"
-            tabIndex={-1}
-          >
-            {gridz}
-          </div>
+              const cellContainerStyle = {};
+              if (isFilterboxOpen) {
+                cellContainerStyle.height = '30em';
+              }
 
-
-          <div style={{
-            display: 'block',
-            position: 'absolute',
-            right: '5rem',
-            bottom: '5rem',
-            zIndex: '10000',
-          }}
-          >
-            <Measurebox />
-          </div>
-
-
+              return (
+                <div
+                  className={classes}
+                  fieldz={field.qName}
+                  key={field.qName}
+                  style={cellContainerStyle}
+                >
+                  <Field app={app} field={field.qName} fieldData={field} showFilterbox={isFilterboxOpen} />
+                </div>
+              );
+            }
+            return null;
+          })}
         </div>
-      </ScrollArea>
+      </div>
     );
-  }
+  });
+
+  return (
+    <ScrollArea className="scrollArea" height="100%" width="100%">
+      <div className="model">
+        <div
+          className="colset"
+          onClick={toggleField}
+          role="tablist"
+          tabIndex={-1}
+        >
+          {gridz}
+        </div>
+		<div style={{
+		  display: 'block',
+		  position: 'absolute',
+		  right: '5rem',
+		  bottom: '5rem',
+		  zIndex: '10000',
+		}}
+		>
+		  <Measurebox />
+		</div>
+      </div>
+    </ScrollArea>
+  );
 }
 
 Model.propTypes = {
-  model: PropTypes.object,
-  // eslint-disable-next-line react/no-unused-prop-types
-  lastReloadTime: PropTypes.string,
+  app: PropTypes.object.isRequired,
+  appLayout: PropTypes.object.isRequired,
 };
-
-Model.defaultProps = {
-  model: null,
-  lastReloadTime: '',
-};
-
-export default withApp(withModel({ WrappedComponent: Model, createModel: async app => app.getTablesAndKeys({}, {}, 0, true, false), updateOnAppInvalidation: true }));

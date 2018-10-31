@@ -1,70 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
+
 import Selections from './selections';
 import logo from '../assets/catwalk.svg';
 
 import './topbar.scss';
 
-class TopBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { lastReloaded: '' };
-    this.setLastReloaded = this.setLastReloaded.bind(this);
-  }
+export default function TopBar({ app, appLayout: { qLastReloadTime } }) {
+  const [lastReloadString, setLastReloadString] = useState('');
+  const [lastRefresh, setLastRefresh] = useState(null);
+  const [refreshTimer, setRefreshTimer] = useState(0);
 
-  componentDidUpdate(prevProps) {
-    const { lastReloadTime } = this.props;
-    if (lastReloadTime && lastReloadTime !== prevProps.lastReloadTime) {
-      this.setLastReloaded();
-    }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.lastReloadInterval);
-  }
-
-  setLastReloaded() {
-    const { lastReloadTime } = this.props;
-    const lastReloaded = new Date(lastReloadTime);
-    const now = new Date(Date.now());
+  useEffect(() => {
+    const now = new Date();
+    const lastReloaded = new Date(qLastReloadTime);
     const secondsSince = (now.getTime() - lastReloaded.getTime()) / 1000;
     const minutesSince = secondsSince / 60;
     const hoursSince = secondsSince / 3600;
+    const interval = 5 * 1000;
     if (secondsSince < 60) {
-      this.lastReloadInterval = setInterval(this.setLastReloaded, 60 * 1000);
-      this.setState({ lastReloaded: 'App reloaded less than a minute ago.' });
+      setLastReloadString('App reloaded less than a minute ago.');
     } else if (hoursSince < 1) {
-      this.lastReloadInterval = setInterval(this.setLastReloaded, 60 * 1000);
-      this.setState({ lastReloaded: `App reloaded ${Math.floor(minutesSince)} ${minutesSince <= 2 ? 'minute' : 'minutes'} ago` });
+      setLastReloadString(`App reloaded ${Math.floor(minutesSince)} ${minutesSince <= 2 ? 'minute' : 'minutes'} ago`);
     } else {
-      clearInterval(this.lastReloadInterval);
-      this.setState({ lastReloaded: `App reloaded at ${lastReloaded.toUTCString()}` });
+      setLastReloadString(`App reloaded at ${lastReloaded.toUTCString()}`);
     }
-  }
+    setRefreshTimer(setTimeout(() => setLastRefresh(now), interval));
+    return () => clearTimeout(refreshTimer);
+  }, [lastRefresh]);
 
-  render() {
-    const { lastReloaded } = this.state;
-    return (
-      <div className="topbar">
-        <Selections />
-        <div className="reloaded">
-          {lastReloaded}
-        </div>
-        <div className="topbarLogo" onClick={() => { window.open('https://github.com/qlik-oss/catwalk'); }} role="navigation">
-          <SVGInline className="logo" svg={logo} />
-        </div>
+  return (
+    <div className="topbar">
+      <Selections app={app} />
+      <div className="reloaded">
+        {lastReloadString}
       </div>
-    );
-  }
+      <div className="topbarLogo" onClick={() => { window.open('https://github.com/qlik-oss/catwalk'); }} role="navigation">
+        <SVGInline className="logo" svg={logo} />
+      </div>
+    </div>
+  );
 }
 
 TopBar.propTypes = {
-  lastReloadTime: PropTypes.string,
+  app: PropTypes.object.isRequired,
+  appLayout: PropTypes.object.isRequired,
 };
-
-TopBar.defaultProps = {
-  lastReloadTime: null,
-};
-
-export default TopBar;
