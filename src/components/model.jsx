@@ -6,7 +6,6 @@ import ScrollArea from './scroll-area';
 import Field from './field';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
-
 import './model.scss';
 
 function findAttribute(event, attrName) {
@@ -41,6 +40,9 @@ export default function Model({ app, appLayout }) {
   }, [tablesAndKeys]);
 
   const toggleField = (evt) => {
+    if (evt.ctrlKey || evt.metaKey) {
+      return;
+    }
     const field = findAttribute(evt, 'fieldz');
     const table = findAttribute(evt, 'tablez');
     if (field) {

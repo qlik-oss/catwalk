@@ -191,6 +191,7 @@ export default function Filterbox({ model, layout }) {
           onRowClick={onRowClick}
           rowRenderer={rowRenderer}
           noRowsRenderer={noRowsRenderer}
+          defPath="/qListObjectDef"
         >
           <Column
             label="Name"
