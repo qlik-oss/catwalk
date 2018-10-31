@@ -1,5 +1,8 @@
 .measurebox {
-  position: relative;
+  position: absolute;
+  right: 5rem;
+  bottom: 5rem;
+  zIndex: 10000;
   user-select: none;
   box-sizing: border-box;
   display: flex;

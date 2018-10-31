@@ -6,7 +6,6 @@ import ScrollArea from './scroll-area';
 import Field from './field';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
-import Measurebox from './measurebox';
 import './model.scss';
 
 function findAttribute(event, attrName) {
@@ -236,16 +235,6 @@ export default function Model({ app, appLayout }) {
           tabIndex={-1}
         >
           {gridz}
-        </div>
-        <div style={{
-          display: 'block',
-          position: 'absolute',
-          right: '5rem',
-          bottom: '5rem',
-          zIndex: '10000',
-        }}
-        >
-          <Measurebox app={app} />
         </div>
       </div>
     </ScrollArea>
