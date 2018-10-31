@@ -5,17 +5,14 @@ import MeasureList from './measure-list';
 import HypercubeTable from './hypercube-table';
 import './measurebox.scss';
 
-
 function findAttribute(event, attrName) {
   let el = event.target;
   while (!!el && !el.getAttribute(attrName)) {
     el = el.parentElement;
   }
-
   const field = el && el.getAttribute(attrName);
   return field;
 }
-
 
 export class Measurebox extends React.Component {
   constructor() {
@@ -47,11 +44,10 @@ export class Measurebox extends React.Component {
       const { measureList, currentMeasure, dimensionList } = this.state;
       const dimIndex = dimensionList.indexOf(field);
       if (dimensionList.indexOf(field) >= 0) {
-        dimensionList.splice(dimIndex, 1)
+        dimensionList.splice(dimIndex, 1);
       } else if (dimensionList.indexOf(field) === -1) {
         dimensionList.push(field);
       }
-      console.log('global click with ctl', field);
       this.setState({ measureList, currentMeasure, dimensionList });
     }
   }

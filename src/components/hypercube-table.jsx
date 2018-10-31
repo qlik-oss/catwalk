@@ -4,11 +4,6 @@ import Column from 'react-virtualized/dist/es/Table/Column';
 import VirtualTable from './virtual-table';
 import './hypercube-table.scss';
 
-const KEY_ENTER = 13;
-
-function preventDefaultFn(event) {
-  event.stopPropagation();
-}
 function cellGetterForIndex(index) {
   return function cellGetter({ rowData }) {
     if (!rowData || !rowData[index]) {
@@ -17,7 +12,6 @@ function cellGetterForIndex(index) {
     return rowData[index].qText;
   };
 }
-
 
 function cellRendererForIndex(index) {
   function cellRenderer({ rowData }) {
@@ -42,7 +36,6 @@ function cellRendererForIndex(index) {
   return cellRenderer;
 }
 
-
 function rowRenderer({
   defaultProps, rowData, style, columns, className, key,
 }) {
@@ -63,7 +56,6 @@ function rowRenderer({
 function headerRowRenderer({
   className, columns, style,
 }) {
-  console.log('Rendering header');
   return (
     <div
       className={className}
@@ -94,7 +86,7 @@ function getMeasureWidth(layout, measureIndex, measureName) {
 }
 
 function getDimensionWidth(layout, dimensionIndex, dimensionName) {
-  const dataSize = layout.qHyperCube.qDimensionInfo.length > dimensionIndex ? layout.qHyperCube.qDimensionInfo[dimensionIndex].qApprMaxGlyphCount : 0
+  const dataSize = layout.qHyperCube.qDimensionInfo.length > dimensionIndex ? layout.qHyperCube.qDimensionInfo[dimensionIndex].qApprMaxGlyphCount : 0;
   const titleSize = dimensionName.length;
   const size = Math.max(dataSize, titleSize);
   return size * GLYPH_SIZE;
@@ -137,15 +129,12 @@ export class HypercubeTable extends React.Component {
     }
 
     if (!this.object) {
-      console.log('Creating object');
       this.object = await app.createSessionObject(hypercubeProps);
     } else {
-      console.log('Setting properties', hypercubeProps);
       await this.object.setProperties(hypercubeProps);
     }
     const layout = await this.object.getLayout();
     this.setState({ layout, object: this.object });
-    console.log(layout);
   }
 
   componentWillUnmount() {
@@ -153,10 +142,9 @@ export class HypercubeTable extends React.Component {
 
   render() {
     const { measure, dimensions } = this.props;
-    const measures = [measure.qMeta.title]
+    const measures = [measure.qMeta.title];
     const { layout, object } = this.state;
     if (layout) {
-      console.log(layout)
       return (
         <div role="Table" tabIndex="-1" className="hypercube-table" ref={this.selfRef}>
           <div className="virtualtable">

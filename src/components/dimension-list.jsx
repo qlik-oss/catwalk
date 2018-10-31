@@ -6,12 +6,11 @@ import './dimension-list.scss';
 
 export function DimensionList(props) {
   const { dimensionList, onDimensionClicked } = props;
-  console.log('dimensionList', dimensionList, props);
   if (dimensionList) {
     return (
-      <div className="measure-list">
+      <div className="dimension-list">
         { dimensionList.map(dimensionItem => (
-          <div className="measure-item" tabIndex="-1" role="button" onClick={(e) => onDimensionClicked(dimensionItem)} title={dimensionItem.qMeta.description} key={dimensionItem.qInfo.qId}>{dimensionItem.qMeta.title}</div>
+          <div className="measure-item" tabIndex="-1" role="button" onClick={() => onDimensionClicked(dimensionItem)} title={dimensionItem.qMeta.description} key={dimensionItem.qInfo.qId}>{dimensionItem.qMeta.title}</div>
         ))
         }
       </div>
@@ -20,12 +19,8 @@ export function DimensionList(props) {
   return <div>No measures</div>;
 }
 DimensionList.propTypes = {
-  dimensionList: PropTypes.arrayOf(PropTypes.object),
+  dimensionList: PropTypes.arrayOf(PropTypes.object).isRequired,
   onDimensionClicked: PropTypes.func.isRequired,
 };
 
-DimensionList.defaultProps = {
-  measureList: null,
-};
-
-export default MeasureList;
+export default DimensionList;

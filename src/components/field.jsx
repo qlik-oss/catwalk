@@ -44,15 +44,24 @@ function firstFewValues(layout) {
 export function FieldWithoutState({
   field, fieldData, layout, showFilterbox, model,
 }) {
+  let classes = `field ${fieldData.qKeyType}`;
+
   if (!layout) {
-    return (<div className="field loading">Loading...</div>);
+    return (
+      <div
+        className={classes}
+      >
+        <div className="name">
+          {field}
+        </div>
+      </div>
+    );
   }
 
   const total = layout.qListObject.qDimensionInfo.qCardinal;
   const states = layout.qListObject.qDimensionInfo.qStateCounts;
   const green = { width: `${Math.ceil((states.qSelected / total) * 100)}%` };
   const grey = { width: `${Math.ceil((states.qExcluded / total) * 100)}%` };
-  let classes = `field ${fieldData.qKeyType}`;
 
   let descriptions = '';
   if (states.qSelected) {

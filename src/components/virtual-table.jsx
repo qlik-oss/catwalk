@@ -54,38 +54,17 @@ function wrappingRowRenderer(inputParams, rowRenderer) {
   return rowRenderer({ defaultProps: a11yProps, ...inputParams });
 }
 
-/* function getDerivedStateFromProps(nextProps, prevState) {
-  if (nextProps.layout !== prevState.layout) {
-    // console.log('New state');
-    const newState = { layout: nextProps.layout, loadedRowsMap: {}, lastLoadedRowsMap: prevState.loadedRowsMap };
-    newState.layout.qListObject.qDataPages[0].qMatrix.forEach((row, i) => {
-      newState.loadedRowsMap[i] = row;
-    });
-    return newState;
-  }
-  return null;
-} */
-
 export default function VirtualTable({
   model, layout, onRowClick, rowRenderer, noRowsRenderer, children, defPath, headerRowRenderer, headerRowHeight,
 }) {
-  const debounceId = useRef(0);
   const infiniteLoaderRef = useRef(null);
   const [table, setTable] = useState(null);
-  // const [scrollTop, setScrollTop] = useState(0);
-  const cachedRows = (useMemo(() => [], layout));
 
+  const cachedRows = (useMemo(() => extractNode(layout, defPath).qDataPages[0].qMatrix.slice(), [layout])); // Clone the qMatrix array
   useEffect(() => {
-    clearTimeout(debounceId.current);
-    debounceId.current = setTimeout(() => {
-      cachedRows.length = 0;
-      if (!infiniteLoaderRef || !table) return;
-      infiniteLoaderRef.current.resetLoadMoreRowsCache(true); // Probably not needed
-      // table.forceUpdate();
-    });
-  }, [debounceId.current]);
+    infiniteLoaderRef.current.resetLoadMoreRowsCache(true);
+  }, [layout]);
 
-  const onScroll = () => {};// scroll => setScrollTop(scroll.scrollTop);
   const getRow = ({ index }) => cachedRows[index];
   const isRowLoaded = ({ index }) => !!cachedRows[index];
 
@@ -95,6 +74,7 @@ export default function VirtualTable({
     }
     return model.getHyperCubeData(defPath, [nxPage]);
   };
+
   const loadMoreRows = async ({ startIndex, stopIndex }) => {
     const rootNode = extractNode(layout, defPath);
     const result = await loadQixData({
@@ -109,6 +89,7 @@ export default function VirtualTable({
       cachedRows[top + index] = row;
     });
   };
+
   const rootNode = extractNode(layout, defPath);
   return (
     <AutoSizer>
@@ -135,7 +116,6 @@ export default function VirtualTable({
                 rowGetter={getRow}
                 tabIndex={null}
                 onRowClick={onRowClick}
-                onScroll={onScroll}
                 rowRenderer={params => wrappingRowRenderer(params, rowRenderer)}
                 headerRowRenderer={headerRowRenderer}
                 headerHeight={headerRowHeight || 0}
