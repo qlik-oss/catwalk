@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import MeasureList from './measure-list';
 import HypercubeTable from './hypercube-table';
-import './measurebox.scss';
+
+import './measurebox.pcss';
 
 function findAttribute(event, attrName) {
   let el = event.target;

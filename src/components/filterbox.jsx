@@ -4,7 +4,7 @@ import Column from 'react-virtualized/dist/es/Table/Column';
 
 import VirtualTable from './virtual-table';
 
-import './filterbox.scss';
+import './filterbox.pcss';
 
 const KEY_ENTER = 13;
 

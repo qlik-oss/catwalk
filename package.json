@@ -11,12 +11,11 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production parcel build src/index.html",
     "start": "parcel src/index.html --open",
-    "lint": "eslint --ext .js,.jsx .",
-    "lint:fix": "eslint --ext .js,.jsx --fix ."
+    "lint": "eslint --ext .js,.jsx . && stylelint src/.",
+    "lint:fix": "eslint --ext .js,.jsx --fix . && stylelint --fix src/."
   },
   "dependencies": {
     "enigma.js": "2.3.0",
-    "node-sass": "4.9.4",
     "prop-types": "15.6.2",
     "react": "16.7.0-alpha.0",
     "react-dom": "16.7.0-alpha.0",
@@ -32,6 +31,7 @@
     "@babel/plugin-transform-runtime": "7.1.0",
     "@babel/preset-env": "7.1.0",
     "@babel/preset-react": "7.0.0",
+    "autoprefixer": "9.3.1",
     "babel-eslint": "10.0.1",
     "cross-env": "5.2.0",
     "eslint": "5.8.0",
@@ -40,6 +40,10 @@
     "eslint-plugin-jsx-a11y": "6.1.2",
     "eslint-plugin-react": "7.11.1",
     "parcel-bundler": "1.10.3",
-    "parcel-plugin-inlinesvg": "0.0.14"
+    "parcel-plugin-inlinesvg": "0.0.14",
+    "postcss-nested": "4.1.0",
+    "stylelint": "9.7.1",
+    "stylelint-config-standard": "18.2.0",
+    "stylelint-order": "1.0.0"
   }
 }

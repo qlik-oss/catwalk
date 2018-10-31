@@ -8,8 +8,9 @@ import TopBar from './topbar';
 import Model from './model';
 import Splash from './splash';
 
-import './app.css';
 import Measurebox from './measurebox';
+
+import './app.pcss';
 
 export const AppContext = React.createContext(null);
 export const AppConsumer = AppContext.Consumer;
