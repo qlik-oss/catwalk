@@ -97,6 +97,7 @@ class QueryModel {
     const tablesNamesOfFieldMapMap = {};
     tablesAndKeys.qtr.forEach((table) => {
       tables[table.qName] = table;
+      table.qFields.sort((a, b) => a.qName.localeCompare(b.qName));
       table.qFields.forEach((_field) => {
         const field = Object.assign({}, _field);
         fields[field.qName] = fields[field.qName] || field;
@@ -371,7 +372,7 @@ class QueryModel {
   }
 
   allFieldsOfTable(tableName) {
-    const keys = this.tables[tableName].qFields;
+    const keys = this.tables[tableName].qFields.slice();
     keys.sort((a, b) => b.qnPresentDistinctValues - a.qnPresentDistinctValues);
     return keys.map(key => key.qName);
   }
