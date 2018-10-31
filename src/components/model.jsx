@@ -61,6 +61,14 @@ export default function Model({ app, appLayout }) {
     return null;
   }
 
+  if (!tablesAndKeys.qk.length && !tablesAndKeys.qtr.length) {
+    return (
+      <div className="center-content model no-data">
+        It looks like there is no data loaded in this app yet.
+      </div>
+    );
+  }
+
   const assocationsHighlighted = Object.keys(openBoxes).length > 1;
   const gridz = queryModel.resultTableList.map((tableName) => {
     let columnClasses = 'column';
