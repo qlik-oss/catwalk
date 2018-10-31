@@ -11,6 +11,8 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production parcel build src/index.html",
     "start": "parcel src/index.html --open",
+    "test:unit": "aw --glob test/unit/*.spec.js --src src/logic/*.js --coverage",
+    "test:comp": "aw --glob test/comp/*.spec.jsx -c ./test/comp/aw.config.js",
     "lint": "eslint --ext .js,.jsx .",
     "lint:fix": "eslint --ext .js,.jsx --fix ."
   },
@@ -25,13 +27,17 @@
     "react-virtualized": "9.21.0"
   },
   "devDependencies": {
+    "@after-work.js/cli": "5.0.2",
+    "@after-work.js/node": "5.0.2",
     "@babel/core": "7.1.2",
     "@babel/plugin-proposal-class-properties": "7.1.0",
     "@babel/plugin-transform-async-to-generator": "7.1.0",
+    "@babel/plugin-transform-react-jsx": "7.0.0",
     "@babel/plugin-transform-runtime": "7.1.0",
     "@babel/preset-env": "7.1.0",
     "@babel/preset-react": "7.0.0",
     "babel-eslint": "10.0.1",
+    "babel-plugin-istanbul": "5.1.0",
     "cross-env": "5.2.0",
     "eslint": "5.8.0",
     "eslint-config-airbnb": "17.1.0",
@@ -39,6 +45,7 @@
     "eslint-plugin-jsx-a11y": "6.1.2",
     "eslint-plugin-react": "7.11.1",
     "parcel-bundler": "1.10.3",
-    "parcel-plugin-inlinesvg": "0.0.14"
+    "parcel-plugin-inlinesvg": "0.0.14",
+    "react-test-renderer": "16.6.0"
   }
 }
