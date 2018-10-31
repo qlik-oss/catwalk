@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import withApp from './with-app';
 import MeasureList from './measure-list';
 import HypercubeTable from './hypercube-table';
 import './measurebox.scss';
@@ -85,4 +84,4 @@ Measurebox.defaultProps = {
   app: null,
 };
 
-export default withApp(Measurebox);
+export default Measurebox;

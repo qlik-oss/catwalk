@@ -44,7 +44,6 @@ export default function Model({ app, appLayout }) {
     if (evt.ctrlKey || evt.metaKey) {
       return;
     }
-    const { queryModel, openListboxes } = this.state;
     const field = findAttribute(evt, 'fieldz');
     const table = findAttribute(evt, 'tablez');
     if (field) {
@@ -238,16 +237,16 @@ export default function Model({ app, appLayout }) {
         >
           {gridz}
         </div>
-		<div style={{
-		  display: 'block',
-		  position: 'absolute',
-		  right: '5rem',
-		  bottom: '5rem',
-		  zIndex: '10000',
-		}}
-		>
-		  <Measurebox />
-		</div>
+        <div style={{
+          display: 'block',
+          position: 'absolute',
+          right: '5rem',
+          bottom: '5rem',
+          zIndex: '10000',
+        }}
+        >
+          <Measurebox app={app} />
+        </div>
       </div>
     </ScrollArea>
   );

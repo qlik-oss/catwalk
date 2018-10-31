@@ -2,7 +2,7 @@ export default {
   types: ['Doc'],
   init(args) {
     const { api } = args;
-    api.fieldCache = {};
+    api.objectCache = {};
   },
   extend: {
     getOrCreateObject(def) {
