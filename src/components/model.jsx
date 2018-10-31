@@ -6,7 +6,8 @@ import ScrollArea from './scroll-area';
 import Field from './field';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
-import './model.scss';
+
+import './model.pcss';
 
 function findAttribute(event, attrName) {
   let el = event.target;

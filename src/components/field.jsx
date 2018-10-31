@@ -5,7 +5,7 @@ import Filterbox from './filterbox';
 import useModel from './use/model';
 import useLayout from './use/layout';
 
-import './field.scss';
+import './field.pcss';
 
 function fieldCounts(dimInfo, field) {
   let str = '';

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import Splash from './splash';
 
-import './error-boundary.scss';
-
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);

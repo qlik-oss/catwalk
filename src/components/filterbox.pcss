@@ -1,0 +1,60 @@
+.filterbox {
+  background: #fff;
+  box-sizing: border-box;
+  color: #333;
+  font-size: 1.5rem;
+  outline: none;
+  position: relative;
+  user-select: none;
+
+  .item {
+    cursor: pointer;
+  }
+
+  .state-S {
+    background: #019b39;
+    color: white;
+  }
+
+  .state-X {
+    background: rgba(210, 210, 210, 0.8);
+  }
+
+  .made-selections .state-X {
+    background: white;
+    color: #333;
+  }
+
+  .search {
+    background: none;
+    border: 0;
+    border-top: 1px solid rgb(201, 201, 201);
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 1.5rem;
+    height: 2em;
+    left: 0;
+    outline: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .virtualtable {
+    bottom: 0;
+    display: block;
+    font-size: 1.5rem;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 2em;
+
+    .ReactVirtualized__Table__row {
+      outline: none;
+    }
+
+    .ReactVirtualized__Table__Column:first-of-type {
+      margin-left: 0;
+    }
+  }
+}

@@ -5,7 +5,7 @@ import SVGInline from 'react-svg-inline';
 import logo from '../assets/catwalk.svg';
 import catwalkAway from '../assets/catwalk-away.svg';
 
-import './splash.css';
+import './splash.pcss';
 
 export default function Splash({
   docs = null,
@@ -13,7 +13,7 @@ export default function Splash({
   componentStack = '',
   engineURL = '',
 }) {
-  let contentLogo = logo;
+  let contentLogo = { className: 'logo', svg: logo };
   let content;
 
   function updateEngineURL(url, appId) {
@@ -77,7 +77,7 @@ export default function Splash({
       </div>
     );
   } else if (error) {
-    contentLogo = catwalkAway;
+    contentLogo = { className: 'error-logo', svg: catwalkAway };
     content = (
       <div>
         <pre><code>{error.stack}</code></pre>
@@ -90,7 +90,7 @@ export default function Splash({
     return (
       <div className="center-content">
         <div className="splash">
-          <SVGInline className="logo" svg={contentLogo} />
+          <SVGInline {...contentLogo} />
           {content}
         </div>
       </div>

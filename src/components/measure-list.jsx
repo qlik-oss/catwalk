@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
-import './measure-list.scss';
+import './measure-list.pcss';
 
 export function MeasureList(props) {
   const { measureList, onMeasureClicked } = props;

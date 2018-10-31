@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-import './dimension-list.scss';
+import './dimension-list.pcss';
 
 export function DimensionList(props) {
   const { dimensionList, onDimensionClicked } = props;

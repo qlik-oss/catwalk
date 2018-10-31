@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Column from 'react-virtualized/dist/es/Table/Column';
+
 import VirtualTable from './virtual-table';
-import './hypercube-table.scss';
+
+import './hypercube-table.pcss';
 
 function cellGetterForIndex(index) {
   return function cellGetter({ rowData }) {
