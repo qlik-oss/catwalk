@@ -21,7 +21,7 @@ export default function App() {
   const session = useMemo(() => enigma.create(config), [false]);
   const [global, socketError] = useGlobal(session);
   const [app, appError] = useApp(global);
-  const [docs, docsError] = useDocList(appError && global);
+  const [docs, docsError] = useDocList(global, appError && global);
   const appLayout = useLayout(app);
 
   useEffect(() => () => {
