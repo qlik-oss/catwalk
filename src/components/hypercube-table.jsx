@@ -84,6 +84,22 @@ function noRowsRenderer() {
   return <div className="no-values">No values</div>;
 }
 
+const GLYPH_SIZE = 6;
+
+function getMeasureWidth(layout, measureIndex, measureName) {
+  const dataSize = layout.qHyperCube.qMeasureInfo.length > 0 ? layout.qHyperCube.qMeasureInfo[measureIndex].qApprMaxGlyphCount : 0;
+  const titleSize = measureName.length;
+  const size = Math.max(dataSize, titleSize);
+  return size * GLYPH_SIZE;
+}
+
+function getDimensionWidth(layout, dimensionIndex, dimensionName) {
+  const dataSize = layout.qHyperCube.qDimensionInfo.length > dimensionIndex ? layout.qHyperCube.qDimensionInfo[dimensionIndex].qApprMaxGlyphCount : 0
+  const titleSize = dimensionName.length;
+  const size = Math.max(dataSize, titleSize);
+  return size * GLYPH_SIZE;
+}
+
 export class HypercubeTable extends React.Component {
   constructor() {
     super();
@@ -137,8 +153,10 @@ export class HypercubeTable extends React.Component {
 
   render() {
     const { measure, dimensions } = this.props;
+    const measures = [measure.qMeta.title]
     const { layout, object } = this.state;
     if (layout) {
+      console.log(layout)
       return (
         <div role="Table" tabIndex="-1" className="hypercube-table" ref={this.selfRef}>
           <div className="virtualtable">
@@ -152,29 +170,32 @@ export class HypercubeTable extends React.Component {
               headerRowHeight={24}
               defPath="/qHyperCubeDef"
             >
-              {dimensions.map((dimName, index) => (
+              {dimensions.map((dimName, dimensionIndex) => (
                 <Column
                   label={dimName}
                   dataKey={dimName}
                   key={dimName}
-                  width={100}
+                  width={getDimensionWidth(layout, dimensionIndex, dimName)}
                   flexGrow={1}
                   flexShrink={1}
-                  cellDataGetter={cellGetterForIndex(index)}
-                  cellRenderer={cellRendererForIndex(index)}
+                  cellDataGetter={cellGetterForIndex(dimensionIndex)}
+                  cellRenderer={cellRendererForIndex(dimensionIndex)}
                 />
               ))
               }
-              <Column
-                width={50}
-                label={measure.qMeta.title}
-                dataKey="measure"
-                key="measure"
-                flexGrow={1}
-                flexShrink={0}
-                cellDataGetter={cellGetterForIndex(dimensions.length)}
-                cellRenderer={cellRendererForIndex(dimensions.length)}
-              />
+              {measures.map((measureName, measureIndex) => (
+                <Column
+                  width={getMeasureWidth(layout, measureIndex, measureName)}
+                  label={measureName}
+                  dataKey={measureName}
+                  key="measure"
+                  flexGrow={1}
+                  flexShrink={0}
+                  cellDataGetter={cellGetterForIndex(dimensions.length + measureIndex)}
+                  cellRenderer={cellRendererForIndex(dimensions.length + measureIndex)}
+                />
+              ))
+              }
             </VirtualTable>
           </div>
         </div>
