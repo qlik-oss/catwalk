@@ -178,12 +178,14 @@ export default function Filterbox({ model, layout }) {
 
   return (
     <div role="Listbox" tabIndex="-1" className={classes} onClick={preventDefaultFn} ref={selfRef}>
-      <input
-        onKeyUp={onSearch}
-        onBlur={onSearchCancel}
-        className="search"
-        placeholder="Search (wildcard)"
-      />
+      <div className="search">
+        <i className="material-icons md-18">search</i>
+        <input
+          onKeyUp={onSearch}
+          onBlur={onSearchCancel}
+          placeholder="Search"
+        />
+      </div>
       <div className="virtualtable">
         <VirtualTable
           layout={layout}

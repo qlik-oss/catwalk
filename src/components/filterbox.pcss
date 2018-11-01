@@ -26,18 +26,36 @@
   }
 
   .search {
-    background: none;
-    border: 0;
-    border-top: 1px solid rgb(201, 201, 201);
-    box-sizing: border-box;
-    display: inline-block;
-    font-size: 1.5rem;
-    height: 2em;
-    left: 0;
-    outline: none;
+    align-items: center;
+    display: flex;
+    left: 50%;
     position: absolute;
-    right: 0;
-    top: 0;
+    transform: translate(-50%);
+
+    .material-icons.md-18 {
+      font-size: 18px;
+    }
+
+    input {
+      background-color: transparent;
+      border: none;
+      box-sizing: border-box;
+      cursor: pointer;
+      font-size: 1.5rem;
+      height: 2em;
+      line-height: 1;
+      max-width: 120px;
+      transition: all 0.7s ease;
+      /* width: calc(100% - 30px); */
+      width: 42px;
+
+      &:focus {
+        cursor: auto;
+        outline: 0;
+        /* width: fit-content; */
+        width: 400px;
+      }
+    }
   }
 
   .virtualtable {
