@@ -5,7 +5,7 @@ import useModel from './use/model';
 import useLayout from './use/layout';
 import Field from './field';
 
-import './selections.scss';
+import './selections.pcss';
 
 const definition = {
   qInfo: { qType: 'selections' },

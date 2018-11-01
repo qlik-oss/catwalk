@@ -8,7 +8,9 @@ import TopBar from './topbar';
 import Model from './model';
 import Splash from './splash';
 
-import './app.css';
+import Measurebox from './measurebox';
+
+import './app.pcss';
 
 export const AppContext = React.createContext(null);
 export const AppConsumer = AppContext.Consumer;
@@ -24,6 +26,7 @@ export default function App() {
   const [docs, docsError] = useDocList(global, appError && global);
   const appLayout = useLayout(app);
 
+  const showMeasures = useMemo(() => new URLSearchParams(document.location.search).get('measures'), []);
   useEffect(() => () => {
     if (!app) return;
     session.close();
@@ -44,6 +47,7 @@ export default function App() {
       <div className="app">
         <TopBar app={app} appLayout={appLayout} />
         <Model app={app} appLayout={appLayout} />
+        {showMeasures ? (<Measurebox app={app} />) : null}
       </div>
     </AppContext.Provider>
   );

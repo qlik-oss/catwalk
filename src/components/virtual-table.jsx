@@ -7,6 +7,11 @@ import {
 import 'react-virtualized/styles.css';
 import PropTypes from 'prop-types'; // only needs to be imported once
 
+function extractNode(layout, defPath) {
+  const path = defPath.replace(/\/(.*)Def/, '$1'); // Convert e.g. '/xxx/yyyDef' to 'xxx/yyy'
+  return path.split('/').reduce((node, pathItem) => node[pathItem], layout); // Traverse down the nodes for each path item
+}
+
 function wrappingRowRenderer(inputParams, rowRenderer) {
   const {
     index,
@@ -49,47 +54,39 @@ function wrappingRowRenderer(inputParams, rowRenderer) {
   return rowRenderer({ defaultProps: a11yProps, ...inputParams });
 }
 
-/* function getDerivedStateFromProps(nextProps, prevState) {
-  if (nextProps.layout !== prevState.layout) {
-    // console.log('New state');
-    const newState = { layout: nextProps.layout, loadedRowsMap: {}, lastLoadedRowsMap: prevState.loadedRowsMap };
-    newState.layout.qListObject.qDataPages[0].qMatrix.forEach((row, i) => {
-      newState.loadedRowsMap[i] = row;
-    });
-    return newState;
-  }
-  return null;
-} */
-
 export default function VirtualTable({
-  model, layout, onRowClick, rowRenderer, noRowsRenderer, children,
+  model, layout, onRowClick, rowRenderer, noRowsRenderer, children, defPath, headerRowRenderer, headerRowHeight,
 }) {
-  const debounceId = useRef(0);
   const infiniteLoaderRef = useRef(null);
   const [table, setTable] = useState(null);
-  // const [scrollTop, setScrollTop] = useState(0);
-  const cachedRows = (useMemo(() => [], layout));
+  const [cachedRowsOnPreviousLayout, setCachedRowsOnPreviousLayout] = useState([]);
+  const [cachedRowsOnCurrentLayout, setCachedRowsOnCurrentLayout] = useState([]);
+  const cachedRows = (useMemo(() => extractNode(layout, defPath).qDataPages[0].qMatrix.slice(), [layout])); // Clone the qMatrix array
 
   useEffect(() => {
-    clearTimeout(debounceId.current);
-    debounceId.current = setTimeout(() => {
-      cachedRows.length = 0;
-      if (!infiniteLoaderRef || !table) return;
-      infiniteLoaderRef.current.resetLoadMoreRowsCache(true); // Probably not needed
-      // table.forceUpdate();
-    });
-  }, [debounceId.current]);
+    infiniteLoaderRef.current.resetLoadMoreRowsCache(true);
+    setCachedRowsOnPreviousLayout(cachedRowsOnCurrentLayout);
+    setCachedRowsOnCurrentLayout(cachedRows);
+  }, [layout]);
 
-  const onScroll = () => {};// scroll => setScrollTop(scroll.scrollTop);
-  const getRow = ({ index }) => cachedRows[index];
+  const getRow = ({ index }) => cachedRows[index] || cachedRowsOnPreviousLayout[index];
   const isRowLoaded = ({ index }) => !!cachedRows[index];
+
+  const loadQixData = async (nxPage) => {
+    if (defPath.endsWith('/qListObjectDef')) {
+      return model.getListObjectData(defPath, [nxPage]);
+    }
+    return model.getHyperCubeData(defPath, [nxPage]);
+  };
+
   const loadMoreRows = async ({ startIndex, stopIndex }) => {
-    const result = await model.getListObjectData('/qListObjectDef', [{
+    const rootNode = extractNode(layout, defPath);
+    const result = await loadQixData({
       qTop: startIndex,
       qHeight: stopIndex - startIndex + 1,
       qLeft: 0,
-      qWidth: 1,
-    }]);
+      qWidth: rootNode.qSize.qcx,
+    });
     const top = result[0].qArea.qTop;
     const loadedRows = result[0].qMatrix;
     loadedRows.forEach((row, index) => {
@@ -97,13 +94,14 @@ export default function VirtualTable({
     });
   };
 
+  const rootNode = extractNode(layout, defPath);
   return (
     <AutoSizer>
       {({ height, width }) => (
         <InfiniteLoader
           isRowLoaded={isRowLoaded}
           loadMoreRows={loadMoreRows}
-          rowCount={layout.qListObject.qSize.qcy}
+          rowCount={rootNode.qSize.qcy}
           threshold={3}
           minimumBatchSize={100}
           ref={infiniteLoaderRef}
@@ -116,14 +114,15 @@ export default function VirtualTable({
                 width={width}
                 ref={grab}
                 onRowsRendered={onRowsRendered}
-                disableHeader
+                disableHeader={!headerRowRenderer}
                 rowHeight={24}
-                rowCount={layout.qListObject.qSize.qcy}
+                rowCount={rootNode.qSize.qcy}
                 rowGetter={getRow}
                 tabIndex={null}
                 onRowClick={onRowClick}
-                onScroll={onScroll}
                 rowRenderer={params => wrappingRowRenderer(params, rowRenderer)}
+                headerRowRenderer={headerRowRenderer}
+                headerHeight={headerRowHeight || 0}
                 noRowsRenderer={noRowsRenderer}
               >
                 {children}
@@ -142,10 +141,15 @@ VirtualTable.propTypes = {
   model: PropTypes.object.isRequired,
   onRowClick: PropTypes.func,
   rowRenderer: PropTypes.func.isRequired,
+  headerRowRenderer: PropTypes.func,
+  headerRowHeight: PropTypes.number,
   noRowsRenderer: PropTypes.func,
+  defPath: PropTypes.string.isRequired,
 };
 
 VirtualTable.defaultProps = {
   onRowClick: () => {},
   noRowsRenderer: null,
+  headerRowRenderer: null,
+  headerRowHeight: null,
 };

@@ -5,7 +5,7 @@ import SVGInline from 'react-svg-inline';
 import Selections from './selections';
 import logo from '../assets/catwalk.svg';
 
-import './topbar.scss';
+import './topbar.pcss';
 
 export default function TopBar({ app, appLayout: { qLastReloadTime } }) {
   const [lastReloadString, setLastReloadString] = useState('');

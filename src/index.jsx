@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import ErrorBoundary from './components/error-boundary';
 import App from './components/app';
 
-import './index.css';
+import './index.pcss';
 
 const Index = () => (
   <ErrorBoundary>

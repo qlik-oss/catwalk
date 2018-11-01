@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import debounce from '../render-debouncer';
 
 export default function useLayout(model) {
   const [layout, setLayout] = useState();
@@ -13,7 +14,9 @@ export default function useLayout(model) {
         ? await model.getAppLayout()
         : await model.getLayout();
       if (!isKilled) {
-        setLayout(newLayout);
+        debounce(() => {
+          setLayout(newLayout);
+        });
       }
     };
 

@@ -1,0 +1,251 @@
+.model {
+  --table-background: #f2f2f2;
+  --grid-background: #f2f2f2;
+  --even-column-background: #f6f6f6;
+  --association-border: #999;
+
+  background-color: var(--grid-background);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 1;
+
+  .betweener {
+    height: 7em;
+    position: relative;
+  }
+
+  .tableheader {
+    align-items: center;
+    color: #404040;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5em;
+    font-weight: bold;
+    height: 5em;
+    justify-content: center;
+    min-height: 5em;
+
+    .nbr-of-rows {
+      font-weight: 400;
+    }
+  }
+
+  &.no-data {
+    font-size: 4rem;
+  }
+
+  .vertcell {
+    box-sizing: border-box;
+    height: 7em;
+    margin: 1em 0;
+    position: relative;
+  }
+
+  .keycell {
+    box-sizing: border-box;
+    height: 7em;
+    margin: 1em 0;
+  }
+
+  .insideTable {
+    box-sizing: border-box;
+    height: 7em;
+    margin: 1em 0;
+  }
+
+  .association-to-right {
+    position: absolute;
+    right: -1em;
+    top: 2.5em;
+    width: 1em;
+    z-index: 0;
+  }
+
+  .association-to-right-a {
+    background-color: var(--table-background);
+    border-bottom-left-radius: 1.5em;
+    box-sizing: border-box;
+    height: 1em;
+    width: 1em;
+  }
+
+  .association-to-right-b {
+    box-sizing: border-box;
+    height: 0.5em;
+    width: 3.5em;
+  }
+
+  .association-to-right-c {
+    background-color: var(--table-background);
+    border-top-left-radius: 1.5em;
+    box-sizing: border-box;
+    height: 1em;
+    width: 1em;
+  }
+
+  .association-to-right-d {
+    font-size: 1.5rem;
+    height: 2em;
+    left: 0.5em;
+    position: absolute;
+    top: -1em;
+    z-index: 0;
+  }
+
+  .subsetratio {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    bottom: -0.6em;
+    box-shadow: 2px 2px 10px #ccc;
+    box-sizing: border-box;
+    color: darkred;
+    font-size: 1.375rem;
+    font-weight: bold;
+    padding: 0;
+    position: absolute;
+    right: 0.5em;
+    text-align: center;
+    width: 3em;
+    z-index: 2;
+  }
+
+  .association-to-left {
+    box-sizing: border-box;
+    left: -1em;
+    position: absolute;
+    top: 2.5em;
+    width: 1em;
+    z-index: 0;
+  }
+
+  .association-to-left-a {
+    background-color: var(--table-background);
+    border-bottom-right-radius: 1.5em;
+    box-sizing: border-box;
+    height: 1em;
+    width: 1em;
+  }
+
+  .association-to-left-b {
+    box-sizing: border-box;
+    height: 0.5em;
+    transform: translateX(-2.5em);
+    width: 3.5em;
+  }
+
+  .association-to-left-c {
+    background-color: var(--table-background);
+    border-top-right-radius: 1.5em;
+    box-sizing: border-box;
+    height: 1em;
+    width: 1em;
+  }
+
+  .association-to-left-d {
+    font-size: 1.5rem;
+    height: 2em;
+    position: absolute;
+    right: 0.5em;
+    top: -1em;
+    z-index: 0;
+  }
+
+  .association-to-left:nth-child(0) {
+    border: 1px solid red;
+  }
+
+  .betweener .lineyinner {
+    bottom: 3em;
+    left: -3.5em;
+    position: absolute;
+    right: -3.5em;
+    top: 3.5em;
+    z-index: 1000;
+  }
+
+  .betweener.insideTable {
+    background-color: var(--table-background);
+  }
+
+  .colset {
+    align-items: flex-start;
+    display: flex;
+    height: max-content;
+    justify-content: flex-start;
+    justify-self: auto;
+    width: max-content;
+
+    &:focus {
+      outline: none;
+    }
+
+    .column {
+      box-sizing: border-box;
+      padding: 3.5em;
+    }
+
+    &:nth-child(even) {
+      background-color: var(--even-column-background);
+
+      .association-to-left {
+        &-a,
+        &-c {
+          background-color: var(--even-column-background);
+        }
+      }
+
+      .association-to-right {
+        &-a,
+        &-c {
+          background-color: var(--even-column-background);
+        }
+      }
+
+      .betweener.insideTable {
+        background-color: var(--even-column-background);
+      }
+    }
+  }
+
+  .tableAtPlay .tableheader {
+    /* disabled for now color: #00b14e; */
+
+    /* text-decoration: #00b14e underline; */
+  }
+
+  .listboxcolset {
+    align-items: flex-start;
+    background-color: white;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: flex-start;
+    justify-self: flex-end;
+    position: relative;
+  }
+
+  .listboxcolumn {
+    font-size: 1.5em;
+  }
+
+  .closer {
+    cursor: pointer;
+  }
+
+  .notKeyAtPlay {
+    /* disabled for now */
+  }
+
+  .notTableAtPlay .tableheader {
+    opacity: 50%;
+  }
+
+  .tableAtPlay .insideTable {
+    background-color: var(--table-background);
+  }
+
+  .notTableAtPlay .insideTable {
+    background-color: var(--table-background);
+  }
+}

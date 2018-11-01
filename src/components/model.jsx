@@ -7,7 +7,7 @@ import Field from './field';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
 
-import './model.scss';
+import './model.pcss';
 
 function findAttribute(event, attrName) {
   let el = event.target;
@@ -41,6 +41,9 @@ export default function Model({ app, appLayout }) {
   }, [tablesAndKeys]);
 
   const toggleField = (evt) => {
+    if (evt.ctrlKey || evt.metaKey) {
+      return;
+    }
     const field = findAttribute(evt, 'fieldz');
     const table = findAttribute(evt, 'tablez');
     if (field) {
@@ -59,6 +62,14 @@ export default function Model({ app, appLayout }) {
 
   if (!tablesAndKeys || !atPlayModel || !queryModel) {
     return null;
+  }
+
+  if (!tablesAndKeys.qk.length && !tablesAndKeys.qtr.length) {
+    return (
+      <div className="center-content model no-data">
+        It looks like there is no data loaded in this app yet.
+      </div>
+    );
   }
 
   const assocationsHighlighted = Object.keys(openBoxes).length > 1;
