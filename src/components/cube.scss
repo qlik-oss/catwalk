@@ -1,0 +1,69 @@
+
+.cube {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  position: fixed;
+  font-size: 1rem;
+  bottom: 0;
+  right: 0;
+  width: 50%;
+  min-height: 30em;
+  box-sizing: border-box;
+  padding-right: 5em;
+  pointer-events: none;
+  z-index: 2;
+  color: #4d4d4d;
+  overflow: visible;
+
+  i {
+    cursor: pointer;
+    &:focus {
+      outline: none;
+    }
+  }
+  
+  .add-button {
+    pointer-events: all;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    margin: 1em 1.5em 1em 1em; 
+    i {
+      font-size: 5em;
+      cursor: pointer;
+      color: #398ab5;
+      user-select: none;
+
+      &:hover {
+        color: #3f9dd0;
+      }
+    }
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 1em;
+    border: 1px solid #d9d9d9;
+    background-color: white;
+    border-radius: .4em;
+    margin: 1em;
+    pointer-events: all;
+
+    i.close {
+      font-size: 1.5em;
+      margin: 0 0 .5em .5em;
+
+      &:hover {
+        color: black;
+      }
+    }
+
+    &:hover {
+      box-shadow: 0px 0px 2em -.5em #999999;
+    }
+  }
+}

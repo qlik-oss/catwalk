@@ -2,6 +2,7 @@ import React from 'react';
 import enigma from 'enigma.js';
 
 import config from '../enigma/config';
+import Cube from './cube';
 import TopBar from './topbar';
 import Model from './model';
 import Splash from './splash';
@@ -87,6 +88,7 @@ export default class App extends React.Component {
           <div className="app">
             <TopBar lastReloadTime={lastReloadTime} />
             <Model lastReloadTime={lastReloadTime} />
+            <Cube />
           </div>
         </AppContext.Provider>
       );
