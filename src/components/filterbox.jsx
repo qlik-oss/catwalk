@@ -1,7 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Column from 'react-virtualized/dist/es/Table/Column';
-
+import useClickOutside from './use/click-outside';
 import VirtualTable from './virtual-table';
 
 import './filterbox.pcss';
@@ -87,12 +87,12 @@ function noRowsRenderer() {
 }
 
 function useSelections(model, selfRef) {
-  const [ongoing, setOngoing] = useState(false);
+  const ongoingSelections = useRef(false);
   const [, forceUpdate] = useState(null);
 
   const onRowClick = ({ rowData }) => {
-    if (!ongoing) {
-      setOngoing(true);
+    if (!ongoingSelections.current) {
+      ongoingSelections.current = true;
       model.beginSelections(['/qListObjectDef']);
     }
     if (rowData) {
@@ -108,24 +108,15 @@ function useSelections(model, selfRef) {
     }
   };
 
-  useEffect(() => {
-    if (!model || !ongoing) return;
-
-    const onClick = (evt) => {
-      if (!selfRef.current.contains(evt.target)) {
-        setOngoing(false);
-        document.removeEventListener('mouseup', onClick);
-        model.endSelections(true);
-      }
-    };
-
-    document.addEventListener('mouseup', onClick);
-  }, [ongoing]);
+  useClickOutside(selfRef, ongoingSelections.current, () => {
+    ongoingSelections.current = false;
+    model.endSelections(true);
+  });
 
   return { onRowClick };
 }
 
-function useSearch(model) {
+function useSearch(model, selfRef, inputRef) {
   const ongoingSearch = useRef(false);
   const searchTimer = useRef(null);
 
@@ -150,22 +141,21 @@ function useSearch(model) {
     }
   };
 
-  const onSearchCancel = (evt) => {
-    const { target } = evt;
-    if (ongoingSearch.current) {
-      ongoingSearch.current = false;
-      target.value = '';
-      model.abortListObjectSearch('/qListObjectDef');
-    }
-  };
+  useClickOutside(selfRef, ongoingSearch.current, () => {
+    ongoingSearch.current = false;
+    const inputRefRef = inputRef;
+    inputRefRef.current.value = '';
+    model.abortListObjectSearch('/qListObjectDef');
+  });
 
-  return { onSearch, onSearchCancel };
+  return { onSearch };
 }
 
 export default function Filterbox({ model, layout }) {
   const selfRef = useRef(null);
+  const inputRef = useRef(null);
   const { onRowClick } = useSelections(model, selfRef);
-  const { onSearch, onSearchCancel } = useSearch(model);
+  const { onSearch } = useSearch(model, selfRef, inputRef);
 
   if (!layout || !layout.qListObject.qDataPages || !layout.qListObject.qDataPages.length) {
     return null;
@@ -179,8 +169,8 @@ export default function Filterbox({ model, layout }) {
   return (
     <div role="Listbox" tabIndex="-1" className={classes} onClick={preventDefaultFn} ref={selfRef}>
       <input
+        ref={inputRef}
         onKeyUp={onSearch}
-        onBlur={onSearchCancel}
         className="search"
         placeholder="Search (wildcard)"
       />
