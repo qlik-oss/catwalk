@@ -2,9 +2,13 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Column from 'react-virtualized/dist/es/Table/Column';
 import useClickOutside from './use/click-outside';
+
 import VirtualTable from './virtual-table';
+import useModel from './use/model';
+import useLayout from './use/layout';
 
 import './filterbox.pcss';
+import './field.pcss';
 
 const KEY_ENTER = 13;
 
@@ -151,13 +155,13 @@ function useSearch(model, selfRef, inputRef) {
   return { onSearch };
 }
 
-export default function Filterbox({ model, layout }) {
+export default function Filterbox({ model, layout, showFilterbox }) {
   const selfRef = useRef(null);
   const inputRef = useRef(null);
   const { onRowClick } = useSelections(model, selfRef);
   const { onSearch } = useSearch(model, selfRef, inputRef);
 
-  if (!layout || !layout.qListObject.qDataPages || !layout.qListObject.qDataPages.length) {
+  if (!showFilterbox || !layout || !layout.qListObject.qDataPages || !layout.qListObject.qDataPages.length) {
     return null;
   }
 
@@ -165,7 +169,6 @@ export default function Filterbox({ model, layout }) {
   if (layout.qSelectionInfo.qMadeSelections) {
     classes += ' made-selections';
   }
-
   return (
     <div role="Listbox" tabIndex="-1" className={classes} onClick={preventDefaultFn} ref={selfRef}>
       <input
@@ -210,9 +213,11 @@ export default function Filterbox({ model, layout }) {
 Filterbox.defaultProps = {
   model: null,
   layout: null,
+  showFilterbox: false,
 };
 
 Filterbox.propTypes = {
   model: PropTypes.object,
   layout: PropTypes.object,
+  showFilterbox: PropTypes.bool,
 };
