@@ -4,8 +4,6 @@ import Column from 'react-virtualized/dist/es/Table/Column';
 import useClickOutside from './use/click-outside';
 
 import VirtualTable from './virtual-table';
-import useModel from './use/model';
-import useLayout from './use/layout';
 
 import './filterbox.pcss';
 import './field.pcss';

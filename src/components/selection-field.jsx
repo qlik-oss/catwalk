@@ -18,16 +18,17 @@ function SelectionFieldWithoutState({
 
   return (
     <div className="popover-wrapper">
-    <div
-      className="selectionfield"
-      onClick={onClick}
-    >
-      <Field layout={layout} field={field} fieldData={fieldData} />
-    </div>
+      <div
+        className="selectionfield"
+        onClick={onClick}
+        tabIndex="-1"
+        role="button"
+      >
+        <Field layout={layout} field={field} fieldData={fieldData} />
+      </div>
       { showFilterbox
         ? (
-          <div className="push popover-content">
-            {/* <h1>TEST TEST</h1> */}
+          <div className="popover-content">
             <Filterbox model={model} layout={layout} field={field} showFilterbox={showFilterbox} />
           </div>
         ) : null}
