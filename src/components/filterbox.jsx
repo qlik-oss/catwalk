@@ -165,7 +165,6 @@ export default function Filterbox({ model, layout }) {
   if (layout.qSelectionInfo.qMadeSelections) {
     classes += ' made-selections';
   }
-
   return (
     <div role="Listbox" tabIndex="-1" className={classes} onClick={preventDefaultFn} ref={selfRef}>
       <input
