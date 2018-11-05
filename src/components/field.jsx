@@ -21,7 +21,7 @@ function fieldCounts(dimInfo, field) {
 }
 
 export default function Field({
-  layout, field, fieldData,
+  layout, field, fieldData, showCancel,
 }) {
   if (!layout) {
     return null;
@@ -34,12 +34,23 @@ export default function Field({
 
   return (
     <div className="field">
-      <div className="name">
-        {field}
-      </div>
-      <div className="bartext">
-        {' '}
-        {fieldCounts(layout.qListObject.qDimensionInfo, fieldData)}
+      <div className="innerContainer">
+        <div className="nameAndText">
+          <div className="name">
+            {field}
+          </div>
+          <div className="bartext">
+            {' '}
+            {fieldCounts(layout.qListObject.qDimensionInfo, fieldData)}
+          </div>
+        </div>
+        {showCancel
+        && (
+        <div className="cancel">
+          <i className="material-icons">close</i>
+        </div>
+        )
+        }
       </div>
       <div className="gwg">
         <span className="green" style={green} />
@@ -53,9 +64,11 @@ Field.propTypes = {
   layout: PropTypes.object,
   field: PropTypes.string.isRequired,
   fieldData: PropTypes.object,
+  showCancel: PropTypes.bool,
 };
 
 Field.defaultProps = {
   layout: null,
   fieldData: null,
+  showCancel: false,
 };

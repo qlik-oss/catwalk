@@ -24,7 +24,7 @@ function SelectionFieldWithoutState({
         tabIndex="-1"
         role="button"
       >
-        <Field layout={layout} field={field} fieldData={fieldData} />
+        <Field layout={layout} field={field} fieldData={fieldData} showCancel />
       </div>
       { showFilterbox
         ? (

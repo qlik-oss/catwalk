@@ -1,4 +1,14 @@
 .field {
+  .innerContainer {
+    display: flex;
+  }
+
+  .nameAndText {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+
   .name,
   .gwg {
     color: #404040;
@@ -9,12 +19,15 @@
   }
 
   .name {
-    /* display: inline-block; */
     font-size: 1.5em;
     font-weight: 600;
     line-height: 2rem;
     overflow: hidden;
     white-space: pre;
+  }
+
+  .cancel {
+    align-self: center;
   }
 
   .gwg {
