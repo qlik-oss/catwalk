@@ -1,7 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import Table from './table';
-import './cube.scss';
+import './cube.pcss';
 
 class Cube extends React.Component {
   constructor(props) {

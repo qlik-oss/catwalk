@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import withApp from './with-app';
-import withModel from './with-model';
-import withLayout from './with-layout';
-
-import './field.scss';
 import Filterbox from './filterbox';
+import useModel from './use/model';
+import useLayout from './use/layout';
+
+import './field.pcss';
 
 function fieldCounts(dimInfo, field) {
   let str = '';
@@ -42,19 +41,27 @@ function firstFewValues(layout) {
   return result;
 }
 
-export function Field(props) {
-  const {
-    field, fieldData, layout, showFilterbox, model,
-  } = props;
+export function FieldWithoutState({
+  field, fieldData, layout, showFilterbox, model,
+}) {
+  let classes = `field ${fieldData.qKeyType}`;
+
   if (!layout) {
-    return null;
+    return (
+      <div
+        className={classes}
+      >
+        <div className="name">
+          {field}
+        </div>
+      </div>
+    );
   }
 
   const total = layout.qListObject.qDimensionInfo.qCardinal;
   const states = layout.qListObject.qDimensionInfo.qStateCounts;
   const green = { width: `${Math.ceil((states.qSelected / total) * 100)}%` };
   const grey = { width: `${Math.ceil((states.qExcluded / total) * 100)}%` };
-  let classes = `field ${fieldData.qKeyType}`;
 
   let descriptions = '';
   if (states.qSelected) {
@@ -132,7 +139,8 @@ export function Field(props) {
     </div>
   );
 }
-Field.propTypes = {
+
+FieldWithoutState.propTypes = {
   layout: PropTypes.object,
   field: PropTypes.string.isRequired,
   model: PropTypes.object.isRequired,
@@ -140,11 +148,46 @@ Field.propTypes = {
   showFilterbox: PropTypes.bool,
 };
 
-Field.defaultProps = {
+FieldWithoutState.defaultProps = {
   layout: null,
   fieldData: null,
   showFilterbox: false,
 };
 
+const createDefinition = field => ({
+  qInfo: { qType: 'dmi-field' },
+  qListObjectDef: {
+    qFrequencyMode: 'V',
+    qDef: {
+      qFieldDefs: [field],
+      qSortCriterias: [
+        {
+          qSortByState: 1,
+          qSortByFrequency: 1,
+          // qSortByNumeric: 1,
+          // qSortByAscii: 1,
+          // qSortByLoadOrder: 1,
+        },
+      ],
+    },
+    qInitialDataFetch: [
+      {
+        qTop: 0,
+        qLeft: 0,
+        qHeight: 10,
+        qWidth: 1,
+      },
+    ],
+  },
+});
 
-export default withApp(withModel({ WrappedComponent: withLayout(Field), createModel: async (app, props) => app.getOrCreateListbox(props.field) }));
+export default function Field({
+  app, field, fieldData, showFilterbox,
+}) {
+  const model = useModel(app, createDefinition(field));
+  const layout = useLayout(model);
+
+  return FieldWithoutState({
+    field, fieldData, showFilterbox, model, layout,
+  });
+}

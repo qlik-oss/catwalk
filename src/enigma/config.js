@@ -10,7 +10,7 @@ const config = {
   schema,
   url: new URLSearchParams(document.location.search).get('engine_url') || `ws://localhost:9076/app/${+new Date()}`,
   createSocket: url => new WebSocket(url),
-  mixins: [listCache, layoutCache, getDoc],
+  mixins: [listCache, ...layoutCache, getDoc],
   responseInterceptors: [{
     onRejected(session, request, error) {
       if (error.code === ERR_ABORTED) {

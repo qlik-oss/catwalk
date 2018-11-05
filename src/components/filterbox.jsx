@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Column from 'react-virtualized/dist/es/Table/Column';
+import useClickOutside from './use/click-outside';
 import VirtualTable from './virtual-table';
-import './filterbox.scss';
+
+import './filterbox.pcss';
 
 const KEY_ENTER = 13;
 
@@ -13,7 +15,6 @@ function preventDefaultFn(event) {
 function listboxNameColumnGetter({ rowData }) {
   return rowData ? rowData[0].qText : '...';
 }
-
 
 function nameCellRenderer({ rowData }) {
   if (!rowData) {
@@ -46,7 +47,6 @@ function freqCellRenderer({ rowData }) {
   if (rowData[0].qState === 'X') {
     return (<div />);
   }
-
 
   const freq = rowData[0].qFrequency;
   if (freq && freq > 0) {
@@ -86,67 +86,13 @@ function noRowsRenderer() {
   return <div className="no-values">No values</div>;
 }
 
-export class Filterbox extends React.Component {
-  constructor() {
-    super();
-    this.onRowClick = this.onRowClick.bind(this);
-    this.onSearch = this.onSearch.bind(this);
-    this.onDocumentClick = this.onDocumentClick.bind(this);
-    this.selfRef = React.createRef();
-  }
+function useSelections(model, selfRef) {
+  const ongoingSelections = useRef(false);
+  const [, forceUpdate] = useState(null);
 
-  componentDidMount() {
-    document.addEventListener('click', this.onDocumentClick, true);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('click', this.onDocumentClick, true);
-
-    const { model } = this.props;
-    if (this.selectionOngoing) {
-      this.selectionOngoing = false;
-      model.endSelections(true);
-    }
-
-
-    if (this.ongoingSearch) {
-      model.abortListObjectSearch('/qListObjectDef');
-    }
-    if (this.searchTimer) {
-      clearTimeout(this.searchTimer);
-    }
-  }
-
-  onDocumentClick(event) {
-    const { model } = this.props;
-    if (this.selectionOngoing && !this.selfRef.current.contains(event.target)) {
-      this.selectionOngoing = false;
-      model.endSelections(true);
-    }
-  }
-
-  onSearch(evt) {
-    const { value } = evt.target;
-    const { keyCode } = evt;
-    const { model } = this.props;
-
-    this.ongoingSearch = value;
-    if (keyCode === KEY_ENTER) {
-      model.acceptListObjectSearch('/qListObjectDef', true);
-      evt.target.blur();
-    } else {
-      clearTimeout(this.searchTimer);
-      this.searchTimer = setTimeout(
-        () => model.searchListObjectFor('/qListObjectDef', value),
-        300,
-      );
-    }
-  }
-
-  onRowClick({ rowData }) {
-    const { model } = this.props;
-    if (!this.selectionOngoing) {
-      this.selectionOngoing = true;
+  const onRowClick = ({ rowData }) => {
+    if (!ongoingSelections.current) {
+      ongoingSelections.current = true;
       model.beginSelections(['/qListObjectDef']);
     }
     if (rowData) {
@@ -157,65 +103,108 @@ export class Filterbox extends React.Component {
         const rowDataToModify = rowData;
         rowDataToModify[0].qState = 'O'; // For fast visual feedback, this will be overwritten when the new layout comes.
       }
-      this.forceUpdate(); // Force a rerender to ge the previous changes to apear
-
+      forceUpdate(Date.now());
       model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], true);
     }
+  };
+
+  useClickOutside(selfRef, ongoingSelections.current, () => {
+    ongoingSelections.current = false;
+    model.endSelections(true);
+  });
+
+  return { onRowClick };
+}
+
+function useSearch(model, selfRef, inputRef) {
+  const ongoingSearch = useRef(false);
+  const searchTimer = useRef(null);
+
+  const onSearch = (evt) => {
+    const { value } = evt.target;
+    const { keyCode } = evt;
+
+    if (!ongoingSearch.current) {
+      ongoingSearch.current = true;
+    }
+
+    if (keyCode === KEY_ENTER) {
+      ongoingSearch.current = false;
+      model.acceptListObjectSearch('/qListObjectDef', true);
+      evt.target.blur();
+    } else {
+      clearTimeout(searchTimer.current);
+      searchTimer.current = setTimeout(
+        () => model.searchListObjectFor('/qListObjectDef', value),
+        300,
+      );
+    }
+  };
+
+  useClickOutside(selfRef, ongoingSearch.current, () => {
+    ongoingSearch.current = false;
+    const inputRefRef = inputRef;
+    inputRefRef.current.value = '';
+    model.abortListObjectSearch('/qListObjectDef');
+  });
+
+  return { onSearch };
+}
+
+export default function Filterbox({ model, layout }) {
+  const selfRef = useRef(null);
+  const inputRef = useRef(null);
+  const { onRowClick } = useSelections(model, selfRef);
+  const { onSearch } = useSearch(model, selfRef, inputRef);
+
+  if (!layout || !layout.qListObject.qDataPages || !layout.qListObject.qDataPages.length) {
+    return null;
   }
 
-  render() {
-    const { layout, model } = this.props;
-    if (!layout) {
-      return null;
-    }
+  let classes = 'filterbox';
+  if (layout.qSelectionInfo.qMadeSelections) {
+    classes += ' made-selections';
+  }
 
-    if (!layout.qListObject.qDataPages || layout.qListObject.qDataPages.length === 0) {
-      return null;
-    }
-
-    let classes = 'filterbox';
-    if (layout.qSelectionInfo.qMadeSelections) {
-      classes += ' made-selections';
-    }
-
-    return (
-      <div role="Listbox" tabIndex="-1" className={classes} onClick={preventDefaultFn} ref={this.selfRef}>
-        <input
-          onKeyUp={this.onSearch}
-          className="search"
-          placeholder="Search (wildcard)"
-        />
-        <div className="virtualtable">
-          <VirtualTable
-            layout={layout}
-            model={model}
-            onRowClick={this.onRowClick}
-            rowRenderer={rowRenderer}
-            noRowsRenderer={noRowsRenderer}
-          >
-            <Column
-              label="Name"
-              dataKey="name"
-              width={100}
-              flexGrow={1}
-              flexShrink={1}
-              cellDataGetter={listboxNameColumnGetter}
-              cellRenderer={nameCellRenderer}
-            />
-            <Column
-              width={50}
-              label="Description"
-              dataKey="description"
-              flexGrow={1}
-              flexShrink={0}
-              cellDataGetter={listboxFrequencyColumnGetter}
-              cellRenderer={freqCellRenderer}
-            />
-          </VirtualTable>
-        </div>
+  return (
+    <div role="Listbox" tabIndex="-1" className={classes} onClick={preventDefaultFn} ref={selfRef}>
+      <input
+        ref={inputRef}
+        onKeyUp={onSearch}
+        className="search"
+        placeholder="Search (wildcard)"
+      />
+      <div className="virtualtable">
+        <VirtualTable
+          layout={layout}
+          model={model}
+          onRowClick={onRowClick}
+          rowRenderer={rowRenderer}
+          noRowsRenderer={noRowsRenderer}
+          defPath="/qListObjectDef"
+        >
+          <Column
+            label="Name"
+            dataKey="name"
+            width={100}
+            flexGrow={1}
+            flexShrink={1}
+            cellDataGetter={listboxNameColumnGetter}
+            cellRenderer={nameCellRenderer}
+          />
+          <Column
+            width={50}
+            label="Description"
+            dataKey="description"
+            flexGrow={1}
+            flexShrink={0}
+            cellDataGetter={listboxFrequencyColumnGetter}
+            cellRenderer={freqCellRenderer}
+          />
+        </VirtualTable>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 Filterbox.defaultProps = {
@@ -227,5 +216,3 @@ Filterbox.propTypes = {
   model: PropTypes.object,
   layout: PropTypes.object,
 };
-
-export default Filterbox;
