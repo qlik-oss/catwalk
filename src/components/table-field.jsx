@@ -51,9 +51,9 @@ function TableFieldWithoutState({
 
   if (fieldData.qHasDuplicates) {
     classes += ' has-duplicates';
-    descriptions += '. Duplicate values';
+    descriptions += 'Duplicate values';
   } else {
-    descriptions += '. Unique values';
+    descriptions += 'Unique values';
   }
 
   if (fieldData.qHasNull) {
