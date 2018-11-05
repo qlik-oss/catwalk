@@ -21,7 +21,7 @@ function fieldCounts(dimInfo, field) {
 }
 
 export default function Field({
-  layout, field, fieldData, onCancelSelection,
+  layout, field, fieldData, onClearSelection,
 }) {
   if (!layout) {
     return null;
@@ -32,10 +32,17 @@ export default function Field({
   const green = { width: `${Math.ceil((states.qSelected / total) * 100)}%` };
   const grey = { width: `${Math.ceil((states.qExcluded / total) * 100)}%` };
 
+  const clearSelection = onClearSelection !== null
+    ? (
+      <div className="cancel" tabIndex="-1" role="button" onClick={(event) => { onClearSelection(event, field); }}>
+        <i>X</i>
+      </div>
+    ) : null;
+
   return (
     <div className="field">
-      <div className="innerContainer">
-        <div className="nameAndText">
+      <div className="inner-container">
+        <div className="name-and-text">
           <div className="name">
             {field}
           </div>
@@ -44,13 +51,7 @@ export default function Field({
             {fieldCounts(layout.qListObject.qDimensionInfo, fieldData)}
           </div>
         </div>
-        {onCancelSelection !== null
-        && (
-        <div className="cancel" tabIndex="-1" role="button" onClick={(event) => { onCancelSelection(event, field); }}>
-          <i className="material-icons">close</i>
-        </div>
-        )
-        }
+        {clearSelection}
       </div>
       <div className="gwg">
         <span className="green" style={green} />
@@ -64,11 +65,11 @@ Field.propTypes = {
   layout: PropTypes.object,
   field: PropTypes.string.isRequired,
   fieldData: PropTypes.object,
-  onCancelSelection: PropTypes.func,
+  onClearSelection: PropTypes.func,
 };
 
 Field.defaultProps = {
   layout: null,
   fieldData: null,
-  onCancelSelection: null,
+  onClearSelection: null,
 };

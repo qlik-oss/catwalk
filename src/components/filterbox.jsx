@@ -2,11 +2,9 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Column from 'react-virtualized/dist/es/Table/Column';
 import useClickOutside from './use/click-outside';
-
 import VirtualTable from './virtual-table';
 
 import './filterbox.pcss';
-import './field.pcss';
 
 const KEY_ENTER = 13;
 
@@ -153,13 +151,13 @@ function useSearch(model, selfRef, inputRef) {
   return { onSearch };
 }
 
-export default function Filterbox({ model, layout, showFilterbox }) {
+export default function Filterbox({ model, layout }) {
   const selfRef = useRef(null);
   const inputRef = useRef(null);
   const { onRowClick } = useSelections(model, selfRef);
   const { onSearch } = useSearch(model, selfRef, inputRef);
 
-  if (!showFilterbox || !layout || !layout.qListObject.qDataPages || !layout.qListObject.qDataPages.length) {
+  if (!layout || !layout.qListObject.qDataPages || !layout.qListObject.qDataPages.length) {
     return null;
   }
 
@@ -211,11 +209,9 @@ export default function Filterbox({ model, layout, showFilterbox }) {
 Filterbox.defaultProps = {
   model: null,
   layout: null,
-  showFilterbox: false,
 };
 
 Filterbox.propTypes = {
   model: PropTypes.object,
   layout: PropTypes.object,
-  showFilterbox: PropTypes.bool,
 };

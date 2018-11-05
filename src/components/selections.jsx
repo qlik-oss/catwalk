@@ -15,18 +15,12 @@ const definition = {
 export default function Selections({ app }) {
   const layout = useLayout(useModel(app, definition));
 
-  const onCancelSingleSelection = async (event, field) => {
-    event.stopPropagation();
-    const fieldObject = await app.getField(field);
-    fieldObject.clear();
-  };
-
   let items;
 
   if (layout) {
     items = layout.qSelectionObject.qSelections.map(item => (
       <li key={item.qField}>
-        <SelectionField app={app} field={item.qField} fieldData={item} onCancelSelection={onCancelSingleSelection} />
+        <SelectionField app={app} field={item.qField} fieldData={item} />
       </li>
     ));
     if (!items.length) {

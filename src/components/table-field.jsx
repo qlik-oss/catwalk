@@ -27,7 +27,7 @@ function firstFewValues(layout) {
 function TableFieldWithoutState({
   model, layout, field, fieldData, showFilterbox,
 }) {
-  let classes = `tablefield ${fieldData.qKeyType}`;
+  let classes = `table-field ${fieldData.qKeyType}`;
 
   if (!layout) {
     return (
@@ -97,6 +97,8 @@ function TableFieldWithoutState({
     border: `2px solid ${fieldData.backgroundColor}`,
   };
 
+  const filterBox = showFilterbox ? <Filterbox model={model} layout={layout} field={field} /> : null;
+
   return (
     <div
       className={classes}
@@ -108,7 +110,7 @@ function TableFieldWithoutState({
     >
       <Field layout={layout} field={field} fieldData={fieldData} />
       <div className="details">
-        <Filterbox model={model} layout={layout} field={field} showFilterbox={showFilterbox} />
+        { filterBox }
       </div>
     </div>
   );

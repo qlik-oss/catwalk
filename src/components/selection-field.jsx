@@ -4,11 +4,10 @@ import Field from './field';
 import Filterbox from './filterbox';
 import useModel from './use/model';
 import useLayout from './use/layout';
-import './table-field.pcss';
 import './selection-field.pcss';
 
 function SelectionFieldWithoutState({
-  model, layout, field, fieldData, onCancelSelection,
+  app, model, layout, field, fieldData,
 }) {
   const [showFilterbox, setShowFilterbox] = useState(false);
 
@@ -16,35 +15,46 @@ function SelectionFieldWithoutState({
     setShowFilterbox(!showFilterbox);
   };
 
+  const onClearSelection = async (event) => {
+    event.stopPropagation();
+    if (app) {
+      const fieldObject = await app.getField(field);
+      fieldObject.clear();
+    }
+  };
+
+  const filterBox = showFilterbox
+    ? (
+      <div className="popover-content">
+        <Filterbox model={model} layout={layout} field={field} />
+      </div>
+    ) : null;
+
   return (
     <div className="popover-wrapper">
       <div
-        className="selectionfield"
+        className="selection-field"
         onClick={onClick}
         tabIndex="-1"
         role="button"
       >
-        <Field layout={layout} field={field} fieldData={fieldData} onCancelSelection={onCancelSelection} />
+        <Field layout={layout} field={field} fieldData={fieldData} onClearSelection={onClearSelection} />
       </div>
-      { showFilterbox
-        ? (
-          <div className="popover-content">
-            <Filterbox model={model} layout={layout} field={field} showFilterbox={showFilterbox} />
-          </div>
-        ) : null}
+      { filterBox }
     </div>
   );
 }
 
 SelectionFieldWithoutState.propTypes = {
+  app: PropTypes.object,
   model: PropTypes.object,
   layout: PropTypes.object,
   field: PropTypes.string.isRequired,
   fieldData: PropTypes.object,
-  onCancelSelection: PropTypes.func.isRequired,
 };
 
 SelectionFieldWithoutState.defaultProps = {
+  app: null,
   model: null,
   layout: null,
   fieldData: null,
@@ -78,12 +88,12 @@ const createDefinition = field => ({
 });
 
 export default function SelectionField({
-  app, field, fieldData, onCancelSelection,
+  app, field, fieldData,
 }) {
   const model = useModel(app, createDefinition(field));
   const layout = useLayout(model);
 
   return SelectionFieldWithoutState({
-    model, layout, field, fieldData, onCancelSelection,
+    app, model, layout, field, fieldData,
   });
 }
