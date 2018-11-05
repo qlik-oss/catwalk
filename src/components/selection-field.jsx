@@ -8,7 +8,7 @@ import './table-field.pcss';
 import './selection-field.pcss';
 
 function SelectionFieldWithoutState({
-  model, layout, field, fieldData,
+  model, layout, field, fieldData, onCancelSelection,
 }) {
   const [showFilterbox, setShowFilterbox] = useState(false);
 
@@ -24,7 +24,7 @@ function SelectionFieldWithoutState({
         tabIndex="-1"
         role="button"
       >
-        <Field layout={layout} field={field} fieldData={fieldData} showCancel />
+        <Field layout={layout} field={field} fieldData={fieldData} onCancelSelection={onCancelSelection} />
       </div>
       { showFilterbox
         ? (
@@ -41,6 +41,7 @@ SelectionFieldWithoutState.propTypes = {
   layout: PropTypes.object,
   field: PropTypes.string.isRequired,
   fieldData: PropTypes.object,
+  onCancelSelection: PropTypes.func.isRequired,
 };
 
 SelectionFieldWithoutState.defaultProps = {
@@ -77,12 +78,12 @@ const createDefinition = field => ({
 });
 
 export default function SelectionField({
-  app, field, fieldData,
+  app, field, fieldData, onCancelSelection,
 }) {
   const model = useModel(app, createDefinition(field));
   const layout = useLayout(model);
 
   return SelectionFieldWithoutState({
-    model, layout, field, fieldData,
+    model, layout, field, fieldData, onCancelSelection,
   });
 }

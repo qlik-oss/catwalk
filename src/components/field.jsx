@@ -21,7 +21,7 @@ function fieldCounts(dimInfo, field) {
 }
 
 export default function Field({
-  layout, field, fieldData, showCancel,
+  layout, field, fieldData, onCancelSelection,
 }) {
   if (!layout) {
     return null;
@@ -44,9 +44,9 @@ export default function Field({
             {fieldCounts(layout.qListObject.qDimensionInfo, fieldData)}
           </div>
         </div>
-        {showCancel
+        {onCancelSelection !== null
         && (
-        <div className="cancel">
+        <div className="cancel" tabIndex="-1" role="button" onClick={(event) => { onCancelSelection(event, field); }}>
           <i className="material-icons">close</i>
         </div>
         )
@@ -64,11 +64,11 @@ Field.propTypes = {
   layout: PropTypes.object,
   field: PropTypes.string.isRequired,
   fieldData: PropTypes.object,
-  showCancel: PropTypes.bool,
+  onCancelSelection: PropTypes.func,
 };
 
 Field.defaultProps = {
   layout: null,
   fieldData: null,
-  showCancel: false,
+  onCancelSelection: null,
 };
