@@ -35,7 +35,7 @@ export default function Field({
   const clearSelection = onClearSelection !== null
     ? (
       <div className="clear-selection" tabIndex="-1" role="button" onClick={(event) => { onClearSelection(event, field); }}>
-        <i className="x">X</i>
+        <span className="x">✖</span>
       </div>
     ) : null;
 
