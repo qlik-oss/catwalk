@@ -34,9 +34,7 @@ export default function Selections({ app }) {
 
   return (
     <ul className="selections">
-      <li key="clear" className="clear" onClick={() => app.clearAll()}>
-        <i className="material-icons">close</i>
-      </li>
+      <li key="clear" className="clear" onClick={() => app.clearAll()}>✖</li>
       {items}
     </ul>
   );

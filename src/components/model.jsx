@@ -82,7 +82,7 @@ export default function Model({ app, appLayout }) {
     }
 
     return (
-      <div className={columnClasses} key={tableName}>
+      <div className={columnClasses} key={tableName} role="tab">
         <div className="vertcell tableheader" tablez={tableName}>
           <div>{tableName}</div>
           <div className="nbr-of-rows">{queryModel.tables[tableName].qNoOfRows}</div>
@@ -144,6 +144,7 @@ export default function Model({ app, appLayout }) {
                   style={cellContainerStyle}
                   key={`${tableName}:${fieldName}`}
                   fieldz={fieldName}
+                  role="tab"
                 >
                   <TableField app={app} field={fieldName} fieldData={x} showFilterbox={isFilterboxOpen} />
                   {x.subsetRatioText ? (

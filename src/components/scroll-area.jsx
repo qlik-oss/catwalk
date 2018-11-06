@@ -48,7 +48,7 @@ export default function ScrollArea({
       onMouseMove={onMouseMove}
       ref={scrollArea}
       {...scrollStyle}
-      role="tabList"
+      role="tablist"
       tabIndex={-1}
     >
       {children && renderChildren(children)}
