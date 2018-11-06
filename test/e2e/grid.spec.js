@@ -1,11 +1,11 @@
 /* global page */
 
-console.log(process.env); //eslint-disable-line
-
 const url = `http://localhost:1234/?engine_url=ws://localhost:9076/${process.env.DocID}`;
 const OPTS = {
   artifactsPath: 'test/e2e/__artifacts__/',
 };
+
+console.log(browser.version()); //eslint-disable-line
 
 describe('Catwalk', () => {
   it('should render the grid correctly', async () => {
