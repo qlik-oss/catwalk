@@ -41,7 +41,7 @@ jobs:
             echo $DocID
             nohup npx parcel src/index.html &
             sleep 5
-            npm run test:e2e
+            DocID=$DocID npm run test:e2e
 
       - save_cache:
           paths:
