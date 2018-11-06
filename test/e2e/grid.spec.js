@@ -1,6 +1,6 @@
 /* global page */
 
-const url = 'http://localhost:1234/?engine_url=ws://localhost:9076/data/FDA%20-%20Drug%20Cases';
+const url = `http://localhost:1234/?engine_url=ws://localhost:9076/${process.env.DocID}`;
 const OPTS = {
   artifactsPath: 'test/e2e/__artifacts__/',
 };
