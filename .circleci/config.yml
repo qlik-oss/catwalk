@@ -33,16 +33,11 @@ jobs:
           name: Component tests
           command:
             npm run test:comp
-            
-      # - setup_remote_docker
-
-      # - run:
-      #     name: Start engine
-      #     command: ACCEPT_EULA=yes docker-compose up -d
 
       - run:
           name: E2E tests
           command: |
+            curl -s --data-binary @data/drugcases.qvf http://localhost:9076/v1/apps/import?name=drugcases
             nohup npx parcel src/index.html &
             sleep 5
             npm run test:e2e
