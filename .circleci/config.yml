@@ -38,7 +38,7 @@ jobs:
           name: E2E tests
           command: |
             DocID=$(curl -s --data-binary @data/drugcases.qvf http://localhost:9076/v1/apps/import | jq '.attributes.id')
-            echo DocID
+            echo $DocID
             nohup npx parcel src/index.html &
             sleep 5
             npm run test:e2e
