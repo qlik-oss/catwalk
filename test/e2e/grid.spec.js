@@ -5,10 +5,10 @@ const OPTS = {
   artifactsPath: 'test/e2e/__artifacts__/',
 };
 
-console.log(browser.version()); //eslint-disable-line
 
 describe('Catwalk', () => {
   it('should render the grid correctly', async () => {
+    console.log( await browser.version()); //eslint-disable-line
     await page.goto(url, { timeout: 4000, waitUntil: 'networkidle0' });
     await page.waitFor(4000);
 
