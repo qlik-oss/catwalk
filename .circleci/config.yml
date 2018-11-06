@@ -36,13 +36,13 @@ jobs:
 
       - run:
           name: Start engine
-          command: AcceptEULA=yes docker-compose up -d
+          command: ACCEPT_EULA=yes docker-compose up -d
 
       - run:
           name: E2E tests
           command: |
             nohup npm start &
-            npm runt test:e2e
+            npm run test:e2e
 
       - save_cache:
           paths:
