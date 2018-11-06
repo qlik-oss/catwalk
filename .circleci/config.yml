@@ -32,10 +32,15 @@ jobs:
           command:
             npm run test:comp
 
+      - setup_remote_docker
+
+      - run:
+          name: Start engine
+          command: AcceptEULA=yes docker-compose up -d
+
       - run:
           name: E2E tests
           command: |
-            docker-compose up -d
             nohup npm start &
             npm runt test:e2e
 
