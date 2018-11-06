@@ -51,6 +51,6 @@ jobs:
           key: npm-dependency-cache-{{ checksum "package.json" }}
 
       - store_artifacts:
-          path: /test/e2e/__artifacts__
+          path: test/e2e/__artifacts__
           destination: e2e
 
