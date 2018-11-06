@@ -42,7 +42,7 @@ jobs:
           name: E2E tests
           command: |
             nohup npx parcel src/index.html &
-            # sleep 5
+            sleep 5
             npm run test:e2e
 
       - save_cache:
