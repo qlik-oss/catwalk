@@ -33,9 +33,11 @@ jobs:
             npm run test:comp
 
       - run:
-          name: Build
-          command:
-            npm run build
+          name: E2E tests
+          command: |
+            docker-compose up -d
+            nohup npm start &
+            npm runt test:e2e
 
       - save_cache:
           paths:
