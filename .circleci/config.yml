@@ -21,6 +21,16 @@ jobs:
           name: Run ESLint
           command:
             npm run lint
+      
+      - run:
+          name: Unit tests
+          command:
+            npm run test:unit
+
+      - run:
+          name: Component tests
+          command:
+            npm run test:comp
 
       - run:
           name: Build
