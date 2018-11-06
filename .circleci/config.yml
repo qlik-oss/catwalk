@@ -3,6 +3,8 @@ jobs:
   build:
     docker:
       - image: circleci/node:10-browsers
+      - image: qlikcore/engine:12.260.0
+        command: -S AcceptEULA=yes
 
     working_directory: ~/catwalk
 
@@ -31,12 +33,12 @@ jobs:
           name: Component tests
           command:
             npm run test:comp
+            
+      # - setup_remote_docker
 
-      - setup_remote_docker
-
-      - run:
-          name: Start engine
-          command: ACCEPT_EULA=yes docker-compose up -d
+      # - run:
+      #     name: Start engine
+      #     command: ACCEPT_EULA=yes docker-compose up -d
 
       - run:
           name: E2E tests
