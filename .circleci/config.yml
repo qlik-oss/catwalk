@@ -37,7 +37,7 @@ jobs:
       - run:
           name: E2E tests
           command: |
-            curl -s --data-binary @data/drugcases.qvf http://localhost:9076/v1/apps/import?name=drugcases
+            curl -s --data-binary @data/drugcases.qvf http://localhost:9076/v1/apps/import?mode=AUTOREPLACE&name=drugcases
             nohup npx parcel src/index.html &
             sleep 5
             npm run test:e2e
