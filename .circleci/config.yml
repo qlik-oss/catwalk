@@ -41,10 +41,16 @@ jobs:
       - run:
           name: E2E tests
           command: |
-            nohup npm start &
+            nohup npx parcel src/index.html &
+            sleep 5
             npm run test:e2e
 
       - save_cache:
           paths:
             - node_modules
           key: npm-dependency-cache-{{ checksum "package.json" }}
+
+      - store_artifacts:
+          path: /test/e2e/__artifacts__
+          destination: e2e
+
