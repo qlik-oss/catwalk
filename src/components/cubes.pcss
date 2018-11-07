@@ -1,0 +1,79 @@
+
+.cubes {
+  align-items: center;
+  bottom: 0;
+  box-sizing: border-box;
+  color: #4d4d4d;
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 1rem;
+  max-width: 50%;
+  min-height: 35em;
+  padding-right: 2em;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  z-index: 20;
+
+  i {
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .add-button {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5em;
+    justify-content: center;
+    margin: 1em 1.5em 1em 1em;
+    pointer-events: all;
+
+    i {
+      color: #398ab5;
+      cursor: pointer;
+      font-size: 5em;
+      user-select: none;
+
+      &:hover {
+        color: #3f9dd0;
+      }
+    }
+  }
+
+  .card {
+    align-items: flex-end;
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    border-radius: 0.4em;
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+    padding: 1em;
+    pointer-events: all;
+    position: relative;
+
+    .title {
+      color: #3f9dd0;
+      font-size: 1.25rem;
+      left: 2rem;
+      position: absolute;
+    }
+
+    i.close {
+      font-size: 1.5em;
+      margin: 0 0 0.5em 0.5em;
+
+      &:hover {
+        color: black;
+      }
+    }
+
+    &:hover {
+      box-shadow: 0 0 2em -0.5em #999;
+    }
+  }
+}

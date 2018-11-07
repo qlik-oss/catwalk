@@ -5,6 +5,8 @@ import Column from 'react-virtualized/dist/es/Table/Column';
 import VirtualTable from './virtual-table';
 
 import './hypercube-table.pcss';
+import useModel from './use/model';
+import useLayout from './use/layout';
 
 function cellGetterForIndex(index) {
   return function cellGetter({ rowData }) {
@@ -58,11 +60,19 @@ function rowRenderer({
 function headerRowRenderer({
   className, columns, style,
 }) {
+  const { width, paddingRight } = style;
+  let newStyle;
+  if (width && paddingRight) {
+    newStyle = { ...style, width: width - paddingRight };
+  } else {
+    newStyle = style;
+  }
+
   return (
     <div
       className={className}
       role="row"
-      style={style}
+      style={{ ...newStyle }}
     >
       {columns}
     </div>
@@ -78,133 +88,129 @@ function noRowsRenderer() {
   return <div className="no-values">No values</div>;
 }
 
-const GLYPH_SIZE = 6;
-
+const GLYPH_SIZE = 8;
+const MAX_ROW_GLYTH_LENGTH = 40;
 function getMeasureWidth(layout, measureIndex, measureName) {
-  const dataSize = layout.qHyperCube.qMeasureInfo.length > 0 ? layout.qHyperCube.qMeasureInfo[measureIndex].qApprMaxGlyphCount : 0;
-  const titleSize = measureName.length;
-  const size = Math.max(dataSize, titleSize);
-  return size * GLYPH_SIZE;
+  const dataSize = layout.qHyperCube.qMeasureInfo.length > measureIndex ? layout.qHyperCube.qMeasureInfo[measureIndex].qApprMaxGlyphCount : 0;
+  const titleSize = (measureName || '').length;
+  const size = Math.min(Math.max(dataSize, titleSize), MAX_ROW_GLYTH_LENGTH);
+  return size * GLYPH_SIZE + 8;
 }
 
 function getDimensionWidth(layout, dimensionIndex, dimensionName) {
   const dataSize = layout.qHyperCube.qDimensionInfo.length > dimensionIndex ? layout.qHyperCube.qDimensionInfo[dimensionIndex].qApprMaxGlyphCount : 0;
-  const titleSize = dimensionName.length;
-  const size = Math.max(dataSize, titleSize);
-  return size * GLYPH_SIZE;
+  const titleSize = (dimensionName || '').length;
+  const size = Math.min(Math.max(dataSize, titleSize), MAX_ROW_GLYTH_LENGTH);
+  return size * GLYPH_SIZE + 8;
 }
 
-export class HypercubeTable extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
-    this.selfRef = React.createRef();
+function getTotalWidth(layout, dimensions, measures) {
+  if (!layout) {
+    return 0;
+  }
+  const dimSizes = dimensions.map((dim, dimensionIndex) => getDimensionWidth(layout, dimensionIndex, dim.title));
+  const mesSizes = measures.map((measure, measureIndex) => getMeasureWidth(layout, measureIndex, measure.title));
+  return 20 + dimSizes.reduce((a, b) => a + b, 0) + mesSizes.reduce((a, b) => a + b, 0);
+}
+
+export default function HypercubeTable({
+  app, measures, dimensions, height, maxWidth, onHeaderClick,
+}) {
+  const hypercubeProps = {
+    qInfo: {
+      qId: 'measurebox1',
+      qType: 'measurebox1',
+    },
+    qHyperCubeDef: {
+      qInitialDataFetch: [
+        {
+          qTop: 0,
+          qLeft: 0,
+          qHeight: 20,
+          qWidth: dimensions.length + measures.length,
+        },
+      ],
+    },
+  };
+  if (dimensions && dimensions.length > 0) {
+    hypercubeProps.qHyperCubeDef.qDimensions = dimensions.map(dimension => dimension.hyperCubeContent);
+  } else {
+    hypercubeProps.qHyperCubeDef.qDimensions = [];
+  }
+  if (measures && measures.length > 0) {
+    hypercubeProps.qHyperCubeDef.qMeasures = measures.map(measure => measure.hyperCubeContent);
+  } else {
+    hypercubeProps.qHyperCubeDef.qMeasures = [];
   }
 
-  async componentWillReceiveProps() {
-    const { app, measure, dimensions } = this.props;
+  const model = useModel(app, hypercubeProps);
+  const layout = useLayout(model);
 
-    const hypercubeProps = {
-      qInfo: {
-        qId: 'measurebox1',
-        qType: 'measurebox1',
-      },
-      qHyperCubeDef: {
-        qMeasures: [{
-          qLibraryId: measure.qInfo.qId,
-        }],
-        qInitialDataFetch: [
-          {
-            qTop: 0,
-            qLeft: 0,
-            qHeight: 50,
-            qWidth: dimensions.length + 1,
-          },
-        ],
-      },
-    };
-
-    if (dimensions.length > 0) {
-      hypercubeProps.qHyperCubeDef.qDimensions = dimensions.map(fieldName => ({ qDef: { qFieldDefs: [fieldName] } }));
-    } else {
-      hypercubeProps.qHyperCubeDef.qDimensions = [];
-    }
-
-    if (!this.object) {
-      this.object = await app.createSessionObject(hypercubeProps);
-    } else {
-      await this.object.setProperties(hypercubeProps);
-    }
-    const layout = await this.object.getLayout();
-    this.setState({ layout, object: this.object });
+  function onHeaderClickInternal(data) {
+    onHeaderClick(data);
   }
-
-  componentWillUnmount() {
+  const totalWidth = getTotalWidth(layout, dimensions, measures);
+  if (layout && totalWidth > 0) {
+    return (
+      <div role="Table" tabIndex="-1" className="hypercube-table">
+        <VirtualTable
+          layout={layout}
+          model={model}
+          rowRenderer={rowRenderer}
+          noRowsRenderer={noRowsRenderer}
+          headerRowRenderer={headerRowRenderer}
+          onHeaderClick={data => onHeaderClickInternal(data)}
+          headerRowHeight={24}
+          width={totalWidth < maxWidth ? totalWidth : maxWidth}
+          height={height}
+          defPath="/qHyperCubeDef"
+        >
+          {dimensions.map((dim, dimensionIndex) => (
+            <Column
+              label={dim.title}
+              dataKey={dim.title}
+              columnData={dim}
+              key={dim.title}
+              width={getDimensionWidth(layout, dimensionIndex, dim.title)}
+              flexGrow={1}
+              flexShrink={1}
+              cellDataGetter={cellGetterForIndex(dimensionIndex)}
+              cellRenderer={cellRendererForIndex(dimensionIndex)}
+            />
+          ))
+          }
+          {measures.map((measure, measureIndex) => (
+            <Column
+              width={getMeasureWidth(layout, measureIndex, measure.title)}
+              label={measure.title}
+              dataKey={measure.title}
+              columnData={measure}
+              key="measure"
+              flexGrow={1}
+              flexShrink={1}
+              cellDataGetter={cellGetterForIndex(dimensions.length + measureIndex)}
+              cellRenderer={cellRendererForIndex(dimensions.length + measureIndex)}
+            />
+          ))
+           }
+        </VirtualTable>
+      </div>
+    );
   }
-
-  render() {
-    const { measure, dimensions } = this.props;
-    const measures = [measure.qMeta.title];
-    const { layout, object } = this.state;
-    if (layout) {
-      return (
-        <div role="Table" tabIndex="-1" className="hypercube-table" ref={this.selfRef}>
-          <div className="virtualtable">
-            <VirtualTable
-              layout={layout}
-              model={object}
-              onRowClick={this.onRowClick}
-              rowRenderer={rowRenderer}
-              noRowsRenderer={noRowsRenderer}
-              headerRowRenderer={headerRowRenderer}
-              headerRowHeight={24}
-              defPath="/qHyperCubeDef"
-            >
-              {dimensions.map((dimName, dimensionIndex) => (
-                <Column
-                  label={dimName}
-                  dataKey={dimName}
-                  key={dimName}
-                  width={getDimensionWidth(layout, dimensionIndex, dimName)}
-                  flexGrow={1}
-                  flexShrink={1}
-                  cellDataGetter={cellGetterForIndex(dimensionIndex)}
-                  cellRenderer={cellRendererForIndex(dimensionIndex)}
-                />
-              ))
-              }
-              {measures.map((measureName, measureIndex) => (
-                <Column
-                  width={getMeasureWidth(layout, measureIndex, measureName)}
-                  label={measureName}
-                  dataKey={measureName}
-                  key="measure"
-                  flexGrow={1}
-                  flexShrink={0}
-                  cellDataGetter={cellGetterForIndex(dimensions.length + measureIndex)}
-                  cellRenderer={cellRendererForIndex(dimensions.length + measureIndex)}
-                />
-              ))
-              }
-            </VirtualTable>
-          </div>
-        </div>
-      );
-    }
-    return (<div />);
-  }
+  return (<div />);
 }
 
 HypercubeTable.propTypes = {
-  measure: PropTypes.object,
-  dimensions: PropTypes.arrayOf(PropTypes.string),
+  onHeaderClick: PropTypes.func,
+  measures: PropTypes.arrayOf(PropTypes.object),
+  dimensions: PropTypes.arrayOf(PropTypes.object),
   app: PropTypes.object,
+  maxWidth: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
 };
 HypercubeTable.defaultProps = {
-  measure: null,
-  dimensions: null,
+  onHeaderClick: () => {},
+  measures: [],
+  dimensions: [],
   app: null,
 };
-
-
-export default HypercubeTable;
