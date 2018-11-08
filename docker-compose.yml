@@ -12,3 +12,8 @@ services:
       - 9076:9076
     volumes:
       - ./data:/data
+
+  chrome:
+    image: browserless/chrome
+    ports:
+      - 3000:3000
