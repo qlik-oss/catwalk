@@ -5,6 +5,8 @@ import Column from 'react-virtualized/dist/es/Table/Column';
 import VirtualTable from './virtual-table';
 
 import './hypercube-table.pcss';
+import useModel from './use/model';
+import useLayout from './use/layout';
 
 function cellGetterForIndex(index) {
   return function cellGetter({ rowData }) {
@@ -58,11 +60,19 @@ function rowRenderer({
 function headerRowRenderer({
   className, columns, style,
 }) {
+  const { width, paddingRight } = style;
+  let newStyle;
+  if (width && paddingRight) {
+    newStyle = { ...style, width: width - paddingRight };
+  } else {
+    newStyle = style;
+  }
+
   return (
     <div
       className={className}
       role="row"
-      style={style}
+      style={{ ...newStyle }}
     >
       {columns}
     </div>
@@ -78,133 +88,138 @@ function noRowsRenderer() {
   return <div className="no-values">No values</div>;
 }
 
-const GLYPH_SIZE = 6;
+const GLYPH_SIZE = 8; // Aproximate max width in pixels of a glyph
+const MAX_ROW_GLYTH_LENGTH = 40; // If the column is more than 40 glyphs wide then limit it
+const PADDING = 8; // The total padding added around table cells
+const BORDER = 1; // The size added by the border between cells
+const SCROLLBAR_PADDING = 17; // React-virtualized adds and subtracts this value to accomodate for the space stolen by the scroll bar
+
+function getColumnSize(title, approxGlyphCount) {
+  const titleSize = (title || '').length;
+  const glyphCount = Math.min(Math.max(approxGlyphCount, titleSize), MAX_ROW_GLYTH_LENGTH);
+  const columnSizeInPx = glyphCount * GLYPH_SIZE + PADDING + BORDER; // The last column has no border so that is subtracted below
+  return columnSizeInPx;
+}
 
 function getMeasureWidth(layout, measureIndex, measureName) {
-  const dataSize = layout.qHyperCube.qMeasureInfo.length > 0 ? layout.qHyperCube.qMeasureInfo[measureIndex].qApprMaxGlyphCount : 0;
-  const titleSize = measureName.length;
-  const size = Math.max(dataSize, titleSize);
-  return size * GLYPH_SIZE;
+  const approxGlyphCount = layout.qHyperCube.qMeasureInfo.length > measureIndex ? layout.qHyperCube.qMeasureInfo[measureIndex].qApprMaxGlyphCount : 0;
+  return getColumnSize(measureName, approxGlyphCount);
 }
 
 function getDimensionWidth(layout, dimensionIndex, dimensionName) {
-  const dataSize = layout.qHyperCube.qDimensionInfo.length > dimensionIndex ? layout.qHyperCube.qDimensionInfo[dimensionIndex].qApprMaxGlyphCount : 0;
-  const titleSize = dimensionName.length;
-  const size = Math.max(dataSize, titleSize);
-  return size * GLYPH_SIZE;
+  const approxGlyphCount = layout.qHyperCube.qDimensionInfo.length > dimensionIndex ? layout.qHyperCube.qDimensionInfo[dimensionIndex].qApprMaxGlyphCount : 0;
+  return getColumnSize(dimensionName, approxGlyphCount);
 }
 
-export class HypercubeTable extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
-    this.selfRef = React.createRef();
+function getTotalTableWidth(layout, dimensions, measures) {
+  if (!layout) {
+    return 0;
   }
+  const dimSizes = dimensions.map((dim, dimensionIndex) => getDimensionWidth(layout, dimensionIndex, dim.title));
+  const mesSizes = measures.map((measure, measureIndex) => getMeasureWidth(layout, measureIndex, measure.title));
+  const columnsSize = dimSizes.reduce((a, b) => a + b, 0) + mesSizes.reduce((a, b) => a + b, 0);
+  const totalWidth = columnsSize + SCROLLBAR_PADDING - BORDER; // Subtract one border for the last column with doesn't have one
+  return totalWidth;
+}
 
-  async componentWillReceiveProps() {
-    const { app, measure, dimensions } = this.props;
-
-    const hypercubeProps = {
-      qInfo: {
-        qId: 'measurebox1',
-        qType: 'measurebox1',
-      },
-      qHyperCubeDef: {
-        qMeasures: [{
-          qLibraryId: measure.qInfo.qId,
-        }],
-        qInitialDataFetch: [
-          {
-            qTop: 0,
-            qLeft: 0,
-            qHeight: 50,
-            qWidth: dimensions.length + 1,
-          },
-        ],
-      },
-    };
-
-    if (dimensions.length > 0) {
-      hypercubeProps.qHyperCubeDef.qDimensions = dimensions.map(fieldName => ({ qDef: { qFieldDefs: [fieldName] } }));
-    } else {
-      hypercubeProps.qHyperCubeDef.qDimensions = [];
-    }
-
-    if (!this.object) {
-      this.object = await app.createSessionObject(hypercubeProps);
-    } else {
-      await this.object.setProperties(hypercubeProps);
-    }
-    const layout = await this.object.getLayout();
-    this.setState({ layout, object: this.object });
+function createProperties(dimensions, measures) {
+  const hypercubeProps = {
+    qInfo: {
+      qType: 'catwalk-hypercube',
+    },
+    qHyperCubeDef: {
+      qInitialDataFetch: [
+        {
+          qTop: 0,
+          qLeft: 0,
+          qHeight: 20,
+          qWidth: dimensions.length + measures.length,
+        },
+      ],
+    },
+  };
+  if (dimensions && dimensions.length > 0) {
+    hypercubeProps.qHyperCubeDef.qDimensions = dimensions.map(dimension => dimension.hyperCubeContent);
+  } else {
+    hypercubeProps.qHyperCubeDef.qDimensions = [];
   }
-
-  componentWillUnmount() {
+  if (measures && measures.length > 0) {
+    hypercubeProps.qHyperCubeDef.qMeasures = measures.map(measure => measure.hyperCubeContent);
+  } else {
+    hypercubeProps.qHyperCubeDef.qMeasures = [];
   }
+  return hypercubeProps;
+}
 
-  render() {
-    const { measure, dimensions } = this.props;
-    const measures = [measure.qMeta.title];
-    const { layout, object } = this.state;
-    if (layout) {
-      return (
-        <div role="Table" tabIndex="-1" className="hypercube-table" ref={this.selfRef}>
-          <div className="virtualtable">
-            <VirtualTable
-              layout={layout}
-              model={object}
-              onRowClick={this.onRowClick}
-              rowRenderer={rowRenderer}
-              noRowsRenderer={noRowsRenderer}
-              headerRowRenderer={headerRowRenderer}
-              headerRowHeight={24}
-              defPath="/qHyperCubeDef"
-            >
-              {dimensions.map((dimName, dimensionIndex) => (
-                <Column
-                  label={dimName}
-                  dataKey={dimName}
-                  key={dimName}
-                  width={getDimensionWidth(layout, dimensionIndex, dimName)}
-                  flexGrow={1}
-                  flexShrink={1}
-                  cellDataGetter={cellGetterForIndex(dimensionIndex)}
-                  cellRenderer={cellRendererForIndex(dimensionIndex)}
-                />
-              ))
-              }
-              {measures.map((measureName, measureIndex) => (
-                <Column
-                  width={getMeasureWidth(layout, measureIndex, measureName)}
-                  label={measureName}
-                  dataKey={measureName}
-                  key="measure"
-                  flexGrow={1}
-                  flexShrink={0}
-                  cellDataGetter={cellGetterForIndex(dimensions.length + measureIndex)}
-                  cellRenderer={cellRendererForIndex(dimensions.length + measureIndex)}
-                />
-              ))
-              }
-            </VirtualTable>
-          </div>
-        </div>
-      );
-    }
-    return (<div />);
+export default function HypercubeTable({
+  app, measures, dimensions, height, maxWidth, onHeaderClick,
+}) {
+  const hypercubeProps = createProperties(dimensions, measures);
+  const model = useModel(app, hypercubeProps);
+  const layout = useLayout(model);
+
+  const calculatedWidth = getTotalTableWidth(layout, dimensions, measures);
+  if (layout && calculatedWidth > 0) {
+    return (
+      <div role="Table" tabIndex="-1" className="hypercube-table">
+        <VirtualTable
+          layout={layout}
+          model={model}
+          rowRenderer={rowRenderer}
+          noRowsRenderer={noRowsRenderer}
+          headerRowRenderer={headerRowRenderer}
+          onHeaderClick={data => onHeaderClick(data)}
+          headerRowHeight={24}
+          width={calculatedWidth < maxWidth ? calculatedWidth : maxWidth}
+          height={height}
+          defPath="/qHyperCubeDef"
+        >
+          {dimensions.map((dim, dimensionIndex) => (
+            <Column
+              label={dim.title}
+              dataKey={dim.title}
+              columnData={dim}
+              key={dim.title}
+              width={getDimensionWidth(layout, dimensionIndex, dim.title)}
+              flexGrow={1}
+              flexShrink={1}
+              cellDataGetter={cellGetterForIndex(dimensionIndex)}
+              cellRenderer={cellRendererForIndex(dimensionIndex)}
+            />
+          ))
+          }
+          {measures.map((measure, measureIndex) => (
+            <Column
+              width={getMeasureWidth(layout, measureIndex, measure.title)}
+              label={measure.title}
+              dataKey={measure.title}
+              columnData={measure}
+              key="measure"
+              flexGrow={1}
+              flexShrink={1}
+              cellDataGetter={cellGetterForIndex(dimensions.length + measureIndex)}
+              cellRenderer={cellRendererForIndex(dimensions.length + measureIndex)}
+            />
+          ))
+           }
+        </VirtualTable>
+      </div>
+    );
   }
+  return (<div />);
 }
 
 HypercubeTable.propTypes = {
-  measure: PropTypes.object,
-  dimensions: PropTypes.arrayOf(PropTypes.string),
+  onHeaderClick: PropTypes.func,
+  measures: PropTypes.arrayOf(PropTypes.object),
+  dimensions: PropTypes.arrayOf(PropTypes.object),
   app: PropTypes.object,
+  maxWidth: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
 };
 HypercubeTable.defaultProps = {
-  measure: null,
-  dimensions: null,
+  onHeaderClick: () => {},
+  measures: [],
+  dimensions: [],
   app: null,
 };
-
-
-export default HypercubeTable;

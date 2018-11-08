@@ -1,0 +1,35 @@
+.cube {
+  position: relative;
+
+  .table-wrapper {
+    display: flex;
+    position: relative;
+
+    .column-add-button {
+      align-items: center;
+      background-color: #398ab5;
+      border-radius: 1rem;
+      box-sizing: border-box;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      height: 1.75rem;
+      justify-content: center;
+      margin: 0.5rem;
+      width: 1.75rem;
+
+      .text {
+        color: white;
+        font-size: 1.75rem;
+      }
+    }
+
+    .hypercube-table {
+      flex: 1 1 auto;
+    }
+
+    .column-add-button.empty {
+      border-right: 1px solid #d9d9d9;
+    }
+  }
+}
