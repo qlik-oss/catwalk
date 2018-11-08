@@ -69,7 +69,7 @@ export default function Cube({ app, tableData: { initialColumns } }) {
     <div className={`cube ${isEmpty ? 'empty' : ''}`}>
       {popup}
       <div className="table-wrapper">
-        <div role="button" tabIndex="-1" className={`column-add-button ${isEmpty ? 'empty' : ''}`} onClick={e => toggleAdd(e)}>
+        <div role="button" title="Add another column" tabIndex="-1" className={`column-add-button ${isEmpty ? 'empty' : ''}`} onClick={e => toggleAdd(e)}>
           <span className="text">+</span>
         </div>
         {!isEmpty ? <HypercubeTable app={app} onHeaderClick={data => onHeaderClick(data)} dimensions={dimensions} measures={measures} height={28 * 8} maxWidth={100 * 8} /> : null}

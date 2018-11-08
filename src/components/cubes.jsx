@@ -42,14 +42,14 @@ export function Cubes({ app }) {
   const cubeDivs = cubeList.map(cube => (
     <div key={cube.id} className="card">
       <div className="title">HYPERCUBE</div>
-      <span role="button" tabIndex="-1" className="close" onClick={() => removeCube(cube.id)}>x</span>
+      <span role="button" tabIndex="-1" className="close" onClick={() => removeCube(cube.id)}>X</span>
       <Cube app={app} tableData={cube} />
     </div>));
   return (
     <div>
       <div className="cubes">
         <div className="add-button" ref={addButtonRef} role="button" tabIndex="-1" onClick={() => openColumnChooser()}>
-          <span className="text">+</span>
+          <span className="text" title="Create a new hypercube">+</span>
         </div>
         {cubeDivs}
       </div>
