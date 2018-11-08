@@ -8,7 +8,7 @@ import useClickOutside from './use/click-outside';
 import './selection-field.pcss';
 
 function SelectionFieldWithoutState({
-  app, model, layout, field, fieldData, parent,
+  app, model, layout, field, fieldData,
 }) {
   const selfRef = useRef(null);
   const [showFilterbox, setShowFilterbox] = useState(false);
@@ -31,9 +31,8 @@ function SelectionFieldWithoutState({
   });
 
   let positioning = {};
-  if (parent && parent.current && selfRef && selfRef.current) {
-    const scrollPos = parent.current.scrollLeft;
-    positioning = { left: `calc(${selfRef.current.offsetLeft}px - ${scrollPos}px - 1em)` };
+  if (selfRef && selfRef.current) {
+    positioning = { left: `${selfRef.current.getBoundingClientRect().left}px` };
   }
   const filterBox = showFilterbox
     ? (
@@ -64,7 +63,6 @@ SelectionFieldWithoutState.propTypes = {
   layout: PropTypes.object,
   field: PropTypes.string.isRequired,
   fieldData: PropTypes.object,
-  parent: PropTypes.object,
 };
 
 SelectionFieldWithoutState.defaultProps = {
@@ -72,7 +70,6 @@ SelectionFieldWithoutState.defaultProps = {
   model: null,
   layout: null,
   fieldData: null,
-  parent: null,
 };
 
 const createDefinition = field => ({
@@ -103,12 +100,12 @@ const createDefinition = field => ({
 });
 
 export default function SelectionField({
-  app, field, fieldData, parent,
+  app, field, fieldData,
 }) {
   const model = useModel(app, createDefinition(field));
   const layout = useLayout(model);
 
   return SelectionFieldWithoutState({
-    app, model, layout, field, fieldData, parent,
+    app, model, layout, field, fieldData,
   });
 }
