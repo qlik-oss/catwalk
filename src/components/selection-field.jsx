@@ -43,13 +43,13 @@ function SelectionFieldWithoutState({
     ) : null;
 
   return (
-    <div className="popover-wrapper">
+    <div className="popover-wrapper" ref={selfRef}>
       <div
         className="selection-field"
         onClick={onClick}
         tabIndex="-1"
         role="button"
-        ref={selfRef}
+        
       >
         <Field layout={layout} field={field} fieldData={fieldData} onClearSelection={onClearSelection} />
       </div>
