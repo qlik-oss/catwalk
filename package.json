@@ -28,10 +28,10 @@
     "react-virtualized": "9.21.0"
   },
   "devDependencies": {
-    "@after-work.js/cli": "5.1.0",
-    "@after-work.js/node": "5.1.0",
-    "@after-work.js/puppeteer": "5.1.0",
-    "@after-work.js/serve": "5.1.0",
+    "@after-work.js/cli": "5.1.1",
+    "@after-work.js/node": "5.1.1",
+    "@after-work.js/puppeteer": "5.1.1",
+    "@after-work.js/serve": "5.1.1",
     "@babel/core": "7.1.2",
     "@babel/plugin-proposal-class-properties": "7.1.0",
     "@babel/plugin-transform-async-to-generator": "7.1.0",
