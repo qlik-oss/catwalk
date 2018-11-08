@@ -41,15 +41,15 @@ export function Cubes({ app }) {
   const popup = addOpen.current ? <CubeColumnChooser arrowStyle="arrowRight" alignTo={addButtonRef.current} selectableColumns={selectableColumns} chooseColumn={column => addCube(column)} /> : null;
   const cubeDivs = cubeList.map(cube => (
     <div key={cube.id} className="card">
-      <div className="title">{`HYPERCUBE ${cube.id}`}</div>
-      <i role="button" tabIndex="-1" className="material-icons close" onClick={() => removeCube(cube.id)}>close</i>
+      <div className="title">HYPERCUBE</div>
+      <span role="button" tabIndex="-1" className="close" onClick={() => removeCube(cube.id)}>x</span>
       <Cube app={app} tableData={cube} />
     </div>));
   return (
     <div>
       <div className="cubes">
-        <div className="add-button" ref={addButtonRef}>
-          <i role="button" tabIndex="-1" className="material-icons add" onClick={() => openColumnChooser()}>add_circle</i>
+        <div className="add-button" ref={addButtonRef} role="button" tabIndex="-1" onClick={() => openColumnChooser()}>
+          <span className="text">+</span>
         </div>
         {cubeDivs}
       </div>

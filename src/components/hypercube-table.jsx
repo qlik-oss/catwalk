@@ -88,38 +88,44 @@ function noRowsRenderer() {
   return <div className="no-values">No values</div>;
 }
 
-const GLYPH_SIZE = 8;
-const MAX_ROW_GLYTH_LENGTH = 40;
+const GLYPH_SIZE = 8; // Aproximate max width in pixels of a glyph
+const MAX_ROW_GLYTH_LENGTH = 40; // If the column is more than 40 glyphs wide then limit it
+const PADDING = 8; // The total padding added around table cells
+const BORDER = 1; // The size added by the border between cells
+const SCROLLBAR_PADDING = 17; // React-virtualized adds and subtracts this value to accomodate for the space stolen by the scroll bar
+
+function getColumnSize(title, approxGlyphCount) {
+  const titleSize = (title || '').length;
+  const glyphCount = Math.min(Math.max(approxGlyphCount, titleSize), MAX_ROW_GLYTH_LENGTH);
+  const columnSizeInPx = glyphCount * GLYPH_SIZE + PADDING + BORDER; // The last column has no border so that is subtracted below
+  return columnSizeInPx;
+}
+
 function getMeasureWidth(layout, measureIndex, measureName) {
-  const dataSize = layout.qHyperCube.qMeasureInfo.length > measureIndex ? layout.qHyperCube.qMeasureInfo[measureIndex].qApprMaxGlyphCount : 0;
-  const titleSize = (measureName || '').length;
-  const size = Math.min(Math.max(dataSize, titleSize), MAX_ROW_GLYTH_LENGTH);
-  return size * GLYPH_SIZE + 8;
+  const approxGlyphCount = layout.qHyperCube.qMeasureInfo.length > measureIndex ? layout.qHyperCube.qMeasureInfo[measureIndex].qApprMaxGlyphCount : 0;
+  return getColumnSize(measureName, approxGlyphCount);
 }
 
 function getDimensionWidth(layout, dimensionIndex, dimensionName) {
-  const dataSize = layout.qHyperCube.qDimensionInfo.length > dimensionIndex ? layout.qHyperCube.qDimensionInfo[dimensionIndex].qApprMaxGlyphCount : 0;
-  const titleSize = (dimensionName || '').length;
-  const size = Math.min(Math.max(dataSize, titleSize), MAX_ROW_GLYTH_LENGTH);
-  return size * GLYPH_SIZE + 8;
+  const approxGlyphCount = layout.qHyperCube.qDimensionInfo.length > dimensionIndex ? layout.qHyperCube.qDimensionInfo[dimensionIndex].qApprMaxGlyphCount : 0;
+  return getColumnSize(dimensionName, approxGlyphCount);
 }
 
-function getTotalWidth(layout, dimensions, measures) {
+function getTotalTableWidth(layout, dimensions, measures) {
   if (!layout) {
     return 0;
   }
   const dimSizes = dimensions.map((dim, dimensionIndex) => getDimensionWidth(layout, dimensionIndex, dim.title));
   const mesSizes = measures.map((measure, measureIndex) => getMeasureWidth(layout, measureIndex, measure.title));
-  return 20 + dimSizes.reduce((a, b) => a + b, 0) + mesSizes.reduce((a, b) => a + b, 0);
+  const columnsSize = dimSizes.reduce((a, b) => a + b, 0) + mesSizes.reduce((a, b) => a + b, 0);
+  const totalWidth = columnsSize + SCROLLBAR_PADDING - BORDER; // Subtract one border for the last column with doesn't have one
+  return totalWidth;
 }
 
-export default function HypercubeTable({
-  app, measures, dimensions, height, maxWidth, onHeaderClick,
-}) {
+function createProperties(dimensions, measures) {
   const hypercubeProps = {
     qInfo: {
-      qId: 'measurebox1',
-      qType: 'measurebox1',
+      qType: 'catwalk-hypercube',
     },
     qHyperCubeDef: {
       qInitialDataFetch: [
@@ -142,15 +148,18 @@ export default function HypercubeTable({
   } else {
     hypercubeProps.qHyperCubeDef.qMeasures = [];
   }
+  return hypercubeProps;
+}
 
+export default function HypercubeTable({
+  app, measures, dimensions, height, maxWidth, onHeaderClick,
+}) {
+  const hypercubeProps = createProperties(dimensions, measures);
   const model = useModel(app, hypercubeProps);
   const layout = useLayout(model);
 
-  function onHeaderClickInternal(data) {
-    onHeaderClick(data);
-  }
-  const totalWidth = getTotalWidth(layout, dimensions, measures);
-  if (layout && totalWidth > 0) {
+  const calculatedWidth = getTotalTableWidth(layout, dimensions, measures);
+  if (layout && calculatedWidth > 0) {
     return (
       <div role="Table" tabIndex="-1" className="hypercube-table">
         <VirtualTable
@@ -159,9 +168,9 @@ export default function HypercubeTable({
           rowRenderer={rowRenderer}
           noRowsRenderer={noRowsRenderer}
           headerRowRenderer={headerRowRenderer}
-          onHeaderClick={data => onHeaderClickInternal(data)}
+          onHeaderClick={data => onHeaderClick(data)}
           headerRowHeight={24}
-          width={totalWidth < maxWidth ? totalWidth : maxWidth}
+          width={calculatedWidth < maxWidth ? calculatedWidth : maxWidth}
           height={height}
           defPath="/qHyperCubeDef"
         >

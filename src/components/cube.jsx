@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import './cube.pcss';
 import useColumnOptions from './use/column-options';
 import CubeColumnChooser from './cube-column-chooser';
 import HypercubeTable from './hypercube-table';
+
+import './cube.pcss';
 
 export default function Cube({ app, tableData: { initialColumns } }) {
   const selectableColumns = useColumnOptions(app);
@@ -69,9 +70,9 @@ export default function Cube({ app, tableData: { initialColumns } }) {
       {popup}
       <div className="table-wrapper">
         <div role="button" tabIndex="-1" className={`column-add-button ${isEmpty ? 'empty' : ''}`} onClick={e => toggleAdd(e)}>
-          <i className="material-icons">add_circle</i>
+          <span className="text">+</span>
         </div>
-        {!isEmpty ? <HypercubeTable app={app} onHeaderClick={data => onHeaderClick(data)} dimensions={dimensions} measures={measures} height={30 * 8 - 16} maxWidth={800} /> : null}
+        {!isEmpty ? <HypercubeTable app={app} onHeaderClick={data => onHeaderClick(data)} dimensions={dimensions} measures={measures} height={28 * 8} maxWidth={100 * 8} /> : null}
       </div>
     </div>
   );
@@ -81,7 +82,3 @@ Cube.propTypes = {
   app: PropTypes.object.isRequired,
   tableData: PropTypes.object.isRequired,
 };
-
-// Cube.defaultProps = {
-//   lastReloadTime: null,
-// };

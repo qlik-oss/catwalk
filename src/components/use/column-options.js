@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import useModel from './model';
 import useLayout from './layout';
 
@@ -29,13 +31,7 @@ const genericObjectProperties = {
   },
 };
 
-export function layoutToList(layout) {
-  return layout;
-}
-
-export default function useColumnOptions(app) {
-  const model = useModel(app, genericObjectProperties);
-  const layout = useLayout(model);
+export function layoutToListsStructure(layout) {
   if (layout) {
     const measures = layout.qMeasureList.qItems ? layout.qMeasureList.qItems.map(measure => ({ title: measure.qData.title, type: 'measure', hyperCubeContent: { qLibraryId: measure.qInfo.qId } })) : [];
     const dimensions = layout.qDimensionList.qItems ? layout.qDimensionList.qItems.map(dimension => ({ title: dimension.qData.title, type: 'dimension', hyperCubeContent: { qLibraryId: dimension.qInfo.qId } })) : [];
@@ -50,4 +46,11 @@ export default function useColumnOptions(app) {
     return result;
   }
   return [];
+}
+
+export default function useColumnOptions(app) {
+  const model = useModel(app, genericObjectProperties);
+  const layout = useLayout(model);
+  const listStructure = useMemo(() => layoutToListsStructure(layout), [layout]);
+  return listStructure;
 }

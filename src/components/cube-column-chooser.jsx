@@ -36,11 +36,11 @@ export default function CubeColumnChooser({
     chooseColumn(selectableColumns.find(c => c.title === title));
   }
 
-  const expressionDivs = filteredColumnsOptions.map(column => (
-    <ul className="expression" key={`${column.title}:${column.type}`} data-title={column.title}>
+  const itemElement = filteredColumnsOptions.map(column => (
+    <li className="expression" key={`${column.title}:${column.type}`} data-title={column.title}>
       <span className="expression-title">{column.title}</span>
       <span className="expression-type">{column.type}</span>
-    </ul>
+    </li>
   ));
 
 
@@ -58,9 +58,9 @@ export default function CubeColumnChooser({
         <span className="fx">fx</span>
         <input type="text" autoFocus ref={inputRef} onKeyUp={e => updateFilter(e)} />
       </div>
-      <li className="expression-list" onClick={e => selectRow(e)}>
-        {expressionDivs}
-      </li>
+      <ul className="expression-list" onClick={e => selectRow(e)}>
+        {itemElement}
+      </ul>
     </div>
   );
 }

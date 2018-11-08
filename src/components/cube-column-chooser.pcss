@@ -53,14 +53,14 @@
     right: 10px;
   }
 
-  li.expression-list {
+  .expression-list {
     cursor: pointer;
     display: flex;
     flex-direction: column-reverse;
     height: 40em;
     overflow: auto;
 
-    ul.expression {
+    .expression {
       border-bottom: 1px solid #d9d9d9;
       display: flex;
       flex: 0 0 auto;
@@ -110,19 +110,5 @@
         outline: none;
       }
     }
-  }
-
-  /* Scollbars */
-  .expression-list::-webkit-scrollbar {
-    height: 8px;
-    width: 8px;
-  }
-
-  .expression-list::-webkit-scrollbar-track {
-    background: white;
-  }
-
-  .expression-list::-webkit-scrollbar-thumb {
-    background: #d9d9d9;
   }
 }
