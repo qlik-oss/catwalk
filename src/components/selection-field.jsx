@@ -49,7 +49,7 @@ function SelectionFieldWithoutState({
         onClick={onClick}
         tabIndex="-1"
         role="button"
-        
+
       >
         <Field layout={layout} field={field} fieldData={fieldData} onClearSelection={onClearSelection} />
       </div>
