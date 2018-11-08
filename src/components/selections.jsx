@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import useModel from './use/model';
@@ -13,6 +13,7 @@ const definition = {
 };
 
 export default function Selections({ app }) {
+  const selfRef = useRef(null);
   const layout = useLayout(useModel(app, definition));
 
   let items;
@@ -20,7 +21,7 @@ export default function Selections({ app }) {
   if (layout) {
     items = layout.qSelectionObject.qSelections.map(item => (
       <li key={item.qField}>
-        <SelectionField app={app} field={item.qField} fieldData={item} />
+        <SelectionField app={app} field={item.qField} fieldData={item} parent={selfRef} />
       </li>
     ));
     if (!items.length) {
@@ -35,7 +36,9 @@ export default function Selections({ app }) {
   return (
     <ul className="selections">
       <li key="clear" className="clear" onClick={() => app.clearAll()}>✖</li>
-      {items}
+      <div id="parentList" className="selections-inner" ref={selfRef}>
+        {items}
+      </div>
     </ul>
   );
 }
