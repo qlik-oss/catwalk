@@ -7,9 +7,9 @@ import useLayout from './use/layout';
 import TopBar from './topbar';
 import Model from './model';
 import Splash from './splash';
+import Cubes from './cubes';
 
 import './app.pcss';
-import Cubes from './cubes';
 
 export const AppContext = React.createContext(null);
 export const AppConsumer = AppContext.Consumer;
