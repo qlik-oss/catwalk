@@ -25,16 +25,16 @@
     "react-virtualized": "9.21.0"
   },
   "devDependencies": {
-    "@babel/core": "7.1.2",
+    "@babel/core": "7.1.5",
     "@babel/plugin-proposal-class-properties": "7.1.0",
     "@babel/plugin-transform-async-to-generator": "7.1.0",
     "@babel/plugin-transform-runtime": "7.1.0",
-    "@babel/preset-env": "7.1.0",
+    "@babel/preset-env": "7.1.5",
     "@babel/preset-react": "7.0.0",
     "autoprefixer": "9.3.1",
     "babel-eslint": "10.0.1",
     "cross-env": "5.2.0",
-    "eslint": "5.8.0",
+    "eslint": "5.9.0",
     "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.2",
@@ -42,7 +42,7 @@
     "parcel-bundler": "1.10.3",
     "parcel-plugin-inlinesvg": "0.0.14",
     "postcss-nested": "4.1.0",
-    "stylelint": "9.7.1",
+    "stylelint": "9.8.0",
     "stylelint-config-standard": "18.2.0",
     "stylelint-order": "1.0.0"
   }
