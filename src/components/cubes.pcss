@@ -1,0 +1,84 @@
+
+.cubes {
+  align-items: center;
+  bottom: 2rem;
+  box-sizing: border-box;
+  color: #4d4d4d;
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 1rem;
+  max-width: 50%;
+  min-height: 35em;
+  padding-right: 2em;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  z-index: 20;
+
+  .add-button {
+    align-items: center;
+    align-self: flex-end;
+    background-color: #398ab5;
+    border-radius: 3em;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 6rem;
+    justify-content: center;
+    margin: 1em 1em 1em 1em;
+    outline: none;
+    pointer-events: all;
+    width: 6rem;
+
+    &:hover {
+      background-color: #3f9dd0;
+    }
+
+    .text {
+      color: white;
+      font-size: 9em;
+      padding-bottom: 0.5rem;
+      user-select: none;
+    }
+  }
+
+  .card {
+    align-items: flex-end;
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    border-radius: 0.4em;
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+    padding: 1em;
+    pointer-events: all;
+    position: relative;
+
+    .title {
+      color: #3f9dd0;
+      font-size: 1.25rem;
+      left: 1rem;
+      position: absolute;
+    }
+
+    .close {
+      cursor: pointer;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 0 0 0 0;
+      outline: none;
+
+      &:hover {
+        color: black;
+      }
+    }
+
+    .cube {
+      margin-top: 0.5rem;
+    }
+
+    &:hover {
+      box-shadow: 0 0 2em -0.5em #999;
+    }
+  }
+}

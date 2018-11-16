@@ -55,7 +55,7 @@ function wrappingRowRenderer(inputParams, rowRenderer) {
 }
 
 export default function VirtualTable({
-  model, layout, onRowClick, rowRenderer, noRowsRenderer, children, defPath, headerRowRenderer, headerRowHeight,
+  model, layout, onRowClick, onHeaderClick, rowRenderer, noRowsRenderer, children, defPath, headerRowRenderer, headerRowHeight, width: explicitWidth, height: explicitHeight,
 }) {
   const infiniteLoaderRef = useRef(null);
   const [table, setTable] = useState(null);
@@ -95,42 +95,54 @@ export default function VirtualTable({
   };
 
   const rootNode = extractNode(layout, defPath);
+  function getInfiniteLoader(width, height) {
+    return (
+      <InfiniteLoader
+        isRowLoaded={isRowLoaded}
+        loadMoreRows={loadMoreRows}
+        rowCount={rootNode.qSize.qcy}
+        threshold={3}
+        minimumBatchSize={100}
+        ref={infiniteLoaderRef}
+      >
+        {({ onRowsRendered, registerChild }) => {
+          const grab = (tbl) => {
+            if (table !== tbl) {
+              setTable(tbl);
+            }
+            registerChild(tbl);
+          };
+          return (
+            <Table
+              height={height}
+              width={width}
+              ref={grab}
+              onRowsRendered={onRowsRendered}
+              disableHeader={!headerRowRenderer}
+              rowHeight={24}
+              rowCount={rootNode.qSize.qcy}
+              rowGetter={getRow}
+              tabIndex={null}
+              onRowClick={onRowClick}
+              onHeaderClick={onHeaderClick}
+              rowRenderer={params => wrappingRowRenderer(params, rowRenderer)}
+              headerRowRenderer={headerRowRenderer}
+              headerHeight={headerRowHeight || 0}
+              noRowsRenderer={noRowsRenderer}
+            >
+              {children}
+            </Table>
+          );
+        }}
+      </InfiniteLoader>
+    );
+  }
+  if (!!explicitWidth && !!explicitHeight) {
+    return getInfiniteLoader(explicitWidth, explicitHeight);
+  }
   return (
     <AutoSizer>
-      {({ height, width }) => (
-        <InfiniteLoader
-          isRowLoaded={isRowLoaded}
-          loadMoreRows={loadMoreRows}
-          rowCount={rootNode.qSize.qcy}
-          threshold={3}
-          minimumBatchSize={100}
-          ref={infiniteLoaderRef}
-        >
-          {({ onRowsRendered, registerChild }) => {
-            const grab = (tbl) => { if (table !== tbl) setTable(tbl); registerChild(tbl); };
-            return (
-              <Table
-                height={height}
-                width={width}
-                ref={grab}
-                onRowsRendered={onRowsRendered}
-                disableHeader={!headerRowRenderer}
-                rowHeight={24}
-                rowCount={rootNode.qSize.qcy}
-                rowGetter={getRow}
-                tabIndex={null}
-                onRowClick={onRowClick}
-                rowRenderer={params => wrappingRowRenderer(params, rowRenderer)}
-                headerRowRenderer={headerRowRenderer}
-                headerHeight={headerRowHeight || 0}
-                noRowsRenderer={noRowsRenderer}
-              >
-                {children}
-              </Table>
-            );
-          }}
-        </InfiniteLoader>)
-      }
+      {({ height, width }) => getInfiniteLoader(width, height)}
     </AutoSizer>
   );
 }
@@ -140,16 +152,22 @@ VirtualTable.propTypes = {
   layout: PropTypes.object.isRequired,
   model: PropTypes.object.isRequired,
   onRowClick: PropTypes.func,
+  onHeaderClick: PropTypes.func,
   rowRenderer: PropTypes.func.isRequired,
   headerRowRenderer: PropTypes.func,
   headerRowHeight: PropTypes.number,
   noRowsRenderer: PropTypes.func,
   defPath: PropTypes.string.isRequired,
+  width: PropTypes.number,
+  height: PropTypes.number,
 };
 
 VirtualTable.defaultProps = {
   onRowClick: () => {},
+  onHeaderClick: () => {},
   noRowsRenderer: null,
   headerRowRenderer: null,
   headerRowHeight: null,
+  width: null,
+  height: null,
 };
