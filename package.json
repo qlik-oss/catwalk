@@ -15,21 +15,21 @@
     "lint:fix": "eslint --ext .js,.jsx --fix . && stylelint --fix src/."
   },
   "dependencies": {
-    "enigma.js": "2.3.0",
+    "enigma.js": "2.3.2",
     "prop-types": "15.6.2",
-    "react": "16.7.0-alpha.0",
-    "react-dom": "16.7.0-alpha.0",
+    "react": "16.7.0-alpha.2",
+    "react-dom": "16.7.0-alpha.2",
     "react-outside-click-handler": "1.2.2",
     "react-svg-inline": "2.1.1",
     "react-use-promise": "0.0.0-alpha.1",
     "react-virtualized": "9.21.0"
   },
   "devDependencies": {
-    "@babel/core": "7.1.5",
+    "@babel/core": "7.1.6",
     "@babel/plugin-proposal-class-properties": "7.1.0",
     "@babel/plugin-transform-async-to-generator": "7.1.0",
     "@babel/plugin-transform-runtime": "7.1.0",
-    "@babel/preset-env": "7.1.5",
+    "@babel/preset-env": "7.1.6",
     "@babel/preset-react": "7.0.0",
     "autoprefixer": "9.3.1",
     "babel-eslint": "10.0.1",
