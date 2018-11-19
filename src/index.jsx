@@ -1,10 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactGA from 'react-ga';
 
 import ErrorBoundary from './components/error-boundary';
 import App from './components/app';
 
 import './index.pcss';
+
+if (process.env.GA) {
+  ReactGA.initialize(process.env.GA);
+  ReactGA.pageview(window.location.pathname + window.location.search);
+}
+
 
 const Index = () => (
   <ErrorBoundary>
