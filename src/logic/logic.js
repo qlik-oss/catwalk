@@ -35,7 +35,7 @@ function assocSymbol(field) {
     case 'PRIMARY_KEY':
       return '0/1';
     default:
-      return '0..n';
+      return '*';
   }
 }
 
