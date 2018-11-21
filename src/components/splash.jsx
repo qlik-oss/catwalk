@@ -44,17 +44,16 @@ export default function Splash({
   if (Array.isArray(docs) && docs.length) {
     content = (
       <div>
+        <h3>Putting your Qlik data models on stage</h3>
         <p>WebSocket connected, but no open app. Choose one below:</p>
         <ul className="doc-list">
           {docs.map(doc => (
             <li onClick={() => updateEngineURL(engineURL, doc.qDocId)} key={doc.qDocId}>
               <i className="icon" />
               <span className="title">
-                {doc.qTitle}
-                {' '}
-(
+                <b>{doc.qTitle}</b>
+                <br />
                 {doc.qMeta.description || 'No description'}
-)
               </span>
             </li>
           ))}
