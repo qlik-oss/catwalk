@@ -33,9 +33,9 @@ function assocSymbol(field) {
     case 'PERFECT_KEY':
       return '1';
     case 'PRIMARY_KEY':
-      return '1';
+      return '0/1';
     default:
-      return 'n';
+      return '*';
   }
 }
 
@@ -56,7 +56,7 @@ function toSubsetRatioText(qSubsetratio) {
 
 function toSubsetRatioTitle(field) {
   if (!!field.qnPresentDistinctValues && !!field.qnTotalDistinctValues && field.qnPresentDistinctValues < field.qnTotalDistinctValues) {
-    return `Only ${field.qnPresentDistinctValues} out of ${field.qnTotalDistinctValues} values are present in this table.`;
+    return `${field.qnPresentDistinctValues} out of ${field.qnTotalDistinctValues} values are present in this table.`;
   }
   return '';
 }
