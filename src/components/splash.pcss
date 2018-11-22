@@ -4,6 +4,8 @@
 }
 
 .splash {
+  max-width: 80%;
+
   .logo-svg {
     animation: fade 1s ease-in;
     height: 200px;
@@ -43,7 +45,13 @@
       display: inline-block;
       height: 4rem;
       margin-right: 1rem;
-      width: 4rem;
+      min-width: 4rem;
+    }
+
+    .title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 

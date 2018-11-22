@@ -44,7 +44,7 @@ export default function Splash({
   if (Array.isArray(docs) && docs.length) {
     content = (
       <div>
-        <h3>Putting your Qlik data models on stage</h3>
+        <h3>Taking your Qlik data models to the stage</h3>
         <p>WebSocket connected, but no open app. Choose one below:</p>
         <ul className="doc-list">
           {docs.map(doc => (
@@ -52,8 +52,9 @@ export default function Splash({
               <i className="icon" />
               <span className="title">
                 <b>{doc.qTitle}</b>
-                <br />
+(
                 {doc.qMeta.description || 'No description'}
+)
               </span>
             </li>
           ))}
