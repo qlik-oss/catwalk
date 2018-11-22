@@ -11,11 +11,5 @@
     "jsx-a11y/no-autofocus": 0,
     "import/no-named-as-default": 0,
     "max-len": 0
-  },
-  "globals": {
-    "it": true,
-    "describe": true,
-    "expect": true,
-    "sinon": true
   }
 }

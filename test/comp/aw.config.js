@@ -4,6 +4,5 @@ module.exports = {
   src: ['src/components/**/*.jsx'],
   mocks: [
     ['**/*.{svg,css,scss,pcss}'],
-    // ['**/src/enigma/config.js', () => {}],
   ],
 };

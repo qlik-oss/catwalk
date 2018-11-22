@@ -1,0 +1,9 @@
+{
+  "globals": {
+    "it": true,
+    "describe": true,
+    "expect": true,
+    "sinon": true,
+    "page": true
+  }
+}

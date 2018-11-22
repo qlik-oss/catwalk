@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import Splash from '../../src/components/splash';
 
 describe('Splash', () => {
-  it('should renders docList correctly', () => {
+  it('should render docList correctly', () => {
     const docs = [{
       qDocId: '/data/Consumer_Sales.qvf', qMeta: { description: 'See through the eyes of a consumer goods company.  Analyze sales data by sales rep, by region, by product, etc.' }, qTitle: 'Consumer_Sales',
     }, {
