@@ -12,7 +12,6 @@ const OPTS = {
 
 describe('Catwalk', () => {
   it('should render the grid correctly', async () => {
-    console.log(url);  //eslint-disable-line
     await page.goto(url, { timeout: 60000, waitUntil: 'networkidle0' });
     await page.waitFor(4000);
 
