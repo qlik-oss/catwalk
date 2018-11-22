@@ -52,6 +52,7 @@ export default function Splash({
               <i className="icon" />
               <span className="title">
                 <b>{doc.qTitle}</b>
+                {' '}
 (
                 {doc.qMeta.description || 'No description'}
 )
