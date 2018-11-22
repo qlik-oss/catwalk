@@ -1,4 +1,8 @@
 node_modules/
 dist/
+coverage/
 .cache/
+.chrome-profile/
 .DS_Store
+test/e2e/__artifacts__/diff/
+test/e2e/__artifacts__/regression/
