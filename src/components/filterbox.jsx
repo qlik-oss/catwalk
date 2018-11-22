@@ -86,15 +86,16 @@ function noRowsRenderer() {
   return <div className="no-values">No values</div>;
 }
 
-function useSelections(model, selfRef) {
-  const ongoingSelections = useRef(false);
+function useSelections(model, layout, selfRef) {
+  // const ongoingSelections = useRef(false);
   const [, forceUpdate] = useState(null);
-
+  // ongoingSelections.current = layout.qSelectionInfo.qInSelections;
   const onRowClick = ({ rowData }) => {
-    if (!ongoingSelections.current) {
-      ongoingSelections.current = true;
-      model.beginSelections(['/qListObjectDef']);
-    }
+  //   if (!ongoingSelections.current) {
+  //     await model.beginSelections(['/qListObjectDef']);
+  //     ongoingSelections.current = true;
+  //   }
+    // ongoingSelections.current = layout.qSelectionInfo.qInSelections;
     if (rowData) {
       if (rowData[0].qState !== 'S') {
         const rowDataToModify = rowData;
@@ -104,12 +105,21 @@ function useSelections(model, selfRef) {
         rowDataToModify[0].qState = 'O'; // For fast visual feedback, this will be overwritten when the new layout comes.
       }
       forceUpdate(Date.now());
+      // ongoingSelections.current = layout.qSelectionInfo.qInSelections;
+      if (!layout.qSelectionInfo.qInSelections) {
+        console.log(JSON.stringify(layout));
+        console.log('<<<<<');
+        // layout.qSelectionInfo.qInSelections = true;
+        model.beginSelections(['/qListObjectDef']);
+      } else {
+        console.log('else ', layout);
+      }
       model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], true);
     }
   };
 
-  useClickOutside(selfRef, ongoingSelections.current, () => {
-    ongoingSelections.current = false;
+  useClickOutside(selfRef, layout.qSelectionInfo.qInSelections, () => {
+    // fulpilla
     model.endSelections(true);
   });
 
@@ -154,7 +164,7 @@ function useSearch(model, selfRef, inputRef) {
 export default function Filterbox({ model, layout }) {
   const selfRef = useRef(null);
   const inputRef = useRef(null);
-  const { onRowClick } = useSelections(model, selfRef);
+  const { onRowClick } = useSelections(model, layout, selfRef);
   const { onSearch } = useSearch(model, selfRef, inputRef);
 
   if (!layout || !layout.qListObject.qDataPages || !layout.qListObject.qDataPages.length) {

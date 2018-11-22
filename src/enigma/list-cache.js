@@ -2,6 +2,7 @@ export default {
   types: ['Doc'],
   init(args) {
     const { api } = args;
+    api.session.app = api;
     api.objectCache = {};
   },
   extend: {
