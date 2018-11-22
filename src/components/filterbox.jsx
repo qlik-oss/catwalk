@@ -1,3 +1,4 @@
+import ReactDOM from 'react-dom';
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Column from 'react-virtualized/dist/es/Table/Column';
@@ -85,17 +86,11 @@ function rowRenderer({
 function noRowsRenderer() {
   return <div className="no-values">No values</div>;
 }
-
 function useSelections(model, layout, selfRef) {
-  // const ongoingSelections = useRef(false);
+  const ongoingSelections = useRef(false);
   const [, forceUpdate] = useState(null);
-  // ongoingSelections.current = layout.qSelectionInfo.qInSelections;
-  const onRowClick = ({ rowData }) => {
-  //   if (!ongoingSelections.current) {
-  //     await model.beginSelections(['/qListObjectDef']);
-  //     ongoingSelections.current = true;
-  //   }
-    // ongoingSelections.current = layout.qSelectionInfo.qInSelections;
+
+  const onRowClick = async ({ rowData }) => {
     if (rowData) {
       if (rowData[0].qState !== 'S') {
         const rowDataToModify = rowData;
@@ -104,27 +99,34 @@ function useSelections(model, layout, selfRef) {
         const rowDataToModify = rowData;
         rowDataToModify[0].qState = 'O'; // For fast visual feedback, this will be overwritten when the new layout comes.
       }
+      const wasAlreadyInSelections = layout.qSelectionInfo.qInSelections;
+      const layoutz = layout;
+      layoutz.qSelectionInfo.qInSelections = true;
+      ongoingSelections.current = true;
       forceUpdate(Date.now());
-      // ongoingSelections.current = layout.qSelectionInfo.qInSelections;
-      if (!layout.qSelectionInfo.qInSelections) {
-        console.log(JSON.stringify(layout));
-        console.log('<<<<<');
-        // layout.qSelectionInfo.qInSelections = true;
-        model.beginSelections(['/qListObjectDef']);
-      } else {
-        console.log('else ', layout);
+
+      if (!wasAlreadyInSelections) {
+        model.beginSelections(['/qListObjectDef']).catch(() => {
+          ReactDOM.unstable_batchedUpdates(() => {
+            model.session.app.abortModal(true);
+            model.beginSelections(['/qListObjectDef']);
+            model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], true);
+          });
+        });
       }
-      model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], true);
+      model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], true).catch(() => {
+      });
     }
   };
 
-  useClickOutside(selfRef, layout.qSelectionInfo.qInSelections, () => {
-    // fulpilla
+  useClickOutside(selfRef, ongoingSelections.current, () => {
+    ongoingSelections.current = false;
     model.endSelections(true);
   });
 
   return { onRowClick };
 }
+
 
 function useSearch(model, selfRef, inputRef) {
   const ongoingSearch = useRef(false);
@@ -172,7 +174,7 @@ export default function Filterbox({ model, layout }) {
   }
 
   let classes = 'filterbox';
-  if (layout.qSelectionInfo.qMadeSelections) {
+  if (layout.qSelectionInfo.qInSelections) {
     classes += ' made-selections';
   }
   return (
