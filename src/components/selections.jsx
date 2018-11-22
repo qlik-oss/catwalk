@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import useModel from './use/model';
 import useLayout from './use/layout';
-import Field from './field';
+import SelectionField from './selection-field';
 
 import './selections.pcss';
 
@@ -20,7 +20,7 @@ export default function Selections({ app }) {
   if (layout) {
     items = layout.qSelectionObject.qSelections.map(item => (
       <li key={item.qField}>
-        <Field app={app} field={item.qField} fieldData={item} />
+        <SelectionField app={app} field={item.qField} fieldData={item} />
       </li>
     ));
     if (!items.length) {
@@ -34,10 +34,10 @@ export default function Selections({ app }) {
 
   return (
     <ul className="selections">
-      <li key="clear" className="clear" onClick={() => app.clearAll()}>
-        <i className="material-icons">close</i>
-      </li>
-      {items}
+      <li key="clear" className="clear" onClick={() => app.clearAll()}>✖</li>
+      <div className="selections-inner">
+        {items}
+      </div>
     </ul>
   );
 }

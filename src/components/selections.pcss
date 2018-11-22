@@ -2,6 +2,12 @@
   display: flex;
   flex-grow: 2;
   flex-shrink: 0;
+  width: 70%;
+
+  .selections-inner {
+    display: flex;
+    overflow: auto;
+  }
 
   li {
     align-items: center;
@@ -17,21 +23,14 @@
     background: #fff;
     border-right: 1px solid #d9d9d9;
     cursor: pointer;
-    padding: none;
-    width: 5em;
+    font-size: 2rem;
+    padding: 0;
+    width: 8rem;
   }
 
   .none {
     align-self: center;
     height: 100%;
     padding: 1em;
-  }
-
-  .field {
-    border: none;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
-    height: 5em;
-    margin-left: 1em;
-    padding: 0.2em;
   }
 }

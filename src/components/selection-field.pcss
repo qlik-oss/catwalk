@@ -1,0 +1,58 @@
+.selection-field {
+  background: #fff;
+  border: none;
+  border-radius: 0.4em;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  height: 5em;
+  margin-left: 1em;
+  max-width: 25em;
+  min-width: 17em;
+  outline: none;
+  padding: 0.2em;
+  position: relative;
+  width: 15vw;
+  z-index: 1;
+}
+
+.popover-wrapper {
+  display: inline-block;
+}
+
+.popover-content::before {
+  border-color: transparent transparent #fff transparent;
+  border-style: solid;
+  border-width: 0 10px 10px 10px;
+  content: '';
+  position: absolute;
+  right: calc(50% - 10px);
+  top: -8px;
+  transition-duration: 0.3s;
+  transition-property: transform;
+  z-index: -1;
+}
+
+.popover-content {
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 4px 10px 0 rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  font-size: 1rem;
+  height: 24rem;
+  margin-left: 1em;
+  max-width: 25em;
+  min-width: 17em;
+  opacity: 1;
+  padding: 1em;
+  position: absolute;
+  transform: translate(0, 14px);
+  transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
+  visibility: visible;
+  width: calc(100% - 1em);
+  width: 15vw;
+  z-index: 10;
+}

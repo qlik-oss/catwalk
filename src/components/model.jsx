@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import usePromise from 'react-use-promise';
 
 import ScrollArea from './scroll-area';
-import Field from './field';
+import TableField from './table-field';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
 
@@ -82,7 +82,7 @@ export default function Model({ app, appLayout }) {
     }
 
     return (
-      <div className={columnClasses} key={tableName}>
+      <div className={columnClasses} key={tableName} role="tab">
         <div className="vertcell tableheader" tablez={tableName}>
           <div>{tableName}</div>
           <div className="nbr-of-rows">{queryModel.tables[tableName].qNoOfRows}</div>
@@ -144,8 +144,9 @@ export default function Model({ app, appLayout }) {
                   style={cellContainerStyle}
                   key={`${tableName}:${fieldName}`}
                   fieldz={fieldName}
+                  role="tab"
                 >
-                  <Field app={app} field={fieldName} fieldData={x} showFilterbox={isFilterboxOpen} />
+                  <TableField app={app} field={fieldName} fieldData={x} showFilterbox={isFilterboxOpen} />
                   {x.subsetRatioText ? (
                     <div className="subsetratio" title={x.subsetRatioTitle}>{x.subsetRatioText}</div>
                   ) : null}
@@ -223,7 +224,7 @@ export default function Model({ app, appLayout }) {
                   key={field.qName}
                   style={cellContainerStyle}
                 >
-                  <Field app={app} field={field.qName} fieldData={field} showFilterbox={isFilterboxOpen} />
+                  <TableField app={app} field={field.qName} fieldData={field} showFilterbox={isFilterboxOpen} />
                 </div>
               );
             }
