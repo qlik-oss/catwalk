@@ -2,7 +2,10 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:10-stretch-browsers-legacy
+      - image: circleci/node:10
+      - image: qlikcore/engine:12.260.0
+        command: -S AcceptEULA=yes
+      - image: browserless/chrome
 
     working_directory: ~/catwalk
 
@@ -10,7 +13,7 @@ jobs:
       - checkout
 
       - restore_cache:
-          key: npm-dependency-cache-{{ checksum "package.json" }}
+          key: npm-dependency-cache-{{ checksum "package-lock.json" }}
 
       - run:
           name: Install dependencies
@@ -21,13 +24,28 @@ jobs:
           name: Run ESLint
           command:
             npm run lint
+      
+      - run:
+          name: Unit tests
+          command:
+            npm run test:unit
 
       - run:
-          name: Build
+          name: Component tests
           command:
-            npm run build
+            npm run test:comp
+
+      - run:
+          name: E2E tests
+          command: |
+            DocID=$(curl -s --data-binary @data/drugcases.qvf http://localhost:9076/v1/apps/import | jq -r '.attributes.id')
+            npx parcel src/index.html &
+            DocID=$DocID npm run test:e2e
 
       - save_cache:
           paths:
             - node_modules
-          key: npm-dependency-cache-{{ checksum "package.json" }}
+          key: npm-dependency-cache-{{ checksum "package-lock.json" }}
+
+      - store_artifacts:
+          path: test/e2e/__artifacts__
