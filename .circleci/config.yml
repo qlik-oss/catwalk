@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:10
-      - image: qlikcore/engine:12.260.0
+      - image: qlikcore/engine:12.277.0
         command: -S AcceptEULA=yes
       - image: browserless/chrome
 
