@@ -51,7 +51,12 @@ export default function SelectionField({
     event.stopPropagation();
     if (app) {
       const fieldObject = await app.getField(field);
-      fieldObject.clear();
+      try {
+        await fieldObject.clear();
+      } catch (err) {
+        app.abortModal(true);
+        fieldObject.clear();
+      }
     }
   };
 
