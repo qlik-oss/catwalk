@@ -92,11 +92,10 @@ function useSelections(model, layout, selfRef) {
 
   const onRowClick = async ({ rowData }) => {
     if (rowData) {
+      const rowDataToModify = rowData;
       if (rowData[0].qState !== 'S') {
-        const rowDataToModify = rowData;
         rowDataToModify[0].qState = 'S'; // For fast visual feedback, this will be overwritten when the new layout comes.
       } else {
-        const rowDataToModify = rowData;
         rowDataToModify[0].qState = 'O'; // For fast visual feedback, this will be overwritten when the new layout comes.
       }
       const wasAlreadyInSelections = layout.qSelectionInfo.qInSelections;
@@ -107,6 +106,11 @@ function useSelections(model, layout, selfRef) {
 
       if (!wasAlreadyInSelections) {
         model.beginSelections(['/qListObjectDef']).catch(() => {
+          // If the object (model) is already in modal state, the call to beginSelections will return an error.
+          // To reset the modal state we call abortModal, and retry the beginSelections call immediately followed
+          // by the selections. If we wait for the beginSelections to return, there will be a layout update
+          // resetting the "fast visual feedback" state (set a couple of lines up) which will be visually perceived
+          // as a blink of the green color.
           ReactDOM.unstable_batchedUpdates(() => {
             model.session.app.abortModal(true);
             model.beginSelections(['/qListObjectDef']);
@@ -115,6 +119,9 @@ function useSelections(model, layout, selfRef) {
         });
       }
       model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], true).catch(() => {
+      // If the object (model) is already in modal state, the call to selectListObjectValues will return
+      // an error. The call to selectListObjectValues will be retried in the batchedUpdates call (a couple
+      // of lines above).
       });
     }
   };
@@ -126,7 +133,6 @@ function useSelections(model, layout, selfRef) {
 
   return { onRowClick };
 }
-
 
 function useSearch(model, selfRef, inputRef) {
   const ongoingSearch = useRef(false);
@@ -177,6 +183,7 @@ export default function Filterbox({ model, layout }) {
   if (layout.qSelectionInfo.qInSelections) {
     classes += ' made-selections';
   }
+
   return (
     <div role="Listbox" tabIndex="-1" className={classes} onClick={preventDefaultFn} ref={selfRef}>
       <input

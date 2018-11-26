@@ -11,5 +11,5 @@ export default function useClickOutside(selfRef, ongoing, callback) {
 
     document.addEventListener('mouseup', onClick);
     return () => { document.removeEventListener('mouseup', onClick); };
-  }, [ongoing, selfRef.current]);
+  }, [ongoing]);
 }
