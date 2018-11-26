@@ -36,7 +36,7 @@ const createDefinition = field => ({
 
 
 export default function SelectionField({
-  app, field, fieldData,
+  app, field, fieldData, maxWidth,
 }) {
   const selfRef = useRef(null);
   const [showFilterbox, setShowFilterbox] = useState(false);
@@ -67,7 +67,11 @@ export default function SelectionField({
 
   let positioning = {};
   if (selfRef && selfRef.current) {
-    positioning = { left: `${selfRef.current.getBoundingClientRect().left}px` };
+    const boundingRect = selfRef.current.getBoundingClientRect();
+    positioning = { left: `${boundingRect.left}px` };
+    if (boundingRect.right > maxWidth && showFilterbox) {
+      setShowFilterbox(false);
+    }
   }
 
   const filterBox = showFilterbox
@@ -97,9 +101,11 @@ SelectionField.propTypes = {
   app: PropTypes.object,
   field: PropTypes.string.isRequired,
   fieldData: PropTypes.object,
+  maxWidth: PropTypes.number,
 };
 
 SelectionField.defaultProps = {
   app: null,
   fieldData: null,
+  maxWidth: 0,
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import useModel from './use/model';
@@ -13,6 +13,8 @@ const definition = {
 };
 
 export default function Selections({ app }) {
+  const selfRef = useRef(null);
+
   async function clearAllSelections() {
     try {
       await app.clearAll();
@@ -23,13 +25,16 @@ export default function Selections({ app }) {
   }
 
   const layout = useLayout(useModel(app, definition));
-
+  let maxWidth = 0;
+  if (selfRef && selfRef.current) {
+    maxWidth = selfRef.current.getBoundingClientRect().right;
+  }
   let items;
 
   if (layout) {
     items = layout.qSelectionObject.qSelections.map(item => (
       <li key={item.qField}>
-        <SelectionField app={app} field={item.qField} fieldData={item} />
+        <SelectionField app={app} field={item.qField} fieldData={item} maxWidth={maxWidth} />
       </li>
     ));
     if (!items.length) {
@@ -44,7 +49,7 @@ export default function Selections({ app }) {
   return (
     <ul className="selections">
       <li key="clear" className="clear" onClick={() => clearAllSelections()}>✖</li>
-      <div className="selections-inner">
+      <div className="selections-inner" ref={selfRef}>
         {items}
       </div>
     </ul>
