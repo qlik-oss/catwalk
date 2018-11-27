@@ -54,12 +54,8 @@ jobs:
           name: Sync documentation to S3 bucket
           command: |
             #if [ "${CIRCLE_BRANCH}" == "master" ] && [ "${TARGET_USER}" != "" ]; then
-              apt-get -y -qq update
-              apt-get -y -qq install python3.4-dev
-              curl -O https://bootstrap.pypa.io/get-pip.py
-              python3.4 get-pip.py --user
-              pip install awscli --upgrade --user
-              
+              sudo apt-get -y -qq install awscli
+
               npm run build
               aws s3 sync dist/ s3://catwalk.core.qlik.com/ --delete
               #aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
