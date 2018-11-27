@@ -49,3 +49,12 @@ jobs:
 
       - store_artifacts:
           path: test/e2e/__artifacts__
+
+      - run:
+          name: Sync documentation to S3 bucket
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "addS3sync" ] && [ "${TARGET_USER}" != "" ]; then
+              npm run build
+              aws s3 sync dist/ s3://catwalk.core.qlik.com/ --delete
+              #aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
+            fi
