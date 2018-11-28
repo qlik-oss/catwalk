@@ -55,6 +55,7 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ] && [ "${TARGET_USER}" != "" ]; then
               sudo apt-get -y -qq install awscli
+              aws configure set preview.cloudfront true
 
               npm run build
               aws s3 sync dist/ s3://catwalk.core.qlik.com/ --delete
