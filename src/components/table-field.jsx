@@ -29,7 +29,7 @@ function TableFieldWithoutState({
 }) {
   let classes = `table-field ${fieldData.qKeyType}`;
 
-  if (!layout) {
+  if (!layout || !layout.qListObject || !layout.qListObject.qDataPages[0]) {
     return (
       <div
         className={classes}

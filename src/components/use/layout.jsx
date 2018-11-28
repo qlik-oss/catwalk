@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import debounce from '../render-debouncer';
 
+const RELOAD_IN_PROGRESS = 11000;
 export default function useLayout(model) {
   const [layout, setLayout] = useState();
 
@@ -10,13 +11,19 @@ export default function useLayout(model) {
     let isKilled = false;
 
     const modelChanged = async () => {
-      const newLayout = model.getAppLayout
-        ? await model.getAppLayout()
-        : await model.getLayout();
-      if (!isKilled) {
-        debounce(() => {
-          setLayout(newLayout);
-        });
+      try {
+        const newLayout = model.getAppLayout
+          ? await model.getAppLayout()
+          : await model.getLayout();
+        if (!isKilled) {
+          debounce(() => {
+            setLayout(newLayout);
+          });
+        }
+      } catch (err) {
+        if (err.code !== RELOAD_IN_PROGRESS) {
+          throw err;
+        }
       }
     };
 

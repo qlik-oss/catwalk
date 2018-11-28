@@ -8,7 +8,7 @@ import TopBar from './topbar';
 import Model from './model';
 import Splash from './splash';
 import Cubes from './cubes';
-
+import reloadInProgressInterceptor from '../enigma/reload-in-progress-interceptor';
 import './app.pcss';
 
 export const AppContext = React.createContext(null);
@@ -40,6 +40,11 @@ export default function App() {
     );
   }
 
+  const reloadInProgress = reloadInProgressInterceptor.useReloadInProgress(app);
+  let reloadSplasher = null;
+  if (reloadInProgress) {
+    reloadSplasher = <div className="reload-splasher"><div className="reload-label">Reload in progress</div></div>;
+  }
   return (
     <AppContext.Provider value={app}>
       <div className="app">
@@ -47,6 +52,7 @@ export default function App() {
         <Model app={app} appLayout={appLayout} />
         <Cubes app={app} />
       </div>
+      {reloadSplasher}
     </AppContext.Provider>
   );
 }
