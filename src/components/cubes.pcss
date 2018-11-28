@@ -6,6 +6,7 @@
   color: #4d4d4d;
   display: flex;
   flex-direction: row-reverse;
+  flex-wrap: wrap-reverse;
   font-size: 1rem;
   max-width: 90%;
   min-height: 35em;
@@ -14,26 +15,24 @@
   position: fixed;
   right: 0;
   z-index: 20;
-  flex-wrap: wrap-reverse;
-
 
   .add-button {
-    flex: 0 0 auto;
     align-items: center;
     align-self: flex-start;
     background-color: #398ab5;
     border-radius: 3em;
+    bottom: 0;
     cursor: pointer;
-    position: absolute;
     display: flex;
+    flex: 0 0 auto;
     height: 6em;
     justify-content: center;
     margin: 1em 1em 1em 1em;
     outline: none;
     pointer-events: all;
-    width: 6rem;
+    position: absolute;
     right: 2em;
-    bottom: 0;
+    width: 6rem;
 
     &:hover {
       background-color: #3f9dd0;
@@ -58,13 +57,14 @@
     padding: 1em;
     pointer-events: all;
     position: relative;
+
     .top-bar {
-      flex: 1 1 auto;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: .5em;
+      display: flex;
+      flex: 1 1 auto;
+      justify-content: space-between;
+      margin-bottom: 0.5em;
+      width: 100%;
 
       .title {
         color: #3f9dd0;
@@ -74,10 +74,11 @@
 
       .close {
         cursor: pointer;
-        width: 2em;
+        fill: #4d4d4d;
         height: 2em;
         outline: none;
-        fill: #4d4d4d;
+        width: 2em;
+
         &:hover {
           fill: #3f9dd0;
         }

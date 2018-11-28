@@ -7,7 +7,6 @@ import useLayout from './use/layout';
 
 import './table-field.pcss';
 
-
 function firstFewValues(layout) {
   const rowToText = row => `${row[0].qText || '<empty>'}`;
 
