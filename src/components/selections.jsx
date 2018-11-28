@@ -23,7 +23,6 @@ export default function Selections({ app }) {
   }
 
   const layout = useLayout(useModel(app, definition));
-
   let items;
 
   if (layout) {
