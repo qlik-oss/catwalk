@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Field from './field';
 import Filterbox from './filterbox';
@@ -36,12 +36,29 @@ const createDefinition = field => ({
 
 
 export default function SelectionField({
-  app, field, fieldData, maxWidth,
+  app, field, fieldData,
 }) {
   const selfRef = useRef(null);
   const [showFilterbox, setShowFilterbox] = useState(false);
   const model = useModel(app, createDefinition(field));
   const layout = useLayout(model);
+
+  function useVisible(ref, callback) {
+    useEffect(() => {
+      if (ref && ref.current) {
+        const rect = ref.current.getBoundingClientRect();
+        const elem = document.elementFromPoint(rect.left, rect.top);
+        const isVisible = ref.current === elem;
+        callback(isVisible);
+      }
+    });
+  }
+
+  useVisible(selfRef, (isVisible) => {
+    if (!isVisible && showFilterbox) {
+      setShowFilterbox(!showFilterbox);
+    }
+  });
 
   const onClick = () => {
     setShowFilterbox(!showFilterbox);
@@ -67,11 +84,7 @@ export default function SelectionField({
 
   let positioning = {};
   if (selfRef && selfRef.current) {
-    const boundingRect = selfRef.current.getBoundingClientRect();
-    positioning = { left: `${boundingRect.left}px` };
-    if (boundingRect.right > maxWidth && showFilterbox) {
-      setShowFilterbox(false);
-    }
+    positioning = { left: `${selfRef.current.getBoundingClientRect().left}px` };
   }
 
   const filterBox = showFilterbox
@@ -80,7 +93,6 @@ export default function SelectionField({
         <Filterbox model={model} layout={layout} field={field} />
       </div>
     ) : null;
-
   return (
     <div className="popover-wrapper" ref={selfRef}>
       <div
@@ -101,11 +113,9 @@ SelectionField.propTypes = {
   app: PropTypes.object,
   field: PropTypes.string.isRequired,
   fieldData: PropTypes.object,
-  maxWidth: PropTypes.number,
 };
 
 SelectionField.defaultProps = {
   app: null,
   fieldData: null,
-  maxWidth: 0,
 };
