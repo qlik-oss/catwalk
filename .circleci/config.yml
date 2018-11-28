@@ -49,3 +49,14 @@ jobs:
 
       - store_artifacts:
           path: test/e2e/__artifacts__
+
+      - run:
+          name: Sync documentation to S3 bucket
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ] && [ "${TARGET_USER}" != "" ]; then
+              sudo apt-get -y -qq install awscli
+
+              npm run build
+              aws s3 sync dist/ s3://catwalk.core.qlik.com/ --delete
+              aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
+            fi
