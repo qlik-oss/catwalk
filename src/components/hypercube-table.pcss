@@ -11,6 +11,7 @@
     background-color: #fafafa;
     border-bottom: 1px solid #d9d9d9;
     border-right: 1px solid #d9d9d9;
+    border-top: 1px solid #d9d9d9;
     box-sizing: border-box;
     color: #4d4d4d;
     cursor: pointer;
@@ -36,14 +37,17 @@
       color: #398ab5;
     }
 
-    &:last-child {
-      border-right: none;
+    &:first-child {
+      border-left: 1px solid #d9d9d9;
     }
+    
   }
 
   .ReactVirtualized__Table__row {
     box-sizing: border-box;
     outline: none;
+    border-left: 1px solid #d9d9d9;
+      border-right: 1px solid #d9d9d9;
   }
 
   .ReactVirtualized__Table__rowColumn {
@@ -55,6 +59,8 @@
     margin: 0;
     padding: 0.5rem;
     text-align: left;
+
+    
   }
 
   .ReactVirtualized__Table__rowColumn:last-of-type {

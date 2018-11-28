@@ -1,11 +1,13 @@
 .field {
+  font-size: 1rem;
   .inner-container {
     display: flex;
+    justify-content: space-between;
   }
 
   .name-and-text {
     display: flex;
-    flex: 1;
+    flex: 0 1 auto;
     flex-direction: column;
   }
 
@@ -24,20 +26,17 @@
     line-height: 2rem;
     overflow: hidden;
     white-space: pre;
+    border-radius: 4px;
   }
 
+ 
   .clear-selection {
+    fill: #4d4d4d;
+    height: 2em;
+    width: 2em;
     align-self: center;
-    outline: none;
-
     &:hover {
-      box-shadow: 0 0 2em -0.5em #999;
-    }
-
-    .x {
-      font-size: 2rem;
-      font-style: normal;
-      margin-right: 0.5rem;
+      fill: #3f9dd0;
     }
   }
 

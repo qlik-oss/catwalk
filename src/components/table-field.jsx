@@ -7,6 +7,7 @@ import useLayout from './use/layout';
 
 import './table-field.pcss';
 
+
 function firstFewValues(layout) {
   const rowToText = row => `${row[0].qText || '<empty>'}`;
 
@@ -103,7 +104,7 @@ function TableFieldWithoutState({
     <div
       className={classes}
       style={fieldStyle}
-      title={`${states.qSelected} selected, ${states.qOption
+      title={`${field} \n\n${states.qSelected} selected, ${states.qOption
         + states.qAlternative} possible, ${
         states.qExcluded
       } excluded, total of ${total} values. ${descriptions}\n\n${firstFewValues(layout)}`}
