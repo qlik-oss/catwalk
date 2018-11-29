@@ -18,7 +18,7 @@
     "lint:fix": "eslint --ext .js,.jsx --fix . && stylelint --fix src/."
   },
   "dependencies": {
-    "enigma.js": "2.3.2",
+    "enigma.js": "2.4.0",
     "prop-types": "15.6.2",
     "react": "16.7.0-alpha.2",
     "react-dom": "16.7.0-alpha.2",
@@ -36,7 +36,7 @@
     "@babel/core": "7.1.6",
     "@babel/plugin-proposal-class-properties": "7.1.0",
     "@babel/plugin-transform-async-to-generator": "7.1.0",
-    "@babel/plugin-transform-react-jsx": "7.0.0",
+    "@babel/plugin-transform-react-jsx": "7.1.6",
     "@babel/plugin-transform-runtime": "7.1.0",
     "@babel/preset-env": "7.1.6",
     "@babel/preset-react": "7.0.0",
@@ -50,11 +50,11 @@
     "eslint-plugin-jsx-a11y": "6.1.2",
     "eslint-plugin-react": "7.11.1",
     "parcel-bundler": "1.10.3",
-    "parcel-plugin-inlinesvg": "0.0.14",
+    "parcel-plugin-inlinesvg": "0.1.0",
     "postcss-nested": "4.1.0",
-    "react-test-renderer": "16.6.0",
+    "react-test-renderer": "16.6.3",
     "stylelint": "9.8.0",
     "stylelint-config-standard": "18.2.0",
-    "stylelint-order": "1.0.0"
+    "stylelint-order": "2.0.0"
   }
 }

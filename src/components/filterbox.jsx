@@ -1,3 +1,4 @@
+import ReactDOM from 'react-dom';
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Column from 'react-virtualized/dist/es/Table/Column';
@@ -85,26 +86,43 @@ function rowRenderer({
 function noRowsRenderer() {
   return <div className="no-values">No values</div>;
 }
-
-function useSelections(model, selfRef) {
+function useSelections(model, layout, selfRef) {
   const ongoingSelections = useRef(false);
   const [, forceUpdate] = useState(null);
 
-  const onRowClick = ({ rowData }) => {
-    if (!ongoingSelections.current) {
-      ongoingSelections.current = true;
-      model.beginSelections(['/qListObjectDef']);
-    }
+  const onRowClick = async ({ rowData }) => {
     if (rowData) {
+      const rowDataToModify = rowData;
       if (rowData[0].qState !== 'S') {
-        const rowDataToModify = rowData;
         rowDataToModify[0].qState = 'S'; // For fast visual feedback, this will be overwritten when the new layout comes.
       } else {
-        const rowDataToModify = rowData;
         rowDataToModify[0].qState = 'O'; // For fast visual feedback, this will be overwritten when the new layout comes.
       }
+      const wasAlreadyInSelections = layout.qSelectionInfo.qInSelections;
+      const layoutz = layout;
+      layoutz.qSelectionInfo.qInSelections = true;
+      ongoingSelections.current = true;
       forceUpdate(Date.now());
-      model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], true);
+
+      if (!wasAlreadyInSelections) {
+        model.beginSelections(['/qListObjectDef']).catch(() => {
+          // If the object (model) is already in modal state, the call to beginSelections will return an error.
+          // To reset the modal state we call abortModal, and retry the beginSelections call immediately followed
+          // by the selections. If we wait for the beginSelections to return, there will be a layout update
+          // resetting the "fast visual feedback" state (set a couple of lines up) which will be visually perceived
+          // as a blink of the green color.
+          ReactDOM.unstable_batchedUpdates(() => {
+            model.session.app.abortModal(true);
+            model.beginSelections(['/qListObjectDef']);
+            model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], true);
+          });
+        });
+      }
+      model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], true).catch(() => {
+      // If the object (model) is already in modal state, the call to selectListObjectValues will return
+      // an error. The call to selectListObjectValues will be retried in the batchedUpdates call (a couple
+      // of lines above).
+      });
     }
   };
 
@@ -154,7 +172,7 @@ function useSearch(model, selfRef, inputRef) {
 export default function Filterbox({ model, layout }) {
   const selfRef = useRef(null);
   const inputRef = useRef(null);
-  const { onRowClick } = useSelections(model, selfRef);
+  const { onRowClick } = useSelections(model, layout, selfRef);
   const { onSearch } = useSearch(model, selfRef, inputRef);
 
   if (!layout || !layout.qListObject.qDataPages || !layout.qListObject.qDataPages.length) {
@@ -162,9 +180,10 @@ export default function Filterbox({ model, layout }) {
   }
 
   let classes = 'filterbox';
-  if (layout.qSelectionInfo.qMadeSelections) {
+  if (layout.qSelectionInfo.qInSelections) {
     classes += ' made-selections';
   }
+
   return (
     <div role="Listbox" tabIndex="-1" className={classes} onClick={preventDefaultFn} ref={selfRef}>
       <input

@@ -13,8 +13,16 @@ const definition = {
 };
 
 export default function Selections({ app }) {
-  const layout = useLayout(useModel(app, definition));
+  async function clearAllSelections() {
+    try {
+      await app.clearAll();
+    } catch (err) {
+      app.abortModal(true);
+      app.clearAll();
+    }
+  }
 
+  const layout = useLayout(useModel(app, definition));
   let items;
 
   if (layout) {
@@ -34,7 +42,7 @@ export default function Selections({ app }) {
 
   return (
     <ul className="selections">
-      <li key="clear" className="clear" onClick={() => app.clearAll()}>✖</li>
+      <li key="clear" className="clear" onClick={() => clearAllSelections()}>✖</li>
       <div className="selections-inner">
         {items}
       </div>
