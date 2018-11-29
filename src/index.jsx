@@ -13,16 +13,16 @@ if (process.env.GA) {
 
   window.onerror = (message, source, lineno, colno, error) => {
     console.log('ERROR REPORTING', message, source, lineno, colno, error);
-    // ReactGA.exception({
-    //   description: error,
-    // });
+    ReactGA.exception({
+      description: JSON.stringify(error),
+    });
   };
 
   window.onunhandledrejection = (error) => {
     console.log('UNHANDLED REJECTION REPORTING', error, error.reason);
-    // ReactGA.exception({
-    //   description: error,
-    // });
+    ReactGA.exception({
+      description: JSON.stringify(error.reason),
+    });
   };
 }
 
