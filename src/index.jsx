@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
 import CookieConsent from 'react-cookie-consent';
@@ -8,22 +8,34 @@ import App from './components/app';
 
 import './index.pcss';
 
+const sendException = (event) => {
+  let message;
+
+  if (event.type === 'unhandledrejection') {
+    message = `UNHANDLED REJECTION: ${JSON.stringify(event.reason, Object.getOwnPropertyNames(event.reason))}`;
+  } else {
+    message = `ERROR: ${JSON.stringify(event, Object.getOwnPropertyNames(event))}`;
+  }
+
+  ReactGA.exception({
+    description: message,
+  });
+};
+
 const errorReporting = () => {
   if (process.env.GA) {
     ReactGA.initialize(process.env.GA);
     ReactGA.pageview(window.location.pathname + window.location.search);
 
-    window.addEventListener('error', (event) => {
-      ReactGA.exception({
-        description: `ERROR: ${JSON.stringify(event, Object.getOwnPropertyNames(event))}`,
-      });
-    });
+    useEffect(() => {
+      window.addEventListener('error', sendException);
+      window.addEventListener('unhandledrejection', sendException);
 
-    window.addEventListener('unhandledrejection', (event) => {
-      ReactGA.exception({
-        description: `UNHANDLED REJECTION: ${JSON.stringify(event.reason, Object.getOwnPropertyNames(event.reason))}`,
-      });
-    });
+      return () => {
+        window.removeEventListener('error', sendException);
+        window.removeEventListener('unhandledrejection', sendException);
+      };
+    }, []);
 
     return (
       <CookieConsent
