@@ -1,6 +1,10 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import SVGInline from 'react-svg-inline';
+
 import useClickOutside from './use/click-outside';
+import funnel from '../assets/funnel-outline.svg';
+
 import './cube-column-chooser.pcss';
 
 function findAttribute(event, attrName) {
@@ -55,7 +59,9 @@ export default function CubeColumnChooser({
   return (
     <div className={`cube-column-chooser ${arrowStyle}`} style={popupStyle} ref={selfRef}>
       <div className="input-wrapper">
-        <span className="fx">fx</span>
+        <div className="filter">
+          <SVGInline className="funnel" svg={funnel} />
+        </div>
         <input type="text" autoFocus ref={inputRef} onKeyUp={e => updateFilter(e)} />
       </div>
       <ul className="expression-list" onClick={e => selectRow(e)}>
