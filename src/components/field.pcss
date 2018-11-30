@@ -1,11 +1,14 @@
 .field {
+  font-size: 1rem;
+
   .inner-container {
     display: flex;
+    justify-content: space-between;
   }
 
   .name-and-text {
     display: flex;
-    flex: 1;
+    flex: 0 1 auto;
     flex-direction: column;
     min-width: 0;
   }
@@ -20,27 +23,23 @@
   }
 
   .name {
+    border-radius: 4px;
     display: inline-block;
     font-size: 1.5em;
     font-weight: 600;
     line-height: 2rem;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: pre;
   }
 
   .clear-selection {
     align-self: center;
-    outline: none;
+    fill: #4d4d4d;
+    height: 2em;
+    width: 2em;
 
     &:hover {
-      box-shadow: 0 0 2em -0.5em #999;
-    }
-
-    .x {
-      font-size: 2rem;
-      font-style: normal;
-      margin-right: 0.5rem;
+      fill: #3f9dd0;
     }
   }
 

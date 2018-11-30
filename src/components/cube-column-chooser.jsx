@@ -47,9 +47,9 @@ export default function CubeColumnChooser({
   const rect = alignTo.getBoundingClientRect();
   let popupStyle;
   if (arrowStyle === 'arrowRight') {
-    popupStyle = { left: rect.left + rect.width / 2 - 18 * 8, top: rect.top - 43 * 8 };
+    popupStyle = { left: rect.left + rect.width / 2 - 18 * 8, top: rect.top - 43 * 8 - 4 };
   } else {
-    popupStyle = { left: rect.left + rect.width / 2, top: rect.top - 43 * 8 };
+    popupStyle = { left: rect.left + rect.width / 2, top: rect.top - 43 * 8 - 4 };
   }
 
   return (

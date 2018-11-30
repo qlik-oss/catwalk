@@ -11,6 +11,7 @@
     background-color: #fafafa;
     border-bottom: 1px solid #d9d9d9;
     border-right: 1px solid #d9d9d9;
+    border-top: 1px solid #d9d9d9;
     box-sizing: border-box;
     color: #4d4d4d;
     cursor: pointer;
@@ -36,12 +37,14 @@
       color: #398ab5;
     }
 
-    &:last-child {
-      border-right: none;
+    &:first-child {
+      border-left: 1px solid #d9d9d9;
     }
   }
 
   .ReactVirtualized__Table__row {
+    border-left: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
     box-sizing: border-box;
     outline: none;
   }
