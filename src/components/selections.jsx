@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SVGInline from 'react-svg-inline';
 
 import useModel from './use/model';
 import useLayout from './use/layout';
 import SelectionField from './selection-field';
 
+import close from '../assets/close-outline.svg';
+
 import './selections.pcss';
+
+const clearButton = { className: 'clear', svg: close };
 
 const definition = {
   qInfo: { qType: 'selections' },
@@ -42,7 +47,9 @@ export default function Selections({ app }) {
 
   return (
     <ul className="selections">
-      <li key="clear" className="clear" onClick={() => clearAllSelections()}>✖</li>
+      <div className="clear-all">
+        <SVGInline {...clearButton} onClick={() => clearAllSelections()} />
+      </div>
       <div className="selections-inner">
         {items}
       </div>

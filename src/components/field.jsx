@@ -1,21 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SVGInline from 'react-svg-inline';
+import close from '../assets/close-outline.svg';
 
 import './field.pcss';
+
+const clearButton = { className: 'clear-selection', svg: close };
 
 function fieldCounts(dimInfo, field) {
   let str = '';
   if (!field.qnTotalDistinctValues) {
     str = `${dimInfo.qStateCounts.qSelected
-    + dimInfo.qStateCounts.qOption} of ${dimInfo.qCardinal}`;
+      + dimInfo.qStateCounts.qOption} of ${dimInfo.qCardinal}`;
   } else if (field.qnPresentDistinctValues !== field.qnTotalDistinctValues) {
     str = `${dimInfo.qStateCounts.qSelected
-    + dimInfo.qStateCounts.qOption} of ${field.qnTotalDistinctValues}(${
+      + dimInfo.qStateCounts.qOption} of ${field.qnTotalDistinctValues}(${
       field.qnPresentDistinctValues
     })`;
   } else {
     str = `${dimInfo.qStateCounts.qSelected
-    + dimInfo.qStateCounts.qOption} of ${field.qnPresentDistinctValues}`;
+      + dimInfo.qStateCounts.qOption} of ${field.qnPresentDistinctValues}`;
   }
   return str;
 }
@@ -34,9 +38,7 @@ export default function Field({
 
   const clearSelection = onClearSelection !== null
     ? (
-      <div className="clear-selection" tabIndex="-1" role="button" onClick={(event) => { onClearSelection(event, field); }}>
-        <span className="x">✖</span>
-      </div>
+      <SVGInline {...clearButton} onClick={(event) => { onClearSelection(event, field); }} />
     ) : null;
 
   return (

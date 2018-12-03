@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import SVGInline from 'react-svg-inline';
 import Cube from './cube';
+import close from '../assets/close-outline.svg';
 
 import useColumnOptions from './use/column-options';
 import CubeColumnChooser from './cube-column-chooser';
@@ -15,6 +17,8 @@ export function Cubes({ app }) {
 
   const selectableColumns = useColumnOptions(app);
   const addOpen = useRef(false); // Start with add dialog open
+
+  const closeButton = { className: 'close', svg: close };
 
   function addCube(column) {
     if (column) {
@@ -41,8 +45,10 @@ export function Cubes({ app }) {
   const popup = addOpen.current ? <CubeColumnChooser arrowStyle="arrowRight" alignTo={addButtonRef.current} selectableColumns={selectableColumns} chooseColumn={column => addCube(column)} /> : null;
   const cubeDivs = cubeList.map(cube => (
     <div key={cube.id} className="card">
-      <div className="title">HYPERCUBE</div>
-      <span role="button" tabIndex="-1" className="close" onClick={() => removeCube(cube.id)}>X</span>
+      <div className="top-bar">
+        <div className="title">HYPERCUBE</div>
+        <SVGInline {...closeButton} onClick={() => removeCube(cube.id)} />
+      </div>
       <Cube app={app} tableData={cube} />
     </div>));
   return (

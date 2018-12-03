@@ -103,7 +103,7 @@ function TableFieldWithoutState({
     <div
       className={classes}
       style={fieldStyle}
-      title={`${states.qSelected} selected, ${states.qOption
+      title={`${field} \n\n${states.qSelected} selected, ${states.qOption
         + states.qAlternative} possible, ${
         states.qExcluded
       } excluded, total of ${total} values. ${descriptions}\n\n${firstFewValues(layout)}`}
