@@ -1,21 +1,34 @@
 import { useState, useEffect } from 'react';
 
 const ERR_RELOAD_IN_PROGRESS = 11000;
-let retryCalls = [];
 let wasInReloadOnStartup;
 let reloadInProgress;
 let setReloadInProgress;
 
+function sleep(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
 function useReloadInProgress(app) {
   [reloadInProgress, setReloadInProgress] = useState(wasInReloadOnStartup);
   useEffect(() => {
     if (!app) return null;
 
-    const modelChanged = () => {
-      if (reloadInProgress) {
-        setReloadInProgress(false);
-        retryCalls.forEach(retryCall => retryCall());
-        retryCalls = [];
+    const modelChanged = async () => {
+      try {
+        await app.getAppLayout();
+        if (reloadInProgress) {
+          setReloadInProgress(false);
+        }
+        // When a change is triggered by a reload the getAppLayout sometimes resolve quick enough to not throw a reload in progress error, so call it
+        // once more to increase the likelyhood a bit. If this too fails any interaction will immediately pop up the reload in progress dialog
+        await sleep(1000);
+        await app.getAppLayout();
+      } catch (err) {
+        if (err.code === ERR_RELOAD_IN_PROGRESS) {
+          if (!reloadInProgress) {
+            setReloadInProgress(true);
+          }
+        }
       }
     };
 
@@ -38,9 +51,6 @@ function retryUsingTimeouts(request) {
         resolve(res);
       } catch (err) {
         if (err.code === ERR_RELOAD_IN_PROGRESS) {
-          if (!reloadInProgress) {
-            setReloadInProgress(true);
-          }
           setTimeout(() => {
             retry();
           }, 500);

@@ -24,13 +24,16 @@ export default function App() {
   const [app, appError] = useApp(global);
   const [docs, docsError] = useDocList(global, appError && global);
   const appLayout = useLayout(app);
-
   useEffect(() => () => {
     if (!app) return;
     session.close();
   }, [app]);
+  const reloadInProgress = reloadInProgressInterceptor.useReloadInProgress(app);
 
   if (!appLayout) {
+    if (reloadInProgress) {
+      return (<div className="reload-splasher"><div className="reload-label">Reload in progress</div></div>);
+    }
     return (
       <Splash
         docs={docs}
@@ -40,7 +43,7 @@ export default function App() {
     );
   }
 
-  const reloadInProgress = reloadInProgressInterceptor.useReloadInProgress(app);
+
   let reloadSplasher = null;
   if (reloadInProgress) {
     reloadSplasher = <div className="reload-splasher"><div className="reload-label">Reload in progress</div></div>;
