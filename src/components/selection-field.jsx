@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Field from './field';
 import Filterbox from './filterbox';
@@ -43,6 +43,23 @@ export default function SelectionField({
   const model = useModel(app, createDefinition(field));
   const layout = useLayout(model);
 
+  function useVisible(ref, callback) {
+    useEffect(() => {
+      if (ref && ref.current) {
+        const rect = ref.current.getBoundingClientRect();
+        const elem = document.elementFromPoint(rect.left, rect.top);
+        const isVisible = ref.current === elem;
+        callback(isVisible);
+      }
+    });
+  }
+
+  useVisible(selfRef, (isVisible) => {
+    if (!isVisible && showFilterbox) {
+      setShowFilterbox(!showFilterbox);
+    }
+  });
+
   const onClick = () => {
     setShowFilterbox(!showFilterbox);
   };
@@ -76,7 +93,6 @@ export default function SelectionField({
         <Filterbox model={model} layout={layout} field={field} />
       </div>
     ) : null;
-
   return (
     <div className="popover-wrapper" ref={selfRef}>
       <div

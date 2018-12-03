@@ -19,13 +19,24 @@
     justify-content: center;
   }
 
-  .clear {
-    background: #fff;
-    border-right: 1px solid #d9d9d9;
-    cursor: pointer;
-    font-size: 2rem;
-    padding: 0;
-    width: 8rem;
+  .clear-all {
+    display: flex;
+    justify-content: center;
+    width: 6em;
+
+    .clear {
+      align-self: center;
+      background: #fff;
+      cursor: pointer;
+      fill: #4d4d4d;
+      font-size: 1em;
+      padding: 0;
+      width: 3em;
+
+      &:hover {
+        fill: #3f9dd0;
+      }
+    }
   }
 
   .none {
