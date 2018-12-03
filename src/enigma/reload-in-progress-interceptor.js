@@ -53,19 +53,6 @@ function retryUsingTimeouts(request) {
     }, 500);
   }));
 }
-function retryUsingInvalidationEvents(request) {
-  return new Promise(((resolve, reject) => {
-    async function retry() {
-      try {
-        const res = await request.retry();
-        resolve(res);
-      } catch (err) {
-        reject(err);
-      }
-    }
-    retryCalls.push(retry);
-  }));
-}
 const interceptor = {
   onRejected(session, request, error) {
     if (error.code === ERR_RELOAD_IN_PROGRESS) {
