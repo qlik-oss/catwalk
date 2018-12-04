@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export const ERR_RELOAD_IN_PROGRESS = 11000;
+export const WAIT_FOR_RELOAD_IN_PROGRESS_DELAY = 1000;
 const RETRY_INTERVAL = 500;
 let wasInReloadOnStartup;
 let reloadInProgress;
@@ -23,7 +24,7 @@ export function useReloadInProgress(app) {
         }
         // When a change is triggered by a reload the getAppLayout sometimes resolve quick enough to not throw a reload in progress error, so call it
         // once more to increase the likelyhood a bit. If this too fails any interaction will immediately pop up the reload in progress dialog
-        await sleep(1000);
+        await sleep(WAIT_FOR_RELOAD_IN_PROGRESS_DELAY);
         await app.getAppLayout();
       } catch (err) {
         if (err.code === ERR_RELOAD_IN_PROGRESS) {
