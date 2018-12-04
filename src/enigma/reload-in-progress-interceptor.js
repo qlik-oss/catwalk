@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
-const ERR_RELOAD_IN_PROGRESS = 11000;
+export const ERR_RELOAD_IN_PROGRESS = 11000;
+const RETRY_INTERVAL = 500;
 let wasInReloadOnStartup;
 let reloadInProgress;
 let setReloadInProgress;
@@ -8,7 +9,8 @@ let setReloadInProgress;
 function sleep(time) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
-function useReloadInProgress(app) {
+
+export function useReloadInProgress(app) {
   [reloadInProgress, setReloadInProgress] = useState(wasInReloadOnStartup);
   useEffect(() => {
     if (!app) return null;
@@ -53,17 +55,17 @@ function retryUsingTimeouts(request) {
         if (err.code === ERR_RELOAD_IN_PROGRESS) {
           setTimeout(() => {
             retry();
-          }, 500);
+          }, RETRY_INTERVAL);
         }
       }
     }
 
     setTimeout(() => {
       retry();
-    }, 500);
+    }, RETRY_INTERVAL);
   }));
 }
-const interceptor = {
+export const reloadInProgressInterceptor = {
   onRejected(session, request, error) {
     if (error.code === ERR_RELOAD_IN_PROGRESS) {
       if (!reloadInProgress) {
@@ -73,15 +75,12 @@ const interceptor = {
           wasInReloadOnStartup = true;
         }
       }
-      if (request.method === 'GetActiveDoc' || request.method === 'OpenDoc') {
+      if (request.method === 'GetActiveDoc'
+        || request.method === 'OpenDoc'
+         || request.method === 'CreateSessionObject') {
         return retryUsingTimeouts(request);
       }
     }
     throw error;
   },
-};
-
-export default {
-  useReloadInProgress,
-  interceptor,
 };

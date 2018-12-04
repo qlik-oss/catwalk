@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import debounce from '../render-debouncer';
 
-const RELOAD_IN_PROGRESS = 11000;
 export default function useLayout(model) {
   const [layout, setLayout] = useState();
 
@@ -21,9 +20,7 @@ export default function useLayout(model) {
           });
         }
       } catch (err) {
-        if (err.code !== RELOAD_IN_PROGRESS) {
-          throw err;
-        }
+        setLayout(null);
       }
     };
 
