@@ -26,6 +26,8 @@ export default function App() {
   const appLayout = useLayout(app);
 
   useEffect(() => () => {
+    window.onpopstate = () => { window.location.reload(false); };
+
     if (!app) return;
     session.close();
   }, [app]);

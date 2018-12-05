@@ -23,7 +23,7 @@ export default function Splash({
       const UniformedAppId = appId.charAt(0) === '/' ? appId : `/${appId}`;
       newURL = `${new URL(newURL).origin}${UniformedAppId}`;
     }
-    window.history.replaceState({}, '', `${window.location.pathname}?engine_url=${encodeURI(newURL)}`);
+    window.history.pushState({}, '', `${window.location.pathname}?engine_url=${encodeURI(newURL)}`);
     window.location.reload(false);
   }
 
