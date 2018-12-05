@@ -44,7 +44,6 @@ export default function Splash({
   if (Array.isArray(docs) && docs.length) {
     content = (
       <div>
-        <h3>Taking your Qlik data models to the stage</h3>
         <p>WebSocket connected, but no open app. Choose one below:</p>
         <ul className="doc-list">
           {docs.map(doc => (
@@ -92,6 +91,7 @@ export default function Splash({
       <div className="center-content">
         <div className="splash">
           <SVGInline {...contentLogo} />
+          <h3>Taking your Qlik data models to stage</h3>
           {content}
         </div>
       </div>
