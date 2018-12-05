@@ -33,8 +33,16 @@ const genericObjectProperties = {
 
 export function layoutToListsStructure(layout) {
   if (layout) {
-    const measures = layout.qMeasureList.qItems ? layout.qMeasureList.qItems.map(measure => ({ title: measure.qData.title, type: 'measure', hyperCubeContent: { qLibraryId: measure.qInfo.qId } })) : [];
-    const dimensions = layout.qDimensionList.qItems ? layout.qDimensionList.qItems.map(dimension => ({ title: dimension.qData.title, type: 'dimension', hyperCubeContent: { qLibraryId: dimension.qInfo.qId } })) : [];
+    const measures = layout.qMeasureList.qItems ? layout.qMeasureList.qItems.map(measure => ({
+      title: measure.qData.title ? measure.qData.title : measure.qInfo.qId,
+      type: 'measure',
+      hyperCubeContent: { qLibraryId: measure.qInfo.qId },
+    })) : [];
+    const dimensions = layout.qDimensionList.qItems ? layout.qDimensionList.qItems.map(dimension => ({
+      title: dimension.qData.title ? dimension.qData.title : dimension.qInfo.qId,
+      type: 'dimension',
+      hyperCubeContent: { qLibraryId: dimension.qInfo.qId },
+    })) : [];
     const fields = layout.qFieldList.qItems ? layout.qFieldList.qItems.map(field => ({ title: field.qName, type: 'field', hyperCubeContent: { qDef: { qFieldDefs: [field.qName] } } })) : [];
 
     const result = [
