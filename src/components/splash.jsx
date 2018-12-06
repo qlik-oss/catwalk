@@ -17,14 +17,16 @@ export default function Splash({
   let content;
 
   function updateEngineURL(url, appId) {
+    const URLobject = new URL(url);
+    const protocol = URLobject.protocol === 'ws:' ? 'http://' : 'https://';
     let newURL = url;
+
     if (appId) {
       // Adding slash to support doclist for sense Desktop
       const UniformedAppId = appId.charAt(0) === '/' ? appId : `/${appId}`;
-      newURL = `${new URL(newURL).origin}${UniformedAppId}`;
+      newURL = `${URLobject.origin}${UniformedAppId}`;
     }
-    window.history.replaceState({}, '', `${window.location.pathname}?engine_url=${encodeURI(newURL)}`);
-    window.location.reload(false);
+    window.location.assign(`${protocol}${window.location.host}?engine_url=${encodeURI(newURL)}`);
   }
 
   const form = (
