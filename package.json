@@ -34,7 +34,7 @@
     "@after-work.js/node": "5.1.1",
     "@after-work.js/puppeteer": "5.1.1",
     "@after-work.js/serve": "5.1.1",
-    "@babel/core": "7.2.0",
+    "@babel/core": "7.2.2",
     "@babel/plugin-proposal-class-properties": "7.2.1",
     "@babel/plugin-transform-async-to-generator": "7.2.0",
     "@babel/plugin-transform-react-jsx": "7.2.0",
