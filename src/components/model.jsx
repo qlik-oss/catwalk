@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import usePromise from 'react-use-promise';
-
+import ReactTooltip from 'react-tooltip';
 import ScrollArea from './scroll-area';
 import TableField from './table-field';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
 
+import { getTooltipForField, getTooltipForSubsetRatio } from './tooltip';
+
 import './model.pcss';
+import './tooltip.pcss';
+
 
 function findAttribute(event, attrName) {
   let el = event.target;
@@ -29,6 +33,25 @@ export default function Model({ app, appLayout }) {
   const [openBoxes, setOpenBoxes] = useState({});
   const [queryModel, setQueryModel] = useState(null);
   const [atPlayModel, setAtPlayModel] = useState(null);
+
+
+  function getTooltipForSubsetRatioContent(datatip) {
+    if (!datatip) {
+      return null;
+    }
+    const { tableName, fieldName } = JSON.parse(datatip);
+    const field = queryModel.getTableField(tableName, fieldName);
+    return getTooltipForSubsetRatio(field);
+  }
+
+  function getTooltipForTableFieldContent(datatip) {
+    if (!datatip) {
+      return null;
+    }
+    const { tableName, fieldName } = JSON.parse(datatip);
+    const field = queryModel.getTableField(tableName, fieldName);
+    return getTooltipForField(field);
+  }
 
   useEffect(() => {
     if (!tablesAndKeys) return;
@@ -95,13 +118,14 @@ export default function Model({ app, appLayout }) {
               cellContainerStyle.height = '24em';
             }
 
-            const x = queryModel.grid[fieldName][tableName];
-            if (x && !x.isEmpty) {
+
+            const fieldData = queryModel.grid[fieldName][tableName];
+            if (fieldData && !fieldData.isEmpty) {
               let classes = 'vertcell keycell';
-              if (x.hasAssociationToRight) {
+              if (fieldData.hasAssociationToRight) {
                 classes += ' hasAssociationToRight';
               }
-              if (x.hasAssociationToLeft) {
+              if (fieldData.hasAssociationToLeft) {
                 classes += ' hasAssociationToLeft';
               }
 
@@ -112,32 +136,31 @@ export default function Model({ app, appLayout }) {
               }
 
               const assocStyle = {
-                backgroundColor: x.backgroundColor,
+                backgroundColor: fieldData.backgroundColor,
               };
 
 
               let leftAssocStyle;
-              if (x.cssLeftAssocationBackgroundImage) {
+              if (fieldData.cssLeftAssocationBackgroundImage) {
                 leftAssocStyle = {
-                  backgroundImage: x.cssLeftAssocationBackgroundImage,
+                  backgroundImage: fieldData.cssLeftAssocationBackgroundImage,
                 };
               } else {
                 leftAssocStyle = {
-                  backgroundColor: x.backgroundColor,
+                  backgroundColor: fieldData.backgroundColor,
                 };
               }
               let rightAssocStyle;
-              if (x.cssRightAssocationBackgroundImage) {
+              if (fieldData.cssRightAssocationBackgroundImage) {
                 rightAssocStyle = {
-                  backgroundImage: x.cssRightAssocationBackgroundImage,
+                  backgroundImage: fieldData.cssRightAssocationBackgroundImage,
                 };
               } else {
                 rightAssocStyle = {
-                  backgroundColor: x.backgroundColor,
+                  backgroundColor: fieldData.backgroundColor,
                 };
               }
-
-
+              const tooltipData = JSON.stringify({ tableName: fieldData.srcTable.qName, fieldName: fieldData.qName });
               return (
                 <div
                   className={classes}
@@ -146,24 +169,33 @@ export default function Model({ app, appLayout }) {
                   fieldz={fieldName}
                   role="tab"
                 >
-                  <TableField app={app} field={fieldName} fieldData={x} showFilterbox={isFilterboxOpen} />
-                  {x.subsetRatioText ? (
-                    <div className="subsetratio" title={x.subsetRatioTitle}>{x.subsetRatioText}</div>
+                  <TableField
+                    app={app}
+                    field={fieldName}
+                    fieldData={fieldData}
+                    tableData={queryModel.tables[tableName]}
+                    showFilterbox={isFilterboxOpen}
+                  />
+
+                  {fieldData.subsetRatioText ? (
+                    <React.Fragment>
+                      <div className="subsetratio" data-tip={tooltipData} data-for="subsetratio-tooltip">{fieldData.subsetRatioText}</div>
+                    </React.Fragment>
                   ) : null}
-                  {x.hasAssociationToLeft ? (
+                  {fieldData.hasAssociationToLeft ? (
                     <div className="association-to-left" style={assocStyle}>
                       <div className="association-to-left-a" />
                       <div className="association-to-left-b" style={leftAssocStyle} />
                       <div className="association-to-left-c" />
-                      <div className="association-to-left-d">{x.assocSymbol}</div>
+                      <div className="association-to-left-d">{fieldData.assocSymbol}</div>
                     </div>
                   ) : null}
-                  {x.hasAssociationToRight ? (
+                  {fieldData.hasAssociationToRight ? (
                     <div className="association-to-right" style={assocStyle}>
                       <div className="association-to-right-a" />
                       <div className="association-to-right-b" style={rightAssocStyle} />
                       <div className="association-to-right-c" />
-                      <div className="association-to-right-d">{x.assocSymbol}</div>
+                      <div className="association-to-right-d">{fieldData.assocSymbol}</div>
                     </div>
                   ) : null}
 
@@ -171,29 +203,29 @@ export default function Model({ app, appLayout }) {
               );
             }
             let classes = 'betweener';
-            if (x.betweenKeys && !x.isKey) {
+            if (fieldData.betweenKeys && !fieldData.isKey) {
               classes += ' betweenKeys';
             }
-            if (x.insideTable) {
+            if (fieldData.insideTable) {
               classes += ' insideTable';
             }
-            if (atPlayModel.keysAtPlay[fieldName] && x.betweenKeys) {
+            if (atPlayModel.keysAtPlay[fieldName] && fieldData.betweenKeys) {
               classes += ' keyAtPlay';
             } else if (assocationsHighlighted) {
               classes += ' notKeyAtPlay';
             }
 
             const lineystyle = {
-              backgroundImage: x.cssBackgroundImage,
+              backgroundImage: fieldData.cssBackgroundImage,
             };
-            if (x.isBelowKeys) {
+            if (fieldData.isBelowKeys) {
               return null;
             }
             return (
               <div className="vertcell" key={`${tableName}:${fieldName}`} style={cellContainerStyle}>
                 <div className={classes}>
                   <div
-                    className={x.betweenKeys && !x.isKey ? 'lineyinner ' : ''}
+                    className={fieldData.betweenKeys && !fieldData.isKey ? 'lineyinner ' : ''}
                     style={lineystyle}
                   />
                 </div>
@@ -202,11 +234,11 @@ export default function Model({ app, appLayout }) {
           })}
         </div>
         <div>
-          {queryModel.tables[tableName].qFields.map((field) => {
-            const isFilterboxOpen = openBoxes[field.qName];
-            if (field.qKeyType === 'NOT_KEY') {
+          {queryModel.tables[tableName].qFields.map((fieldData) => {
+            const isFilterboxOpen = openBoxes[fieldData.qName];
+            if (fieldData.qKeyType === 'NOT_KEY') {
               let classes = 'vertcell';
-              if (atPlayModel.keysAtPlay[field.qName]) {
+              if (atPlayModel.keysAtPlay[fieldData.qName]) {
                 classes += ' keyAtPlay';
               } else if (assocationsHighlighted) {
                 classes += ' notKeyAtPlay';
@@ -220,11 +252,11 @@ export default function Model({ app, appLayout }) {
               return (
                 <div
                   className={classes}
-                  fieldz={field.qName}
-                  key={field.qName}
+                  fieldz={fieldData.qName}
+                  key={fieldData.qName}
                   style={cellContainerStyle}
                 >
-                  <TableField app={app} field={field.qName} fieldData={field} showFilterbox={isFilterboxOpen} />
+                  <TableField app={app} field={fieldData.qName} fieldData={fieldData} showFilterbox={isFilterboxOpen} />
                 </div>
               );
             }
@@ -236,18 +268,22 @@ export default function Model({ app, appLayout }) {
   });
 
   return (
-    <ScrollArea className="scrollArea" height="100%" width="100%">
-      <div className="model">
-        <div
-          className="colset"
-          onClick={toggleField}
-          role="tablist"
-          tabIndex={-1}
-        >
-          {gridz}
+    <React.Fragment>
+      <ScrollArea className="scrollArea" height="100%" width="100%">
+        <div className="model">
+          <div
+            className="colset"
+            onClick={toggleField}
+            role="tablist"
+            tabIndex={-1}
+          >
+            {gridz}
+          </div>
         </div>
-      </div>
-    </ScrollArea>
+      </ScrollArea>
+      <ReactTooltip id="subsetratio-tooltip" delayShow={500} effect="solid" type="custom" className="tooltip" getContent={dataTip => getTooltipForSubsetRatioContent(dataTip)} />
+      <ReactTooltip id="table-field-tooltip" delayShow={500} effect="solid" type="custom" className="tooltip" getContent={dataTip => getTooltipForTableFieldContent(dataTip)} />
+    </React.Fragment>
   );
 }
 

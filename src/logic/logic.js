@@ -56,7 +56,8 @@ function toSubsetRatioText(qSubsetratio) {
 
 function toSubsetRatioTitle(field) {
   if (!!field.qnPresentDistinctValues && !!field.qnTotalDistinctValues && field.qnPresentDistinctValues < field.qnTotalDistinctValues) {
-    return `${field.qnPresentDistinctValues} out of ${field.qnTotalDistinctValues} values are present in this table.`;
+    return `${field.qnPresentDistinctValues} out of ${field.qnTotalDistinctValues} ${field.qName} values are present in the ${field.srcTable.qName} table.\n
+    The remaining ${field.qnTotalDistinctValues - field.qnPresentDistinctValues} values only exist in other tables (${field.otherTables.join('')})`;
   }
   return '';
 }
@@ -95,11 +96,14 @@ class QueryModel {
     const fields = {};
     const tables = {};
     const tablesNamesOfFieldMapMap = {};
-    tablesAndKeys.qtr.forEach((table) => {
+    tablesAndKeys.qtr.forEach((originalTable) => {
+      const table = JSON.parse(JSON.stringify(originalTable)); //Clone so we can append information to the structure safely
       tables[table.qName] = table;
       table.qFields.sort((a, b) => a.qName.localeCompare(b.qName));
       table.qFields.forEach((_field) => {
-        const field = Object.assign({}, _field);
+        const field = _field;
+        field.srcTable = table;
+        field.here = "det var här";
         fields[field.qName] = fields[field.qName] || field;
         grid[field.qName] = grid[field.qName] || {};
         grid[field.qName][table.qName] = field;
@@ -108,6 +112,7 @@ class QueryModel {
       });
     });
 
+    console.log('tablesAndKeys', tablesAndKeys);
     const tableArray = sortTablesBySize(tables);
     const fieldArray = sortFieldsByKeyAndName(fields);
 
@@ -128,22 +133,29 @@ class QueryModel {
       this.analyzeTable(actualStartTable, tablesAlreadyAnalyzed, '');
       actualStartTable = biggestTableNotAnalyzed(this.originalTableNamesSortedBySize, tablesAlreadyAnalyzed);
     }
-
+    console.log('this.resultFieldList', this.resultFieldList);
     this.fillInGridInfo(grid);
+    console.log('this.resultFieldList', this.resultFieldList);
   }
 
+  getTableField(tableName, fieldName) {
+    return this.grid[fieldName][tableName];
+  }
 
   fillInGridInfo(gridIn) {
     // Fill in blanks
+
     const grid = gridIn;
     for (let f = 0; f < this.resultFieldList.length; f += 1) {
       for (let t = 0; t < this.resultTableList.length; t += 1) {
-        let cell = grid[this.resultFieldList[f]][this.resultTableList[t]];
+        const tableName = this.resultTableList[t];
+        const fieldName = this.resultFieldList[f];
+        let cell = grid[fieldName][tableName];
         if (!cell) {
           cell = {
             isKey: false, qKeyType: 'NOT_KEY', isEmpty: true, betweenKeys: true, insideTable: true,
           }; // The default betweenKeys will be overriden
-          grid[this.resultFieldList[f]][this.resultTableList[t]] = cell;
+          grid[fieldName][tableName] = cell;
         } else {
           cell.betweenKeys = true;
           cell.isKey = true;
@@ -151,6 +163,8 @@ class QueryModel {
           cell.insideTable = true;
           cell.backgroundColor = colorOfField(cell);
           cell.assocSymbol = assocSymbol(cell);
+          cell.tables = this.tablesOfField(fieldName);
+          cell.otherTables = this.otherTablesOfField(tableName, fieldName);
           cell.subsetRatioText = toSubsetRatioText(cell.qSubsetRatio);
           cell.subsetRatioTitle = toSubsetRatioTitle(cell);
         }
@@ -363,6 +377,10 @@ class QueryModel {
 
   tablesOfField(fieldName) {
     return Object.keys(this.tablesNamesOfFieldMapMap[fieldName]);
+  }
+
+  otherTablesOfField(tableName, fieldName) {
+    return Object.keys(this.tablesNamesOfFieldMapMap[fieldName]).filter(name => name !== tableName);
   }
 
   fieldsOfTable(tableName) {

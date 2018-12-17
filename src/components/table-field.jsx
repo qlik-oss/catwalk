@@ -6,23 +6,7 @@ import useModel from './use/model';
 import useLayout from './use/layout';
 
 import './table-field.pcss';
-
-function firstFewValues(layout) {
-  const rowToText = row => `${row[0].qText || '<empty>'}`;
-
-  const selected = layout.qListObject.qDataPages[0].qMatrix.filter(row => row[0].qState === 'S' || row[0].qState === 'O');
-  const excluded = layout.qListObject.qDataPages[0].qMatrix.filter(row => row[0].qState === 'X');
-
-  let result = '';
-  if (selected.length > 0) {
-    result += `Example values:\n${selected.map(rowToText).join(', ')}\n`;
-  }
-  if (excluded.length > 0) {
-    result += `\nExample of excluded values:\n${excluded.map(rowToText).join(', ')}`;
-  }
-
-  return result;
-}
+import './tooltip.pcss';
 
 function TableFieldWithoutState({
   model, layout, field, fieldData, showFilterbox,
@@ -43,24 +27,15 @@ function TableFieldWithoutState({
 
   const total = layout.qListObject.qDimensionInfo.qCardinal;
   const states = layout.qListObject.qDimensionInfo.qStateCounts;
-  let descriptions = '';
-
   if (states.qSelected) {
     classes += ' filtered';
   }
 
   if (fieldData.qHasDuplicates) {
     classes += ' has-duplicates';
-    descriptions += 'Duplicate values';
-  } else {
-    descriptions += 'Unique values';
   }
-
   if (fieldData.qHasNull) {
     classes += ' has-null';
-    descriptions += ', has nulls';
-  } else {
-    descriptions += ', no nulls.';
   }
 
   const allExcluded = states.qExcluded === total;
@@ -74,6 +49,7 @@ function TableFieldWithoutState({
     classes += ' single-hit';
   }
 
+  const tooltipData = JSON.stringify({ tableName: fieldData.srcTable.qName, fieldName: fieldData.qName });
   const isSynthetic = (fieldData.qTags && fieldData.qTags.find(item => item === '$synthetic'));
   if (isSynthetic) {
     const syntheticFieldStyle = {
@@ -84,7 +60,8 @@ function TableFieldWithoutState({
       <div
         className={classes}
         style={syntheticFieldStyle}
-        title="Synthetic key"
+        data-tip={tooltipData}
+        data-for="table-field-tooltip"
       >
         <div className="name">
           {field}
@@ -103,10 +80,8 @@ function TableFieldWithoutState({
     <div
       className={classes}
       style={fieldStyle}
-      title={`${field} \n\n${states.qSelected} selected, ${states.qOption
-        + states.qAlternative} possible, ${
-        states.qExcluded
-      } excluded, total of ${total} values. ${descriptions}\n\n${firstFewValues(layout)}`}
+      data-tip={tooltipData}
+      data-for="table-field-tooltip"
     >
       <Field layout={layout} field={field} fieldData={fieldData} />
       <div className="details">
@@ -163,7 +138,8 @@ export default function TableField({
 }) {
   const model = useModel(app, createDefinition(field));
   const layout = useLayout(model);
-
+  const fieldDataToModify = fieldData;
+  fieldDataToModify.layout = layout;
   return TableFieldWithoutState({
     model, layout, field, fieldData, showFilterbox,
   });
