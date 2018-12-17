@@ -7,6 +7,41 @@ function limitLength(text) {
   }
   return text;
 }
+
+export function getTooltipForSubsetRatio(field) {
+  if (!!field.qnPresentDistinctValues && !!field.qnTotalDistinctValues && field.qnPresentDistinctValues < field.qnTotalDistinctValues) {
+    return (
+      <div>
+        <h2>
+          {`${field.subsetRatioText} subset ratio`}
+        </h2>
+        <p>
+          <b>{field.qnPresentDistinctValues}</b>
+          {' out of '}
+          <b>{field.qnTotalDistinctValues}</b>
+          {' '}
+          <i>{field.qName}</i>
+          {' values are present in the '}
+          <i>{field.srcTable.qName}</i>
+          {' table. '}
+        </p>
+        <p>
+          {'The remaining '}
+          {field.qnTotalDistinctValues - field.qnPresentDistinctValues}
+          {' values only exist in other tables ('}
+          <i>{field.otherTables.join('')}</i>
+          {').'}
+        </p>
+        <p>
+          {'This means that there are '}
+          <i>rows in associated tables that do not have any matching rows in this table.</i>
+        </p>
+      </div>
+    );
+  }
+  return <div />;
+}
+
 export function getTooltipForField(fieldData) {
   const { layout } = fieldData;
   if (!layout) {
@@ -16,26 +51,26 @@ export function getTooltipForField(fieldData) {
   function examples() {
     const includedRows = layout.qListObject.qDataPages[0].qMatrix.filter(row => row[0].qState === 'S' || row[0].qState === 'O');
     const excludedRows = layout.qListObject.qDataPages[0].qMatrix.filter(row => row[0].qState === 'X');
-    const rowToText = row => <div>{limitLength(row[0].qText) || '<empty>'}</div>;
-
+    const rowToText = row => <div className="example-item" key={row[0].qElemNumber}>{limitLength(row[0].qText) || '<empty>'}</div>;
+    const rowToText2 = row => limitLength(row[0].qText) || '<empty>';
     let included = null;
     let excluded = null;
 
     if (includedRows.length > 0) {
-      const title = fieldData.isKey ? `Example values from all associated tables (${fieldData.tables.join(' + ')})` : 'Example values';
+      const title = fieldData.isKey ? `Example values (from ${fieldData.tables.join(' + ')})` : 'Example values';
       included = (
         <React.Fragment>
           <h3>{title}</h3>
-          {includedRows.map(rowToText)}
+          {includedRows.map(rowToText2).reduce((a, b) => `${a}, ${b}`)}
         </React.Fragment>
       );
     }
     if (excludedRows.length > 0) {
-      const title = fieldData.isKey ? `Example of excluded values from all associated tables (${fieldData.tables.join(' + ')})` : 'Example values';
+      const title = fieldData.isKey ? `Example of excluded values (from ${fieldData.tables.join(' + ')})` : 'Example values';
       excluded = (
         <React.Fragment>
           <h3>{title}</h3>
-          {excludedRows.map(rowToText)}
+          {includedRows.map(rowToText2).reduce((a, b) => `${a}, ${b}`)}
         </React.Fragment>
       );
     }
@@ -57,14 +92,14 @@ export function getTooltipForField(fieldData) {
   const allNonNullValuesAreUnique = (fieldData.qnPresentDistinctValues === fieldData.qnNonNulls);
   const avgDup = rowWithValueCount > uniqueValueCount ? `~ ${(rowWithValueCount / uniqueValueCount).toFixed(3)}` : '1';
 
-  const subsetRatioSection = fieldData.qSubsetRatio < 1
-    ? (
-      <React.Fragment>
-        <h3>{fieldData.subsetRatioText} subset ratio</h3>
-        <p>{fieldData.subsetRatioTitle}</p>
-      </React.Fragment>
-    )
-    : null;
+  // const subsetRatioSection = fieldData.qSubsetRatio < 1
+  //   ? (
+  //     <React.Fragment>
+  //       <h3>{fieldData.subsetRatioText} subset ratio</h3>
+  //       <p>{fieldData.subsetRatioTitle}</p>
+  //     </React.Fragment>
+  //   )
+  //   : null;
 
   function keyDescription() {
     switch (fieldData.qKeyType) {
@@ -157,29 +192,31 @@ export function getTooltipForField(fieldData) {
   return (
     <div>
       <div>
-        <h2>Field {fieldData.qName} in table {fieldData.srcTable.qName}</h2>
+        <h2>Field {fieldData.qName} <br /> in table {fieldData.srcTable.qName}</h2>
         <table>
-          <tr />
-          <tr>
-            <th>Total Rows</th>
-            <td>{fieldData.qnRows}</td>
-          </tr>
-          <tr>
-            <th>Rows with value</th>
-            <td>{fieldData.qnNonNulls}</td>
-          </tr>
-          <tr>
-            <th>Rows with null</th>
-            <td>{nullCount}</td>
-          </tr>
-          <tr>
-            <th>Unique values</th>
-            <td>{fieldData.qnPresentDistinctValues}</td>
-          </tr>
-          <tr>
-            <th>Rows per unique value</th>
-            <td>{avgDup}</td>
-          </tr>
+          <tbody>
+            <tr />
+            <tr>
+              <th>Total Rows</th>
+              <td>{fieldData.qnRows}</td>
+            </tr>
+            <tr>
+              <th>Rows with value</th>
+              <td>{fieldData.qnNonNulls}</td>
+            </tr>
+            <tr>
+              <th>Rows with null</th>
+              <td>{nullCount}</td>
+            </tr>
+            <tr>
+              <th>Unique values</th>
+              <td>{fieldData.qnPresentDistinctValues}</td>
+            </tr>
+            <tr>
+              <th>Rows per unique value</th>
+              <td>{avgDup}</td>
+            </tr>
+          </tbody>
         </table>
         {keyDescription()}
         {getTooltipForSubsetRatio(fieldData)}
@@ -192,38 +229,4 @@ export function getTooltipForField(fieldData) {
 
 export function getTooltipForSyntheticField(fieldData) {
   return <div>Synthetic field</div>;
-}
-
-export function getTooltipForSubsetRatio(field) {
-  if (!!field.qnPresentDistinctValues && !!field.qnTotalDistinctValues && field.qnPresentDistinctValues < field.qnTotalDistinctValues) {
-    return (
-      <div>
-        <h2>
-          {`${field.subsetRatioText} subset ratio`}
-        </h2>
-        <p>
-          <b>{field.qnPresentDistinctValues}</b>
-          {' out of '}
-          <b>{field.qnTotalDistinctValues}</b>
-          {' '}
-          <i>{field.qName}</i>
-          {' values are present in the '}
-          <i>{field.srcTable.qName}</i>
-          {' table. '}
-        </p>
-        <p>
-          {'The remaining '}
-          {field.qnTotalDistinctValues - field.qnPresentDistinctValues}
-          {' values only exist in other tables ('}
-          <i>{field.otherTables.join('')}</i>
-          {').'}
-        </p>
-        <p>
-          {'This means that there are '}
-          <i>rows in associated tables that do not have any matching rows in this table.</i>
-        </p>
-      </div>
-    );
-  }
-  return <div />;
 }

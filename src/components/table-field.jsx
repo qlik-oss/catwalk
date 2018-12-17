@@ -60,8 +60,6 @@ function TableFieldWithoutState({
       <div
         className={classes}
         style={syntheticFieldStyle}
-        data-tip={tooltipData}
-        data-for="table-field-tooltip"
       >
         <div className="name">
           {field}
@@ -75,13 +73,11 @@ function TableFieldWithoutState({
   };
 
   const filterBox = showFilterbox ? <Filterbox model={model} layout={layout} field={field} /> : null;
-
   return (
     <div
       className={classes}
       style={fieldStyle}
-      data-tip={tooltipData}
-      data-for="table-field-tooltip"
+
     >
       <Field layout={layout} field={field} fieldData={fieldData} />
       <div className="details">

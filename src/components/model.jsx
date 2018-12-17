@@ -7,7 +7,7 @@ import TableField from './table-field';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
 
-import { getTooltipForField, getTooltipForSubsetRatio } from './tooltip';
+import { getTooltipForField, getTooltipForSubsetRatio} from './tooltip';
 
 import './model.pcss';
 import './tooltip.pcss';
@@ -119,13 +119,13 @@ export default function Model({ app, appLayout }) {
             }
 
 
-            const fieldData = queryModel.grid[fieldName][tableName];
-            if (fieldData && !fieldData.isEmpty) {
+            const x = queryModel.grid[fieldName][tableName];
+            if (x && !x.isEmpty) {
               let classes = 'vertcell keycell';
-              if (fieldData.hasAssociationToRight) {
+              if (x.hasAssociationToRight) {
                 classes += ' hasAssociationToRight';
               }
-              if (fieldData.hasAssociationToLeft) {
+              if (x.hasAssociationToLeft) {
                 classes += ' hasAssociationToLeft';
               }
 
@@ -136,66 +136,63 @@ export default function Model({ app, appLayout }) {
               }
 
               const assocStyle = {
-                backgroundColor: fieldData.backgroundColor,
+                backgroundColor: x.backgroundColor,
               };
 
 
               let leftAssocStyle;
-              if (fieldData.cssLeftAssocationBackgroundImage) {
+              if (x.cssLeftAssocationBackgroundImage) {
                 leftAssocStyle = {
-                  backgroundImage: fieldData.cssLeftAssocationBackgroundImage,
+                  backgroundImage: x.cssLeftAssocationBackgroundImage,
                 };
               } else {
                 leftAssocStyle = {
-                  backgroundColor: fieldData.backgroundColor,
+                  backgroundColor: x.backgroundColor,
                 };
               }
               let rightAssocStyle;
-              if (fieldData.cssRightAssocationBackgroundImage) {
+              if (x.cssRightAssocationBackgroundImage) {
                 rightAssocStyle = {
-                  backgroundImage: fieldData.cssRightAssocationBackgroundImage,
+                  backgroundImage: x.cssRightAssocationBackgroundImage,
                 };
               } else {
                 rightAssocStyle = {
-                  backgroundColor: fieldData.backgroundColor,
+                  backgroundColor: x.backgroundColor,
                 };
               }
-              const tooltipData = JSON.stringify({ tableName: fieldData.srcTable.qName, fieldName: fieldData.qName });
+              const tooltipData = JSON.stringify({ tableName: x.srcTable.qName, fieldName: x.qName });
+
               return (
                 <div
+                  data-tip={tooltipData}
+                  data-for="table-field-tooltip"
                   className={classes}
                   style={cellContainerStyle}
                   key={`${tableName}:${fieldName}`}
                   fieldz={fieldName}
                   role="tab"
                 >
-                  <TableField
-                    app={app}
-                    field={fieldName}
-                    fieldData={fieldData}
-                    tableData={queryModel.tables[tableName]}
-                    showFilterbox={isFilterboxOpen}
-                  />
+                  <TableField app={app} field={fieldName} fieldData={x} tableData={queryModel.tables[tableName]} showFilterbox={isFilterboxOpen} />
 
-                  {fieldData.subsetRatioText ? (
+                  {x.subsetRatioText ? (
                     <React.Fragment>
-                      <div className="subsetratio" data-tip={tooltipData} data-for="subsetratio-tooltip">{fieldData.subsetRatioText}</div>
+                      <div className="subsetratio" data-tip={tooltipData} data-for="subsetratio-tooltip">{x.subsetRatioText}</div>
                     </React.Fragment>
                   ) : null}
-                  {fieldData.hasAssociationToLeft ? (
+                  {x.hasAssociationToLeft ? (
                     <div className="association-to-left" style={assocStyle}>
                       <div className="association-to-left-a" />
                       <div className="association-to-left-b" style={leftAssocStyle} />
                       <div className="association-to-left-c" />
-                      <div className="association-to-left-d">{fieldData.assocSymbol}</div>
+                      <div className="association-to-left-d">{x.assocSymbol}</div>
                     </div>
                   ) : null}
-                  {fieldData.hasAssociationToRight ? (
+                  {x.hasAssociationToRight ? (
                     <div className="association-to-right" style={assocStyle}>
                       <div className="association-to-right-a" />
                       <div className="association-to-right-b" style={rightAssocStyle} />
                       <div className="association-to-right-c" />
-                      <div className="association-to-right-d">{fieldData.assocSymbol}</div>
+                      <div className="association-to-right-d">{x.assocSymbol}</div>
                     </div>
                   ) : null}
 
@@ -203,29 +200,29 @@ export default function Model({ app, appLayout }) {
               );
             }
             let classes = 'betweener';
-            if (fieldData.betweenKeys && !fieldData.isKey) {
+            if (x.betweenKeys && !x.isKey) {
               classes += ' betweenKeys';
             }
-            if (fieldData.insideTable) {
+            if (x.insideTable) {
               classes += ' insideTable';
             }
-            if (atPlayModel.keysAtPlay[fieldName] && fieldData.betweenKeys) {
+            if (atPlayModel.keysAtPlay[fieldName] && x.betweenKeys) {
               classes += ' keyAtPlay';
             } else if (assocationsHighlighted) {
               classes += ' notKeyAtPlay';
             }
 
             const lineystyle = {
-              backgroundImage: fieldData.cssBackgroundImage,
+              backgroundImage: x.cssBackgroundImage,
             };
-            if (fieldData.isBelowKeys) {
+            if (x.isBelowKeys) {
               return null;
             }
             return (
               <div className="vertcell" key={`${tableName}:${fieldName}`} style={cellContainerStyle}>
                 <div className={classes}>
                   <div
-                    className={fieldData.betweenKeys && !fieldData.isKey ? 'lineyinner ' : ''}
+                    className={x.betweenKeys && !x.isKey ? 'lineyinner ' : ''}
                     style={lineystyle}
                   />
                 </div>
@@ -249,8 +246,12 @@ export default function Model({ app, appLayout }) {
                 cellContainerStyle.height = '30em';
               }
 
+              const tooltipData = JSON.stringify({ tableName: fieldData.srcTable.qName, fieldName: fieldData.qName });
+
               return (
                 <div
+                  data-tip={tooltipData}
+                  data-for="table-field-tooltip"
                   className={classes}
                   fieldz={fieldData.qName}
                   key={fieldData.qName}
@@ -281,8 +282,8 @@ export default function Model({ app, appLayout }) {
           </div>
         </div>
       </ScrollArea>
-      <ReactTooltip id="subsetratio-tooltip" delayShow={500} effect="solid" type="custom" className="tooltip" getContent={dataTip => getTooltipForSubsetRatioContent(dataTip)} />
-      <ReactTooltip id="table-field-tooltip" delayShow={500} effect="solid" type="custom" className="tooltip" getContent={dataTip => getTooltipForTableFieldContent(dataTip)} />
+      <ReactTooltip id="subsetratio-tooltip" delayShow={500} effect="float" type="custom" className="tooltip" getContent={dataTip => getTooltipForSubsetRatioContent(dataTip)} />
+      <ReactTooltip id="table-field-tooltip" delayShow={500} effect="float" type="custom" className="tooltip" getContent={dataTip => getTooltipForTableFieldContent(dataTip)} />
     </React.Fragment>
   );
 }

@@ -28,7 +28,7 @@
     "react-svg-inline": "2.1.1",
     "react-use-promise": "0.0.0-alpha.1",
     "react-virtualized": "9.21.0",
-    "rc-tooltip": "3.9.0"
+    "react-tooltip": "3.9.0"
   },
   "devDependencies": {
     "@after-work.js/cli": "5.1.1",
