@@ -56,8 +56,7 @@ function toSubsetRatioText(qSubsetratio) {
 
 function toSubsetRatioTitle(field) {
   if (!!field.qnPresentDistinctValues && !!field.qnTotalDistinctValues && field.qnPresentDistinctValues < field.qnTotalDistinctValues) {
-    return `${field.qnPresentDistinctValues} out of ${field.qnTotalDistinctValues} ${field.qName} values are present in the ${field.srcTable.qName} table.\n
-    The remaining ${field.qnTotalDistinctValues - field.qnPresentDistinctValues} values only exist in other tables (${field.otherTables.join('')})`;
+    return `${field.qnPresentDistinctValues} out of ${field.qnTotalDistinctValues} ${field.qName} values are present in the ${field.srcTable.qName} table.\nThe remaining ${field.qnTotalDistinctValues - field.qnPresentDistinctValues} values only exist in other tables (${field.otherTables.join('')})`;
   }
   return '';
 }
@@ -97,13 +96,13 @@ class QueryModel {
     const tables = {};
     const tablesNamesOfFieldMapMap = {};
     tablesAndKeys.qtr.forEach((originalTable) => {
-      const table = JSON.parse(JSON.stringify(originalTable)); //Clone so we can append information to the structure safely
+      const table = JSON.parse(JSON.stringify(originalTable)); // Clone so we can append information to the structure safely
       tables[table.qName] = table;
       table.qFields.sort((a, b) => a.qName.localeCompare(b.qName));
       table.qFields.forEach((_field) => {
         const field = _field;
         field.srcTable = table;
-        field.here = "det var här";
+        field.here = 'det var här';
         fields[field.qName] = fields[field.qName] || field;
         grid[field.qName] = grid[field.qName] || {};
         grid[field.qName][table.qName] = field;

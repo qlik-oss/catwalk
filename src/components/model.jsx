@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import usePromise from 'react-use-promise';
-import ReactTooltip from 'react-tooltip';
+import ReactFloater from 'react-floater';
 import ScrollArea from './scroll-area';
 import TableField from './table-field';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
 
-import { getTooltipForField, getTooltipForSubsetRatio} from './tooltip';
+import { getTooltipForField, getTooltipForSubsetRatio } from './tooltip';
 
 import './model.pcss';
 import './tooltip.pcss';
@@ -33,7 +33,9 @@ export default function Model({ app, appLayout }) {
   const [openBoxes, setOpenBoxes] = useState({});
   const [queryModel, setQueryModel] = useState(null);
   const [atPlayModel, setAtPlayModel] = useState(null);
+  const [currentDetailsView, setCurrentDetailsView] = useState(null);
 
+  let boxIdCounter = 0;
 
   function getTooltipForSubsetRatioContent(datatip) {
     if (!datatip) {
@@ -44,11 +46,7 @@ export default function Model({ app, appLayout }) {
     return getTooltipForSubsetRatio(field);
   }
 
-  function getTooltipForTableFieldContent(datatip) {
-    if (!datatip) {
-      return null;
-    }
-    const { tableName, fieldName } = JSON.parse(datatip);
+  function getTooltipForTableFieldContent(tableName, fieldName) {
     const field = queryModel.getTableField(tableName, fieldName);
     return getTooltipForField(field);
   }
@@ -63,13 +61,27 @@ export default function Model({ app, appLayout }) {
     setAtPlayModel(newAtPlayModel);
   }, [tablesAndKeys]);
 
+
+  function showFieldDetails(table, field, boxId) {
+    setCurrentDetailsView({ boxId, content: getTooltipForTableFieldContent(table, field) });
+  }
   const toggleField = (evt) => {
     if (evt.ctrlKey || evt.metaKey) {
       return;
     }
+
+    const dataTooltip = findAttribute(evt, 'data-tooltip');
+    const dataTableHeader = findAttribute(evt, 'data-tableheader');
     const field = findAttribute(evt, 'fieldz');
     const table = findAttribute(evt, 'tablez');
-    if (field) {
+    const boxId = findAttribute(evt, 'data-boxid');
+    if (dataTooltip) {
+      console.log(table, field);
+      showFieldDetails(table, field, boxId);
+    } else if (dataTableHeader) {
+      const newQueryModel = new logic.QueryModel(tablesAndKeys, table);
+      setQueryModel(newQueryModel);
+    } else if (field) {
       if (openBoxes[field]) {
         delete openBoxes[field];
       } else {
@@ -77,9 +89,6 @@ export default function Model({ app, appLayout }) {
       }
       const newAtPlayModel = new atplay.AtPlayModel(queryModel, openBoxes);
       setAtPlayModel(newAtPlayModel);
-    } else if (table) {
-      const newQueryModel = new logic.QueryModel(tablesAndKeys, table);
-      setQueryModel(newQueryModel);
     }
   };
 
@@ -95,6 +104,12 @@ export default function Model({ app, appLayout }) {
     );
   }
 
+  const extraInfo = currentDetailsView ? (
+    <div className="floatercontainer" key={currentDetailsView.boxId}>
+      <ReactFloater autoOpen disableAnimation showCloseButton placement="right" target={`[data-boxid="${currentDetailsView.boxId}"]`} content={currentDetailsView.content} callback={(event) => { if (event === 'close') { setCurrentDetailsView(null); } }} />
+    </div>
+  ) : null;
+
   const assocationsHighlighted = Object.keys(openBoxes).length > 1;
   const gridz = queryModel.resultTableList.map((tableName) => {
     let columnClasses = 'column';
@@ -105,8 +120,8 @@ export default function Model({ app, appLayout }) {
     }
 
     return (
-      <div className={columnClasses} key={tableName} role="tab">
-        <div className="vertcell tableheader" tablez={tableName}>
+      <div className={columnClasses} key={tableName} role="tab" tablez={tableName}>
+        <div className="vertcell tableheader" data-tableheader={tableName}>
           <div>{tableName}</div>
           <div className="nbr-of-rows">{queryModel.tables[tableName].qNoOfRows}</div>
         </div>
@@ -162,10 +177,13 @@ export default function Model({ app, appLayout }) {
               }
               const tooltipData = JSON.stringify({ tableName: x.srcTable.qName, fieldName: x.qName });
 
+              boxIdCounter += 1
+              const currentboxid = boxIdCounter;
               return (
                 <div
                   data-tip={tooltipData}
                   data-for="table-field-tooltip"
+                  data-boxid={`${currentboxid}`}
                   className={classes}
                   style={cellContainerStyle}
                   key={`${tableName}:${fieldName}`}
@@ -176,7 +194,7 @@ export default function Model({ app, appLayout }) {
 
                   {x.subsetRatioText ? (
                     <React.Fragment>
-                      <div className="subsetratio" data-tip={tooltipData} data-for="subsetratio-tooltip">{x.subsetRatioText}</div>
+                      <div className="subsetratio" data-tip={tooltipData} title={x.subsetRatioTitle} data-for="subsetratio-tooltip">{x.subsetRatioText}</div>
                     </React.Fragment>
                   ) : null}
                   {x.hasAssociationToLeft ? (
@@ -247,11 +265,13 @@ export default function Model({ app, appLayout }) {
               }
 
               const tooltipData = JSON.stringify({ tableName: fieldData.srcTable.qName, fieldName: fieldData.qName });
-
+              boxIdCounter += 1
+              const currentboxid = boxIdCounter;
               return (
                 <div
                   data-tip={tooltipData}
                   data-for="table-field-tooltip"
+                  data-boxid={`${currentboxid}`}
                   className={classes}
                   fieldz={fieldData.qName}
                   key={fieldData.qName}
@@ -282,8 +302,7 @@ export default function Model({ app, appLayout }) {
           </div>
         </div>
       </ScrollArea>
-      <ReactTooltip id="subsetratio-tooltip" delayShow={500} effect="float" type="custom" className="tooltip" getContent={dataTip => getTooltipForSubsetRatioContent(dataTip)} />
-      <ReactTooltip id="table-field-tooltip" delayShow={500} effect="float" type="custom" className="tooltip" getContent={dataTip => getTooltipForTableFieldContent(dataTip)} />
+      {extraInfo}
     </React.Fragment>
   );
 }
@@ -292,3 +311,6 @@ Model.propTypes = {
   app: PropTypes.object.isRequired,
   appLayout: PropTypes.object.isRequired,
 };
+
+// {/*<ReactTooltip id="subsetratio-tooltip" delayShow={500} effect="float" type="custom" className="tooltip" getContent={dataTip => getTooltipForSubsetRatioContent(dataTip)} />*/}
+// {/*<ReactTooltip id="table-field-tooltip" delayShow={500} effect="float" type="custom" className="tooltip" getContent={dataTip => getTooltipForTableFieldContent(dataTip)} />*/}

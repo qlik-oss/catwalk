@@ -11,7 +11,7 @@ function limitLength(text) {
 export function getTooltipForSubsetRatio(field) {
   if (!!field.qnPresentDistinctValues && !!field.qnTotalDistinctValues && field.qnPresentDistinctValues < field.qnTotalDistinctValues) {
     return (
-      <div>
+      <div className="tooltip">
         <h2>
           {`${field.subsetRatioText} subset ratio`}
         </h2>
@@ -51,7 +51,6 @@ export function getTooltipForField(fieldData) {
   function examples() {
     const includedRows = layout.qListObject.qDataPages[0].qMatrix.filter(row => row[0].qState === 'S' || row[0].qState === 'O');
     const excludedRows = layout.qListObject.qDataPages[0].qMatrix.filter(row => row[0].qState === 'X');
-    const rowToText = row => <div className="example-item" key={row[0].qElemNumber}>{limitLength(row[0].qText) || '<empty>'}</div>;
     const rowToText2 = row => limitLength(row[0].qText) || '<empty>';
     let included = null;
     let excluded = null;
@@ -123,7 +122,7 @@ export function getTooltipForField(fieldData) {
           return (
             <React.Fragment>
               <h3>Foreign key - Contains null rows</h3>
-              <span>All present values are unique but there are {nullCount} rows with nulls.</span>
+              {/*<span>All present values are unique but there are {nullCount} rows with nulls.</span>*/}
             </React.Fragment>
           );
         }
@@ -131,14 +130,14 @@ export function getTooltipForField(fieldData) {
           return (
             <React.Fragment>
               <h3>Foreign Key - Many rows per value + null rows</h3>
-              <span>Average row count per value is {avgDup} times. Plus {nullCount} rows with nulls.</span>
+              {/*<span>Average row count per value is {avgDup} times. Plus {nullCount} rows with nulls.</span>*/}
             </React.Fragment>
           );
         }
         return (
           <React.Fragment>
             <h3>Foreign key - Many rows per value</h3>
-            <span>Average row count per value is {avgDup} times. No nulls.</span>
+            {/*<span>Average row count per value is {avgDup} times. No nulls.</span>*/}
           </React.Fragment>
         );
       default:
@@ -190,7 +189,7 @@ export function getTooltipForField(fieldData) {
 
 
   return (
-    <div>
+    <div  className="tooltip">
       <div>
         <h2>Field {fieldData.qName} <br /> in table {fieldData.srcTable.qName}</h2>
         <table>

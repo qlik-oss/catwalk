@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SVGInline from 'react-svg-inline';
+import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
 import Field from './field';
 import Filterbox from './filterbox';
 import useModel from './use/model';
 import useLayout from './use/layout';
+
 
 import './table-field.pcss';
 import './tooltip.pcss';
@@ -27,6 +30,7 @@ function TableFieldWithoutState({
 
   const total = layout.qListObject.qDimensionInfo.qCardinal;
   const states = layout.qListObject.qDimensionInfo.qStateCounts;
+
   if (states.qSelected) {
     classes += ' filtered';
   }
@@ -49,7 +53,7 @@ function TableFieldWithoutState({
     classes += ' single-hit';
   }
 
-  const tooltipData = JSON.stringify({ tableName: fieldData.srcTable.qName, fieldName: fieldData.qName });
+  const tooltipData = (`${fieldData.srcTable.qName}${fieldData.qName}`);
   const isSynthetic = (fieldData.qTags && fieldData.qTags.find(item => item === '$synthetic'));
   if (isSynthetic) {
     const syntheticFieldStyle = {
@@ -72,6 +76,7 @@ function TableFieldWithoutState({
     border: `2px solid ${fieldData.backgroundColor}`,
   };
 
+
   const filterBox = showFilterbox ? <Filterbox model={model} layout={layout} field={field} /> : null;
   return (
     <div
@@ -80,6 +85,11 @@ function TableFieldWithoutState({
 
     >
       <Field layout={layout} field={field} fieldData={fieldData} />
+      <div className="extra-information">
+        <div id={tooltipData} data-tooltip={tooltipData}>
+          <SVGInline className="extra-information-icon" svg={moreHorizontalOutline} />
+        </div>
+      </div>
       <div className="details">
         { filterBox }
       </div>
