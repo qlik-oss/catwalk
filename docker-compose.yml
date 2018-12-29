@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   qix-engine:
-    image: qlikcore/engine:12.287.0
+    image: qlikcore/engine:12.292.0
     restart: always
     command: |
       -S AcceptEULA=${ACCEPT_EULA}
