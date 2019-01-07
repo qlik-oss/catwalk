@@ -56,6 +56,14 @@ function rowRenderer({
     </div>
   );
 }
+rowRenderer.propTypes = {
+  defaultProps: PropTypes.object.isRequired,
+  rowData: PropTypes.object.isRequired,
+  style: PropTypes.object.isRequired,
+  columns: PropTypes.object.isRequired,
+  className: PropTypes.string.isRequired,
+  key: PropTypes.string.isRequired,
+};
 
 function headerRowRenderer({
   className, columns, style,
