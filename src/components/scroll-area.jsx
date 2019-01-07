@@ -59,4 +59,6 @@ export default function ScrollArea({
 ScrollArea.propTypes = {
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
+  className: PropTypes.string.isRequired,
+  children: PropTypes.object.isRequired,
 };
