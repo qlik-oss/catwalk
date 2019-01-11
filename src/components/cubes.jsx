@@ -50,7 +50,8 @@ export function Cubes({ app }) {
         <SVGInline {...closeButton} onClick={() => removeCube(cube.id)} />
       </div>
       <Cube app={app} tableData={cube} />
-    </div>));
+    </div>
+  ));
   return (
     <div>
       <div className="cubes">
