@@ -4,6 +4,7 @@ import React, {
 import {
   Table, AutoSizer, InfiniteLoader,
 } from 'react-virtualized';
+// import 'react-virtualized/styles.css';
 import './virtual-table.pcss';
 import PropTypes from 'prop-types'; // only needs to be imported once
 
