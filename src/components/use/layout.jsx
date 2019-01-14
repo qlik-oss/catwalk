@@ -10,13 +10,17 @@ export default function useLayout(model) {
     let isKilled = false;
 
     const modelChanged = async () => {
-      const newLayout = model.getAppLayout
-        ? await model.getAppLayout()
-        : await model.getLayout();
-      if (!isKilled) {
-        debounce(() => {
-          setLayout(newLayout);
-        });
+      try {
+        const newLayout = model.getAppLayout
+          ? await model.getAppLayout()
+          : await model.getLayout();
+        if (!isKilled) {
+          debounce(() => {
+            setLayout(newLayout);
+          });
+        }
+      } catch (err) {
+        setLayout(null);
       }
     };
 
