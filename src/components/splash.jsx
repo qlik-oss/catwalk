@@ -17,14 +17,16 @@ export default function Splash({
   let content;
 
   function updateEngineURL(url, appId) {
+    const URLobject = new URL(url);
+    const protocol = URLobject.protocol === 'ws:' ? 'http://' : 'https://';
     let newURL = url;
+
     if (appId) {
       // Adding slash to support doclist for sense Desktop
       const UniformedAppId = appId.charAt(0) === '/' ? appId : `/${appId}`;
-      newURL = `${new URL(newURL).origin}${UniformedAppId}`;
+      newURL = `${URLobject.origin}${UniformedAppId}`;
     }
-    window.history.replaceState({}, '', `${window.location.pathname}?engine_url=${encodeURI(newURL)}`);
-    window.location.reload(false);
+    window.location.assign(`${protocol}${window.location.host}?engine_url=${encodeURI(newURL)}`);
   }
 
   const form = (
@@ -44,7 +46,6 @@ export default function Splash({
   if (Array.isArray(docs) && docs.length) {
     content = (
       <div>
-        <h3>Taking your Qlik data models to the stage</h3>
         <p>WebSocket connected, but no open app. Choose one below:</p>
         <ul className="doc-list">
           {docs.map(doc => (
@@ -92,6 +93,7 @@ export default function Splash({
       <div className="center-content">
         <div className="splash">
           <SVGInline {...contentLogo} />
+          <h3>Taking your Qlik data models to stage</h3>
           {content}
         </div>
       </div>
