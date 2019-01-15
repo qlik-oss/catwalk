@@ -51,7 +51,7 @@ jobs:
           path: test/e2e/__artifacts__
 
       - run:
-          name: Sync documentation to S3 bucket
+          name: Sync dist to S3 bucket
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ] && [ "${TARGET_USER}" != "" ]; then
               sudo apt-get -y -qq install awscli
