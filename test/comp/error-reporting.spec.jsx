@@ -19,8 +19,6 @@ describe('error-reporting', () => {
     sandbox.stub(window, 'location').value({ pathname: 'some value' });
     sandbox.stub(process, 'env').value({ GA: 'some value' });
 
-    // process.env.GA = 'string';
-
     const tree = renderer.create(<UseErrorReporting GA={process.env.GA} />).toJSON();
 
     expect(tree).toMatchSnapshot();
