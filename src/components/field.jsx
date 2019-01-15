@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
 import close from '../assets/close-outline.svg';
-
+import { getSelectionBarTooltip } from './tooltip';
 import './field.pcss';
 
 const clearButton = { className: 'clear-selection', svg: close };
@@ -49,7 +49,7 @@ export default function Field({
           <div className="name">
             {field}
           </div>
-          <div className="bartext">
+          <div className="bartext" title={getSelectionBarTooltip(fieldData, layout)}>
             {' '}
             {fieldCounts(layout.qListObject.qDimensionInfo, fieldData)}
           </div>

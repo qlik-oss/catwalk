@@ -6,7 +6,7 @@ import Field from './field';
 import Filterbox from './filterbox';
 import useModel from './use/model';
 import useLayout from './use/layout';
-
+import { getTooltipForField, getTooltipForSyntheticField } from './tooltip';
 
 import './table-field.pcss';
 import './tooltip.pcss';
@@ -64,6 +64,7 @@ function TableFieldWithoutState({
       <div
         className={classes}
         style={syntheticFieldStyle}
+        title={getTooltipForSyntheticField(fieldData, layout)}
       >
         <div className="name">
           {field}
@@ -82,10 +83,10 @@ function TableFieldWithoutState({
     <div
       className={classes}
       style={fieldStyle}
-
+      title={getTooltipForField(fieldData, layout)}
     >
       <Field layout={layout} field={field} fieldData={fieldData} />
-      <div className="extra-information">
+      <div className="extra-information" title="Click for more information">
         <div id={tooltipData} data-tooltip={tooltipData}>
           <SVGInline className="extra-information-icon" svg={moreHorizontalOutline} />
         </div>

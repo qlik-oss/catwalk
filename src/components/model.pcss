@@ -2,6 +2,7 @@
   --table-background: #f2f2f2;
   --grid-background: #f2f2f2;
   --even-column-background: #f6f6f6;
+  --odd-column-background: #e8e8e8;
   --association-border: #999;
 
   background-color: var(--grid-background);
@@ -182,6 +183,12 @@
     .column {
       box-sizing: border-box;
       padding: 3.5em;
+    }
+
+    .column.odd {
+      background: linear-gradient(to bottom, var(--odd-column-background) 0%, var(--table-background) 100%);
+      background-repeat: no-repeat;
+      background-size: auto 30rem;
     }
 
     &:nth-child(even) {

@@ -7,7 +7,7 @@ import TableField from './table-field';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
 
-import { getTooltipForField, getTooltipForSubsetRatio } from './tooltip';
+import { getExtraInfoForField, getAssosicationTooltip, getTableTooltip } from './tooltip';
 
 import './model.pcss';
 import './tooltip.pcss';
@@ -37,18 +37,9 @@ export default function Model({ app, appLayout }) {
 
   let boxIdCounter = 0;
 
-  function getTooltipForSubsetRatioContent(datatip) {
-    if (!datatip) {
-      return null;
-    }
-    const { tableName, fieldName } = JSON.parse(datatip);
+  function getExtraInfoForTableField(tableName, fieldName) {
     const field = queryModel.getTableField(tableName, fieldName);
-    return getTooltipForSubsetRatio(field);
-  }
-
-  function getTooltipForTableFieldContent(tableName, fieldName) {
-    const field = queryModel.getTableField(tableName, fieldName);
-    return getTooltipForField(field);
+    return getExtraInfoForField(field);
   }
 
   useEffect(() => {
@@ -63,7 +54,7 @@ export default function Model({ app, appLayout }) {
 
 
   function showFieldDetails(table, field, boxId) {
-    setCurrentDetailsView({ boxId, content: getTooltipForTableFieldContent(table, field) });
+    setCurrentDetailsView({ boxId, content: getExtraInfoForTableField(table, field) });
   }
   const toggleField = (evt) => {
     if (evt.ctrlKey || evt.metaKey) {
@@ -76,7 +67,6 @@ export default function Model({ app, appLayout }) {
     const table = findAttribute(evt, 'tablez');
     const boxId = findAttribute(evt, 'data-boxid');
     if (dataTooltip) {
-      console.log(table, field);
       showFieldDetails(table, field, boxId);
     } else if (dataTableHeader) {
       const newQueryModel = new logic.QueryModel(tablesAndKeys, table);
@@ -110,6 +100,7 @@ export default function Model({ app, appLayout }) {
     </div>
   ) : null;
 
+  let odd = false;
   const assocationsHighlighted = Object.keys(openBoxes).length > 1;
   const gridz = queryModel.resultTableList.map((tableName) => {
     let columnClasses = 'column';
@@ -118,10 +109,14 @@ export default function Model({ app, appLayout }) {
     } else if (assocationsHighlighted) {
       columnClasses += ' notTableAtPlay';
     }
+    if (odd) {
+      columnClasses += ' odd';
+    }
+    odd = !odd;
 
     return (
       <div className={columnClasses} key={tableName} role="tab" tablez={tableName}>
-        <div className="vertcell tableheader" data-tableheader={tableName}>
+        <div className="vertcell tableheader" data-tableheader={tableName} title={getTableTooltip(queryModel.tables[tableName])}>
           <div>{tableName}</div>
           <div className="nbr-of-rows">{queryModel.tables[tableName].qNoOfRows}</div>
         </div>
@@ -177,7 +172,7 @@ export default function Model({ app, appLayout }) {
               }
               const tooltipData = JSON.stringify({ tableName: x.srcTable.qName, fieldName: x.qName });
 
-              boxIdCounter += 1
+              boxIdCounter += 1;
               const currentboxid = boxIdCounter;
               return (
                 <div
@@ -198,7 +193,7 @@ export default function Model({ app, appLayout }) {
                     </React.Fragment>
                   ) : null}
                   {x.hasAssociationToLeft ? (
-                    <div className="association-to-left" style={assocStyle}>
+                    <div className="association-to-left" style={assocStyle} title={getAssosicationTooltip(fieldName)}>
                       <div className="association-to-left-a" />
                       <div className="association-to-left-b" style={leftAssocStyle} />
                       <div className="association-to-left-c" />
@@ -206,7 +201,7 @@ export default function Model({ app, appLayout }) {
                     </div>
                   ) : null}
                   {x.hasAssociationToRight ? (
-                    <div className="association-to-right" style={assocStyle}>
+                    <div className="association-to-right" style={assocStyle} title={getAssosicationTooltip(fieldName)}>
                       <div className="association-to-right-a" />
                       <div className="association-to-right-b" style={rightAssocStyle} />
                       <div className="association-to-right-c" />
@@ -237,7 +232,7 @@ export default function Model({ app, appLayout }) {
               return null;
             }
             return (
-              <div className="vertcell" key={`${tableName}:${fieldName}`} style={cellContainerStyle}>
+              <div className="vertcell" key={`${tableName}:${fieldName}`} style={cellContainerStyle} title={x.betweenKeys ? getAssosicationTooltip(fieldName) : ''}>
                 <div className={classes}>
                   <div
                     className={x.betweenKeys && !x.isKey ? 'lineyinner ' : ''}
@@ -265,7 +260,7 @@ export default function Model({ app, appLayout }) {
               }
 
               const tooltipData = JSON.stringify({ tableName: fieldData.srcTable.qName, fieldName: fieldData.qName });
-              boxIdCounter += 1
+              boxIdCounter += 1;
               const currentboxid = boxIdCounter;
               return (
                 <div

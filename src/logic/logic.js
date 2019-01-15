@@ -39,13 +39,13 @@ function assocSymbol(field) {
   }
 }
 
-function toSubsetRatioText(qSubsetratio) {
-  if (qSubsetratio === 1) {
+function toSubsetRatioText(qSubsetRatio) {
+  if (qSubsetRatio === 1) {
     return '';
-  } if (qSubsetratio === 0) {
+  } if (qSubsetRatio === 0) {
     return '0%';
   }
-  const subsetRatioText = `${Math.round(qSubsetratio * 100)}%`;
+  const subsetRatioText = `${Math.round(qSubsetRatio * 100)}%`;
   if (subsetRatioText === '100%') {
     return '>99%';
   } if (subsetRatioText === '0%') {
@@ -55,8 +55,9 @@ function toSubsetRatioText(qSubsetratio) {
 }
 
 function toSubsetRatioTitle(field) {
+  const subsetratioText = toSubsetRatioText(field.qSubsetRatio);
   if (!!field.qnPresentDistinctValues && !!field.qnTotalDistinctValues && field.qnPresentDistinctValues < field.qnTotalDistinctValues) {
-    return `${field.qnPresentDistinctValues} out of ${field.qnTotalDistinctValues} ${field.qName} values are present in the ${field.srcTable.qName} table.\nThe remaining ${field.qnTotalDistinctValues - field.qnPresentDistinctValues} values only exist in other tables (${field.otherTables.join('')})`;
+    return `${subsetratioText} subset ratio\n\n${field.qnPresentDistinctValues} out of ${field.qnTotalDistinctValues} ${field.qName} values are present in the ${field.srcTable.qName} table.\nThe remaining ${field.qnTotalDistinctValues - field.qnPresentDistinctValues} values only exist in other tables (${field.otherTables.join('')}) \n\nNote that when interacting with a field - all values are shown - not only the ones that are present in the underlying table.`;
   }
   return '';
 }
@@ -111,7 +112,6 @@ class QueryModel {
       });
     });
 
-    console.log('tablesAndKeys', tablesAndKeys);
     const tableArray = sortTablesBySize(tables);
     const fieldArray = sortFieldsByKeyAndName(fields);
 
@@ -132,9 +132,7 @@ class QueryModel {
       this.analyzeTable(actualStartTable, tablesAlreadyAnalyzed, '');
       actualStartTable = biggestTableNotAnalyzed(this.originalTableNamesSortedBySize, tablesAlreadyAnalyzed);
     }
-    console.log('this.resultFieldList', this.resultFieldList);
     this.fillInGridInfo(grid);
-    console.log('this.resultFieldList', this.resultFieldList);
   }
 
   getTableField(tableName, fieldName) {
