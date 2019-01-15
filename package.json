@@ -14,6 +14,7 @@
     "test:unit": "aw --glob test/unit/*.spec.js --src src/logic/*.js --coverage",
     "test:comp": "aw -c ./test/comp/aw.config.js && nyc report -t ./coverage/.nyc_output",
     "test:e2e": "aw puppeteer -c ./test/e2e/aw.config.js",
+    "coverage:html": "nyc report -t ./coverage/.nyc_output -r html",
     "lint": "eslint --ext .js,.jsx . && stylelint src/.",
     "lint:fix": "eslint --ext .js,.jsx --fix . && stylelint --fix src/."
   },
