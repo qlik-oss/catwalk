@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Column from 'react-virtualized/dist/es/Table/Column';
 import { Column } from 'react-virtualized';
 
 import VirtualTable from './virtual-table';

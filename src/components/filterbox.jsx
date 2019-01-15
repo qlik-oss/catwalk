@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom';
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-// import Column from 'react-virtualized/dist/es/Table/Column';
 import { Column } from 'react-virtualized';
 import useClickOutside from './use/click-outside';
 import VirtualTable from './virtual-table';
