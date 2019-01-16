@@ -53,7 +53,6 @@ function TableFieldWithoutState({
     classes += ' single-hit';
   }
 
-  const tooltipData = (`${fieldData.srcTable.qName}${fieldData.qName}`);
   const isSynthetic = (fieldData.qTags && fieldData.qTags.find(item => item === '$synthetic'));
   if (isSynthetic) {
     const syntheticFieldStyle = {
@@ -87,7 +86,7 @@ function TableFieldWithoutState({
     >
       <Field layout={layout} field={field} fieldData={fieldData} />
       <div className="extra-information" title="Click for more information">
-        <div id={tooltipData} data-tooltip={tooltipData}>
+        <div data-extra-info-icon>
           <SVGInline className="extra-information-icon" svg={moreHorizontalOutline} />
         </div>
       </div>

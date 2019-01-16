@@ -33,7 +33,7 @@ export default function Model({ app, appLayout }) {
   const [openBoxes, setOpenBoxes] = useState({});
   const [queryModel, setQueryModel] = useState(null);
   const [atPlayModel, setAtPlayModel] = useState(null);
-  const [currentDetailsView, setCurrentDetailsView] = useState(null);
+  const [currentDetailsView, setCurrentDetailsView] = useState(null); // The currently open extra info dialog
 
   let boxIdCounter = 0;
 
@@ -56,22 +56,36 @@ export default function Model({ app, appLayout }) {
   function showFieldDetails(table, field, boxId) {
     setCurrentDetailsView({ boxId, content: getExtraInfoForTableField(table, field) });
   }
-  const toggleField = (evt) => {
+  const onClick = (evt) => {
     if (evt.ctrlKey || evt.metaKey) {
       return;
     }
 
-    const dataTooltip = findAttribute(evt, 'data-tooltip');
-    const dataTableHeader = findAttribute(evt, 'data-tableheader');
-    const field = findAttribute(evt, 'fieldz');
-    const table = findAttribute(evt, 'tablez');
+    // The following attribute is set if the extra-info icon is clicked
+    const extraInfoIcon = findAttribute(evt, 'data-extra-info-icon');
+
+    // The following attribute indicates what div to align the extra info popup with
     const boxId = findAttribute(evt, 'data-boxid');
-    if (dataTooltip) {
+
+    // The following attribute is set if the table header is clicked
+    const dataTableHeader = findAttribute(evt, 'data-tableheader');
+
+    // The field the click is on
+    const field = findAttribute(evt, 'fieldz');
+
+    // The table the click is on
+    const table = findAttribute(evt, 'tablez');
+
+    // Depending on where the click was do different things:
+    if (extraInfoIcon) {
+      // Show field details
       showFieldDetails(table, field, boxId);
     } else if (dataTableHeader) {
+      // Re-sort the main data model based on the clicked table
       const newQueryModel = new logic.QueryModel(tablesAndKeys, table);
       setQueryModel(newQueryModel);
     } else if (field) {
+      // Open or close a field
       if (openBoxes[field]) {
         delete openBoxes[field];
       } else {
@@ -94,7 +108,7 @@ export default function Model({ app, appLayout }) {
     );
   }
 
-  const extraInfo = currentDetailsView ? (
+  const extraInfoContainer = currentDetailsView ? (
     <div className="floatercontainer" key={currentDetailsView.boxId}>
       <ReactFloater autoOpen disableAnimation showCloseButton placement="right" target={`[data-boxid="${currentDetailsView.boxId}"]`} content={currentDetailsView.content} callback={(event) => { if (event === 'close') { setCurrentDetailsView(null); } }} />
     </div>
@@ -170,14 +184,11 @@ export default function Model({ app, appLayout }) {
                   backgroundColor: x.backgroundColor,
                 };
               }
-              const tooltipData = JSON.stringify({ tableName: x.srcTable.qName, fieldName: x.qName });
 
               boxIdCounter += 1;
               const currentboxid = boxIdCounter;
               return (
                 <div
-                  data-tip={tooltipData}
-                  data-for="table-field-tooltip"
                   data-boxid={`${currentboxid}`}
                   className={classes}
                   style={cellContainerStyle}
@@ -189,7 +200,7 @@ export default function Model({ app, appLayout }) {
 
                   {x.subsetRatioText ? (
                     <React.Fragment>
-                      <div className="subsetratio" data-tip={tooltipData} title={x.subsetRatioTitle} data-for="subsetratio-tooltip">{x.subsetRatioText}</div>
+                      <div className="subsetratio" title={x.subsetRatioTitle}>{x.subsetRatioText}</div>
                     </React.Fragment>
                   ) : null}
                   {x.hasAssociationToLeft ? (
@@ -259,13 +270,10 @@ export default function Model({ app, appLayout }) {
                 cellContainerStyle.height = '30em';
               }
 
-              const tooltipData = JSON.stringify({ tableName: fieldData.srcTable.qName, fieldName: fieldData.qName });
               boxIdCounter += 1;
               const currentboxid = boxIdCounter;
               return (
                 <div
-                  data-tip={tooltipData}
-                  data-for="table-field-tooltip"
                   data-boxid={`${currentboxid}`}
                   className={classes}
                   fieldz={fieldData.qName}
@@ -289,7 +297,7 @@ export default function Model({ app, appLayout }) {
         <div className="model">
           <div
             className="colset"
-            onClick={toggleField}
+            onClick={onClick}
             role="tablist"
             tabIndex={-1}
           >
@@ -297,7 +305,7 @@ export default function Model({ app, appLayout }) {
           </div>
         </div>
       </ScrollArea>
-      {extraInfo}
+      {extraInfoContainer}
     </React.Fragment>
   );
 }
@@ -306,6 +314,3 @@ Model.propTypes = {
   app: PropTypes.object.isRequired,
   appLayout: PropTypes.object.isRequired,
 };
-
-// {/*<ReactTooltip id="subsetratio-tooltip" delayShow={500} effect="float" type="custom" className="tooltip" getContent={dataTip => getTooltipForSubsetRatioContent(dataTip)} />*/}
-// {/*<ReactTooltip id="table-field-tooltip" delayShow={500} effect="float" type="custom" className="tooltip" getContent={dataTip => getTooltipForTableFieldContent(dataTip)} />*/}

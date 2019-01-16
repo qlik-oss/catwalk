@@ -43,9 +43,7 @@ export default function Field({
   return (
     <div className="field">
       <div className="inner-container">
-        <div
-          className="name-and-text"
-        >
+        <div className="name-and-text">
           <div className="name">
             {field}
           </div>
