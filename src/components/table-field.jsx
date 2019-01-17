@@ -1,28 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SVGInline from 'react-svg-inline';
+import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
 import Field from './field';
 import Filterbox from './filterbox';
 import useModel from './use/model';
 import useLayout from './use/layout';
+import { getTooltipForField, getTooltipForSyntheticField } from './tooltip';
 
 import './table-field.pcss';
-
-function firstFewValues(layout) {
-  const rowToText = row => `${row[0].qText || '<empty>'}`;
-
-  const selected = layout.qListObject.qDataPages[0].qMatrix.filter(row => row[0].qState === 'S' || row[0].qState === 'O');
-  const excluded = layout.qListObject.qDataPages[0].qMatrix.filter(row => row[0].qState === 'X');
-
-  let result = '';
-  if (selected.length > 0) {
-    result += `Example values:\n${selected.map(rowToText).join(', ')}\n`;
-  }
-  if (excluded.length > 0) {
-    result += `\nExample of excluded values:\n${excluded.map(rowToText).join(', ')}`;
-  }
-
-  return result;
-}
+import './tooltip.pcss';
 
 function TableFieldWithoutState({
   model, layout, field, fieldData, showFilterbox,
@@ -43,7 +30,6 @@ function TableFieldWithoutState({
 
   const total = layout.qListObject.qDimensionInfo.qCardinal;
   const states = layout.qListObject.qDimensionInfo.qStateCounts;
-  let descriptions = '';
 
   if (states.qSelected) {
     classes += ' filtered';
@@ -51,16 +37,9 @@ function TableFieldWithoutState({
 
   if (fieldData.qHasDuplicates) {
     classes += ' has-duplicates';
-    descriptions += 'Duplicate values';
-  } else {
-    descriptions += 'Unique values';
   }
-
   if (fieldData.qHasNull) {
     classes += ' has-null';
-    descriptions += ', has nulls';
-  } else {
-    descriptions += ', no nulls.';
   }
 
   const allExcluded = states.qExcluded === total;
@@ -84,7 +63,7 @@ function TableFieldWithoutState({
       <div
         className={classes}
         style={syntheticFieldStyle}
-        title="Synthetic key"
+        title={getTooltipForSyntheticField(fieldData, layout)}
       >
         <div className="name">
           {field}
@@ -97,18 +76,20 @@ function TableFieldWithoutState({
     border: `2px solid ${fieldData.backgroundColor}`,
   };
 
-  const filterBox = showFilterbox ? <Filterbox model={model} layout={layout} field={field} /> : null;
 
+  const filterBox = showFilterbox ? <Filterbox model={model} layout={layout} field={field} /> : null;
   return (
     <div
       className={classes}
       style={fieldStyle}
-      title={`${field} \n\n${states.qSelected} selected, ${states.qOption
-        + states.qAlternative} possible, ${
-        states.qExcluded
-      } excluded, total of ${total} values. ${descriptions}\n\n${firstFewValues(layout)}`}
+      title={getTooltipForField(fieldData, layout)}
     >
       <Field layout={layout} field={field} fieldData={fieldData} />
+      <div className="extra-information" title="Click for more information">
+        <div data-extra-info-icon>
+          <SVGInline className="extra-information-icon" svg={moreHorizontalOutline} />
+        </div>
+      </div>
       <div className="details">
         { filterBox }
       </div>
@@ -163,7 +144,8 @@ export default function TableField({
 }) {
   const model = useModel(app, createDefinition(field));
   const layout = useLayout(model);
-
+  const fieldDataToModify = fieldData;
+  fieldDataToModify.layout = layout;
   return TableFieldWithoutState({
     model, layout, field, fieldData, showFilterbox,
   });
