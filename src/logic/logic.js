@@ -103,7 +103,6 @@ class QueryModel {
       table.qFields.forEach((_field) => {
         const field = _field;
         field.srcTable = table;
-        field.here = 'det var här';
         fields[field.qName] = fields[field.qName] || field;
         grid[field.qName] = grid[field.qName] || {};
         grid[field.qName][table.qName] = field;

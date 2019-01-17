@@ -199,9 +199,7 @@ export default function Model({ app, appLayout }) {
                   <TableField app={app} field={fieldName} fieldData={x} tableData={queryModel.tables[tableName]} showFilterbox={isFilterboxOpen} />
 
                   {x.subsetRatioText ? (
-                    <React.Fragment>
-                      <div className="subsetratio" title={x.subsetRatioTitle}>{x.subsetRatioText}</div>
-                    </React.Fragment>
+                    <div className="subsetratio" title={x.subsetRatioTitle}>{x.subsetRatioText}</div>
                   ) : null}
                   {x.hasAssociationToLeft ? (
                     <div className="association-to-left" style={assocStyle} title={getAssosicationTooltip(fieldName)}>
