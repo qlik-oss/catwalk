@@ -3,7 +3,7 @@ import React,
   useState,
   useCallback,
   forwardRef,
-  useImperativeMethods,
+  useImperativeHandle,
 } from 'react';
 import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride';
 import steps from './guide-steps';
@@ -18,7 +18,7 @@ const Guide = forwardRef((props, ref) => {
 
   // Any instance of the component is extended with what is returned from the
   // callback passed as the second argument.
-  useImperativeMethods(ref, () => ({
+  useImperativeHandle(ref, () => ({
     startGuideFunc() {
       if (!runGuide) {
         setRunGuide(true);
