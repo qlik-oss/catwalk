@@ -2,6 +2,7 @@
   --table-background: #f2f2f2;
   --grid-background: #f2f2f2;
   --even-column-background: #f6f6f6;
+  --odd-column-background: #e8e8e8;
   --association-border: #999;
 
   background-color: var(--grid-background);
@@ -60,7 +61,6 @@
     right: -1em;
     top: 2.5em;
     width: 1em;
-    z-index: 0;
   }
 
   .association-to-right-a {
@@ -91,7 +91,6 @@
     left: 0.5em;
     position: absolute;
     top: -1em;
-    z-index: 0;
   }
 
   .subsetratio {
@@ -119,7 +118,6 @@
     position: absolute;
     top: 2.5em;
     width: 1em;
-    z-index: 0;
   }
 
   .association-to-left-a {
@@ -151,7 +149,6 @@
     position: absolute;
     right: 0.5em;
     top: -1em;
-    z-index: 0;
   }
 
   .association-to-left:nth-child(0) {
@@ -164,7 +161,6 @@
     position: absolute;
     right: -3.5em;
     top: 3.5em;
-    z-index: 3;
   }
 
   .betweener.insideTable {
@@ -187,6 +183,12 @@
     .column {
       box-sizing: border-box;
       padding: 3.5em;
+    }
+
+    .column.odd {
+      background: linear-gradient(to bottom, var(--odd-column-background) 0%, var(--table-background) 100%);
+      background-repeat: no-repeat;
+      background-size: auto 30rem;
     }
 
     &:nth-child(even) {

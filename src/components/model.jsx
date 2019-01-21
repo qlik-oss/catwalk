@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import usePromise from 'react-use-promise';
-
+import ReactFloater from 'react-floater';
 import ScrollArea from './scroll-area';
 import TableField from './table-field';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
 
+import { getExtraInfoForField, getAssosicationTooltip, getTableTooltip } from './tooltip';
+
 import './model.pcss';
+import './tooltip.pcss';
+
 
 function findAttribute(event, attrName) {
   let el = event.target;
@@ -29,6 +33,14 @@ export default function Model({ app, appLayout }) {
   const [openBoxes, setOpenBoxes] = useState({});
   const [queryModel, setQueryModel] = useState(null);
   const [atPlayModel, setAtPlayModel] = useState(null);
+  const [currentDetailsView, setCurrentDetailsView] = useState(null); // The currently open extra info dialog
+
+  let boxIdCounter = 0;
+
+  function getExtraInfoForTableField(tableName, fieldName) {
+    const field = queryModel.getTableField(tableName, fieldName);
+    return getExtraInfoForField(field);
+  }
 
   useEffect(() => {
     if (!tablesAndKeys) return;
@@ -40,13 +52,40 @@ export default function Model({ app, appLayout }) {
     setAtPlayModel(newAtPlayModel);
   }, [tablesAndKeys]);
 
-  const toggleField = (evt) => {
+
+  function showFieldDetails(table, field, boxId) {
+    setCurrentDetailsView({ boxId, content: getExtraInfoForTableField(table, field) });
+  }
+  const onClick = (evt) => {
     if (evt.ctrlKey || evt.metaKey) {
       return;
     }
+
+    // The following attribute is set if the extra-info icon is clicked
+    const extraInfoIcon = findAttribute(evt, 'data-extra-info-icon');
+
+    // The following attribute indicates what div to align the extra info popup with
+    const boxId = findAttribute(evt, 'data-boxid');
+
+    // The following attribute is set if the table header is clicked
+    const dataTableHeader = findAttribute(evt, 'data-tableheader');
+
+    // The field the click is on
     const field = findAttribute(evt, 'fieldz');
+
+    // The table the click is on
     const table = findAttribute(evt, 'tablez');
-    if (field) {
+
+    // Depending on where the click was do different things:
+    if (extraInfoIcon) {
+      // Show field details
+      showFieldDetails(table, field, boxId);
+    } else if (dataTableHeader) {
+      // Re-sort the main data model based on the clicked table
+      const newQueryModel = new logic.QueryModel(tablesAndKeys, table);
+      setQueryModel(newQueryModel);
+    } else if (field) {
+      // Open or close a field
       if (openBoxes[field]) {
         delete openBoxes[field];
       } else {
@@ -54,9 +93,6 @@ export default function Model({ app, appLayout }) {
       }
       const newAtPlayModel = new atplay.AtPlayModel(queryModel, openBoxes);
       setAtPlayModel(newAtPlayModel);
-    } else if (table) {
-      const newQueryModel = new logic.QueryModel(tablesAndKeys, table);
-      setQueryModel(newQueryModel);
     }
   };
 
@@ -72,6 +108,13 @@ export default function Model({ app, appLayout }) {
     );
   }
 
+  const extraInfoContainer = currentDetailsView ? (
+    <div className="floatercontainer" key={currentDetailsView.boxId}>
+      <ReactFloater autoOpen disableAnimation showCloseButton placement="right" target={`[data-boxid="${currentDetailsView.boxId}"]`} content={currentDetailsView.content} callback={(event) => { if (event === 'close') { setCurrentDetailsView(null); } }} />
+    </div>
+  ) : null;
+
+  let odd = false;
   const assocationsHighlighted = Object.keys(openBoxes).length > 1;
   const gridz = queryModel.resultTableList.map((tableName) => {
     let columnClasses = 'column';
@@ -80,10 +123,14 @@ export default function Model({ app, appLayout }) {
     } else if (assocationsHighlighted) {
       columnClasses += ' notTableAtPlay';
     }
+    if (odd) {
+      columnClasses += ' odd';
+    }
+    odd = !odd;
 
     return (
-      <div className={columnClasses} key={tableName} role="tab">
-        <div className="vertcell tableheader" tablez={tableName}>
+      <div className={columnClasses} key={tableName} role="tab" tablez={tableName}>
+        <div className="vertcell tableheader" data-tableheader={tableName} title={getTableTooltip(queryModel.tables[tableName])}>
           <div>{tableName}</div>
           <div className="nbr-of-rows">{queryModel.tables[tableName].qNoOfRows}</div>
         </div>
@@ -94,6 +141,7 @@ export default function Model({ app, appLayout }) {
             if (isFilterboxOpen) {
               cellContainerStyle.height = '24em';
             }
+
 
             const x = queryModel.grid[fieldName][tableName];
             if (x && !x.isEmpty) {
@@ -137,21 +185,24 @@ export default function Model({ app, appLayout }) {
                 };
               }
 
-
+              boxIdCounter += 1;
+              const currentboxid = boxIdCounter;
               return (
                 <div
+                  data-boxid={`${currentboxid}`}
                   className={classes}
                   style={cellContainerStyle}
                   key={`${tableName}:${fieldName}`}
                   fieldz={fieldName}
                   role="tab"
                 >
-                  <TableField app={app} field={fieldName} fieldData={x} showFilterbox={isFilterboxOpen} />
+                  <TableField app={app} field={fieldName} fieldData={x} tableData={queryModel.tables[tableName]} showFilterbox={isFilterboxOpen} />
+
                   {x.subsetRatioText ? (
                     <div className="subsetratio" title={x.subsetRatioTitle}>{x.subsetRatioText}</div>
                   ) : null}
                   {x.hasAssociationToLeft ? (
-                    <div className="association-to-left" style={assocStyle}>
+                    <div className="association-to-left" style={assocStyle} title={getAssosicationTooltip(fieldName)}>
                       <div className="association-to-left-a" />
                       <div className="association-to-left-b" style={leftAssocStyle} />
                       <div className="association-to-left-c" />
@@ -159,7 +210,7 @@ export default function Model({ app, appLayout }) {
                     </div>
                   ) : null}
                   {x.hasAssociationToRight ? (
-                    <div className="association-to-right" style={assocStyle}>
+                    <div className="association-to-right" style={assocStyle} title={getAssosicationTooltip(fieldName)}>
                       <div className="association-to-right-a" />
                       <div className="association-to-right-b" style={rightAssocStyle} />
                       <div className="association-to-right-c" />
@@ -190,7 +241,7 @@ export default function Model({ app, appLayout }) {
               return null;
             }
             return (
-              <div className="vertcell" key={`${tableName}:${fieldName}`} style={cellContainerStyle}>
+              <div className="vertcell" key={`${tableName}:${fieldName}`} style={cellContainerStyle} title={x.betweenKeys ? getAssosicationTooltip(fieldName) : ''}>
                 <div className={classes}>
                   <div
                     className={x.betweenKeys && !x.isKey ? 'lineyinner ' : ''}
@@ -202,11 +253,11 @@ export default function Model({ app, appLayout }) {
           })}
         </div>
         <div>
-          {queryModel.tables[tableName].qFields.map((field) => {
-            const isFilterboxOpen = openBoxes[field.qName];
-            if (field.qKeyType === 'NOT_KEY') {
+          {queryModel.tables[tableName].qFields.map((fieldData) => {
+            const isFilterboxOpen = openBoxes[fieldData.qName];
+            if (fieldData.qKeyType === 'NOT_KEY') {
               let classes = 'vertcell';
-              if (atPlayModel.keysAtPlay[field.qName]) {
+              if (atPlayModel.keysAtPlay[fieldData.qName]) {
                 classes += ' keyAtPlay';
               } else if (assocationsHighlighted) {
                 classes += ' notKeyAtPlay';
@@ -217,14 +268,17 @@ export default function Model({ app, appLayout }) {
                 cellContainerStyle.height = '30em';
               }
 
+              boxIdCounter += 1;
+              const currentboxid = boxIdCounter;
               return (
                 <div
+                  data-boxid={`${currentboxid}`}
                   className={classes}
-                  fieldz={field.qName}
-                  key={field.qName}
+                  fieldz={fieldData.qName}
+                  key={fieldData.qName}
                   style={cellContainerStyle}
                 >
-                  <TableField app={app} field={field.qName} fieldData={field} showFilterbox={isFilterboxOpen} />
+                  <TableField app={app} field={fieldData.qName} fieldData={fieldData} showFilterbox={isFilterboxOpen} />
                 </div>
               );
             }
@@ -236,18 +290,21 @@ export default function Model({ app, appLayout }) {
   });
 
   return (
-    <ScrollArea className="scrollArea" height="100%" width="100%">
-      <div className="model">
-        <div
-          className="colset"
-          onClick={toggleField}
-          role="tablist"
-          tabIndex={-1}
-        >
-          {gridz}
+    <React.Fragment>
+      <ScrollArea className="scrollArea" height="100%" width="100%">
+        <div className="model">
+          <div
+            className="colset"
+            onClick={onClick}
+            role="tablist"
+            tabIndex={-1}
+          >
+            {gridz}
+          </div>
         </div>
-      </div>
-    </ScrollArea>
+      </ScrollArea>
+      {extraInfoContainer}
+    </React.Fragment>
   );
 }
 

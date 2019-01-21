@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:10
-      - image: qlikcore/engine:12.292.0
+      - image: qlikcore/engine:12.300.0
         command: -S AcceptEULA=yes
       - image: browserless/chrome
 
@@ -32,8 +32,12 @@ jobs:
 
       - run:
           name: Component tests
-          command:
+          command: |
             npm run test:comp
+            if [ ! -z "$COVERALLS_REPO_TOKEN" ]; then
+              echo "Uploading coverage results to coveralls.io..."
+              cat coverage/lcov.info | npx coveralls
+            fi
 
       - run:
           name: E2E tests
@@ -51,7 +55,7 @@ jobs:
           path: test/e2e/__artifacts__
 
       - run:
-          name: Sync documentation to S3 bucket
+          name: Sync dist to S3 bucket
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ] && [ "${TARGET_USER}" != "" ]; then
               sudo apt-get -y -qq install awscli
