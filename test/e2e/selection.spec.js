@@ -13,6 +13,7 @@ describe('catwalk', () => {
     await page.waitFor(4000);
     await page.click('[fieldz=Key_Ind_Drug]');
     await page.click('[title="\'10003554-1\' (No numerical representation)"]');
+    await page.waitFor(1000);
     const img = await page.screenshot({ fullPage: true });
     return expect(img).to.matchImageOf('selection', OPTS);
   });
