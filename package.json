@@ -24,10 +24,12 @@
     "react-cookie-consent": "2.0.0",
     "react-dom": "16.7.0-alpha.2",
     "react-ga": "2.5.6",
+    "react-joyride": "2.0.2",
     "react-outside-click-handler": "1.2.2",
     "react-svg-inline": "2.1.1",
     "react-use-promise": "0.0.0-alpha.1",
-    "react-virtualized": "9.21.0"
+    "react-virtualized": "9.21.0",
+    "react-contextmenu": "2.10.0"
   },
   "devDependencies": {
     "@after-work.js/cli": "5.1.1",
