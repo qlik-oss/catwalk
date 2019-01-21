@@ -21,9 +21,9 @@
   "dependencies": {
     "enigma.js": "2.4.0",
     "prop-types": "15.6.2",
-    "react": "16.8.0-alpha.1",
+    "react": "16.7.0-alpha.2",
     "react-cookie-consent": "2.0.1",
-    "react-dom": "16.8.0-alpha.1",
+    "react-dom": "16.7.0-alpha.2",
     "react-ga": "2.5.6",
     "react-outside-click-handler": "1.2.2",
     "react-svg-inline": "2.1.1",
