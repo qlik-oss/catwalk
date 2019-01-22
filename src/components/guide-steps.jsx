@@ -6,7 +6,7 @@ const steps = [
       <div>
         <h2>Welcome to catwalk!</h2>
         <p>
-          Catwalk lets you explore your data model to gain
+          catwalk lets you explore your data model to gain
           insights about fields, associations and how interactions
           with the data impacts the model.
         </p>
@@ -23,11 +23,13 @@ const steps = [
       <div>
         <h2>Welcome to catwalk!</h2>
         <p>The URL to catwalk is</p>
-        {window.location.href}
+        <span className="breakword">
+          {window.location.href}
+        </span>
         <p>
           where
           {' '}
-          <i>engine_url</i>
+          <code>engine_url</code>
           {' '}
           points to the app containing the data model. Change this to explore another data model.
         </p>
@@ -113,12 +115,10 @@ const steps = [
           selections. Selections might be helpful when trying to figure out the data model, and to find errors in the data model.
         </p>
         <p>
-          Go ahead and make a selection!
+          Go ahead, click the field and make a selection!
         </p>
       </div>
     ),
-    disableOverlayClose: true,
-    hideFooter: true,
     spotlightClicks: true,
     placement: 'right',
     target: '.vertcell.keycell',
@@ -223,7 +223,7 @@ const steps = [
         <p>
           To restart the guide, right click and select
           {' '}
-          <i>Start Guide</i>
+          <code>Start Guide</code>
           .
         </p>
       </div>

@@ -44,14 +44,7 @@ const Guide = forwardRef((props, ref) => {
       setRunGuide(false);
       setRunGuide(true);
     }
-    if (parentElemName === 'ReactVirtualized__Table__rowColumn' || parentElemName === 'ReactVirtualized__Grid__innerScrollContainer') {
-      // a click in the filterbox area.
-      setTimeout(() => {
-        if (document.getElementsByClassName('selection-field').length > 0) {
-          setStepIndex(steps.findIndex(s => s.step === 'selections'));
-        }
-      }, 600);
-    } else if (parentElemName === 'add-button') {
+    if (parentElemName === 'add-button') {
       // a click on the big hypercube builder button.
       setStep('selectEntity');
     } else if (parentElemName === 'expression' || parentElemName === 'expression-list') {
