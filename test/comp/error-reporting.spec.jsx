@@ -5,13 +5,6 @@ import renderer from 'react-test-renderer';
 import UseErrorReporting from '../../src/components/error-reporting';
 
 describe('error-reporting', () => {
-  it('should return ´null´ if GA not set', () => {
-    const tree = renderer.create(<UseErrorReporting GA={null} />).toJSON();
-
-    expect(tree).toMatchSnapshot();
-    global.window.close();
-  });
-
   it('should display cookie if not set', () => {
     const sandbox = sinon.createSandbox();
     sandbox.stub(ReactGA, 'initialize');
