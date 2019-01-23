@@ -1,8 +1,7 @@
 const host = process.env.CI === 'true' ? 'localhost' : 'host.docker.internal';
 const engine = process.env.CI === 'true' ? 'localhost' : 'qix-engine';
-const app = process.env.DocID || 'drugcases2.qvf';
 
-const incorrectEngineUrl = `http://${host}:1234/?engine_url=ws://incorrect-url:9076/${app}`;
+const incorrectEngineUrl = `http://${host}:1234/?engine_url=ws://incorrect-url:9076`;
 const correctEngineUrl = `http://${host}:1234/?engine_url=ws://${engine}:9076/`;
 const OPTS = {
   artifactsPath: 'test/e2e/__artifacts__/',
@@ -14,7 +13,7 @@ describe('doc-list', () => {
     await page.goto(incorrectEngineUrl, { timeout: 60000, waitUntil: 'networkidle0' });
     await page.waitForSelector('[value=Connect]');
     const img = await page.screenshot({ fullPage: true });
-    return expect(img).to.matchImageOf('no-engine-doc-list', OPTS);
+    await expect(img).to.matchImageOf('no-engine-doc-list', OPTS);
   });
 
   it('should show the doc list when a valid engine url is provided', async () => {
