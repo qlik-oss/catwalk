@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
+import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
 
 import Selections from './selections';
 import logo from '../assets/catwalk.svg';
 
 import './topbar.pcss';
 
-export default function TopBar({ app, appLayout: { qLastReloadTime } }) {
+export default function TopBar({ app, appLayout: { qLastReloadTime }, startGuide }) {
   const [lastReloadString, setLastReloadString] = useState('');
   const [lastRefresh, setLastRefresh] = useState(null);
   const [refreshTimer, setRefreshTimer] = useState(0);
@@ -36,14 +37,26 @@ export default function TopBar({ app, appLayout: { qLastReloadTime } }) {
       <div className="reloaded">
         {lastReloadString}
       </div>
-      <div className="topbarLogo" onClick={() => { window.open('https://github.com/qlik-oss/catwalk'); }} role="navigation">
-        <SVGInline className="logo" svg={logo} />
-      </div>
+      <ContextMenuTrigger id="right-click-menu">
+        <div className="topbarLogo" onClick={() => { window.open('https://github.com/qlik-oss/catwalk'); }} role="navigation">
+          <SVGInline className="logo" svg={logo} />
+        </div>
+      </ContextMenuTrigger>
+      <ContextMenu id="right-click-menu">
+        <MenuItem onClick={startGuide}>
+          Start Guide
+        </MenuItem>
+      </ContextMenu>
     </div>
   );
 }
 
+TopBar.defaultProps = {
+  startGuide: null,
+};
+
 TopBar.propTypes = {
   app: PropTypes.object.isRequired,
   appLayout: PropTypes.object.isRequired,
+  startGuide: PropTypes.func,
 };

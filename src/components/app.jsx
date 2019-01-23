@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useRef } from 'react';
 import usePromise from 'react-use-promise';
 import enigma from 'enigma.js';
 
@@ -8,6 +8,8 @@ import TopBar from './topbar';
 import Model from './model';
 import Splash from './splash';
 import Cubes from './cubes';
+import Guide from './guide';
+
 import { useReloadInProgress } from '../enigma/reload-in-progress-interceptor';
 import './app.pcss';
 
@@ -24,6 +26,8 @@ export default function App() {
   const [app, appError] = useApp(global);
   const [docs, docsError] = useDocList(global, appError && global);
   const appLayout = useLayout(app);
+  const guideRef = useRef();
+
   useEffect(() => () => {
     if (!app) return;
     session.close();
@@ -51,7 +55,8 @@ export default function App() {
   return (
     <AppContext.Provider value={app}>
       <div className="app">
-        <TopBar app={app} appLayout={appLayout} />
+        <Guide ref={guideRef} />
+        <TopBar app={app} appLayout={appLayout} startGuide={() => guideRef.current.startGuideFunc()} />
         <Model app={app} appLayout={appLayout} />
         <Cubes app={app} />
       </div>
