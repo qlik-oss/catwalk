@@ -68,18 +68,23 @@ const Guide = forwardRef((props, ref) => {
     }
   }, []);
 
+  const endGuide = () => {
+    setRunGuide(false);
+    setStepIndex(0);
+    localStorage.setItem('catwalkGuide', 'catwalk');
+    document.removeEventListener('mouseup', onClick);
+  };
+
   const handleJoyrideCallback = (data) => {
     const {
       action, index, type, status,
     } = data;
-
     if ([EVENTS.TOUR_START].includes(type)) {
       document.addEventListener('mouseup', onClick);
-    } else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-      setRunGuide(false);
-      setStepIndex(0);
-      localStorage.setItem('catwalkGuide', 'catwalk');
-      document.removeEventListener('mouseup', onClick);
+    } else if ([ACTIONS.CLOSE].includes(action) || [STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      if (runGuide) {
+        endGuide();
+      }
     } else if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
       const newStepIndex = index + (action === ACTIONS.PREV ? -1 : 1);
       // Update state to advance the guide
