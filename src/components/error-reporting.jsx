@@ -33,20 +33,17 @@ export default function useErrorReporting({ GA }) {
     };
   }, [GA]);
 
-  if (GA) {
-    return (
-      <CookieConsent
-        buttonText="Got it!"
-        style={{ background: '#5F6062', color: '#D6D6D6', fontSize: '2rem' }}
-        buttonStyle={{ color: '#fff', background: '#3D8706', fontSize: '2rem' }}
-      >
-        This website uses cookies to ensure you get the best experience on our website.
-        {' '}
-        <a href="https://www.qlik.com/us/legal/cookies-and-privacy-policy" target="_blank" rel="noopener noreferrer" style={{ color: '#D6D6D6' }}>Learn more</a>
-      </CookieConsent>
-    );
-  }
-  return null;
+  return (
+    <CookieConsent
+      buttonText="Got it!"
+      style={{ background: '#5F6062', color: '#D6D6D6', fontSize: '2rem' }}
+      buttonStyle={{ color: '#fff', background: '#3D8706', fontSize: '2rem' }}
+    >
+      This website uses cookies to ensure you get the best experience on our website.
+      {' '}
+      <a href="https://www.qlik.com/us/legal/cookies-and-privacy-policy" target="_blank" rel="noopener noreferrer" style={{ color: '#D6D6D6' }}>Learn more</a>
+    </CookieConsent>
+  );
 }
 
 useErrorReporting.propTypes = {
