@@ -1,6 +1,7 @@
 {
   "globals": {
     "it": true,
+    "beforeEach": true,
     "describe": true,
     "expect": true,
     "sinon": true,
