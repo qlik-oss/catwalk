@@ -32,7 +32,7 @@ describe('doc-list', () => {
     // await page.click('.doc-list > li');
     await Promise.all([
       page.click('.doc-list > li'),
-      page.waitForNavigation({ waitUntil: 'networkidle' }),
+      page.waitForNavigation({ waitUntil: 'networkidle2' }),
     ]);
 
     // This seems to be the last elements to render, the text inside the columns.
