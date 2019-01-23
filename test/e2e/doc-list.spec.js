@@ -22,7 +22,7 @@ describe('doc-list', () => {
   });
 
   it('should show the doc list when a valid engine url is provided', async () => {
-    // Check that the doc-list is rendered correctly
+    // Check that the doc-list is rendered correctly.
     await page.goto(correctEngineUrl, { timeout: 60000, waitUntil: 'networkidle0' });
     await page.waitForSelector('.doc-list');
     let img = await page.screenshot({ fullPage: true });
@@ -30,6 +30,7 @@ describe('doc-list', () => {
 
     // Verify that clicking on an app opens it.
     await page.click('.doc-list > li');
+    // This seems to be the last elements to render, the text inside the columns.
     await page.waitForSelector('.name-and-text > .bartext');
     img = await page.screenshot({ fullPage: true });
     await expect(img).to.matchImageOf('loaded-app', OPTS);
