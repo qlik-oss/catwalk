@@ -30,8 +30,10 @@ describe('doc-list', () => {
 
     // Verify that clicking on an app opens it.
     await page.click('.doc-list > li');
-    // This seems to be the last elements to render, the text inside the columns.
-    await page.waitForSelector('.name-and-text > .bartext');
+
+    // This waits until the three dots menu appears for the columns, since it is one of the last things to render
+    await page.waitForSelector('.SVGInline-svg.extra-information-icon-svg');
+
     img = await page.screenshot({ fullPage: true });
     await expect(img).to.matchImageOf('loaded-app', OPTS);
   });
