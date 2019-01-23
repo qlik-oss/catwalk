@@ -6,7 +6,7 @@ const correctEngineUrl = `http://${host}:1234/?engine_url=ws://${engine}:9076/`;
 const OPTS = {
   artifactsPath: 'test/e2e/__artifacts__/',
 };
-let page;
+// let page;
 
 describe('doc-list', () => {
   beforeEach(async () => {
