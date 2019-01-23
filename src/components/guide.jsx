@@ -100,6 +100,12 @@ const Guide = forwardRef((props, ref) => {
         options: {
           primaryColor: '#398ab5',
         },
+        buttonClose: {
+          display: 'none',
+        },
+        buttonSkip: {
+          color: '#398ab5',
+        },
       }}
       steps={steps}
     />

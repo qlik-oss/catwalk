@@ -6,7 +6,7 @@ const steps = [
       <div>
         <h2>Welcome to catwalk!</h2>
         <p>
-          catwalk lets you explore your data model to gain
+          Catwalk lets you explore your data model to gain
           insights about fields, associations and how interactions
           with the data impacts the model.
         </p>
@@ -31,7 +31,7 @@ const steps = [
           {' '}
           <code>engine_url</code>
           {' '}
-          points to the app containing the data model. Change this to explore another data model.
+          points to the engine and the app containing the data model. Change this to explore another data model.
         </p>
       </div>
     ),
@@ -41,10 +41,9 @@ const steps = [
   {
     content: (
       <div>
-        <p>
-          The highlighted area represents a table in the data model.
-        </p>
+        <p>The highlighted area represents a table in the data model.</p>
         <p>On the top we can see the table name, together with the number of rows in the table.</p>
+        <p>Clicking the table header will reorder the tables, the clicked table will be sorted as the leftmost table.</p>
       </div>
     ),
     placement: 'right-start',
@@ -58,12 +57,26 @@ const steps = [
           Fields, the data-carrying entities in the data model, are represented with a box like this.
         </p>
         <p>
-          The field name and the number of field values are visible.
+          The field name and the number of field values are visible. The number of field values are
+          presented in the form of
         </p>
+        <code>X of Y</code>
+        <p> or </p>
+        <code>X of Y(Z)</code>
         <p>
-          The number of field values are presented in the form of X of Y(Z), where X is the number
-          of field values valid in the current selection, Y is the values in total and Z is the number
-          of values present in this table.
+          where
+          {' '}
+          <code>X</code>
+          {' '}
+          is the number of field values valid in the current selection,
+          {' '}
+          <code>Y</code>
+          {' '}
+          is the values in total and
+          {' '}
+          <code>Z</code>
+          {' '}
+          is the number of values present in this table.
         </p>
       </div>
     ),
@@ -112,7 +125,7 @@ const steps = [
       <div>
         <p>
           The fields are clickable. When clicking on a field, it unfolds and displays the field values with the possibility to make
-          selections. Selections can be helpful when trying to figure out the data model, and to find errors in the data model.
+          selections. Selections can be helpful when exploring the data structure in the app, to see how fields and tables are related.
         </p>
         <p>
           Go ahead, click the field and make a selection!
@@ -142,7 +155,15 @@ const steps = [
     title: 'Selections',
   },
   {
-    content: 'This shows the association between two fields, with basic frequency information on each end of the association line (*, 1 or 0/1).',
+    content: (
+      <div>
+        <p>
+          This shows the association between two fields, with basic frequency information on each end of the association line (1, 0/1 or *).
+        </p>
+        <p>1 - a row in the associated table matches exact one value in this table.</p>
+        <p>0/1 - rows in the associated table have zero or one matching row in this table.</p>
+        <p>* - a single value may identify several rows in the associated table.</p>
+      </div>),
     target: '.association-to-right-b',
     title: 'Associations',
   },
@@ -186,7 +207,7 @@ const steps = [
       <div>
         <p>
           A cube is created with the selected entity as the first column. All the entity values are shown
-          and it is possible to spot any errande values. If selections are applied, only the selected values
+          and it is possible to spot any bad values. If selections are applied, only the selected values
           are displayed.
         </p>
         <p>Add another column by clicking the plus button.</p>
