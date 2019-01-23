@@ -22,7 +22,7 @@ describe('doc-list', () => {
   });
 
   it('should show the doc list when a valid engine url is provided', async () => {
-    // Check that the doc-list is rendered correctly
+    // Check that the doc-list is rendered correctly 
     await page.goto(correctEngineUrl, { timeout: 60000, waitUntil: 'networkidle0' });
     await page.waitForSelector('.doc-list');
     let img = await page.screenshot({ fullPage: true });
