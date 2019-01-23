@@ -42,7 +42,7 @@ const steps = [
     content: (
       <div>
         <p>
-          This represents a table in the data model.
+          The highlighted area represents a table in the data model.
         </p>
         <p>On the top we can see the table name, together with the number of rows in the table.</p>
       </div>
@@ -58,11 +58,11 @@ const steps = [
           Fields, the data-carrying entities in the data model, are represented with a box like this.
         </p>
         <p>
-          The field name and the number of field values can be seen.
+          The field name and the number of field values are visible.
         </p>
         <p>
-          Also, the number of values present in this table is shown in the form of 6 of 6(5)
-          which means that 5 out of 6 values are present in this table. Furthermore, if e.g. three field values are
+          The number of field values are presented in the form of 6 of 6(5)
+          which means that 5 out of 6 values are present in this table. If for example three field values are
           selected, the numbers would change to 3 of 6(5).
         </p>
       </div>
@@ -111,8 +111,8 @@ const steps = [
     content: (
       <div>
         <p>
-          The fields are clickable. When clicking on a field, it will unfold and show the field values with the possibility to make
-          selections. Selections might be helpful when trying to figure out the data model, and to find errors in the data model.
+          The fields are clickable. When clicking on a field, it unfolds and displays the field values with the possibility to make
+          selections. Selections can be helpful when trying to figure out the data model, and to find errors in the data model.
         </p>
         <p>
           Go ahead, click the field and make a selection!
@@ -210,7 +210,7 @@ const steps = [
   },
   {
     step: 'cubeFinished',
-    content: 'Columns can be continued to be added to the cube. To close the cube, just click the button in the upper corner.',
+    content: 'More columns can be added to the cube. To close the cube, just click the button in the upper corner.',
     target: '.card',
     title: 'Hypercube builder',
   },
