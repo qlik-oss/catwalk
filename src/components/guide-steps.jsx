@@ -61,9 +61,9 @@ const steps = [
           The field name and the number of field values are visible.
         </p>
         <p>
-          The number of field values are presented in the form of 6 of 6(5)
-          which means that 5 out of 6 values are present in this table. If for example three field values are
-          selected, the numbers would change to 3 of 6(5).
+          The number of field values are presented in the form of X of Y(Z), where X is the number
+          of field values valid in the current selection, Y is the values in total and Z is the number
+          of values present in this table.
         </p>
       </div>
     ),
