@@ -16,7 +16,7 @@ exports[`'should display message if empty docList array' 1`] = `
       }
     />
     <h3>
-      Taking your Qlik data models to stage
+      Sets the stage for your Qlik data models
     </h3>
     <div>
       <p>
@@ -63,7 +63,7 @@ exports[`'should render docList correctly' 1`] = `
       }
     />
     <h3>
-      Taking your Qlik data models to stage
+      Sets the stage for your Qlik data models
     </h3>
     <div>
       <p>
