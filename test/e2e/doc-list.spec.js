@@ -29,7 +29,11 @@ describe('doc-list', () => {
     await expect(img).to.matchImageOf('valid-engine-doc-list', OPTS);
 
     // Verify that clicking on an app opens it.
-    await page.click('.doc-list > li');
+    // await page.click('.doc-list > li');
+    await Promise.all([
+      page.click('.doc-list > li'),
+      page.waitForNavigation({ waitUntil: 'networkidle' }),
+    ]);
 
     // This seems to be the last elements to render, the text inside the columns.
     await page.waitForSelector('.name-and-text > .bartext', { visible: true });
