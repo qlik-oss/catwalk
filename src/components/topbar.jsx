@@ -46,6 +46,9 @@ export default function TopBar({ app, appLayout: { qLastReloadTime }, startGuide
         <MenuItem onClick={startGuide}>
           Start Guide
         </MenuItem>
+        <MenuItem onClick={() => { window.open(location.pathname); }}>
+          Open document list
+        </MenuItem>
       </ContextMenu>
     </div>
   );
