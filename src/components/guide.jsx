@@ -99,6 +99,7 @@ const Guide = forwardRef((props, ref) => {
       showProgress
       showSkipButton
       disableBeacon
+      disableOverlayClose
       run={runGuide}
       callback={handleJoyrideCallback}
       styles={{
