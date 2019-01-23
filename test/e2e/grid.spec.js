@@ -9,6 +9,7 @@ const OPTS = {
 
 describe('catwalk', () => {
   it('should render the grid correctly', async () => {
+    const page = await browser.newPage();
     await page.goto(url, { timeout: 60000, waitUntil: 'networkidle0' });
     await page.waitFor(4000);
 

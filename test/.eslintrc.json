@@ -4,6 +4,10 @@
     "describe": true,
     "expect": true,
     "sinon": true,
-    "page": true
+    "page": true,
+    "browser": true
+  },
+  "rules": {
+    "no-underscore-dangle": 0
   }
 }
