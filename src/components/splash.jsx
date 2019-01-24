@@ -93,7 +93,7 @@ export default function Splash({
       <div className="center-content">
         <div className="splash">
           <SVGInline {...contentLogo} />
-          <h3>Taking your Qlik data models to stage</h3>
+          <h3>Sets the stage for your Qlik data models</h3>
           {content}
         </div>
       </div>
