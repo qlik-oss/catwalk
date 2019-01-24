@@ -158,11 +158,29 @@ const steps = [
     content: (
       <div>
         <p>
-          This shows the association between two fields, with basic frequency information on each end of the association line (1, 0/1 or *).
+          This shows the association between two fields, with basic frequency information on each end of the association line (
+          <code>1, 0/1</code>
+          {' '}
+          or
+          {' '}
+          <code>*</code>
+          ).
         </p>
-        <p>1 - a row in the associated table matches exact one value in this table.</p>
-        <p>0/1 - rows in the associated table have zero or one matching row in this table.</p>
-        <p>* - a single value may identify several rows in the associated table.</p>
+        <p>
+          <code>1</code>
+          {' '}
+          - a row in the associated table matches exact one value in this table.
+        </p>
+        <p>
+          <code>0/1</code>
+          {' '}
+          - rows in the associated table have zero or one matching row in this table.
+        </p>
+        <p>
+          <code>*</code>
+          {' '}
+          - a single value may identify several rows in the associated table.
+        </p>
       </div>),
     target: '.association-to-right-b',
     title: 'Associations',
