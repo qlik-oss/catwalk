@@ -69,7 +69,7 @@ describe('usage', () => {
     // Create a hypercube
     await page.click('[data-title="# Countries"]');
     await page.click('[title="Add another column"]');
-    await page.waitFor(5000);
+    await page.waitForSelector('[data-title="# Death by primary suspect"]');
     await page.click('[data-title="# Death by primary suspect"]');
     await wsHelper.waitUntilNoRequests(250);
     img = await page.screenshot({ fullPage: true });
