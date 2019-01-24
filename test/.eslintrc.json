@@ -2,11 +2,15 @@
   "globals": {
     "it": true,
     "beforeEach": true,
+    "afterEach": true,
     "describe": true,
     "expect": true,
     "sinon": true,
     "page": true,
-    "browser": true
+    "browser": true,
+    "OPTS": true,
+    "wsHelper": true,
+    "engineUrl": true
   },
   "rules": {
     "no-underscore-dangle": 0
