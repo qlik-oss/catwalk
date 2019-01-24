@@ -10,7 +10,8 @@
     "browser": true,
     "OPTS": true,
     "wsHelper": true,
-    "engineUrl": true
+    "engineUrl": true,
+    "host": true
   },
   "rules": {
     "no-underscore-dangle": 0
