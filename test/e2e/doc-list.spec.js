@@ -35,7 +35,7 @@ describe('doc-list', () => {
     const client = page._client;
     await client.send('Animation.setPlaybackRate', { playbackRate: 12 });
 
-    client.on('Network.webSocketFrameSent', ({ requestId, timestamp, response }) => {
+    client.on('Network.webSocketFrameSent', ({ /* requestId, timestamp, */ response }) => {
       // console.log('Network.webSocketFrameSent', requestId, timestamp, response.payloadData);
       const sentJSON = JSON.parse(response.payloadData);
       // console.log('Network.webSocketFrameSent', sentJSON);
@@ -44,7 +44,7 @@ describe('doc-list', () => {
       // console.log('Network.webSocketFrameSent', idArray, lastRequest);
     });
 
-    client.on('Network.webSocketFrameReceived', ({ requestId, timestamp, response }) => {
+    client.on('Network.webSocketFrameReceived', ({ /* requestId, timestamp, */ response }) => {
       // console.log('Network.webSocketFrameReceived', requestId, timestamp, response.payloadData);
       const receivedJSON = JSON.parse(response.payloadData);
       // console.log('Network.webSocketFrameReceived', receivedJSON.id);
