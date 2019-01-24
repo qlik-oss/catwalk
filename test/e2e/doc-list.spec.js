@@ -14,7 +14,7 @@ describe('doc-list', () => {
   beforeEach(async () => {
     page = await browser.newPage();
     const client = page._client;
-    await client.send('Animation.setPlaybackRate', { playbackRate: 12 });
+    await client.send('Animation.setPlaybackRate', { playbackRate: 1000 });
 
     wsHelper.init(client);
   });
@@ -34,16 +34,11 @@ describe('doc-list', () => {
     await expect(img).to.matchImageOf('valid-engine-doc-list', OPTS);
 
     // Verify that clicking on an app opens it.
-    // await page.click('.doc-list > li');
-    await Promise.all([
-      page.click('.doc-list > li'),
-      page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
-    ]);
+    page.click('.doc-list > li');
 
+    await page.waitForSelector('.model');
     await wsHelper.waitUntilNoRequests(500);
 
-    // This seems to be the last elements to render, the text inside the columns.
-    await page.waitForSelector('.name-and-text > .bartext', { visible: true });
 
     img = await page.screenshot({ fullPage: true });
     await expect(img).to.matchImageOf('loaded-app', OPTS);
