@@ -63,15 +63,13 @@ describe('usage', () => {
 
     // Open hypercube view
     await page.click('[title="Create a new hypercube"]');
-    // Wait until last element shown in the list has rendered.
-    page.waitForSelector('[data-title="% Patient Cases"]');
-    await page.waitFor(10000);
     img = await page.screenshot({ fullPage: true });
     await expect(img).to.matchImageOf('open-hypercube-view', OPTS);
 
     // Create a hypercube
     await page.click('[data-title="# Countries"]');
     await page.click('[title="Add another column"]');
+    await page.waitFor(5000);
     await page.click('[data-title="# Death by primary suspect"]');
     await wsHelper.waitUntilNoRequests(250);
     img = await page.screenshot({ fullPage: true });
