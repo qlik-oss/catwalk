@@ -65,7 +65,7 @@ describe('usage', () => {
     await page.click('[title="Create a new hypercube"]');
     // Wait until last element shown in the list has rendered.
     page.waitForSelector('[data-title="% Patient Cases"]');
-    await page.waitFor(1000);
+    await page.waitFor(10000);
     img = await page.screenshot({ fullPage: true });
     await expect(img).to.matchImageOf('open-hypercube-view', OPTS);
 
