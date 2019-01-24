@@ -6,12 +6,56 @@ const correctEngineUrl = `http://${host}:1234/?engine_url=ws://${engine}:9076/`;
 const OPTS = {
   artifactsPath: 'test/e2e/__artifacts__/',
 };
-// let page;
+let page;
+
+const idArray = [];
+let lastRequest;
+
+const setIntervalWS = (callback, delay) => {
+  const intervalID = setInterval(() => {
+    callback();
+  }, delay);
+  return intervalID;
+};
+
+const waitUntilNoRequests = idleTime => new Promise((resolve) => {
+  const intervalID = setIntervalWS(() => {
+    const silence = new Date().getTime() - lastRequest;
+    // console.log('Silence', silence, idArray.length === 0, silence > idleTime);
+    if (idArray.length === 0 && silence > idleTime) {
+      clearInterval(intervalID);
+      resolve();
+    }
+  }, 100);
+});
 
 describe('doc-list', () => {
   beforeEach(async () => {
     page = await browser.newPage();
-    await page._client.send('Animation.setPlaybackRate', { playbackRate: 12 });
+    const client = page._client;
+    await client.send('Animation.setPlaybackRate', { playbackRate: 12 });
+
+    client.on('Network.webSocketFrameSent', ({ requestId, timestamp, response }) => {
+      // console.log('Network.webSocketFrameSent', requestId, timestamp, response.payloadData);
+      const sentJSON = JSON.parse(response.payloadData);
+      // console.log('Network.webSocketFrameSent', sentJSON);
+      idArray.push(sentJSON.id);
+      lastRequest = new Date().getTime();
+      // console.log('Network.webSocketFrameSent', idArray, lastRequest);
+    });
+
+    client.on('Network.webSocketFrameReceived', ({ requestId, timestamp, response }) => {
+      // console.log('Network.webSocketFrameReceived', requestId, timestamp, response.payloadData);
+      const receivedJSON = JSON.parse(response.payloadData);
+      // console.log('Network.webSocketFrameReceived', receivedJSON.id);
+
+      const index = idArray.indexOf(receivedJSON.id);
+      if (index > -1) {
+        idArray.splice(index, 1);
+      }
+
+      // console.log('Network.webSocketFrameReceived', idArray);
+    });
   });
 
   it('should show the no engine found with invalid engine url', async () => {
@@ -34,6 +78,8 @@ describe('doc-list', () => {
       page.click('.doc-list > li'),
       page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
     ]);
+
+    await waitUntilNoRequests(500);
 
     // This seems to be the last elements to render, the text inside the columns.
     await page.waitForSelector('.name-and-text > .bartext', { visible: true });
