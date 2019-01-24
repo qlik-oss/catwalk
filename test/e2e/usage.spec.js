@@ -24,7 +24,7 @@ describe('usage', () => {
 
     // Wait until the app has loaded data from engine
     await page.waitForSelector('.model');
-    await wsHelper.waitUntilNoRequests(500);
+    await wsHelper.waitUntilNoRequests(250);
 
     // Skip tutorial
     await page.click('[data-test-id=button-skip]');
@@ -33,6 +33,7 @@ describe('usage', () => {
     await page.click('[fieldz=Key_Ind_Drug]');
     await page.click('[title="\'10003554-1\' (No numerical representation)"]');
     await page.waitForSelector('.selection-field');
+    await wsHelper.waitUntilNoRequests(250);
     let img = await page.screenshot({ fullPage: true });
     await expect(img).to.matchImageOf('selection', OPTS);
 
@@ -46,14 +47,14 @@ describe('usage', () => {
     await page.click('[aria-label=close]');
     await page.click('.selection-field > .field');
     await page.click('[title="\'10003554-2\' (No numerical representation)"]');
-    await wsHelper.waitUntilNoRequests(500);
+    await wsHelper.waitUntilNoRequests(250);
 
     img = await page.screenshot({ fullPage: true });
     await expect(img).to.matchImageOf('make-another-selection-in-selection-bar', OPTS);
 
     // Clear selections
     await page.click('.SVGInline.clear-selection');
-    await wsHelper.waitUntilNoRequests(500);
+    await wsHelper.waitUntilNoRequests(250);
     img = await page.screenshot({ fullPage: true });
     await expect(img).to.matchImageOf('cleared-selections', OPTS);
 
@@ -69,7 +70,7 @@ describe('usage', () => {
     await page.click('[data-title="# Countries"]');
     await page.click('[title="Add another column"]');
     await page.click('[data-title="# Death by primary suspect"]');
-    await wsHelper.waitUntilNoRequests(500);
+    await wsHelper.waitUntilNoRequests(250);
     img = await page.screenshot({ fullPage: true });
     await expect(img).to.matchImageOf('created-hypercube', OPTS);
 
