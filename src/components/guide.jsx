@@ -24,7 +24,22 @@ const Guide = forwardRef((props, ref) => {
         setRunGuide(true);
       }
     },
+    isGuideRunning() {
+      return runGuide;
+    },
   }));
+
+  const getNbrOfColumnsInCube = () => {
+    let nbrOfColumns = 0;
+    const table = document.getElementsByClassName('hypercube-table');
+    if (table.length > 0) {
+      const virtTable = table[table.length - 1].getElementsByClassName('ReactVirtualized__Table');
+      if (virtTable.length > 0) {
+        nbrOfColumns = virtTable[0].getAttribute('aria-colcount');
+      }
+    }
+    return nbrOfColumns;
+  };
 
   const setStep = (stepName) => {
     setRunGuide(false);
@@ -49,14 +64,7 @@ const Guide = forwardRef((props, ref) => {
       setStep('selectEntity');
     } else if (parentElemName === 'expression' || parentElemName === 'expression-list') {
       // a click on an expression in the hypercube builder.
-      let nbrOfColumns = 0;
-      const table = document.getElementsByClassName('hypercube-table');
-      if (table.length > 0) {
-        const virtTable = table[0].getElementsByClassName('ReactVirtualized__Table');
-        if (virtTable.length > 0) {
-          nbrOfColumns = virtTable[0].getAttribute('aria-colcount');
-        }
-      }
+      const nbrOfColumns = getNbrOfColumnsInCube();
       if (nbrOfColumns > 0) {
         setStep('cubeFinished');
       } else {
@@ -75,19 +83,61 @@ const Guide = forwardRef((props, ref) => {
     document.removeEventListener('mouseup', onClick);
   };
 
+  const readyToProceed = (newStepIndex) => {
+    if (newStepIndex < steps.length) {
+      const stepName = steps[newStepIndex].step;
+      if (stepName === 'addAnotherColumn') {
+        // we need to have a hypercube with a column in order for the step to be valid.
+        const nbrOfColumns = getNbrOfColumnsInCube();
+        if (nbrOfColumns <= 0) {
+          return false;
+        }
+      } else if (stepName === 'selectAnotherEntity') {
+        const overlay = document.getElementsByClassName('cube-column-chooser');
+        if (!overlay.length > 0) {
+          return false;
+        }
+      } else if (stepName === 'cubeFinished') {
+        const nbrOfColumns = getNbrOfColumnsInCube();
+        if (nbrOfColumns > 0) {
+          return false;
+        }
+      }
+    }
+    // we are ready to proceed with this step.
+    return true;
+  };
+
   const handleJoyrideCallback = (data) => {
     const {
       action, index, type, status,
     } = data;
     if ([EVENTS.TOUR_START].includes(type)) {
       document.addEventListener('mouseup', onClick);
+    } else if ([ACTIONS.START].includes(action) && index === 0) {
+      // if the guide is restarted there will be no EVENTS.TOUR_START, the EventListener must
+      // be added on ACTION.START and step 0.
+      document.addEventListener('mouseup', onClick);
     } else if ([ACTIONS.CLOSE].includes(action) || [STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
       if (runGuide) {
         endGuide();
       }
-    } else if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+    } else if ([EVENTS.STEP_AFTER].includes(type)) {
       const newStepIndex = index + (action === ACTIONS.PREV ? -1 : 1);
-      // Update state to advance the guide
+      if (action !== ACTIONS.PREV && !readyToProceed(newStepIndex)) {
+        // we are not ready to proceed to the next step. Reset the current step.
+        // The stop/start of the guide is needed to reset the Joyride events, or it will
+        // be somewhere in between steps, statewise.
+        setRunGuide(false);
+        setStepIndex(index);
+        setTimeout(() => setRunGuide(true), 100);
+      } else {
+        // Update state to advance the guide
+        setStepIndex(newStepIndex);
+      }
+    } else if ([EVENTS.TARGET_NOT_FOUND].includes(type)) {
+      // The target could not be found. Go to previous step.
+      const newStepIndex = index - 1;
       setStepIndex(newStepIndex);
     }
   };

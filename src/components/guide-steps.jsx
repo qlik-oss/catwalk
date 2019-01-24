@@ -182,8 +182,7 @@ const steps = [
       </div>
     ),
     spotlightClicks: true,
-    disableOverlayClose: true,
-    hideFooter: true,
+    placement: 'left-end',
     target: '.add-button',
     title: 'Hypercube builder',
   },
@@ -195,8 +194,6 @@ const steps = [
         <p>Click on an entity to select it.</p>
       </div>
     ),
-    disableOverlayClose: true,
-    hideFooter: true,
     spotlightClicks: true,
     target: '.cube-column-chooser',
     title: 'Hypercube builder',
@@ -213,26 +210,25 @@ const steps = [
         <p>Add another column by clicking the plus button.</p>
       </div>
     ),
-    disableOverlayClose: true,
-    hideFooter: true,
     spotlightClicks: true,
-    target: '.card',
+    hideBackButton: true,
+    target: '.card:last-child',
     title: 'Hypercube builder',
   },
   {
     step: 'selectAnotherEntity',
     content: 'Click an entity to add it as a column in the cube.',
     placement: 'left',
-    disableOverlayClose: true,
-    hideFooter: true,
     spotlightClicks: true,
+    hideBackButton: true,
     target: '.cube-column-chooser',
     title: 'Hypercube builder',
   },
   {
     step: 'cubeFinished',
     content: 'More columns can be added to the cube. To close the cube, just click the button in the upper corner.',
-    target: '.card',
+    hideBackButton: true,
+    target: '.card:last-child',
     title: 'Hypercube builder',
   },
   {

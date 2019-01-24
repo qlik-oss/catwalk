@@ -9,7 +9,7 @@ import CubeColumnChooser from './cube-column-chooser';
 
 import './cubes.pcss';
 
-export function Cubes({ app }) {
+export function Cubes({ app, closeOnClickOutside }) {
   const [count, setCount] = useState(1);
   const [cubeList, setCubeList] = useState([]);
   const [, forceUpdate] = useState(null);
@@ -42,14 +42,14 @@ export function Cubes({ app }) {
     forceUpdate();
   }
 
-  const popup = addOpen.current ? <CubeColumnChooser arrowStyle="arrowRight" alignTo={addButtonRef.current} selectableColumns={selectableColumns} chooseColumn={column => addCube(column)} /> : null;
+  const popup = addOpen.current ? <CubeColumnChooser arrowStyle="arrowRight" alignTo={addButtonRef.current} selectableColumns={selectableColumns} chooseColumn={column => addCube(column)} closeOnClickOutside={closeOnClickOutside} /> : null;
   const cubeDivs = cubeList.map(cube => (
     <div key={cube.id} className="card">
       <div className="top-bar">
         <div className="title">HYPERCUBE</div>
         <SVGInline {...closeButton} onClick={() => removeCube(cube.id)} />
       </div>
-      <Cube app={app} tableData={cube} />
+      <Cube app={app} tableData={cube} closeOnClickOutside={closeOnClickOutside} />
     </div>
   ));
   return (
@@ -67,6 +67,7 @@ export function Cubes({ app }) {
 
 Cubes.propTypes = {
   app: PropTypes.object.isRequired,
+  closeOnClickOutside: PropTypes.func.isRequired,
 };
 
 export default Cubes;

@@ -58,7 +58,7 @@ export default function App() {
         <Guide ref={guideRef} />
         <TopBar app={app} appLayout={appLayout} startGuide={() => guideRef.current.startGuideFunc()} />
         <Model app={app} appLayout={appLayout} />
-        <Cubes app={app} />
+        <Cubes app={app} closeOnClickOutside={() => !guideRef.current.isGuideRunning()} />
       </div>
       {reloadSplasher}
     </AppContext.Provider>
