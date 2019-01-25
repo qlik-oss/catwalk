@@ -31,21 +31,21 @@ beforeEach(async () => {
 
 /* eslint-disable-next-line */
 afterEach(async function () {
-  const coverage = await page.evaluate(() => window.__coverage__);
+  // const coverage = await page.evaluate(() => window.__coverage__);
 
-  await Promise.all(
-    Object.values(coverage).map((cov) => {
-      if (
-        cov
-        && typeof cov === 'object'
-        && typeof cov.path === 'string'
-        && typeof cov.hash === 'string'
-      ) {
-        return fs.writeJson(`.nyc_output/${cov.hash}.json`, { [cov.path]: cov });
-      }
-      return Promise.resolve();
-    }),
-  );
+  // await Promise.all(
+  //   Object.values(coverage).map((cov) => {
+  //     if (
+  //       cov
+  //       && typeof cov === 'object'
+  //       && typeof cov.path === 'string'
+  //       && typeof cov.hash === 'string'
+  //     ) {
+  //       return fs.writeJson(`.nyc_output/${cov.hash}.json`, { [cov.path]: cov });
+  //     }
+  //     return Promise.resolve();
+  //   }),
+  // );
 });
 
 after(async () => {
