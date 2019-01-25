@@ -7,11 +7,11 @@
     "expect": true,
     "sinon": true,
     "page": true,
-    "browser": true,
     "OPTS": true,
     "wsHelper": true,
     "engineUrl": true,
-    "host": true
+    "host": true,
+    "browser": true
   },
   "rules": {
     "no-underscore-dangle": 0
