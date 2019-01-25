@@ -1,6 +1,6 @@
 ![catwalk](./src/assets/catwalk.svg)
 
-[![Coverage Status](https://coveralls.io/repos/github/qlik-oss/catwalk/badge.svg)](https://coveralls.io/github/qlik-oss/catwalk)
+[![CircleCI](https://circleci.com/gh/qlik-oss/catwalk/tree/master.svg?style=svg)](https://circleci.com/gh/qlik-oss/catwalk/tree/master)
 
 Gain data model insights quickly during its development and validation phases. This tool is useful when you want to explore your data model for whatever reason; maybe you are creating a complex load script, maybe you want to investigate associations.
 
