@@ -1,7 +1,7 @@
 /* global before, after */
 
 const fs = require('fs-extra');
-const nyc = require('nyc');
+// const nyc = require('nyc');
 const wsHelper = require('./test-helper');
 
 before(async () => {
