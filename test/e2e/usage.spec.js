@@ -1,25 +1,8 @@
-const wsHelper = require('./test-helper');
-
-const host = process.env.CI === 'true' ? 'localhost' : 'host.docker.internal';
-const engine = process.env.CI === 'true' ? 'localhost' : 'qix-engine';
-const app = process.env.DocID || 'drugcases.qvf';
-
-const url = `http://${host}:1234/?engine_url=ws://${engine}:9076/${app}`;
-const OPTS = {
-  artifactsPath: 'test/e2e/__artifacts__/',
-};
-let page;
-
 describe('usage', () => {
-  beforeEach(async () => {
-    page = await browser.newPage();
-    const client = page._client;
-    await client.send('Animation.setPlaybackRate', { playbackRate: 1000 });
-
-    wsHelper.init(client);
-  });
-
   it('should support basic usage functions', async () => {
+    const app = process.env.DocID || 'drugcases.qvf';
+    const url = `http://${host}:1234/?engine_url=ws://${engine}:9076/${app}`;
+
     await page.goto(url, { timeout: 60000, waitUntil: 'networkidle0' });
 
     // Wait until the app has loaded data from engine

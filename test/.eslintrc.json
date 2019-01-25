@@ -11,7 +11,8 @@
     "wsHelper": true,
     "engineUrl": true,
     "host": true,
-    "browser": true
+    "browser": true,
+    "engine": true
   },
   "rules": {
     "no-underscore-dangle": 0

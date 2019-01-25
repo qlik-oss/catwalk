@@ -1,7 +1,7 @@
 /* global before, after */
 
 const fs = require('fs-extra');
-// const nyc = require('nyc');
+const NYC = require('nyc');
 const wsHelper = require('./test-helper');
 
 before(async () => {
@@ -24,6 +24,7 @@ beforeEach(async () => {
   wsHelper.init(client);
 
   global.host = host;
+  global.engine = engine;
   global.engineUrl = engineUrl;
   global.OPTS = OPTS;
   global.wsHelper = wsHelper;
@@ -31,23 +32,12 @@ beforeEach(async () => {
 
 /* eslint-disable-next-line */
 afterEach(async function () {
-  // const coverage = await page.evaluate(() => window.__coverage__);
-
-  // await Promise.all(
-  //   Object.values(coverage).map((cov) => {
-  //     if (
-  //       cov
-  //       && typeof cov === 'object'
-  //       && typeof cov.path === 'string'
-  //       && typeof cov.hash === 'string'
-  //     ) {
-  //       return fs.writeJson(`.nyc_output/${cov.hash}.json`, { [cov.path]: cov });
-  //     }
-  //     return Promise.resolve();
-  //   }),
-  // );
+  const coverage = await page.evaluate(() => window.__coverage__);
+  return fs.writeJson(`.nyc_output/${new Date().getTime()}.json`, coverage);
 });
 
 after(async () => {
+  const nyc = new NYC();
+  await nyc.report();
   await browser.close();
 });

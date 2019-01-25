@@ -1,6 +1,7 @@
 node_modules/
 dist/
 coverage/
+.nyc_output/
 .cache/
 .chrome-profile/
 .DS_Store

@@ -21,7 +21,7 @@
           "@babel/preset-env",
           {
             "targets": {
-              "node": "current"
+              "browsers": "last 2 versions"
             }
           }
         ],
@@ -30,8 +30,9 @@
       "plugins": [
         "@babel/plugin-transform-runtime",
         "@babel/plugin-proposal-class-properties",
-        "@babel/plugin-transform-react-jsx"
+        "@babel/plugin-transform-react-jsx",
+        "istanbul"
       ]
     }
-  }
+  },
 }
