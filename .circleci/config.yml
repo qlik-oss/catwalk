@@ -43,8 +43,9 @@ jobs:
           name: E2E tests
           command: |
             DocID=$(curl -s --data-binary @data/drugcases.qvf http://localhost:9076/v1/apps/import | jq -r '.attributes.id')
-            npx parcel src/index.html &
+            npm run start:cov &
             DocID=$DocID npm run test:e2e
+            npx nyc report -r html
 
       - save_cache:
           paths:
@@ -53,6 +54,9 @@ jobs:
 
       - store_artifacts:
           path: test/e2e/__artifacts__
+
+      - store_artifacts:
+          path: coverage
 
       - run:
           name: Sync dist to S3 bucket

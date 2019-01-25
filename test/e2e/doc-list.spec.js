@@ -1,25 +1,7 @@
-const wsHelper = require('./test-helper');
-
-const host = process.env.CI === 'true' ? 'localhost' : 'host.docker.internal';
-const engine = process.env.CI === 'true' ? 'localhost' : 'qix-engine';
-
-const incorrectEngineUrl = `http://${host}:1234/?engine_url=ws://incorrect-url:9076`;
-const correctEngineUrl = `http://${host}:1234/?engine_url=ws://${engine}:9076/`;
-const OPTS = {
-  artifactsPath: 'test/e2e/__artifacts__/',
-};
-let page;
-
 describe('doc-list', () => {
-  beforeEach(async () => {
-    page = await browser.newPage();
-    const client = page._client;
-    await client.send('Animation.setPlaybackRate', { playbackRate: 1000 });
-
-    wsHelper.init(client);
-  });
-
   it('should show the no engine found with invalid engine url', async () => {
+    const incorrectEngineUrl = `http://${host}:1234/?engine_url=ws://incorrect-url:9076`;
+
     await page.goto(incorrectEngineUrl, { timeout: 60000, waitUntil: 'networkidle0' });
     await page.waitForSelector('[value=Connect]');
     const img = await page.screenshot({ fullPage: true });
@@ -27,6 +9,8 @@ describe('doc-list', () => {
   });
 
   it('should show the doc list when a valid engine url is provided', async () => {
+    const correctEngineUrl = engineUrl;
+
     // Check that the doc-list is rendered correctly.
     await page.goto(correctEngineUrl, { timeout: 60000, waitUntil: 'networkidle0' });
     await page.waitForSelector('.doc-list');
@@ -38,7 +22,6 @@ describe('doc-list', () => {
 
     await page.waitForSelector('.model');
     await wsHelper.waitUntilNoRequests(500);
-
 
     img = await page.screenshot({ fullPage: true });
     await expect(img).to.matchImageOf('loaded-app', OPTS);
