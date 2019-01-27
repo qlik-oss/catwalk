@@ -81,7 +81,7 @@ const steps = [
       </div>
     ),
     placement: 'right',
-    target: '.vertcell.keycell',
+    target: '.table-field',
     title: 'Field',
   },
   {
@@ -134,7 +134,7 @@ const steps = [
     ),
     spotlightClicks: true,
     placement: 'right',
-    target: '.vertcell.keycell',
+    target: '.table-field',
     title: 'Field',
   },
   {
@@ -149,7 +149,6 @@ const steps = [
         </p>
       </div>
     ),
-    spotlightClicks: true,
     placement: 'bottom',
     target: '.selection-field',
     title: 'Selections',
