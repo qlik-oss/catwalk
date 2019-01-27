@@ -6,7 +6,7 @@ const steps = [
       <div>
         <h2>Welcome to catwalk!</h2>
         <p>
-          Catwalk lets you explore your data model to gain
+          With catwalk it is possible to explore your data model to gain
           insights about fields, associations and how interactions
           with the data impacts the model.
         </p>
