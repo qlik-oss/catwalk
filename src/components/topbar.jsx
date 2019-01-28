@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
-import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
+import {
+  Menu,
+  Item,
+  MenuProvider,
+  animation,
+  Separator,
+} from 'react-contexify';
 
 import Selections from './selections';
 import logo from '../assets/catwalk.svg';
+import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
 
+import 'react-contexify/dist/ReactContexify.min.css';
 import './topbar.pcss';
 
 export default function TopBar({ app, appLayout: { qLastReloadTime }, startGuide }) {
@@ -31,22 +39,39 @@ export default function TopBar({ app, appLayout: { qLastReloadTime }, startGuide
     return () => clearTimeout(refreshTimer);
   }, [lastRefresh]);
 
+  const chooseApp = () => {
+    const URLobject = new URL(window.location.href);
+    window.location.assign(`${URLobject.protocol}//${window.location.host}`);
+  };
+  const goToGithub = () => {
+    window.open('https://github.com/qlik-oss/catwalk');
+  };
+
+  const TopbarMenu = () => (
+    <Menu id="menu_id" className="menu" animation={animation.fade}>
+      <Item onClick={chooseApp}>Choose App</Item>
+      <Separator />
+      <Item onClick={startGuide}>Start Guide</Item>
+      <Separator />
+      <Item onClick={goToGithub}>Go to GitHub</Item>
+    </Menu>
+  );
+
   return (
     <div className="topbar">
+      <div className="topbarLogo" onClick={goToGithub} role="navigation">
+        <SVGInline className="logo" svg={logo} />
+      </div>
       <Selections app={app} />
       <div className="reloaded">
         {lastReloadString}
       </div>
-      <ContextMenuTrigger id="right-click-menu">
-        <div className="topbarLogo" onClick={() => { window.open('https://github.com/qlik-oss/catwalk'); }} role="navigation">
-          <SVGInline className="logo" svg={logo} />
+      <MenuProvider id="menu_id" event="onClick" className="menu-provider">
+        <div>
+          <SVGInline className="more-icon" svg={moreHorizontalOutline} />
         </div>
-      </ContextMenuTrigger>
-      <ContextMenu id="right-click-menu">
-        <MenuItem onClick={startGuide}>
-          Start Guide
-        </MenuItem>
-      </ContextMenu>
+      </MenuProvider>
+      <TopbarMenu />
     </div>
   );
 }

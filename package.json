@@ -33,7 +33,7 @@
     "react-use-promise": "0.0.0-alpha.1",
     "react-virtualized": "9.21.0",
     "react-floater": "0.6.3",
-    "react-contextmenu": "2.10.0"
+    "react-contexify": "4.0.1"
   },
   "devDependencies": {
     "@after-work.js/cli": "5.1.3",
