@@ -7,7 +7,7 @@ import HypercubeTable from './hypercube-table';
 
 import './cube.pcss';
 
-export default function Cube({ app, tableData: { initialColumns } }) {
+export default function Cube({ app, tableData: { initialColumns }, closeOnClickOutside }) {
   const selectableColumns = useColumnOptions(app);
   const [columns, setColumns] = useState(initialColumns);
   const currentHeader = useRef(null);
@@ -55,8 +55,7 @@ export default function Cube({ app, tableData: { initialColumns } }) {
     toggleAdd(event);
   }
 
-  const popup = addOpen.current ? <CubeColumnChooser alignTo={currentHeader.current} selectableColumns={selectableColumns} chooseColumn={addColumn} /> : null;
-
+  const popup = addOpen.current ? <CubeColumnChooser alignTo={currentHeader.current} selectableColumns={selectableColumns} chooseColumn={addColumn} closeOnClickOutside={closeOnClickOutside} /> : null;
 
   const measures = columns.filter(column => column.type === 'measure');
   const dimensions = columns.filter(column => column.type === 'dimension' || column.type === 'field');
@@ -78,7 +77,12 @@ export default function Cube({ app, tableData: { initialColumns } }) {
   );
 }
 
+Cube.defaultProps = {
+  closeOnClickOutside: () => true,
+};
+
 Cube.propTypes = {
   app: PropTypes.object.isRequired,
   tableData: PropTypes.object.isRequired,
+  closeOnClickOutside: PropTypes.func,
 };

@@ -17,14 +17,15 @@ function findAttribute(event, attrName) {
 }
 
 export default function CubeColumnChooser({
-  alignTo, arrowStyle, chooseColumn, selectableColumns,
+  alignTo, arrowStyle, chooseColumn, selectableColumns, closeOnClickOutside,
 }) {
   const [filter, setFilter] = useState('');
   const inputRef = useRef(null);
   const selfRef = useRef(null);
-
-  useClickOutside(selfRef, true, () => {
-    chooseColumn(null);
+  useClickOutside(selfRef, closeOnClickOutside(), () => {
+    if (closeOnClickOutside()) {
+      chooseColumn(null);
+    }
   });
 
   const filteredColumnsOptions = selectableColumns.filter(item => item.title.toLowerCase().indexOf(filter) >= 0);
@@ -75,8 +76,10 @@ CubeColumnChooser.propTypes = {
   arrowStyle: PropTypes.string,
   chooseColumn: PropTypes.func.isRequired,
   selectableColumns: PropTypes.arrayOf(PropTypes.object).isRequired,
+  closeOnClickOutside: PropTypes.func,
 };
 
 CubeColumnChooser.defaultProps = {
   arrowStyle: '',
+  closeOnClickOutside: () => true,
 };
