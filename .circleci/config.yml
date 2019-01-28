@@ -3,9 +3,9 @@ jobs:
   build:
     docker:
       - image: circleci/node:10
-      - image: qlikcore/engine:12.300.0
+      - image: qlikcore/engine:12.311.0
         command: -S AcceptEULA=yes
-      - image: browserless/chrome
+      - image: browserless/chrome:1.1-puppeteer-1.10.0
 
     working_directory: ~/catwalk
 
@@ -43,8 +43,9 @@ jobs:
           name: E2E tests
           command: |
             DocID=$(curl -s --data-binary @data/drugcases.qvf http://localhost:9076/v1/apps/import | jq -r '.attributes.id')
-            npx parcel src/index.html &
+            npm run start:cov &
             DocID=$DocID npm run test:e2e
+            npx nyc report -r html
 
       - save_cache:
           paths:
@@ -53,6 +54,9 @@ jobs:
 
       - store_artifacts:
           path: test/e2e/__artifacts__
+
+      - store_artifacts:
+          path: coverage
 
       - run:
           name: Sync dist to S3 bucket
