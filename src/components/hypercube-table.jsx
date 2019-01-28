@@ -169,7 +169,7 @@ export default function HypercubeTable({
   const calculatedWidth = getTotalTableWidth(layout, dimensions, measures);
   if (layout && calculatedWidth > 0) {
     return (
-      <div role="Table" tabIndex="-1" className="hypercube-table">
+      <div role="table" tabIndex="-1" className="hypercube-table">
         <VirtualTable
           layout={layout}
           model={model}

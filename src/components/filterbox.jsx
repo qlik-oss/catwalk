@@ -193,7 +193,7 @@ export default function Filterbox({ model, layout }) {
   }
 
   return (
-    <div role="Listbox" tabIndex="-1" className={classes} onClick={preventDefaultFn} ref={selfRef}>
+    <div role="listbox" tabIndex="-1" className={classes} onClick={preventDefaultFn} ref={selfRef}>
       <input
         ref={inputRef}
         onKeyUp={onSearch}
