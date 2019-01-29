@@ -14,7 +14,7 @@ import ReloadTime from './reload-time';
 import logo from '../assets/catwalk.svg';
 import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
 
-import 'react-contexify/dist/ReactContexify.min.css';
+import '../assets/ReactContexify.min.css';
 import './topbar.pcss';
 
 export default function TopBar({ app, appLayout: { qLastReloadTime }, startGuide }) {

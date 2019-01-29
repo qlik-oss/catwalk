@@ -60,8 +60,8 @@ describe('usage', () => {
 
     // Close hypercube and open menu
     await page.click('.SVGInline.close');
-    await page.click('.topbarLogo', { button: 'right' });
-    page.waitForSelector('.react-contextmenu-item');
+    await page.click('.menu-provider');
+    page.waitForSelector('.react-contexify');
     img = await page.screenshot({ fullPage: true });
     await expect(img).to.matchImageOf('opened-menu', OPTS);
   });
