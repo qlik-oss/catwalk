@@ -29,6 +29,7 @@ export default function Selections({ app }) {
 
   const layout = useLayout(useModel(app, definition));
   let items;
+  let clearAll;
 
   if (layout) {
     items = layout.qSelectionObject.qSelections.map(item => (
@@ -36,19 +37,15 @@ export default function Selections({ app }) {
         <SelectionField app={app} field={item.qField} fieldData={item} />
       </li>
     ));
-    if (!items.length) {
-      items.push(
-        <li key="none" className="none">
-        No selections made.
-        </li>,
-      );
+    if (items.length) {
+      clearAll = <SVGInline {...clearButton} onClick={() => clearAllSelections()} title="Clear all selections" />;
     }
   }
 
   return (
     <ul className="selections">
       <div className="clear-all">
-        <SVGInline {...clearButton} onClick={() => clearAllSelections()} />
+        {clearAll}
       </div>
       <div className="selections-inner">
         {items}
