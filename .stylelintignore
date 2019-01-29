@@ -1,2 +1,3 @@
 src/**/*.jsx
 src/**/*.svg
+src/assets/*.min.css

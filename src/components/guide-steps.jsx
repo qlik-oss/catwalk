@@ -255,15 +255,15 @@ const steps = [
           Now you can continue to explore your data model with catwalk on your own!
         </p>
         <p>
-          To restart the guide, right click and select
-          {' '}
+          To restart the guide, click to open the menu and select
+          {'  '}
           <code>Start Guide</code>
           .
         </p>
       </div>
     ),
     placement: 'bottom',
-    target: '.topbarLogo',
+    target: '.menu-provider',
     title: 'Guide completed!',
   },
 ];
