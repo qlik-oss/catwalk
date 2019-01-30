@@ -54,7 +54,12 @@ export default function Model({ app, appLayout }) {
 
 
   function showFieldDetails(table, field, boxId) {
-    setCurrentDetailsView({ boxId, content: getExtraInfoForTableField(table, field) });
+    // toggle the detailsView - if already open in this box, close.
+    if (currentDetailsView && boxId === currentDetailsView.boxId) {
+      setCurrentDetailsView(null);
+    } else {
+      setCurrentDetailsView({ boxId, content: getExtraInfoForTableField(table, field) });
+    }
   }
   const onClick = (evt) => {
     if (evt.ctrlKey || evt.metaKey) {
@@ -110,7 +115,15 @@ export default function Model({ app, appLayout }) {
 
   const extraInfoContainer = currentDetailsView ? (
     <div className="floatercontainer" key={currentDetailsView.boxId}>
-      <ReactFloater autoOpen disableAnimation showCloseButton placement="right" target={`[data-boxid="${currentDetailsView.boxId}"]`} content={currentDetailsView.content} callback={(event) => { if (event === 'close') { setCurrentDetailsView(null); } }} />
+      <ReactFloater
+        autoOpen
+        disableAnimation
+        showCloseButton
+        placement="right"
+        target={`[data-boxid="${currentDetailsView.boxId}"]`}
+        content={currentDetailsView.content}
+        callback={(event) => { if (event === 'close') { setCurrentDetailsView(null); } }}
+      />
     </div>
   ) : null;
 
