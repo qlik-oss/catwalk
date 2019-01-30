@@ -86,15 +86,18 @@ const Guide = forwardRef((props, ref) => {
   const readyToProceed = (newStepIndex) => {
     if (newStepIndex < steps.length) {
       const stepName = steps[newStepIndex].step;
-      if (stepName === 'addAnotherColumn') {
+      if (stepName === 'selections') {
+        const selections = document.querySelector('.selections-inner li');
+        if (!selections) return false;
+      } else if (stepName === 'selectEntity' || stepName === 'selectAnotherEntity') {
+        const overlay = document.getElementsByClassName('cube-column-chooser');
+        if (!overlay.length > 0) {
+          return false;
+        }
+      } else if (stepName === 'addAnotherColumn') {
         // we need to have a hypercube with a column in order for the step to be valid.
         const nbrOfColumns = getNbrOfColumnsInCube();
         if (nbrOfColumns <= 0) {
-          return false;
-        }
-      } else if (stepName === 'selectAnotherEntity') {
-        const overlay = document.getElementsByClassName('cube-column-chooser');
-        if (!overlay.length > 0) {
           return false;
         }
       } else if (stepName === 'cubeFinished') {
@@ -136,8 +139,8 @@ const Guide = forwardRef((props, ref) => {
         setStepIndex(newStepIndex);
       }
     } else if ([EVENTS.TARGET_NOT_FOUND].includes(type)) {
-      // The target could not be found. Go to previous step.
-      const newStepIndex = index - 1;
+      // The target could not be found. Go to next step.
+      const newStepIndex = index + 1;
       setStepIndex(newStepIndex);
     }
   };
