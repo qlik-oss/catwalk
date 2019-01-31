@@ -6,8 +6,6 @@ Gain data model insights quickly during its development and validation phases. T
 
 ![screenshot](./screenshot.png)
 
-**WORK IN PROGRESS**
-
 ## Prerequsities
 
 * Node.js v9+
