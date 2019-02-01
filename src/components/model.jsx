@@ -91,6 +91,10 @@ export default function Model({ app, appLayout }) {
       setQueryModel(newQueryModel);
     } else if (field) {
       // Open or close a field
+      // If synthetic, do nothing.
+      const fieldData = queryModel.grid[field][table];
+      const isSynthetic = (fieldData.qTags && fieldData.qTags.find(item => item === '$synthetic'));
+      if (isSynthetic) return;
       if (openBoxes[field]) {
         delete openBoxes[field];
       } else {
@@ -155,7 +159,6 @@ export default function Model({ app, appLayout }) {
               cellContainerStyle.height = '24em';
             }
 
-
             const x = queryModel.grid[fieldName][tableName];
             if (x && !x.isEmpty) {
               let classes = 'vertcell keycell';
@@ -175,7 +178,6 @@ export default function Model({ app, appLayout }) {
               const assocStyle = {
                 backgroundColor: x.backgroundColor,
               };
-
 
               let leftAssocStyle;
               if (x.cssLeftAssocationBackgroundImage) {
