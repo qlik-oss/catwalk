@@ -91,7 +91,7 @@ const Guide = forwardRef((props, ref) => {
         if (!selections) return false;
       } else if (stepName === 'selectEntity' || stepName === 'selectAnotherEntity') {
         const overlay = document.getElementsByClassName('cube-column-chooser');
-        if (!overlay.length > 0) {
+        if (overlay.length <= 0) {
           return false;
         }
       } else if (stepName === 'addAnotherColumn') {
