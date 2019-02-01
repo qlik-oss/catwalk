@@ -54,7 +54,12 @@ export default function Model({ app, appLayout }) {
 
 
   function showFieldDetails(table, field, boxId) {
-    setCurrentDetailsView({ boxId, content: getExtraInfoForTableField(table, field) });
+    // toggle the detailsView - if already open in this box, close.
+    if (currentDetailsView && boxId === currentDetailsView.boxId) {
+      setCurrentDetailsView(null);
+    } else {
+      setCurrentDetailsView({ boxId, content: getExtraInfoForTableField(table, field) });
+    }
   }
   const onClick = (evt) => {
     if (evt.ctrlKey || evt.metaKey) {
@@ -86,6 +91,10 @@ export default function Model({ app, appLayout }) {
       setQueryModel(newQueryModel);
     } else if (field) {
       // Open or close a field
+      // If synthetic, do nothing.
+      const fieldData = queryModel.grid[field][table];
+      const isSynthetic = (fieldData.qTags && fieldData.qTags.find(item => item === '$synthetic'));
+      if (isSynthetic) return;
       if (openBoxes[field]) {
         delete openBoxes[field];
       } else {
@@ -110,7 +119,15 @@ export default function Model({ app, appLayout }) {
 
   const extraInfoContainer = currentDetailsView ? (
     <div className="floatercontainer" key={currentDetailsView.boxId}>
-      <ReactFloater autoOpen disableAnimation showCloseButton placement="right" target={`[data-boxid="${currentDetailsView.boxId}"]`} content={currentDetailsView.content} callback={(event) => { if (event === 'close') { setCurrentDetailsView(null); } }} />
+      <ReactFloater
+        autoOpen
+        disableAnimation
+        showCloseButton
+        placement="right"
+        target={`[data-boxid="${currentDetailsView.boxId}"]`}
+        content={currentDetailsView.content}
+        callback={(event) => { if (event === 'close') { setCurrentDetailsView(null); } }}
+      />
     </div>
   ) : null;
 
@@ -142,7 +159,6 @@ export default function Model({ app, appLayout }) {
               cellContainerStyle.height = '24em';
             }
 
-
             const x = queryModel.grid[fieldName][tableName];
             if (x && !x.isEmpty) {
               let classes = 'vertcell keycell';
@@ -162,7 +178,6 @@ export default function Model({ app, appLayout }) {
               const assocStyle = {
                 backgroundColor: x.backgroundColor,
               };
-
 
               let leftAssocStyle;
               if (x.cssLeftAssocationBackgroundImage) {

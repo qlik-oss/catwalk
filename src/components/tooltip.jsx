@@ -53,7 +53,9 @@ export function getExtraInfoForField(fieldData) {
       case 'PERFECT_KEY':
         return (
           <React.Fragment>
-            <h3>Perfect key</h3>
+            <div className="headerContainer">
+              <h3 className="perfect-key">Perfect key</h3>
+            </div>
             <span>Each row in the  <i>{fieldData.srcTable.qName}</i> table is uniquely identified by its <i>{fieldData.qName}</i> value.</span>
             <p>All <i>{fieldData.qName}</i> values in the entire data model are present in the <i>{fieldData.srcTable.qName}</i> table.</p>
           </React.Fragment>
@@ -61,7 +63,9 @@ export function getExtraInfoForField(fieldData) {
       case 'PRIMARY_KEY':
         return (
           <React.Fragment>
-            <h3>Primary key</h3>
+            <div className="headerContainer">
+              <h3 className="primary-key">Primary key</h3>
+            </div>
             <span>Each row in the  <i>{fieldData.srcTable.qName}</i> table is uniquely identified by its <i>{fieldData.qName}</i> value.</span>
           </React.Fragment>
         );
@@ -69,7 +73,9 @@ export function getExtraInfoForField(fieldData) {
         if (allNonNullValuesAreUnique) {
           return (
             <React.Fragment>
-              <h3>Foreign key - Contains null rows</h3>
+              <div className="headerContainer">
+                <h3 className="foreign-key">Foreign key</h3><h3> - Contains null rows</h3>
+              </div>
               <p>All present values are unique but there are {nullCount} rows with nulls.</p>
               <p>A single <i>{fieldData.qName} </i> value identifies at most one row in the <i>{fieldData.srcTable.qName}</i> table.</p>
             </React.Fragment>
@@ -78,7 +84,9 @@ export function getExtraInfoForField(fieldData) {
         if (fieldData.qHasNull) {
           return (
             <React.Fragment>
-              <h3>Foreign Key - Many rows per value + null rows</h3>
+              <div className="headerContainer">
+                <h3 className="foreign-key">Foreign Key</h3><h3> - Many rows per value + null rows</h3>
+              </div>
               <p>Values are repeated on several rows plus there are {nullCount} rows with nulls.</p>
               <p>A single <i>{fieldData.qName} </i> value may identify several rows in the <i>{fieldData.srcTable.qName}</i> table.</p>
             </React.Fragment>
@@ -86,7 +94,9 @@ export function getExtraInfoForField(fieldData) {
         }
         return (
           <React.Fragment>
-            <h3>Foreign key - Many rows per value</h3>
+            <div className="headerContainer">
+              <h3 className="foreign-key">Foreign key</h3><h3> - Many rows per value</h3>
+            </div>
             <p>Values are repeated on several rows. All rows have values.</p>
             <p>A single <i>{fieldData.qName} </i> value may identify several rows in the <i>{fieldData.srcTable.qName}</i> table.</p>
             {/* <span>Average row count per value is {avgDup} times. No nulls.</span> */}

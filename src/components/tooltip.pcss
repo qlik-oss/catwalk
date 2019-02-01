@@ -1,8 +1,36 @@
 .tooltip {
   font-size: 1.5rem;
   max-width: 30rem;
+  overflow-wrap: break-word;
+
+  .headerContainer {
+    margin-bottom: 1em;
+    margin-top: 1em;
+  }
+
+  h3 {
+    display: inline;
+  }
+
+  .perfect-key {
+    color: #398ab5;
+  }
+
+  .primary-key {
+    color: #00993f;
+  }
+
+  .foreign-key {
+    color: #f29600;
+  }
 }
 
 .tooltip th {
   text-align: left;
+}
+
+.__floater__container svg {
+  &:hover {
+    stroke: #3f9dd0 !important;
+  }
 }

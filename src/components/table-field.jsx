@@ -16,6 +16,25 @@ function TableFieldWithoutState({
 }) {
   let classes = `table-field ${fieldData.qKeyType}`;
 
+  const isSynthetic = (fieldData.qTags && fieldData.qTags.find(item => item === '$synthetic'));
+  if (isSynthetic) {
+    const syntheticFieldStyle = {
+      border: `2px dashed ${fieldData.backgroundColor}`,
+    };
+
+    return (
+      <div
+        className={classes}
+        style={syntheticFieldStyle}
+        title={getTooltipForSyntheticField(fieldData, layout)}
+      >
+        <div className="name">
+          {field}
+        </div>
+      </div>
+    );
+  }
+
   if (!layout || !layout.qListObject || !layout.qListObject.qDataPages || !layout.qListObject.qDataPages[0]) {
     return (
       <div
@@ -53,29 +72,9 @@ function TableFieldWithoutState({
     classes += ' single-hit';
   }
 
-  const isSynthetic = (fieldData.qTags && fieldData.qTags.find(item => item === '$synthetic'));
-  if (isSynthetic) {
-    const syntheticFieldStyle = {
-      border: `2px dashed ${fieldData.backgroundColor}`,
-    };
-
-    return (
-      <div
-        className={classes}
-        style={syntheticFieldStyle}
-        title={getTooltipForSyntheticField(fieldData, layout)}
-      >
-        <div className="name">
-          {field}
-        </div>
-      </div>
-    );
-  }
-
   const fieldStyle = {
     border: `2px solid ${fieldData.backgroundColor}`,
   };
-
 
   const filterBox = showFilterbox ? <Filterbox model={model} layout={layout} field={field} /> : null;
   return (
