@@ -4,6 +4,9 @@
   "description": "Get Qlik Associative Engine data model insights.",
   "author": "QlikTech International AB",
   "license": "MIT",
+  "engines": {
+    "node": ">=9.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/qlik-oss/catwalk"
