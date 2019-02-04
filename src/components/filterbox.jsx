@@ -101,10 +101,10 @@ function useSelections(model, layout, selfRef) {
   const onRowClick = async ({ rowData }) => {
     if (rowData) {
       const rowDataToModify = rowData;
-      if (rowData[0].qState !== 'S') {
+      if (rowData[0].qState !== 'S' && rowData[0].qState !== 'XS') {
         rowDataToModify[0].qState = 'S'; // For fast visual feedback, this will be overwritten when the new layout comes.
       } else {
-        rowDataToModify[0].qState = 'O'; // For fast visual feedback, this will be overwritten when the new layout comes.
+        rowDataToModify[0].qState = 'A'; // For fast visual feedback, this will be overwritten when the new layout comes.
       }
       const wasAlreadyInSelections = layout.qSelectionInfo.qInSelections;
       const layoutz = layout;

@@ -12,7 +12,6 @@ module.exports = {
   waitUntilNoRequests: idleTime => new Promise((resolve) => {
     const intervalID = setIntervalWS(() => {
       const silence = new Date().getTime() - lastRequest;
-      // console.log('Silence', silence, idArray.length === 0, silence > idleTime);
       if (idArray.length === 0 && silence > idleTime) {
         clearInterval(intervalID);
         resolve();
