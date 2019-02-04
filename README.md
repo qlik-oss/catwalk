@@ -36,7 +36,7 @@ For connecting to a Qlik Sense Desktop the WS-URL will be:
 `ws://localhost:4848/app/<app-name>`
 
 ### Qlik Sense Enterprise
-The catwalk UI doesn't provide login to the Qlik Sense app but as long as there has been a login to the app in another tab/window the `X-Qlik-Session` cookie is set and catwalk can "reuse" that session. The URL [catwalk.core.qlik.com](https://catwalk.core.qlik.com) has to be white listed in the QMC -> virtual proxy (per virtual proxy being used) as well for the Sense Proxy to allow sessions from catwalk.
+The catwalk UI doesn't provide login to the Qlik Sense app but as long as there has been a login to the app in another tab/window the `X-Qlik-Session` cookie is set and catwalk can "reuse" that session. The URL [catwalk.core.qlik.com](https://catwalk.core.qlik.com) has to be white listed in the QMC -> virtual proxy (per virtual proxy being used) for the Sense Proxy to allow sessions from catwalk.
 
 ![host white list](./images/qmc-whitelist.png)
 
