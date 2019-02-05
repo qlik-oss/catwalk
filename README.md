@@ -42,6 +42,10 @@ The catwalk UI doesn't provide login to the Qlik Sense app but as long as there 
 
 ![host white list](./images/qmc-whitelist.png)
 
+For connecting to a Qlik Sense Enterprise the websocket URL will be:
+
+`wss://<host>/app/<app-name>`
+
 ### Tip :tada:
 We created a Qlik Sense extension that can be found in the sense-extension folder that will create a link to the Qlik hosted catwalk UI with the current open app if "dragged" onto a sheet of you Qlik Sense app.
 To install the extension you have to zip the folder and import it into you Qlik Sense installation, [see](https://help.qlik.com/en-US/sense-developer/November2018/Subsystems/Extensions/Content/Sense_Extensions/Howtos/deploy-extensions.htm)
