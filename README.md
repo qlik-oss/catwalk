@@ -24,7 +24,7 @@ Or through the Qlik hosted [catwalk UI](https://catwalk.core.qlik.com)
 You need to provide catwalk with a WS-URL (web socket URL) to the app.  
 
 ### Example App
-For convenience the is an example app and docker-compose.yml in the catwalk repository
+For convenience there is an example app and docker-compose.yml in the catwalk repository
 ```bash
 ACCEPT_EULA=yes docker-compose up -d
 ```
@@ -40,5 +40,5 @@ The catwalk UI doesn't provide login to the Qlik Sense app but as long as there 
 
 ![host white list](./images/qmc-whitelist.png)
 
-### Tips :tada:
+### Tip :tada:
 In the root of the catwalk repository there is a catwalk.zip which is a Qlik Sense extension that will create a link to the Qlik hosted catwalk UI with the current open app.
