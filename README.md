@@ -18,10 +18,10 @@ The UI can either be runned locally using
 npm install
 npm start
 ```
-Or through the Qlik hosted [catwalk UI](https://catwalk.core.qlik.com)
+Or through the Qlik hosted [catwalk UI](https://catwalk.core.qlik.com) that will have the latest master build deployed and can also be used against an local Qlik Associative Engine.
 
 ## 2. Qlik Associative Engine
-You need to provide catwalk with a WS-URL (web socket URL) to the app.  
+You need to provide catwalk with a websocket URL to the app.  
 
 ### Example App
 For convenience there is an example app and docker-compose.yml in the catwalk repository
@@ -29,10 +29,12 @@ For convenience there is an example app and docker-compose.yml in the catwalk re
 ACCEPT_EULA=yes docker-compose up -d
 ```
 The docker-compose.yml in the repository will expose the Qlik Associative Engine app at:
+
 `ws://localhost:9076/data/drugcases.qvf`
 
 ### Qlik Sense Desktop
-For connecting to a Qlik Sense Desktop the WS-URL will be:
+For connecting to a Qlik Sense Desktop the websocket URL will be:
+
 `ws://localhost:4848/app/<app-name>`
 
 ### Qlik Sense Enterprise
@@ -41,4 +43,5 @@ The catwalk UI doesn't provide login to the Qlik Sense app but as long as there 
 ![host white list](./images/qmc-whitelist.png)
 
 ### Tip :tada:
-In the root of the catwalk repository there is a catwalk.zip which is a Qlik Sense extension that will create a link to the Qlik hosted catwalk UI with the current open app.
+We created a Qlik Sense extension that can be found in the sense-extension folder that will create a link to the Qlik hosted catwalk UI with the current open app if "dragged" onto a sheet of you Qlik Sense app.
+To install the extension you have to zip the folder and import it into you Qlik Sense installation, [see](https://help.qlik.com/en-US/sense-developer/November2018/Subsystems/Extensions/Content/Sense_Extensions/Howtos/deploy-extensions.htm)

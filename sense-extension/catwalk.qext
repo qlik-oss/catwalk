@@ -1,0 +1,15 @@
+{
+	"name": "catwalk",
+	"description": "Sets the stage for your Qlik data models",
+	"type": "visualization",
+	"version": "1.0.0",
+	"icon": "extension",
+	"author": "qlik-core",
+	"homepage": "",
+	"keywords": "qlik-core, datamodel",
+	"license": "MIT",
+	"repository": "https://github.com/qlik-oss/catwalk",
+	"dependencies": {
+		"qlik-sense": ">=3.0.x"
+	}
+}
