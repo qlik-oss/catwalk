@@ -1,6 +1,5 @@
 *.png binary
 *.qvf binary
-*.zip binary
 *.html text eol=lf
 *.css text eol=lf
 *.jsx text eol=lf
