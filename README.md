@@ -42,6 +42,10 @@ The catwalk UI doesn't provide login to the Qlik Sense app but as long as there 
 
 ![host white list](./images/qmc-whitelist.png)
 
-### Tip :tada:
+### Tip 1:tada:
 We created a Qlik Sense extension that can be found in the sense-extension folder that will create a link to the Qlik hosted catwalk UI with the current open app if "dragged" onto a sheet of you Qlik Sense app.
 To install the extension you have to zip the folder and import it into you Qlik Sense installation, [see](https://help.qlik.com/en-US/sense-developer/November2018/Subsystems/Extensions/Content/Sense_Extensions/Howtos/deploy-extensions.htm)
+
+### Tip 2:tada:
+We created a javascript bookmark that can be found in the bookmark folder that will open up a new tab to the Qlik hosted catwalk UI with the current open app.
+To setup Create a bookmark and paste the content of bookmark.js in the URL field.
