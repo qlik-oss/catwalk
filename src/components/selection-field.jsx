@@ -11,6 +11,7 @@ const createDefinition = field => ({
   qInfo: { qType: 'dmi-field' },
   qListObjectDef: {
     qFrequencyMode: 'V',
+    qShowAlternatives: true,
     qDef: {
       qFieldDefs: [field],
       qSortCriterias: [

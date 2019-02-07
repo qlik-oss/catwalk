@@ -12,16 +12,42 @@
     cursor: pointer;
   }
 
+  .state-A {
+    background: rgba(210, 210, 210, 0.8);
+    color: #333;
+  }
+
+  .state-O {
+    background: white;
+    color: #333;
+  }
+
   .state-S {
     background: #019b39;
     color: white;
   }
 
+  .state-XS {
+    background: rgba(210, 210, 210, 0.8);
+    color: #019b39;
+  }
+
   .state-X {
     background: rgba(210, 210, 210, 0.8);
+    color: rgba(51, 51, 51, 0.5);
   }
 
   &.made-selections .state-X {
+    background: white;
+    color: rgba(51, 51, 51, 0.5);
+  }
+
+  &.made-selections .state-O {
+    background: white;
+    color: #333;
+  }
+
+  &.made-selections .state-A {
     background: white;
     color: #333;
   }

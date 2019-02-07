@@ -292,7 +292,6 @@ class QueryModel {
   }
 
   getFieldsSortedByAssocDepth(currentTable, tablesAlreadyAdded) {
-    // console.log('Get depth', currentTable, tablesAlreadyAdded);
     const self = this;
 
     const countDepth = (tableName, fieldName, traversedTables) => {
@@ -328,7 +327,6 @@ class QueryModel {
       tablesAlreadyAdded.forEach((tableName) => {
         traversedTables[tableName] = true;
       });
-      // console.log('depth', currentTable, fieldName, countDepth(currentTable, fieldName, traversedTables));
     });
 
     const result = this.fieldsOfTable(currentTable).slice(0);
@@ -343,7 +341,6 @@ class QueryModel {
 
     // Iterate over all keys for the current table
     const keyFields = this.getFieldsSortedByAssocDepth(currentTable, this.resultTableList);
-    // console.log(`${depth}Add table:`, currentTable, keyFields);
     keyFields.forEach((keyField) => {
       const existIndex = this.originalFieldNamesSortedByKeyAndName.indexOf(keyField);
       if (existIndex >= 0) {
