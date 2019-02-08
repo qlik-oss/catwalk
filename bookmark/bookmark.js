@@ -1,8 +1,9 @@
-javascript: (function () {
+/* eslint-disable no-labels,  no-unused-labels, no-restricted-syntax */
+javascript: (function bookmark() {
   const getAppId = (location) => {
     const prefix = '/sense/app/';
     let start = location.pathname.indexOf(prefix);
-    if (start === -1) return;
+    if (start === -1) return undefined;
     start += prefix.length;
     const end = location.pathname.indexOf('/', start);
     const appId = location.pathname.substring(start, end !== -1 ? end : location.pathname.length);
@@ -12,7 +13,7 @@ javascript: (function () {
   if (appId) {
     const { hostname } = window.location;
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
-    const port = window.location.port === '' ? '': `:${window.location.port}`;
+    const port = window.location.port === '' ? '' : `:${window.location.port}`;
 
     const engineUrl = `${protocol}://${hostname}${port}/app/${appId}`;
     const url = `http://catwalk.core.qlik.com/?engine_url=${engineUrl}`;
