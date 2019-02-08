@@ -47,5 +47,5 @@ We created a Qlik Sense extension that can be found in the sense-extension folde
 To install the extension you have to zip the folder and import it into you Qlik Sense installation, [see](https://help.qlik.com/en-US/sense-developer/November2018/Subsystems/Extensions/Content/Sense_Extensions/Howtos/deploy-extensions.htm)
 
 ### Tip 2:tada:
-We created a javascript bookmark that can be found in the bookmark folder that will open up a new tab to the Qlik hosted catwalk UI with the current open app.
-To setup Create a bookmark and paste the content of bookmark.js in the URL field.
+We created a javascript bookmark that can be found in the [bookmark](./bookmark) folder that will open up a new tab to the Qlik hosted catwalk UI with the current open app.
+To setup Create a bookmark and paste the content of [bookmark.js](./bookmark/bookmark.js) in the URL field.
