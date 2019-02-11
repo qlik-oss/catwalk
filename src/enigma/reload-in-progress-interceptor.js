@@ -14,7 +14,7 @@ function sleep(time) {
 export function useReloadInProgress(app) {
   [reloadInProgress, setReloadInProgress] = useState(wasInReloadOnStartup);
   useEffect(() => {
-    if (!app) return null;
+    if (!app) return undefined;
 
     const modelChanged = async () => {
       try {

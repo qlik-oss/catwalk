@@ -5,7 +5,7 @@ export default function useLayout(model) {
   const [layout, setLayout] = useState();
 
   useEffect(() => {
-    if (!model) return null;
+    if (!model) return undefined;
 
     let isKilled = false;
 
