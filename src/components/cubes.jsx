@@ -6,13 +6,14 @@ import close from '../assets/close-outline.svg';
 
 import useColumnOptions from './use/column-options';
 import CubeColumnChooser from './cube-column-chooser';
+import useForce from './use/force';
 
 import './cubes.pcss';
 
 export function Cubes({ app, closeOnClickOutside }) {
   const [count, setCount] = useState(1);
   const [cubeList, setCubeList] = useState([]);
-  const [, forceUpdate] = useState(null);
+  const forceUpdate = useForce();
   const addButtonRef = useRef(null);
 
   const selectableColumns = useColumnOptions(app);
@@ -30,7 +31,7 @@ export function Cubes({ app, closeOnClickOutside }) {
       ]);
     }
     addOpen.current = false;
-    forceUpdate(Date.now());
+    forceUpdate();
   }
 
   function removeCube(id) {
@@ -39,7 +40,7 @@ export function Cubes({ app, closeOnClickOutside }) {
 
   function openColumnChooser() {
     addOpen.current = true;
-    forceUpdate(Date.now());
+    forceUpdate();
   }
 
   const popup = addOpen.current ? <CubeColumnChooser arrowStyle="arrowRight" alignTo={addButtonRef.current} selectableColumns={selectableColumns} chooseColumn={column => addCube(column)} closeOnClickOutside={closeOnClickOutside} /> : null;

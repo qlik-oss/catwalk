@@ -1,9 +1,10 @@
 import ReactDOM from 'react-dom';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Column } from 'react-virtualized';
 import useClickOutside from './use/click-outside';
 import VirtualTable from './virtual-table';
+import useForce from './use/force';
 
 import './filterbox.pcss';
 
@@ -96,7 +97,7 @@ function noRowsRenderer() {
 }
 function useSelections(model, layout, selfRef) {
   const ongoingSelections = useRef(false);
-  const [, forceUpdate] = useState(null);
+  const forceUpdate = useForce();
 
   const onRowClick = async ({ rowData }) => {
     if (rowData) {
@@ -114,7 +115,7 @@ function useSelections(model, layout, selfRef) {
       const layoutz = layout;
       layoutz.qSelectionInfo.qInSelections = true;
       ongoingSelections.current = true;
-      forceUpdate(Date.now());
+      forceUpdate();
 
       if (!wasAlreadyInSelections) {
         model.beginSelections(['/qListObjectDef']).catch(() => {
