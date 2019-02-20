@@ -30,7 +30,7 @@ export function Cubes({ app, closeOnClickOutside }) {
       ]);
     }
     addOpen.current = false;
-    forceUpdate();
+    forceUpdate(Date.now());
   }
 
   function removeCube(id) {
@@ -39,7 +39,7 @@ export function Cubes({ app, closeOnClickOutside }) {
 
   function openColumnChooser() {
     addOpen.current = true;
-    forceUpdate();
+    forceUpdate(Date.now());
   }
 
   const popup = addOpen.current ? <CubeColumnChooser arrowStyle="arrowRight" alignTo={addButtonRef.current} selectableColumns={selectableColumns} chooseColumn={column => addCube(column)} closeOnClickOutside={closeOnClickOutside} /> : null;

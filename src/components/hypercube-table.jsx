@@ -165,7 +165,9 @@ export default function HypercubeTable({
   const hypercubeProps = createProperties(dimensions, measures);
   const model = useModel(app, hypercubeProps);
   const layout = useLayout(model);
-
+  if (!model) {
+    return null;
+  }
   const calculatedWidth = getTotalTableWidth(layout, dimensions, measures);
   if (layout && calculatedWidth > 0) {
     return (

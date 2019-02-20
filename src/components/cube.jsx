@@ -20,13 +20,13 @@ export default function Cube({ app, tableData: { initialColumns }, closeOnClickO
     }
     addOpen.current = false;
     columnToReplace.current = null;
-    forceUpdate();
+    forceUpdate(Date.now());
   }
 
   function openAdd() {
     currentHeader.current.classList.add('active');
     addOpen.current = true;
-    forceUpdate();
+    forceUpdate(Date.now());
   }
 
   function toggleAdd(e) {
