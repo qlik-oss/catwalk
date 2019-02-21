@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import useColumnOptions from './use/column-options';
 import CubeColumnChooser from './cube-column-chooser';
 import HypercubeTable from './hypercube-table';
+import useForce from './use/force';
 
 import './cube.pcss';
 
@@ -13,7 +14,8 @@ export default function Cube({ app, tableData: { initialColumns }, closeOnClickO
   const currentHeader = useRef(null);
   const columnToReplace = useRef(null);
   const addOpen = useRef(false);
-  const [, forceUpdate] = useState(null);
+  const forceUpdate = useForce();
+
   function closeAdd() {
     if (currentHeader.current) {
       currentHeader.current.classList.remove('active');
