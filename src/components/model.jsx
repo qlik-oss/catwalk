@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import usePromise from 'react-use-promise';
 import ReactFloater from 'react-floater';
@@ -24,7 +24,7 @@ function findAttribute(event, attrName) {
 }
 
 function useTablesAndKeys(app, appLayout) {
-  const [tablesAndKeys] = usePromise(useMemo(() => app.getTablesAndKeys({}, {}, 0, true, false), [appLayout.qLastReloadTime]));
+  const [tablesAndKeys] = usePromise(() => app.getTablesAndKeys({}, {}, 0, true, false), [appLayout.qLastReloadTime]);
   return tablesAndKeys;
 }
 
