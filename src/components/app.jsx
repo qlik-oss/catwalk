@@ -16,9 +16,9 @@ import './app.pcss';
 export const AppContext = React.createContext(null);
 export const AppConsumer = AppContext.Consumer;
 
-const useGlobal = session => usePromise(useMemo(() => session.open(), [session]));
-const useApp = global => usePromise(useMemo(() => (global ? global.getDoc() : null), [global]));
-const useDocList = (global, fetchList) => usePromise(useMemo(() => (fetchList ? global.getDocList() : null), [global, fetchList]));
+const useGlobal = session => usePromise(() => session.open(), [session]);
+const useApp = global => usePromise(() => (global ? global.getDoc() : null), [global]);
+const useDocList = (global, fetchList) => usePromise(() => (fetchList ? global.getDocList() : null), [global, fetchList]);
 
 export default function App() {
   const session = useMemo(() => enigma.create(config), [false]);
