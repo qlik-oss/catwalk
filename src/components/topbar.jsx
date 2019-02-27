@@ -36,13 +36,16 @@ export default function TopBar({ app, appLayout, startGuide }) {
       <Item onClick={goToGithub}>Go to GitHub</Item>
     </Menu>
   );
-
+  let selections;
+  if (app) {
+    selections = <Selections app={app} />;
+  }
   return (
     <div className="topbar">
       <div className="topbarLogo" onClick={goToGithub} role="navigation">
         <SVGInline className="logo" svg={logo} />
       </div>
-      <Selections app={app} />
+      {selections}
       <ReloadTime lastReloadTime={lastReloadTime} className="reloaded" />
       <MenuProvider id="menu_id" event="onClick" className="menu-provider">
         <div>
@@ -55,12 +58,13 @@ export default function TopBar({ app, appLayout, startGuide }) {
 }
 
 TopBar.defaultProps = {
+  app: null,
   appLayout: null,
   startGuide: null,
 };
 
 TopBar.propTypes = {
-  app: PropTypes.object.isRequired,
+  app: PropTypes.object,
   appLayout: PropTypes.object,
   startGuide: PropTypes.func,
 };

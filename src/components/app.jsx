@@ -23,7 +23,7 @@ const useDocList = (global, fetchList) => usePromise(() => (fetchList ? global.g
 export default function App() {
   const session = useMemo(() => enigma.create(config), [false]);
   const [global, socketError] = useGlobal(session);
-  const [app, appError] = useApp(global);
+  const [app, appError, appState] = useApp(global);
   const [docs, docsError] = useDocList(global, appError && global);
   const appLayout = useLayout(app);
   const guideRef = useRef();
@@ -39,12 +39,10 @@ export default function App() {
     reloadSplasher = <div className="reload-splasher"><div className="reload-label">Reload in progress</div></div>;
   }
 
-  if (!appLayout) {
-    if (reloadInProgress) {
-      return reloadSplasher;
-    }
+  if (!appLayout && reloadInProgress) {
+    return reloadSplasher;
   }
-  if (!app) {
+  if (!app && appState !== 'pending') {
     return (
       <Splash
         docs={docs}
@@ -53,14 +51,17 @@ export default function App() {
       />
     );
   }
-
+  let cubes;
+  if (app) {
+    cubes = <Cubes app={app} closeOnClickOutside={() => !guideRef.current.isGuideRunning()} />;
+  }
   return (
     <AppContext.Provider value={app}>
       <div className="app">
         <Guide ref={guideRef} />
         <TopBar app={app} appLayout={appLayout} startGuide={() => guideRef.current.startGuideFunc()} />
         <Model app={app} appLayout={appLayout} />
-        <Cubes app={app} closeOnClickOutside={() => !guideRef.current.isGuideRunning()} />
+        {cubes}
       </div>
       {reloadSplasher}
     </AppContext.Provider>

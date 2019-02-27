@@ -334,10 +334,11 @@ export default function Model({ app, appLayout }) {
 }
 
 Model.defaultProps = {
+  app: null,
   appLayout: null,
 };
 
 Model.propTypes = {
-  app: PropTypes.object.isRequired,
+  app: PropTypes.object,
   appLayout: PropTypes.object,
 };
