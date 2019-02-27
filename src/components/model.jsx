@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import usePromise from 'react-use-promise';
 import ReactFloater from 'react-floater';
-import SVGInline from 'react-svg-inline';
 
 import ScrollArea from './scroll-area';
 import TableField from './table-field';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
-import catwalkAway from '../assets/catwalk-away.svg';
 
 import { getExtraInfoForField, getAssosicationTooltip, getTableTooltip } from './tooltip';
 
@@ -33,11 +31,7 @@ function useTablesAndKeys(app, appLayout) {
 
 export default function Model({ app, appLayout }) {
   if (!appLayout) {
-    return (
-      <div className="center-content">
-        <SVGInline className="loading" svg={catwalkAway} />
-      </div>
-    );
+    return null;
   }
   const tablesAndKeys = useTablesAndKeys(app, appLayout);
   const [openBoxes, setOpenBoxes] = useState({});

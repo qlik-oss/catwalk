@@ -27,7 +27,10 @@ export default function Selections({ app }) {
     }
   }
 
-  const layout = useLayout(useModel(app, definition));
+  let layout;
+  if (app) {
+    layout = useLayout(useModel(app, definition));
+  }
   let items;
   let clearAll;
 
@@ -54,6 +57,10 @@ export default function Selections({ app }) {
   );
 }
 
+Selections.defaultProps = {
+  app: null,
+};
+
 Selections.propTypes = {
-  app: PropTypes.object.isRequired,
+  app: PropTypes.object,
 };

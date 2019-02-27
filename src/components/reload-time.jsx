@@ -7,12 +7,16 @@ export default function ReloadTime({ lastReloadTime, className }) {
   const [refreshTimer, setRefreshTimer] = useState(0);
 
   useEffect(() => {
+    if (lastReloadTime === '') {
+      return undefined;
+    }
     const now = new Date();
+    const interval = 5 * 1000;
     const lastReloaded = new Date(lastReloadTime);
     const secondsSince = (now.getTime() - lastReloaded.getTime()) / 1000;
     const minutesSince = secondsSince / 60;
     const hoursSince = secondsSince / 3600;
-    const interval = 5 * 1000;
+
     if (secondsSince < 60) {
       setLastReloadString('App reloaded less than a minute ago.');
     } else if (hoursSince < 1) {
@@ -22,7 +26,8 @@ export default function ReloadTime({ lastReloadTime, className }) {
     }
     setRefreshTimer(setTimeout(() => { setLastRefresh(now); }, interval));
     return () => clearTimeout(refreshTimer);
-  }, [lastRefresh]);
+  }, [lastRefresh, lastReloadTime]);
+
   return (
     <div className={className}>
       {lastReloadString}
