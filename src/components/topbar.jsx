@@ -17,7 +17,8 @@ import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
 import '../assets/ReactContexify.min.css';
 import './topbar.pcss';
 
-export default function TopBar({ app, appLayout: { qLastReloadTime }, startGuide }) {
+export default function TopBar({ app, appLayout, startGuide }) {
+  const lastReloadTime = appLayout ? appLayout.qLastReloadTime : '';
   const chooseApp = () => {
     const URLobject = new URL(window.location.href);
     window.location.assign(`${URLobject.protocol}//${window.location.host}`);
@@ -42,7 +43,7 @@ export default function TopBar({ app, appLayout: { qLastReloadTime }, startGuide
         <SVGInline className="logo" svg={logo} />
       </div>
       <Selections app={app} />
-      <ReloadTime lastReloadTime={qLastReloadTime} className="reloaded" />
+      <ReloadTime lastReloadTime={lastReloadTime} className="reloaded" />
       <MenuProvider id="menu_id" event="onClick" className="menu-provider">
         <div>
           <SVGInline className="more-icon" svg={moreHorizontalOutline} />
@@ -54,11 +55,12 @@ export default function TopBar({ app, appLayout: { qLastReloadTime }, startGuide
 }
 
 TopBar.defaultProps = {
+  appLayout: null,
   startGuide: null,
 };
 
 TopBar.propTypes = {
   app: PropTypes.object.isRequired,
-  appLayout: PropTypes.object.isRequired,
+  appLayout: PropTypes.object,
   startGuide: PropTypes.func,
 };

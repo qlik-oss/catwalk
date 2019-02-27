@@ -43,6 +43,8 @@ export default function App() {
     if (reloadInProgress) {
       return reloadSplasher;
     }
+  }
+  if (!app) {
     return (
       <Splash
         docs={docs}
