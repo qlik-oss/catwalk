@@ -52,13 +52,15 @@ export default function App() {
     );
   }
   let cubes;
+  let guide;
   if (app) {
     cubes = <Cubes app={app} closeOnClickOutside={() => !guideRef.current.isGuideRunning()} />;
+    guide = <Guide ref={guideRef} />;
   }
   return (
     <AppContext.Provider value={app}>
       <div className="app">
-        <Guide ref={guideRef} />
+        {guide}
         <TopBar app={app} appLayout={appLayout} startGuide={() => guideRef.current.startGuideFunc()} />
         <Model app={app} appLayout={appLayout} />
         {cubes}
