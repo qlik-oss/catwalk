@@ -42,7 +42,7 @@ export default function App() {
   if (!appLayout && reloadInProgress) {
     return reloadSplasher;
   }
-  if (!app && appState !== 'pending') {
+  if (!global || (!app && appState !== 'pending')) {
     return (
       <Splash
         docs={docs}

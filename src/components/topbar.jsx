@@ -18,7 +18,6 @@ import '../assets/ReactContexify.min.css';
 import './topbar.pcss';
 
 export default function TopBar({ app, appLayout, startGuide }) {
-  const lastReloadTime = appLayout ? appLayout.qLastReloadTime : '';
   const chooseApp = () => {
     const URLobject = new URL(window.location.href);
     window.location.assign(`${URLobject.protocol}//${window.location.host}`);
@@ -37,8 +36,12 @@ export default function TopBar({ app, appLayout, startGuide }) {
     </Menu>
   );
   let selections;
+  let reloaded;
   if (app) {
     selections = <Selections app={app} />;
+    if (appLayout) {
+      reloaded = <ReloadTime lastReloadTime={appLayout.qLastReloadTime} className="reloaded" />;
+    }
   }
   return (
     <div className="topbar">
@@ -46,7 +49,7 @@ export default function TopBar({ app, appLayout, startGuide }) {
         <SVGInline className="logo" svg={logo} />
       </div>
       {selections}
-      <ReloadTime lastReloadTime={lastReloadTime} className="reloaded" />
+      {reloaded}
       <MenuProvider id="menu_id" event="onClick" className="menu-provider">
         <div>
           <SVGInline className="more-icon" svg={moreHorizontalOutline} />

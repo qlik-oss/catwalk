@@ -8,7 +8,7 @@ import ScrollArea from './scroll-area';
 import TableField from './table-field';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
-import catwalkAway from '../assets/catwalk-away.svg';
+import loading from '../assets/catwalk-loading.svg';
 
 import { getExtraInfoForField, getAssosicationTooltip, getTableTooltip } from './tooltip';
 
@@ -35,7 +35,7 @@ export default function Model({ app, appLayout }) {
   if (!appLayout) {
     return (
       <div className="center-content">
-        <SVGInline className="loading" svg={catwalkAway} />
+        <SVGInline className="loading" svg={loading} />
       </div>
     );
   }
