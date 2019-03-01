@@ -1,6 +1,7 @@
 .topbar {
   align-items: center;
   align-self: flex-start;
+  animation: appear 1s ease-in;
   background: #fff;
   border-bottom: 1px solid #d9d9d9;
   display: flex;
@@ -9,6 +10,11 @@
   height: 7em;
   position: relative;
   width: 100%;
+
+  @keyframes appear {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
   .reloaded {
     align-self: center;

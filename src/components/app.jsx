@@ -9,6 +9,7 @@ import Model from './model';
 import Splash from './splash';
 import Cubes from './cubes';
 import Guide from './guide';
+import Loading from './loading';
 
 import { useReloadInProgress } from '../enigma/reload-in-progress-interceptor';
 import './app.pcss';
@@ -22,7 +23,7 @@ const useDocList = (global, fetchList) => usePromise(() => (fetchList ? global.g
 
 export default function App() {
   const session = useMemo(() => enigma.create(config), [false]);
-  const [global, socketError] = useGlobal(session);
+  const [global, socketError, socketState] = useGlobal(session);
   const [app, appError, appState] = useApp(global);
   const [docs, docsError] = useDocList(global, appError && global);
   const appLayout = useLayout(app);
@@ -42,6 +43,13 @@ export default function App() {
   if (!appLayout && reloadInProgress) {
     return reloadSplasher;
   }
+
+  if (socketState === 'pending') {
+    return (
+      <Loading />
+    );
+  }
+
   if (!global || (!app && appState !== 'pending')) {
     return (
       <Splash
