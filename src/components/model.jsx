@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import usePromise from 'react-use-promise';
 import ReactFloater from 'react-floater';
+
 import ScrollArea from './scroll-area';
 import TableField from './table-field';
+import Loading from './loading';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
 
@@ -29,6 +31,11 @@ function useTablesAndKeys(app, appLayout) {
 }
 
 export default function Model({ app, appLayout }) {
+  if (!appLayout) {
+    return (
+      <Loading />
+    );
+  }
   const tablesAndKeys = useTablesAndKeys(app, appLayout);
   const [openBoxes, setOpenBoxes] = useState({});
   const [queryModel, setQueryModel] = useState(null);
@@ -323,7 +330,12 @@ export default function Model({ app, appLayout }) {
   );
 }
 
+Model.defaultProps = {
+  app: null,
+  appLayout: null,
+};
+
 Model.propTypes = {
-  app: PropTypes.object.isRequired,
-  appLayout: PropTypes.object.isRequired,
+  app: PropTypes.object,
+  appLayout: PropTypes.object,
 };

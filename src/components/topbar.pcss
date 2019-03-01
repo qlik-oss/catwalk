@@ -1,6 +1,7 @@
 .topbar {
   align-items: center;
   align-self: flex-start;
+  animation: appear 1s ease-in;
   background: #fff;
   border-bottom: 1px solid #d9d9d9;
   display: flex;
@@ -10,9 +11,15 @@
   position: relative;
   width: 100%;
 
+  @keyframes appear {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
   .reloaded {
     align-self: center;
     font-size: 1.5em;
+    margin-left: auto;
     margin-right: 2em;
     min-width: 100px;
   }
@@ -43,7 +50,7 @@
 }
 
 .menu-provider {
-  margin-left: 2em;
+  margin-left: auto;
   margin-right: 4em;
   min-width: 26px;
   width: 4em;

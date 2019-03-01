@@ -9,6 +9,7 @@ import Model from './model';
 import Splash from './splash';
 import Cubes from './cubes';
 import Guide from './guide';
+import Loading from './loading';
 
 import { useReloadInProgress } from '../enigma/reload-in-progress-interceptor';
 import './app.pcss';
@@ -22,8 +23,8 @@ const useDocList = (global, fetchList) => usePromise(() => (fetchList ? global.g
 
 export default function App() {
   const session = useMemo(() => enigma.create(config), [false]);
-  const [global, socketError] = useGlobal(session);
-  const [app, appError] = useApp(global);
+  const [global, socketError, socketState] = useGlobal(session);
+  const [app, appError, appState] = useApp(global);
   const [docs, docsError] = useDocList(global, appError && global);
   const appLayout = useLayout(app);
   const guideRef = useRef();
@@ -39,10 +40,17 @@ export default function App() {
     reloadSplasher = <div className="reload-splasher"><div className="reload-label">Reload in progress</div></div>;
   }
 
-  if (!appLayout) {
-    if (reloadInProgress) {
-      return reloadSplasher;
-    }
+  if (!appLayout && reloadInProgress) {
+    return reloadSplasher;
+  }
+
+  if (socketState === 'pending') {
+    return (
+      <Loading />
+    );
+  }
+
+  if (!global || (!app && appState !== 'pending')) {
     return (
       <Splash
         docs={docs}
@@ -51,14 +59,19 @@ export default function App() {
       />
     );
   }
-
+  let cubes;
+  let guide;
+  if (app) {
+    cubes = <Cubes app={app} closeOnClickOutside={() => !guideRef.current.isGuideRunning()} />;
+    guide = <Guide ref={guideRef} />;
+  }
   return (
     <AppContext.Provider value={app}>
       <div className="app">
-        <Guide ref={guideRef} />
+        {guide}
         <TopBar app={app} appLayout={appLayout} startGuide={() => guideRef.current.startGuideFunc()} />
         <Model app={app} appLayout={appLayout} />
-        <Cubes app={app} closeOnClickOutside={() => !guideRef.current.isGuideRunning()} />
+        {cubes}
       </div>
       {reloadSplasher}
     </AppContext.Provider>
