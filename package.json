@@ -69,6 +69,6 @@
     "react-test-renderer": "16.8.3",
     "stylelint": "9.10.1",
     "stylelint-config-standard": "18.2.0",
-    "stylelint-order": "2.0.0"
+    "stylelint-order": "2.1.0"
   }
 }
