@@ -13,12 +13,21 @@ For catwalk to work there are two things needed:
 2. A Qlik Associative Engine app
 
 ## 1. UI
-The UI can either be runned locally using
+
+## Hosted
+
+You can use catwalk from [catwalk.core.qlik.com](https://catwalk.core.qlik.com), it will have the latest master build deployed and can also be used against an local Qlik Associative Engine.
+
+## Local
+
+If you want to run/develop the UI locally, you need [Node.js](https://nodejs.org/en/) installed. Then run these commands in Git Bash/command prompt/terminal and follow the instructions on your screen:
+
 ```bash
+git clone https://github.com/qlik-oss/catwalk.git
+cd catwalk
 npm install
 npm start
 ```
-Or through the Qlik hosted [catwalk UI](https://catwalk.core.qlik.com) that will have the latest master build deployed and can also be used against an local Qlik Associative Engine.
 
 ## 2. Qlik Associative Engine
 You need to provide catwalk with a websocket URL to the app.  
