@@ -55,6 +55,7 @@ exports[`'should display cookie if not set' 1`] = `
         "borderRadius": "0px",
         "boxShadow": "none",
         "color": "#fff",
+        "cursor": "pointer",
         "flex": "0 0 auto",
         "fontSize": "2rem",
         "margin": "15px",
@@ -66,5 +67,3 @@ exports[`'should display cookie if not set' 1`] = `
   </button>
 </div>
 `;
-
-exports[`'should return ´null´ if GA not set' 1`] = `null`;
