@@ -1,8 +1,15 @@
 /* eslint-disable no-labels,  no-unused-labels, no-restricted-syntax */
 javascript: (function bookmark() {
   const getAppId = (location) => {
-    const prefix = '/sense/app/';
-    let start = location.pathname.indexOf(prefix);
+    var prefix = '';
+    let start = -1;
+    for (let p of ['/sense/app/', '/dataloadeditor/app/', '/datamodelviewer/app/']) {
+      start = location.pathname.indexOf(p);
+      if (start > -1) {
+        prefix = p;
+        break;
+      }
+    }
     if (start === -1) return undefined;
     start += prefix.length;
     const end = location.pathname.indexOf('/', start);
