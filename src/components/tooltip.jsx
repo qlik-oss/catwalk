@@ -22,7 +22,7 @@ export function getTooltipForSubsetRatio(field) {
           {'The remaining '}
           {field.qnTotalDistinctValues - field.qnPresentDistinctValues}
           {' values only exist in other tables ('}
-          <i>{field.otherTables.join('')}</i>
+          <i>{field.otherTables.join(', ')}</i>
           {').'}
         </p>
         <p>
