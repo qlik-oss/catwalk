@@ -57,7 +57,7 @@ function toSubsetRatioText(qSubsetRatio) {
 function toSubsetRatioTitle(field) {
   const subsetratioText = toSubsetRatioText(field.qSubsetRatio);
   if (!!field.qnPresentDistinctValues && !!field.qnTotalDistinctValues && field.qnPresentDistinctValues < field.qnTotalDistinctValues) {
-    return `${subsetratioText} subset ratio\n\n${field.qnPresentDistinctValues} out of ${field.qnTotalDistinctValues} ${field.qName} values are present in the ${field.srcTable.qName} table.\nThe remaining ${field.qnTotalDistinctValues - field.qnPresentDistinctValues} values only exist in other tables (${field.otherTables.join('')}) \n\nNote that when interacting with a field - all values are shown - not only the ones that are present in the underlying table.`;
+    return `${subsetratioText} subset ratio\n\n${field.qnPresentDistinctValues} out of ${field.qnTotalDistinctValues} ${field.qName} values are present in the ${field.srcTable.qName} table.\nThe remaining ${field.qnTotalDistinctValues - field.qnPresentDistinctValues} values only exist in other tables (${field.otherTables.join(', ')})\n\nNote that when interacting with a field - all values are shown - not only the ones that are present in the underlying table.`;
   }
   return '';
 }
