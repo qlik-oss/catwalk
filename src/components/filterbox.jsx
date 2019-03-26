@@ -98,10 +98,7 @@ function noRowsRenderer() {
 function useSelections(model, layout, selfRef) {
   const ongoingSelections = useRef(false);
   const forceUpdate = useForce();
-  let toggleMode = true;
-  if (layout.qListObject.qDimensionInfo.qIsOneAndOnlyOne) {
-    toggleMode = false;
-  }
+  const toggleMode = !layout.qListObject.qDimensionInfo.qIsOneAndOnlyOne;
 
   const onRowClick = async ({ rowData }) => {
     if (rowData) {
