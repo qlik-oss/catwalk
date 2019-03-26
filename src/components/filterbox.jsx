@@ -98,6 +98,7 @@ function noRowsRenderer() {
 function useSelections(model, layout, selfRef) {
   const ongoingSelections = useRef(false);
   const forceUpdate = useForce();
+  const toggleMode = !layout.qListObject.qDimensionInfo.qIsOneAndOnlyOne;
 
   const onRowClick = async ({ rowData }) => {
     if (rowData) {
@@ -127,11 +128,11 @@ function useSelections(model, layout, selfRef) {
           ReactDOM.unstable_batchedUpdates(() => {
             model.session.app.abortModal(true);
             model.beginSelections(['/qListObjectDef']);
-            model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], true);
+            model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], toggleMode);
           });
         });
       }
-      model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], true).catch(() => {
+      model.selectListObjectValues('/qListObjectDef', [rowData[0].qElemNumber], toggleMode).catch(() => {
       // If the object (model) is already in modal state, the call to selectListObjectValues will return
       // an error. The call to selectListObjectValues will be retried in the batchedUpdates call (a couple
       // of lines above).

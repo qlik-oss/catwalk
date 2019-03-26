@@ -35,8 +35,8 @@ export default function Field({
   const states = layout.qListObject.qDimensionInfo.qStateCounts;
   const green = { width: `${Math.ceil((states.qSelected / total) * 100)}%` };
   const grey = { width: `${Math.ceil((states.qExcluded / total) * 100)}%` };
-
-  const clearSelection = onClearSelection !== null
+  const showClearSelection = onClearSelection !== null && !layout.qListObject.qDimensionInfo.qIsOneAndOnlyOne;
+  const clearSelection = showClearSelection
     ? (
       <SVGInline {...clearButton} onClick={(event) => { onClearSelection(event, field); }} />
     ) : null;

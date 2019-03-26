@@ -1,9 +1,9 @@
 /* eslint-disable no-labels,  no-unused-labels, no-restricted-syntax */
 javascript: (function bookmark() {
   const getAppId = (location) => {
-    var prefix = '';
+    let prefix = '';
     let start = -1;
-    for (let p of ['/sense/app/', '/dataloadeditor/app/', '/datamodelviewer/app/']) {
+    for (const p of ['/sense/app/', '/dataloadeditor/app/', '/datamodelviewer/app/']) {
       start = location.pathname.indexOf(p);
       if (start > -1) {
         prefix = p;
