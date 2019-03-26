@@ -7,4 +7,5 @@ module.exports = {
     height: 1080,
   },
   'mocha.bail': false,
+  'mocha.timeout': 0,
 };
