@@ -23,6 +23,7 @@ describe('usage', () => {
     // Show the extra information box
     await page.click('.SVGInline.extra-information-icon');
     await page.waitForSelector('h2');
+    await page.waitFor(200);
     img = await page.screenshot({ fullPage: true });
     await expect(img).to.matchImageOf('extra-information-box', OPTS);
 
