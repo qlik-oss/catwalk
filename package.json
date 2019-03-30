@@ -26,9 +26,9 @@
   "dependencies": {
     "enigma.js": "2.4.0",
     "prop-types": "15.7.2",
-    "react": "16.8.5",
+    "react": "16.8.6",
     "react-cookie-consent": "2.2.2",
-    "react-dom": "16.8.5",
+    "react-dom": "16.8.6",
     "react-ga": "2.5.7",
     "react-joyride": "2.0.5",
     "react-outside-click-handler": "1.2.3",
@@ -66,7 +66,7 @@
     "parcel-plugin-inlinesvg": "0.1.1",
     "postcss-nested": "4.1.2",
     "raf": "3.4.1",
-    "react-test-renderer": "16.8.5",
+    "react-test-renderer": "16.8.6",
     "stylelint": "9.10.1",
     "stylelint-config-standard": "18.2.0",
     "stylelint-order": "2.1.0"
