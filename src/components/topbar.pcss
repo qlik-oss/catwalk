@@ -19,7 +19,7 @@
   .reloaded {
     align-self: center;
     font-size: 1.5em;
-    margin-left: auto;
+    margin-left: 2em;
     margin-right: 2em;
     min-width: 100px;
   }
@@ -29,6 +29,27 @@
     cursor: pointer;
     margin-left: 2em;
     width: 16em;
+  }
+
+  .star {
+    cursor: pointer;
+  }
+
+  .star-svg {
+    width: 3em;
+
+    &:hover {
+      animation-duration: 1s;
+      animation-fill-mode: both;
+      animation-name: pulse; 
+    }
+  }
+  .unstarred-svg {
+    fill: #a7b4cc;
+  }
+
+  .starred-svg {
+    fill: #fade5e;
   }
 }
 
@@ -54,4 +75,16 @@
   margin-right: 4em;
   min-width: 26px;
   width: 4em;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+  50% {
+    transform: scale3d(1.2, 1.2, 1.2);
+  }
+  to {
+    transform: scale3d(1, 1, 1);
+  }
 }

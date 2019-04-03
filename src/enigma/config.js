@@ -7,9 +7,21 @@ import { reloadInProgressInterceptor } from './reload-in-progress-interceptor';
 
 const ERR_ABORTED = 15;
 
+// prio 1. Use engineUrl, if any
+let engineUrl = new URLSearchParams(document.location.search).get('engine_url');
+if (!engineUrl) {
+  // prio 2. Is websocketUrl stored in localstorage?
+  const storedWSUrl = localStorage.getItem('websocketUrl');
+  if (storedWSUrl) {
+    engineUrl = storedWSUrl;
+  } else {
+    // last call, use default apps.core.qlik.com
+    engineUrl = 'wss://apps.core.qlik.com/app/doc/e9d5d8ce-5f17-4976-9da4-c67eb4efe805';
+  }
+}
 const config = {
   schema,
-  url: new URLSearchParams(document.location.search).get('engine_url') || `ws://localhost:9076/app/${+new Date()}`,
+  url: engineUrl,
   createSocket: url => new WebSocket(url),
   mixins: [listCache, ...layoutCache, getDoc],
   responseInterceptors: [reloadInProgressInterceptor, {
