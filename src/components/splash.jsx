@@ -5,6 +5,7 @@ import SVGInline from 'react-svg-inline';
 import CatWithBubble from './cat-with-bubble';
 import logo from '../assets/catwalk.svg';
 import catwalkAway from '../assets/catwalk-away.svg';
+import demoApp from '../demo-app';
 
 import './splash.pcss';
 
@@ -99,7 +100,7 @@ export default function Splash({
   const speechBubbleClick = () => {
     if (window.location) {
       const URLobject = new URL(window.location.href);
-      window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=wss://apps.core.qlik.com/app/doc/e9d5d8ce-5f17-4976-9da4-c67eb4efe805`);
+      window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=${demoApp}`);
     }
   };
 

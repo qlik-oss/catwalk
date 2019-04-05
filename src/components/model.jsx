@@ -9,6 +9,7 @@ import Loading from './loading';
 import CatWithBubble from './cat-with-bubble';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
+import demoApp from '../demo-app';
 
 import { getExtraInfoForField, getAssosicationTooltip, getTableTooltip } from './tooltip';
 
@@ -318,7 +319,7 @@ export default function Model({ app, appLayout }) {
       window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=`);
     }
   };
-  const catWithBubble = appLayout.qFileName === '/doc/e9d5d8ce-5f17-4976-9da4-c67eb4efe805'
+  const catWithBubble = demoApp.includes(appLayout.qFileName)
     ? (
       <CatWithBubble
         text="Note that this is a demo app. If you want to connect to your own engine

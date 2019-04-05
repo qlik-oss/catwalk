@@ -4,6 +4,7 @@ import listCache from './list-cache';
 import layoutCache from './layout-cache';
 import getDoc from './get-doc';
 import { reloadInProgressInterceptor } from './reload-in-progress-interceptor';
+import demoApp from '../demo-app';
 
 const ERR_ABORTED = 15;
 
@@ -17,7 +18,7 @@ if (!engineUrl && engineUrl !== '') {
     engineUrl = storedWSUrl;
   } else {
     // last call, use default apps.core.qlik.com
-    engineUrl = 'wss://apps.core.qlik.com/app/doc/e9d5d8ce-5f17-4976-9da4-c67eb4efe805';
+    engineUrl = demoApp;
   }
 }
 const config = {
