@@ -9,10 +9,11 @@ import './cat-with-bubble.pcss';
 export default function CatWithBubble({ text, onClick, width }) {
   const [show, setShow] = useState(true);
   const [totalWidth, setTotalWidth] = useState(null);
-  const parentElement = useRef(null);
   const bubbleElement = useRef(null);
   useEffect(() => {
-    setTotalWidth({ width: `${bubbleElement.current.getBoundingClientRect().right}px` });
+    if (bubbleElement && bubbleElement.current) {
+      setTotalWidth({ width: `${bubbleElement.current.getBoundingClientRect().right}px` });
+    }
   }, []);
 
   const hide = () => {
@@ -21,7 +22,7 @@ export default function CatWithBubble({ text, onClick, width }) {
 
   if (show) {
     return (
-      <div className="cat-with-bubble" ref={parentElement} style={totalWidth}>
+      <div className="cat-with-bubble" style={totalWidth}>
         <SVGInline className="close-me" svg={close} onClick={() => hide()} title="Hide cat" />
         <SVGInline className="cat" svg={cat} />
         <p className="bubble" onClick={onClick} style={{ width: `${width}` }} ref={bubbleElement}>
