@@ -117,7 +117,7 @@ export default function Splash({
         <CatWithBubble
           text="Click my speech bubble to open the demo app."
           onClick={speechBubbleClick}
-          width="5em"
+          width="7em"
         />
       </React.Fragment>
     );

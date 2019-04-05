@@ -1,19 +1,36 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
 import cat from '../assets/peeking.svg';
+import close from '../assets/close-outline.svg';
 
 import './cat-with-bubble.pcss';
 
 export default function CatWithBubble({ text, onClick, width }) {
-  return (
-    <div>
-      <SVGInline className="cat" svg={cat} />
-      <p className="bubble" onClick={onClick} style={{ width: `${width}` }}>
-        {text}
-      </p>
-    </div>
-  );
+  const [show, setShow] = useState(true);
+  const [totalWidth, setTotalWidth] = useState(null);
+  const parentElement = useRef(null);
+  const bubbleElement = useRef(null);
+  useEffect(() => {
+    setTotalWidth({ width: `${bubbleElement.current.getBoundingClientRect().right}px` });
+  }, []);
+
+  const hide = () => {
+    setShow(false);
+  };
+
+  if (show) {
+    return (
+      <div className="cat-with-bubble" ref={parentElement} style={totalWidth}>
+        <SVGInline className="close-me" svg={close} onClick={() => hide()} title="Hide cat" />
+        <SVGInline className="cat" svg={cat} />
+        <p className="bubble" onClick={onClick} style={{ width: `${width}` }} ref={bubbleElement}>
+          {text}
+        </p>
+      </div>
+    );
+  }
+  return null;
 }
 
 CatWithBubble.defaultProps = {
