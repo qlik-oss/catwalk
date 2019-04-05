@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
 
+import CatWithBubble from './cat-with-bubble';
 import logo from '../assets/catwalk.svg';
 import catwalkAway from '../assets/catwalk-away.svg';
 
@@ -71,10 +72,17 @@ export default function Splash({
         {form}
       </div>
     );
-  } else if (!engineURL || (error && error.target && error.target.constructor.name === 'WebSocket')) {
+  } else if (error && error.target && error.target.constructor.name === 'WebSocket') {
     content = (
       <div>
         <p>WebSocket connection failed. Please pass in a valid WebSocket URL below:</p>
+        {form}
+      </div>
+    );
+  } else if (!engineURL) {
+    content = (
+      <div>
+        <p>Please enter a valid WebSocket URL below:</p>
         {form}
       </div>
     );
@@ -88,15 +96,29 @@ export default function Splash({
     );
   }
 
+  const speechBubbleClick = () => {
+    if (window.location) {
+      const URLobject = new URL(window.location.href);
+      window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=wss://apps.core.qlik.com/app/doc/e9d5d8ce-5f17-4976-9da4-c67eb4efe805`);
+    }
+  };
+
   if (content) {
     return (
-      <div className="center-content">
-        <div className="splash">
-          <SVGInline {...contentLogo} />
-          <h3>Sets the stage for your Qlik data models</h3>
-          {content}
+      <React.Fragment>
+        <div className="center-content">
+          <div className="splash">
+            <SVGInline {...contentLogo} />
+            <h3>Sets the stage for your Qlik data models</h3>
+            {content}
+          </div>
         </div>
-      </div>
+        <CatWithBubble
+          text="Click my speech bubble to open the demo app."
+          onClick={speechBubbleClick}
+          width="5em"
+        />
+      </React.Fragment>
     );
   }
 

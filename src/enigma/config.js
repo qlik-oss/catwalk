@@ -7,9 +7,10 @@ import { reloadInProgressInterceptor } from './reload-in-progress-interceptor';
 
 const ERR_ABORTED = 15;
 
-// prio 1. Use engineUrl, if any
+// prio 1. Use engine_url, if any
 let engineUrl = new URLSearchParams(document.location.search).get('engine_url');
-if (!engineUrl) {
+// if the engine_url is there, but empty, show field to enter ws.
+if (!engineUrl && engineUrl !== '') {
   // prio 2. Is websocketUrl stored in localstorage?
   const storedWSUrl = localStorage.getItem('websocketUrl');
   if (storedWSUrl) {

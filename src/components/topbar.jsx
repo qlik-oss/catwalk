@@ -44,10 +44,12 @@ export default function TopBar({ app, appLayout, startGuide }) {
   );
   let selections;
   let reloaded;
+  let star;
   if (app) {
     selections = <Selections app={app} />;
     if (appLayout) {
       reloaded = <ReloadTime lastReloadTime={appLayout.qLastReloadTime} className="reloaded" />;
+      star = <Star />;
     }
   }
   return (
@@ -56,7 +58,7 @@ export default function TopBar({ app, appLayout, startGuide }) {
         <SVGInline className="logo" svg={logo} />
       </div>
       {selections}
-      <Star />
+      {star}
       {reloaded}
       <MenuProvider id="menu_id" event="onClick" className="menu-provider">
         <div>

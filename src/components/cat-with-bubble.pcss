@@ -1,0 +1,33 @@
+.cat-svg {
+  bottom: 2em;
+  position: absolute;
+  width: 20em;
+  z-index: 10;
+}
+
+.bubble {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  bottom: 3em;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.3), 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-size: 2em;
+  left: 10em;
+  padding: 1.125em 1.5em;
+  position: absolute;
+  z-index: 10;
+}
+
+.bubble::before {
+  border: 1.5rem solid transparent;
+  border-bottom-color: #fff;
+  border-top: none;
+  bottom: 1em;
+  content: '';
+  filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, 0.1));
+  height: 0;
+  left: -1em;
+  position: absolute;
+  transform: rotate(-90deg);
+  width: 0;
+}

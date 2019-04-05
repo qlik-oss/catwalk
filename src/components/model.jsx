@@ -6,6 +6,7 @@ import ReactFloater from 'react-floater';
 import ScrollArea from './scroll-area';
 import TableField from './table-field';
 import Loading from './loading';
+import CatWithBubble from './cat-with-bubble';
 import logic from '../logic/logic';
 import atplay from '../logic/atplay';
 
@@ -311,6 +312,20 @@ export default function Model({ app, appLayout }) {
     );
   });
 
+  const speechBubbleClick = () => {
+    if (window.location) {
+      const URLobject = new URL(window.location.href);
+      window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=`);
+    }
+  };
+  const catWithBubble = appLayout.qFileName === '/doc/e9d5d8ce-5f17-4976-9da4-c67eb4efe805'
+    ? (
+      <CatWithBubble
+        text="Note that this is a demo app. If you want to connect to your own engine
+        running your own apps, click my speech bubble, and enter the websocket URL."
+        onClick={speechBubbleClick}
+      />
+    ) : null;
   return (
     <React.Fragment>
       <ScrollArea className="scrollArea" height="100%" width="100%">
@@ -321,6 +336,7 @@ export default function Model({ app, appLayout }) {
             role="tablist"
             tabIndex={-1}
           >
+            {catWithBubble}
             {gridz}
           </div>
         </div>
