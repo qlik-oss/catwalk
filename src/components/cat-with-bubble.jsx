@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
-import cat from '../assets/peeking.svg';
+import cat from '../assets/peekaboocat.svg';
 import close from '../assets/close-outline.svg';
 
 import './cat-with-bubble.pcss';
