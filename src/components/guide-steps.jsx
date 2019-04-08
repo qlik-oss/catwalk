@@ -41,6 +41,27 @@ const steps = [
   {
     content: (
       <div>
+        <p>
+          This marks the currently connected websocket as default, which means that the next
+          time you enter catwalk, you will be connected to your websocket without having to
+          enter
+          {' '}
+          <code>engine_url</code>
+          {' '}
+          in the url.
+        </p>
+        <p>
+          To remove the currently connected websocket as default, just click to unstar.
+        </p>
+      </div>
+    ),
+    placement: 'bottom',
+    target: '.star',
+    title: 'Star the connected websocket',
+  },
+  {
+    content: (
+      <div>
         <p>The highlighted area represents a table in the data model.</p>
         <p>On the top we can see the table name, together with the number of rows in the table.</p>
         <p>Clicking the table header will reorder the tables, the clicked table will be sorted as the leftmost table.</p>

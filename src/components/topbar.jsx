@@ -8,6 +8,7 @@ import {
   animation,
   Separator,
 } from 'react-contexify';
+import Star from './star';
 
 import Selections from './selections';
 import ReloadTime from './reload-time';
@@ -19,8 +20,14 @@ import './topbar.pcss';
 
 export default function TopBar({ app, appLayout, startGuide }) {
   const chooseApp = () => {
+    // we need to add connected ws, if any.
+    const engineUrl = new URLSearchParams(document.location.search).get('engine_url');
+    let wsUrl = '';
+    if (engineUrl) {
+      wsUrl = new URL(engineUrl).origin;
+    }
     const URLobject = new URL(window.location.href);
-    window.location.assign(`${URLobject.protocol}//${window.location.host}`);
+    window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=${wsUrl}`);
   };
   const goToGithub = () => {
     window.open('https://github.com/qlik-oss/catwalk');
@@ -37,10 +44,12 @@ export default function TopBar({ app, appLayout, startGuide }) {
   );
   let selections;
   let reloaded;
+  let star;
   if (app) {
     selections = <Selections app={app} />;
     if (appLayout) {
       reloaded = <ReloadTime lastReloadTime={appLayout.qLastReloadTime} className="reloaded" />;
+      star = <Star />;
     }
   }
   return (
@@ -49,6 +58,7 @@ export default function TopBar({ app, appLayout, startGuide }) {
         <SVGInline className="logo" svg={logo} />
       </div>
       {selections}
+      {star}
       {reloaded}
       <MenuProvider id="menu_id" event="onClick" className="menu-provider">
         <div>

@@ -27,16 +27,16 @@
     "enigma.js": "2.4.0",
     "prop-types": "15.7.2",
     "react": "16.8.6",
+    "react-contexify": "4.0.2",
     "react-cookie-consent": "2.2.2",
     "react-dom": "16.8.6",
+    "react-floater": "0.6.4",
     "react-ga": "2.5.7",
     "react-joyride": "2.0.5",
     "react-outside-click-handler": "1.2.3",
     "react-svg-inline": "2.1.1",
     "react-use-promise": "0.2.0",
-    "react-virtualized": "9.21.0",
-    "react-floater": "0.6.4",
-    "react-contexify": "4.0.2"
+    "react-virtualized": "9.21.0"
   },
   "devDependencies": {
     "@after-work.js/cli": "6.0.3",
