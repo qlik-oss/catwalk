@@ -1,6 +1,10 @@
 import React from 'react';
 /* eslint-disable react/jsx-one-expression-per-line */
 
+function getComment(item) {
+  return item.qComment ? `\n\n${item.qComment}` : '';
+}
+
 export function getTooltipForSubsetRatio(field) {
   if (!!field.qnPresentDistinctValues && !!field.qnTotalDistinctValues && field.qnPresentDistinctValues < field.qnTotalDistinctValues) {
     return (
@@ -111,6 +115,7 @@ export function getExtraInfoForField(fieldData) {
     <div className="tooltip">
       <div>
         <h2>Field {fieldData.qName} <br /> in table {fieldData.srcTable.qName}</h2>
+        <p>{getComment(fieldData)}</p>
         <table>
           <tbody>
             <tr />
@@ -219,7 +224,7 @@ export function getTooltipForField(fieldData, layout) {
   } else {
     descriptions += ', no nulls.';
   }
-  return `Field ${fieldData.qName}\n\n${fieldData.qnTotalDistinctValues} unique values (of which only ${fieldData.qnPresentDistinctValues} are present in the ${fieldData.srcTable.qName} table).\n\n${descriptions}\n\n${firstFewValues(layout)}`;
+  return `Field ${fieldData.qName}${getComment(fieldData)}\n\n${fieldData.qnTotalDistinctValues} unique values (of which only ${fieldData.qnPresentDistinctValues} are present in the ${fieldData.srcTable.qName} table).\n\n${descriptions}\n\n${firstFewValues(layout)}`;
 }
 
 export function getSelectionBarTooltip(fieldData, layout) {
@@ -241,5 +246,5 @@ export function getAssosicationTooltip(fieldName) {
 }
 
 export function getTableTooltip(table) {
-  return `Table ${table.qName}\n\nRow count: ${table.qNoOfRows}\n\nFields: ${reduceWithAnd(table.qFields.map(item => item.qName), 5)}`;
+  return `Table ${table.qName}${getComment(table)}\n\nRow count: ${table.qNoOfRows}\n\nFields: ${reduceWithAnd(table.qFields.map(item => item.qName), 5)}`;
 }
