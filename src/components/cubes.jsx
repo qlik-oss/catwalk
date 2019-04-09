@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
 import Cube from './cube';
 import close from '../assets/close-outline.svg';
+import copy from '../assets/copy-outline.svg';
 
 import useColumnOptions from './use/column-options';
 import CubeColumnChooser from './cube-column-chooser';
@@ -15,6 +16,7 @@ export function Cubes({ app, closeOnClickOutside }) {
   const [cubeList, setCubeList] = useState([]);
   const forceUpdate = useForce();
   const addButtonRef = useRef(null);
+  const cubeRef = useRef(null);
 
   const selectableColumns = useColumnOptions(app);
   const addOpen = useRef(false); // Start with add dialog open
@@ -43,14 +45,21 @@ export function Cubes({ app, closeOnClickOutside }) {
     forceUpdate();
   }
 
+  function copyToClipboard() {
+    if (cubeRef && cubeRef.current) {
+      cubeRef.current.copyToClipboard();
+    }
+  }
+
   const popup = addOpen.current ? <CubeColumnChooser arrowStyle="arrowRight" alignTo={addButtonRef.current} selectableColumns={selectableColumns} chooseColumn={column => addCube(column)} closeOnClickOutside={closeOnClickOutside} /> : null;
   const cubeDivs = cubeList.map(cube => (
     <div key={cube.id} className="card">
       <div className="top-bar">
         <div className="title">HYPERCUBE</div>
+        <SVGInline className="copy" svg={copy} onClick={() => copyToClipboard(cube)} title="Copy hypercube def to clipboard" />
         <SVGInline {...closeButton} onClick={() => removeCube(cube.id)} />
       </div>
-      <Cube app={app} tableData={cube} closeOnClickOutside={closeOnClickOutside} />
+      <Cube ref={cubeRef} app={app} tableData={cube} closeOnClickOutside={closeOnClickOutside} />
     </div>
   ));
   return (
