@@ -28,7 +28,7 @@
     "prop-types": "15.7.2",
     "react": "16.8.6",
     "react-contexify": "4.1.0",
-    "react-cookie-consent": "2.2.2",
+    "react-cookie-consent": "2.3.0",
     "react-dom": "16.8.6",
     "react-floater": "0.6.4",
     "react-ga": "2.5.7",
