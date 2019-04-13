@@ -27,7 +27,7 @@
     "enigma.js": "2.4.0",
     "prop-types": "15.7.2",
     "react": "16.8.6",
-    "react-contexify": "4.0.2",
+    "react-contexify": "4.1.0",
     "react-cookie-consent": "2.2.2",
     "react-dom": "16.8.6",
     "react-floater": "0.6.4",
@@ -69,6 +69,6 @@
     "react-test-renderer": "16.8.6",
     "stylelint": "9.10.1",
     "stylelint-config-standard": "18.2.0",
-    "stylelint-order": "2.1.0"
+    "stylelint-order": "2.2.1"
   }
 }
