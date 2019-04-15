@@ -2,7 +2,7 @@ import React, { useMemo, useEffect, useRef } from 'react';
 import usePromise from 'react-use-promise';
 import enigma from 'enigma.js';
 
-import { InfoBoxProvider } from './useInfoBox';
+import { InfoBoxProvider } from './info-box';
 import config from '../enigma/config';
 import useLayout from './use/layout';
 import TopBar from './topbar';

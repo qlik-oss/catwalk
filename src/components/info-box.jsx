@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
 
-import alert from '../assets/alert-triangle-outline.svg';
+import success from '../assets/checkmark-circle-2-outline.svg';
+import warning from '../assets/alert-triangle-outline.svg';
 
 import './info-box.pcss';
 
@@ -12,15 +13,19 @@ const InfoBoxContainer = props => (
   <div {...props} />
 );
 
-const InfoBox = ({ children, visible }) => (
+const InfoBox = ({ children, alert, visible }) => (
   <div className={`info-box ${visible ? 'visible' : 'hidden'}`}>
-    <SVGInline className="alert" svg={alert} />
+    <SVGInline className={`alert ${alert}`} svg={alert === 'success' ? success : warning} />
     {children}
   </div>
 );
 
 InfoBox.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.node).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+  alert: PropTypes.string.isRequired,
   visible: PropTypes.bool,
 };
 
@@ -35,11 +40,17 @@ export function InfoBoxProvider({ children }) {
 
   useEffect(() => { clearTimeout(showTimer); clearTimeout(animateOutTimer); }, []);
 
-  const show = (text) => {
+  const show = (alert, text) => {
     const id = Math.random().toString(36).substr(2, 9);
-    setAnimateOutTimer(setTimeout(() => { setInfoBox({ content: text, id, visible: false }); }, 5000));
-    setShowTimer(setTimeout(() => { setInfoBox(null); }, 6000));
-    setInfoBox({ content: text, id, visible: true });
+    setAnimateOutTimer(setTimeout(() => {
+      setInfoBox({
+        content: text, id, alert, visible: false,
+      });
+    }, 4000));
+    setShowTimer(setTimeout(() => { setInfoBox(null); }, 5000));
+    setInfoBox({
+      content: text, id, alert, visible: true,
+    });
   };
 
   return (
@@ -48,8 +59,8 @@ export function InfoBoxProvider({ children }) {
       <InfoBoxContainer className="info-box-container">
         {infoBox
           ? (
-            <InfoBox key={infoBox.id} visible={infoBox.visible}>
-              {infoBox.content}
+            <InfoBox key={infoBox.id} alert={infoBox.alert} visible={infoBox.visible}>
+              <p>{infoBox.content}</p>
             </InfoBox>
           ) : null
         }

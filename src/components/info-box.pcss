@@ -15,8 +15,13 @@
   margin-right: auto;
   position: absolute;
   right: 0;
-  width: 30em;
+  max-width: 30em;
+  width: fit-content;
   z-index: 50;
+
+  p {
+    margin-right: 1.5em;
+  }
 }
 
 .visible {
@@ -31,10 +36,17 @@
 }
 
 .alert {
-  fill: red;
   padding-left: 1.5em;
-  padding-right: 1em;
+  padding-right: 0.5em;
   width: 1.5em;
+}
+
+.warning {
+  fill: red;
+}
+
+.success {
+  fill: green;
 }
 
 @keyframes box-in {

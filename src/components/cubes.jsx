@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
 import Cube from './cube';
-import { useInfoBox } from './useInfoBox';
+import { useInfoBox } from './info-box';
 import close from '../assets/close-outline.svg';
 import copy from '../assets/copy-outline.svg';
 import exportCube from '../assets/download-outline.svg';
@@ -55,6 +55,7 @@ export function Cubes({ app, closeOnClickOutside }) {
   function copyToClipboard(id) {
     if (refs.current && refs.current[id] && refs.current[id].current) {
       refs.current[id].current.copyToClipboard();
+      infoBox.show('success', 'The hypercube def was copied to clipboard.');
     }
   }
 
@@ -63,8 +64,9 @@ export function Cubes({ app, closeOnClickOutside }) {
       setSpinner(true);
       try {
         await refs.current[id].current.exportHypercube();
+        infoBox.show('success', 'The data was successfully exported.');
       } catch (error) {
-        infoBox.show('The data could not be exported. Check that you have permissions to export data.');
+        infoBox.show('warning', 'The data could not be exported. Check that you have permissions to export data.');
       }
       setSpinner(false);
     }
