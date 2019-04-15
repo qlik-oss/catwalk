@@ -51,6 +51,13 @@ export default function App() {
     );
   }
 
+  if (!new URLSearchParams(document.location.search).get('engine_url')) {
+    if (window.location) {
+      const URLobject = new URL(window.location.href);
+      window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=${config.url}`);
+    }
+  }
+
   if (!global || (!app && appState !== 'pending')) {
     return (
       <Splash
