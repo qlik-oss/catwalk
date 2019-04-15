@@ -12,6 +12,7 @@ import useColumnOptions from './use/column-options';
 import CubeColumnChooser from './cube-column-chooser';
 import HypercubeTable from './hypercube-table';
 import useForce from './use/force';
+import useModel from './use/model';
 
 import './cube.pcss';
 
@@ -24,6 +25,7 @@ const Cube = forwardRef(({ app, tableData: { initialColumns }, closeOnClickOutsi
   const columnToReplace = useRef(null);
   const addOpen = useRef(false);
   const forceUpdate = useForce();
+  let model = null;
   let hypercubeProps = null;
 
   // Any instance of the component is extended with what is returned from the
@@ -32,6 +34,22 @@ const Cube = forwardRef(({ app, tableData: { initialColumns }, closeOnClickOutsi
     copyToClipboard() {
       if (hypercubeProps) {
         copy(JSON.stringify(hypercubeProps));
+      }
+    },
+    async exportHypercube() {
+      if (model) {
+        const result = await model.exportData('OOXML', '/qHyperCubeDef');
+        const engineUrl = new URLSearchParams(document.location.search).get('engine_url');
+        if (engineUrl) {
+          const wsUrl = new URL(engineUrl);
+          const protocol = wsUrl.protocol === 'wss' ? 'https' : 'http';
+          const elem = document.createElement('a');
+          elem.href = `${protocol}://${wsUrl.host}${result.qUrl}`;
+          elem.target = '_blank';
+          document.body.appendChild(elem);
+          elem.click();
+          document.body.removeChild(elem);
+        }
       }
     },
   }));
@@ -111,6 +129,7 @@ const Cube = forwardRef(({ app, tableData: { initialColumns }, closeOnClickOutsi
   const measures = columns.filter(column => column.type === 'measure');
   const dimensions = columns.filter(column => column.type === 'dimension' || column.type === 'field');
   hypercubeProps = createProperties(dimensions, measures);
+  model = useModel(app, hypercubeProps);
 
   const isEmpty = measures.length + dimensions.length === 0;
   if (isEmpty && addOpen.current) {
@@ -123,7 +142,7 @@ const Cube = forwardRef(({ app, tableData: { initialColumns }, closeOnClickOutsi
         <div role="button" title="Add another column" tabIndex="-1" className={`column-add-button ${isEmpty ? 'empty' : ''}`} onClick={e => toggleAdd(e)}>
           <span className="text">+</span>
         </div>
-        {!isEmpty ? <HypercubeTable app={app} hypercubeProps={hypercubeProps} onHeaderClick={data => onHeaderClick(data)} dimensions={dimensions} measures={measures} height={28 * 8} maxWidth={100 * 8} /> : null}
+        {!isEmpty ? <HypercubeTable model={model} onHeaderClick={data => onHeaderClick(data)} dimensions={dimensions} measures={measures} height={28 * 8} maxWidth={100 * 8} /> : null}
       </div>
     </div>
   );

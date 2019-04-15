@@ -5,7 +5,6 @@ import { Column } from 'react-virtualized';
 import VirtualTable from './virtual-table';
 
 import './hypercube-table.pcss';
-import useModel from './use/model';
 import useLayout from './use/layout';
 
 function cellGetterForIndex(index) {
@@ -131,11 +130,10 @@ function getTotalTableWidth(layout, dimensions, measures) {
 }
 
 export default function HypercubeTable({
-  app, measures, dimensions, height, maxWidth, onHeaderClick, hypercubeProps,
+  model, measures, dimensions, height, maxWidth, onHeaderClick,
 }) {
-  const model = useModel(app, hypercubeProps);
   const layout = useLayout(model);
-  if (!model) {
+  if (!model || !layout) {
     return null;
   }
   const calculatedWidth = getTotalTableWidth(layout, dimensions, measures);
@@ -193,15 +191,13 @@ HypercubeTable.propTypes = {
   onHeaderClick: PropTypes.func,
   measures: PropTypes.arrayOf(PropTypes.object),
   dimensions: PropTypes.arrayOf(PropTypes.object),
-  app: PropTypes.object,
+  model: PropTypes.object,
   maxWidth: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  hypercubeProps: PropTypes.object,
 };
 HypercubeTable.defaultProps = {
   onHeaderClick: () => {},
   measures: [],
   dimensions: [],
-  app: null,
-  hypercubeProps: null,
+  model: null,
 };

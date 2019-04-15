@@ -1,0 +1,48 @@
+.info-box {
+  align-items: center;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 10px #ccc;
+  color: #404040;
+  display: flex;
+  font-size: 2em;
+  height: 7em;
+  justify-content: center;
+  left: 0;
+  margin-bottom: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  right: 0;
+  width: 30em;
+  z-index: 50;
+}
+
+.visible {
+  animation: box-in 0.7s;
+  bottom: 0;
+  transition: bottom 0.6s ease-in-out;
+}
+
+.hidden {
+  bottom: -15%;
+  transition: bottom 0.8s ease-in-out;
+}
+
+.alert {
+  fill: red;
+  padding-left: 1.5em;
+  padding-right: 1em;
+  width: 1.5em;
+}
+
+@keyframes box-in {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
