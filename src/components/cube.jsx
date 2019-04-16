@@ -109,12 +109,12 @@ const Cube = forwardRef(({ app, tableData: { initialColumns }, closeOnClickOutsi
         ],
       },
     };
-    if (dimensions && dimensions.length > 0) {
+    if (dimensions && dimensions.length) {
       hypercubeDef.qHyperCubeDef.qDimensions = dimensions.map(dimension => dimension.hyperCubeContent);
     } else {
       hypercubeDef.qHyperCubeDef.qDimensions = [];
     }
-    if (measures && measures.length > 0) {
+    if (measures && measures.length) {
       hypercubeDef.qHyperCubeDef.qMeasures = measures.map(measure => measure.hyperCubeContent);
     } else {
       hypercubeDef.qHyperCubeDef.qMeasures = [];
