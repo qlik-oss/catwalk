@@ -41,10 +41,8 @@ const Cube = forwardRef(({ app, tableData: { initialColumns }, closeOnClickOutsi
         const result = await model.exportData('OOXML', '/qHyperCubeDef');
         const engineUrl = new URLSearchParams(document.location.search).get('engine_url');
         if (engineUrl) {
-          const wsUrl = new URL(engineUrl);
-          const protocol = wsUrl.protocol === 'wss' ? 'https' : 'http';
           const elem = document.createElement('a');
-          elem.href = `${protocol}://${wsUrl.host}${result.qUrl}`;
+          elem.href = `${new URL(engineUrl).origin.replace('ws', 'http')}${result.qUrl}`;
           elem.target = '_blank';
           document.body.appendChild(elem);
           elem.click();
