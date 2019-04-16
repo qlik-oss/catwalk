@@ -24,6 +24,7 @@
     "lint:fix": "eslint --ext .js,.jsx --fix . && stylelint --fix src/."
   },
   "dependencies": {
+    "copy-to-clipboard": "3.1.0",
     "enigma.js": "2.4.0",
     "prop-types": "15.7.2",
     "react": "16.8.6",

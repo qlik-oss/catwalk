@@ -5,7 +5,6 @@ import { Column } from 'react-virtualized';
 import VirtualTable from './virtual-table';
 
 import './hypercube-table.pcss';
-import useModel from './use/model';
 import useLayout from './use/layout';
 
 function cellGetterForIndex(index) {
@@ -130,42 +129,11 @@ function getTotalTableWidth(layout, dimensions, measures) {
   return totalWidth;
 }
 
-function createProperties(dimensions, measures) {
-  const hypercubeProps = {
-    qInfo: {
-      qType: 'catwalk-hypercube',
-    },
-    qHyperCubeDef: {
-      qInitialDataFetch: [
-        {
-          qTop: 0,
-          qLeft: 0,
-          qHeight: 20,
-          qWidth: dimensions.length + measures.length,
-        },
-      ],
-    },
-  };
-  if (dimensions && dimensions.length > 0) {
-    hypercubeProps.qHyperCubeDef.qDimensions = dimensions.map(dimension => dimension.hyperCubeContent);
-  } else {
-    hypercubeProps.qHyperCubeDef.qDimensions = [];
-  }
-  if (measures && measures.length > 0) {
-    hypercubeProps.qHyperCubeDef.qMeasures = measures.map(measure => measure.hyperCubeContent);
-  } else {
-    hypercubeProps.qHyperCubeDef.qMeasures = [];
-  }
-  return hypercubeProps;
-}
-
 export default function HypercubeTable({
-  app, measures, dimensions, height, maxWidth, onHeaderClick,
+  model, measures, dimensions, height, maxWidth, onHeaderClick,
 }) {
-  const hypercubeProps = createProperties(dimensions, measures);
-  const model = useModel(app, hypercubeProps);
   const layout = useLayout(model);
-  if (!model) {
+  if (!model || !layout) {
     return null;
   }
   const calculatedWidth = getTotalTableWidth(layout, dimensions, measures);
@@ -223,7 +191,7 @@ HypercubeTable.propTypes = {
   onHeaderClick: PropTypes.func,
   measures: PropTypes.arrayOf(PropTypes.object),
   dimensions: PropTypes.arrayOf(PropTypes.object),
-  app: PropTypes.object,
+  model: PropTypes.object,
   maxWidth: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
 };
@@ -231,5 +199,5 @@ HypercubeTable.defaultProps = {
   onHeaderClick: () => {},
   measures: [],
   dimensions: [],
-  app: null,
+  model: null,
 };

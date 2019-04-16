@@ -1,0 +1,60 @@
+.info-box {
+  align-items: center;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 10px #ccc;
+  color: #404040;
+  display: flex;
+  font-size: 2em;
+  height: 7em;
+  justify-content: center;
+  left: 0;
+  margin-bottom: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 30em;
+  position: absolute;
+  right: 0;
+  width: fit-content;
+  z-index: 50;
+
+  p {
+    margin-right: 1.5em;
+  }
+}
+
+.visible {
+  animation: box-in 0.5s;
+  bottom: 0;
+  transition: bottom 0.5s ease-in-out;
+}
+
+.hidden {
+  bottom: -15%;
+  transition: bottom 0.5s ease-in-out;
+}
+
+.alert {
+  padding-left: 1.5em;
+  padding-right: 0.5em;
+  width: 1.5em;
+}
+
+.warning {
+  fill: red;
+}
+
+.success {
+  fill: green;
+}
+
+@keyframes box-in {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}

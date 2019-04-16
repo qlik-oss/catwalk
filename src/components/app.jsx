@@ -2,6 +2,7 @@ import React, { useMemo, useEffect, useRef } from 'react';
 import usePromise from 'react-use-promise';
 import enigma from 'enigma.js';
 
+import { InfoBoxProvider } from './info-box';
 import config from '../enigma/config';
 import useLayout from './use/layout';
 import TopBar from './topbar';
@@ -50,6 +51,12 @@ export default function App() {
     );
   }
 
+  const engineUrl = new URLSearchParams(document.location.search).get('engine_url');
+  if (!engineUrl && engineUrl !== '') {
+    const URLobject = new URL(window.location.href);
+    window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=${config.url}`);
+  }
+
   if (!global || (!app && appState !== 'pending')) {
     return (
       <Splash
@@ -69,9 +76,11 @@ export default function App() {
     <AppContext.Provider value={app}>
       <div className="app">
         {guide}
-        <TopBar app={app} appLayout={appLayout} startGuide={() => guideRef.current.startGuideFunc()} />
-        <Model app={app} appLayout={appLayout} />
-        {cubes}
+        <InfoBoxProvider>
+          <TopBar app={app} appLayout={appLayout} startGuide={() => guideRef.current.startGuideFunc()} />
+          <Model app={app} appLayout={appLayout} />
+          {cubes}
+        </InfoBoxProvider>
       </div>
       {reloadSplasher}
     </AppContext.Provider>

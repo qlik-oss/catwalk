@@ -8,7 +8,6 @@ export default function ScrollArea({
   const pan = useRef({});
   const [isScrolling, setIsScrolling] = useState(false);
   const [scrollStyle, setScrollStyle] = useState({ style: { width, height, overflow: 'auto' } });
-
   const onMouseUp = () => {
     if (isScrolling) {
       const cursorStyle = { ...scrollStyle.style, cursor: 'unset' };

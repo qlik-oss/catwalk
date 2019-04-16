@@ -62,7 +62,7 @@
       align-items: center;
       display: flex;
       flex: 1 1 auto;
-      justify-content: space-between;
+      justify-content: flex-end;
       margin-bottom: 0.5em;
       width: 100%;
 
@@ -70,9 +70,17 @@
         color: #3f9dd0;
         font-size: 1.5em;
         left: 1rem;
+        margin-right: auto;
       }
 
-      .close {
+      .spinner {
+        animation: spin 2000ms infinite linear;
+      }
+
+      .close,
+      .copy,
+      .export,
+      .spinner {
         cursor: pointer;
         fill: #4d4d4d;
         height: 2em;
@@ -93,4 +101,9 @@
       box-shadow: 0 0 2em -0.5em #999;
     }
   }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
