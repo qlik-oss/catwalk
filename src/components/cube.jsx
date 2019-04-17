@@ -1,7 +1,9 @@
 import React,
 {
   forwardRef,
+  useEffect,
   useImperativeHandle,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -18,7 +20,9 @@ import './cube.pcss';
 
 // The component needs to be wrapped in `forwardRef` to give access to the
 // ref object assigned using the `ref` prop.
-const Cube = forwardRef(({ app, tableData: { initialColumns }, closeOnClickOutside }, ref) => {
+const Cube = forwardRef(({
+  app, tableData: { initialColumns }, closeOnClickOutside, id,
+}, ref) => {
   const selectableColumns = useColumnOptions(app);
   const [columns, setColumns] = useState(initialColumns);
   const currentHeader = useRef(null);
@@ -27,6 +31,41 @@ const Cube = forwardRef(({ app, tableData: { initialColumns }, closeOnClickOutsi
   const forceUpdate = useForce();
   let model = null;
   let hypercubeProps = null;
+
+  const modifyLocalStorage = (action) => {
+    let storedCubes = localStorage.getItem(app.id);
+    const currentCube = { id, columns };
+    if (storedCubes) {
+      storedCubes = JSON.parse(storedCubes);
+      const index = storedCubes.findIndex(cube => cube.id === id);
+      if (action === 'add') {
+        if (index >= 0) {
+          // the cube is already stored. Update the stored item.
+          storedCubes.splice(index, 1, currentCube);
+        } else {
+          storedCubes.push(currentCube);
+        }
+      } else if (action === 'remove') {
+        storedCubes.splice(index, 1);
+      }
+      localStorage.setItem(app.id, JSON.stringify(storedCubes));
+    } else if (action === 'add') {
+      localStorage.setItem(app.id, currentCube);
+    }
+  };
+
+  const beforeunload = () => {
+    modifyLocalStorage('add');
+  };
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', beforeunload);
+
+    return () => {
+      modifyLocalStorage('remove');
+      window.removeEventListener('beforeunload', beforeunload);
+    };
+  });
 
   // Any instance of the component is extended with what is returned from the
   // callback passed as the second argument.
@@ -126,7 +165,7 @@ const Cube = forwardRef(({ app, tableData: { initialColumns }, closeOnClickOutsi
 
   const measures = columns.filter(column => column.type === 'measure');
   const dimensions = columns.filter(column => column.type === 'dimension' || column.type === 'field');
-  hypercubeProps = createProperties(dimensions, measures);
+  hypercubeProps = useMemo(() => createProperties(dimensions, measures), [columns]);
   model = useModel(app, hypercubeProps);
 
   const isEmpty = measures.length + dimensions.length === 0;
@@ -155,4 +194,5 @@ Cube.propTypes = {
   app: PropTypes.object.isRequired,
   tableData: PropTypes.object.isRequired,
   closeOnClickOutside: PropTypes.func,
+  id: PropTypes.number.isRequired,
 };

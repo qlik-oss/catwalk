@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
 import Cube from './cube';
@@ -30,8 +30,14 @@ export function Cubes({ app, closeOnClickOutside }) {
 
   function addCube(column) {
     if (column) {
-      const newCube = { id: count, initialColumns: [column] };
-      setCount(count + 1);
+      let newId = count;
+      const checkId = i => i.id === newId;
+
+      while (cubeList.find(checkId)) {
+        newId += 1;
+      }
+      const newCube = { id: newId, initialColumns: [column] };
+      setCount(newId + 1);
       setCubeList([
         newCube,
         ...cubeList,
@@ -41,6 +47,22 @@ export function Cubes({ app, closeOnClickOutside }) {
     addOpen.current = false;
     forceUpdate();
   }
+
+  useEffect(() => {
+    // Check if cubes are stored in localstorage.
+    let storedCubes = localStorage.getItem(app.id);
+    const storedCubeList = [];
+    if (storedCubes) {
+      storedCubes = JSON.parse(storedCubes);
+      if (storedCubes && storedCubes.length) {
+        storedCubes.forEach((cube) => {
+          storedCubeList.push({ id: cube.id, initialColumns: cube.columns });
+          refs.current[cube.id] = React.createRef();
+        });
+      }
+      setCubeList(storedCubeList);
+    }
+  }, []);
 
   function removeCube(id) {
     setCubeList(cubeList.filter(item => item.id !== id));
@@ -81,7 +103,7 @@ export function Cubes({ app, closeOnClickOutside }) {
         <SVGInline className="copy" svg={copy} onClick={() => copyToClipboard(cube.id)} title="Copy hypercube def to clipboard" />
         <SVGInline {...closeButton} onClick={() => removeCube(cube.id)} title="Close cube" />
       </div>
-      <Cube ref={refs.current[cube.id]} app={app} tableData={cube} closeOnClickOutside={closeOnClickOutside} />
+      <Cube ref={refs.current[cube.id]} app={app} tableData={cube} closeOnClickOutside={closeOnClickOutside} id={cube.id} />
     </div>
   ));
   return (
