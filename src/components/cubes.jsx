@@ -14,7 +14,7 @@ import useForce from './use/force';
 
 import './cubes.pcss';
 
-export function Cubes({ app, closeOnClickOutside }) {
+export function Cubes({ app, closeOnClickOutside, isLocalStorage }) {
   const [count, setCount] = useState(1);
   const [cubeList, setCubeList] = useState([]);
   const forceUpdate = useForce();
@@ -50,6 +50,7 @@ export function Cubes({ app, closeOnClickOutside }) {
 
   useEffect(() => {
     // Check if cubes are stored in localstorage.
+    if (!isLocalStorage) return;
     let storedCubes = localStorage.getItem(app.id);
     const storedCubeList = [];
     if (storedCubes) {
@@ -103,7 +104,7 @@ export function Cubes({ app, closeOnClickOutside }) {
         <SVGInline className="copy" svg={copy} onClick={() => copyToClipboard(cube.id)} title="Copy hypercube def to clipboard" />
         <SVGInline {...closeButton} onClick={() => removeCube(cube.id)} title="Close cube" />
       </div>
-      <Cube ref={refs.current[cube.id]} app={app} tableData={cube} closeOnClickOutside={closeOnClickOutside} id={cube.id} />
+      <Cube ref={refs.current[cube.id]} app={app} tableData={cube} closeOnClickOutside={closeOnClickOutside} id={cube.id} isLocalStorage={isLocalStorage} />
     </div>
   ));
   return (
@@ -122,6 +123,11 @@ export function Cubes({ app, closeOnClickOutside }) {
 Cubes.propTypes = {
   app: PropTypes.object.isRequired,
   closeOnClickOutside: PropTypes.func.isRequired,
+  isLocalStorage: PropTypes.bool,
+};
+
+Cubes.defaultProps = {
+  isLocalStorage: false,
 };
 
 export default Cubes;

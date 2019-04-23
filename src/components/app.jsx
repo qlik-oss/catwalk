@@ -11,12 +11,10 @@ import Splash from './splash';
 import Cubes from './cubes';
 import Guide from './guide';
 import Loading from './loading';
+import isLocalStorage from './local-storage';
 
 import { useReloadInProgress } from '../enigma/reload-in-progress-interceptor';
 import './app.pcss';
-
-export const AppContext = React.createContext(null);
-export const AppConsumer = AppContext.Consumer;
 
 const useGlobal = session => usePromise(() => session.open(), [session]);
 const useApp = global => usePromise(() => (global ? global.getDoc() : null), [global]);
@@ -66,23 +64,24 @@ export default function App() {
       />
     );
   }
+  const localStorageEnabled = isLocalStorage();
   let cubes;
   let guide;
   if (app) {
-    cubes = <Cubes app={app} closeOnClickOutside={() => !guideRef.current.isGuideRunning()} />;
-    guide = <Guide ref={guideRef} />;
+    cubes = <Cubes app={app} closeOnClickOutside={() => !guideRef.current.isGuideRunning()} isLocalStorage={localStorageEnabled} />;
+    guide = <Guide ref={guideRef} isLocalStorage={localStorageEnabled} />;
   }
   return (
-    <AppContext.Provider value={app}>
+    <React.Fragment>
       <div className="app">
         {guide}
         <InfoBoxProvider>
-          <TopBar app={app} appLayout={appLayout} startGuide={() => guideRef.current.startGuideFunc()} />
+          <TopBar app={app} appLayout={appLayout} startGuide={() => guideRef.current.startGuideFunc()} isLocalStorage={localStorageEnabled} />
           <Model app={app} appLayout={appLayout} />
           {cubes}
         </InfoBoxProvider>
       </div>
       {reloadSplasher}
-    </AppContext.Provider>
+    </React.Fragment>
   );
 }

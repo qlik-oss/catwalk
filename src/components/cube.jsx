@@ -21,7 +21,7 @@ import './cube.pcss';
 // The component needs to be wrapped in `forwardRef` to give access to the
 // ref object assigned using the `ref` prop.
 const Cube = forwardRef(({
-  app, tableData: { initialColumns }, closeOnClickOutside, id,
+  app, tableData: { initialColumns }, closeOnClickOutside, id, isLocalStorage,
 }, ref) => {
   const selectableColumns = useColumnOptions(app);
   const [columns, setColumns] = useState(initialColumns);
@@ -33,6 +33,7 @@ const Cube = forwardRef(({
   let hypercubeProps = null;
 
   const modifyLocalStorage = (action) => {
+    if (!isLocalStorage) return;
     let storedCubes = localStorage.getItem(app.id);
     const currentCube = { id, columns };
     if (storedCubes) {
@@ -188,6 +189,7 @@ export default Cube;
 
 Cube.defaultProps = {
   closeOnClickOutside: () => true,
+  isLocalStorage: false,
 };
 
 Cube.propTypes = {
@@ -195,4 +197,5 @@ Cube.propTypes = {
   tableData: PropTypes.object.isRequired,
   closeOnClickOutside: PropTypes.func,
   id: PropTypes.number.isRequired,
+  isLocalStorage: PropTypes.bool,
 };
