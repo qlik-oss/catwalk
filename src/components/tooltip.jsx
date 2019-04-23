@@ -61,7 +61,7 @@ export function getExtraInfoForField(fieldData) {
           </div>
           <span>The red color indicates a circular reference.</span>
           <p>
-            To avoid ambigous results, table <i>{fieldData.srcTable.qName}</i> is marked as “loosely coupled”,
+            To avoid ambiguous results, table <i>{fieldData.srcTable.qName}</i> is marked as “loosely coupled”,
             which means that the logical inference cannot propagate through this table. Avoid circular references.
           </p>
         </React.Fragment>
