@@ -72,8 +72,9 @@ function TableFieldWithoutState({
     classes += ' single-hit';
   }
 
+  const stroke = fieldData.srcTable.qLoose ? 'dashed' : 'solid';
   const fieldStyle = {
-    border: `2px solid ${fieldData.backgroundColor}`,
+    border: `2px ${stroke} ${fieldData.backgroundColor}`,
   };
 
   const filterBox = showFilterbox ? <Filterbox model={model} layout={layout} field={field} /> : null;

@@ -53,6 +53,20 @@ export function getExtraInfoForField(fieldData) {
   const avgDup = rowWithValueCount > uniqueValueCount ? `~ ${(rowWithValueCount / uniqueValueCount).toFixed(3)}` : '1';
 
   function keyDescription() {
+    if (fieldData.srcTable.qLoose) {
+      return (
+        <React.Fragment>
+          <div className="headerContainer">
+            <h3 className="loose">Circular reference</h3>
+          </div>
+          <span>The red color indicates a circular reference.</span>
+          <p>
+            To avoid ambiguous results, table <i>{fieldData.srcTable.qName}</i> is marked as “loosely coupled”,
+            which means that the logical inference cannot propagate through this table. Avoid circular references.
+          </p>
+        </React.Fragment>
+      );
+    }
     switch (fieldData.qKeyType) {
       case 'PERFECT_KEY':
         return (

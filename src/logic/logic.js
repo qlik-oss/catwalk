@@ -18,6 +18,9 @@ function mixColors(color1, color2, weight) {
 }
 
 function colorOfField(field) {
+  if (field.srcTable.qLoose) {
+    return '#cc0000';
+  }
   switch (field.qKeyType) {
     case 'PERFECT_KEY':
       return '#398ab5';
