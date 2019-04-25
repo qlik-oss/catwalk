@@ -29,44 +29,20 @@ const Cube = forwardRef(({
   const columnToReplace = useRef(null);
   const addOpen = useRef(false);
   const forceUpdate = useForce();
+  const key = `${app.id}/cubes/${id}`;
   let model = null;
   let hypercubeProps = null;
 
-  const modifyLocalStorage = (action) => {
-    if (!isLocalStorage) return;
-    let storedCubes = localStorage.getItem(app.id);
-    const currentCube = { id, columns };
-    if (storedCubes) {
-      storedCubes = JSON.parse(storedCubes);
-      const index = storedCubes.findIndex(cube => cube.id === id);
-      if (action === 'add') {
-        if (index >= 0) {
-          // the cube is already stored. Update the stored item.
-          storedCubes.splice(index, 1, currentCube);
-        } else {
-          storedCubes.push(currentCube);
-        }
-      } else if (action === 'remove') {
-        storedCubes.splice(index, 1);
-      }
-      localStorage.setItem(app.id, JSON.stringify(storedCubes));
-    } else if (action === 'add') {
-      localStorage.setItem(app.id, currentCube);
-    }
-  };
-
-  const beforeunload = () => {
-    modifyLocalStorage('add');
-  };
-
   useEffect(() => {
-    window.addEventListener('beforeunload', beforeunload);
-
+    if (isLocalStorage) {
+      localStorage.setItem(key, JSON.stringify(columns));
+    }
     return () => {
-      modifyLocalStorage('remove');
-      window.removeEventListener('beforeunload', beforeunload);
+      if (isLocalStorage) {
+        localStorage.removeItem(key);
+      }
     };
-  });
+  }, [columns]);
 
   // Any instance of the component is extended with what is returned from the
   // callback passed as the second argument.

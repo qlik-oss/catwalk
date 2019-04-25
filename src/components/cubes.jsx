@@ -51,18 +51,14 @@ export function Cubes({ app, closeOnClickOutside, isLocalStorage }) {
   useEffect(() => {
     // Check if cubes are stored in localstorage.
     if (!isLocalStorage) return;
-    let storedCubes = localStorage.getItem(app.id);
+    const key = `${app.id}/cubes/`;
     const storedCubeList = [];
-    if (storedCubes) {
-      storedCubes = JSON.parse(storedCubes);
-      if (storedCubes && storedCubes.length) {
-        storedCubes.forEach((cube) => {
-          storedCubeList.push({ id: cube.id, initialColumns: cube.columns });
-          refs.current[cube.id] = React.createRef();
-        });
-      }
-      setCubeList(storedCubeList);
-    }
+    Object.keys(localStorage).filter(item => item.indexOf(key) >= 0).forEach((item) => {
+      const cube = { id: Number(item.replace(key, '')), initialColumns: JSON.parse(localStorage.getItem(item)) };
+      storedCubeList.push(cube);
+      refs.current[cube.id] = React.createRef();
+    });
+    setCubeList(storedCubeList);
   }, []);
 
   function removeCube(id) {
