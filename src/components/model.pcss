@@ -17,21 +17,28 @@
 
   .tableheader {
     align-items: center;
+    background-color: var(--table-background);
     color: #404040;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     font-size: 1.5em;
     font-weight: bold;
-    height: 5em;
     justify-content: center;
-    min-height: 5em;
+    min-height: 11rem;
+    padding: 3.5rem;
     text-align: center;
     word-break: break-word;
 
     .nbr-of-rows {
       font-weight: 400;
     }
+  }
+
+  .tableheader.odd {
+    background: linear-gradient(to bottom, var(--odd-column-background) 0%, var(--table-background) 100%);
+    background-repeat: no-repeat;
+    background-size: auto 10rem;
   }
 
   &.no-data {
@@ -186,12 +193,7 @@
       box-sizing: border-box;
       max-width: 48rem;
       padding: 3.5em;
-    }
-
-    .column.odd {
-      background: linear-gradient(to bottom, var(--odd-column-background) 0%, var(--table-background) 100%);
-      background-repeat: no-repeat;
-      background-size: auto 30rem;
+      padding-top: 0;
     }
 
     &:nth-child(even) {
