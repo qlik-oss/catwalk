@@ -1,7 +1,9 @@
 import React,
 {
   forwardRef,
+  useEffect,
   useImperativeHandle,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -18,15 +20,29 @@ import './cube.pcss';
 
 // The component needs to be wrapped in `forwardRef` to give access to the
 // ref object assigned using the `ref` prop.
-const Cube = forwardRef(({ app, tableData: { initialColumns }, closeOnClickOutside }, ref) => {
+const Cube = forwardRef(({
+  app, tableData: { initialColumns }, closeOnClickOutside, id, isLocalStorage,
+}, ref) => {
   const selectableColumns = useColumnOptions(app);
   const [columns, setColumns] = useState(initialColumns);
   const currentHeader = useRef(null);
   const columnToReplace = useRef(null);
   const addOpen = useRef(false);
   const forceUpdate = useForce();
+  const key = `${app.id}/cubes/${id}`;
   let model = null;
   let hypercubeProps = null;
+
+  useEffect(() => {
+    if (isLocalStorage) {
+      localStorage.setItem(key, JSON.stringify(columns));
+    }
+    return () => {
+      if (isLocalStorage) {
+        localStorage.removeItem(key);
+      }
+    };
+  }, [columns]);
 
   // Any instance of the component is extended with what is returned from the
   // callback passed as the second argument.
@@ -126,7 +142,7 @@ const Cube = forwardRef(({ app, tableData: { initialColumns }, closeOnClickOutsi
 
   const measures = columns.filter(column => column.type === 'measure');
   const dimensions = columns.filter(column => column.type === 'dimension' || column.type === 'field');
-  hypercubeProps = createProperties(dimensions, measures);
+  hypercubeProps = useMemo(() => createProperties(dimensions, measures), [columns]);
   model = useModel(app, hypercubeProps);
 
   const isEmpty = measures.length + dimensions.length === 0;
@@ -149,10 +165,13 @@ export default Cube;
 
 Cube.defaultProps = {
   closeOnClickOutside: () => true,
+  isLocalStorage: false,
 };
 
 Cube.propTypes = {
   app: PropTypes.object.isRequired,
   tableData: PropTypes.object.isRequired,
   closeOnClickOutside: PropTypes.func,
+  id: PropTypes.number.isRequired,
+  isLocalStorage: PropTypes.bool,
 };

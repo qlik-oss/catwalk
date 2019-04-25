@@ -18,7 +18,9 @@ import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
 import '../assets/ReactContexify.min.css';
 import './topbar.pcss';
 
-export default function TopBar({ app, appLayout, startGuide }) {
+export default function TopBar({
+  app, appLayout, startGuide, isLocalStorage,
+}) {
   const chooseApp = () => {
     // we need to add connected ws, if any.
     const engineUrl = new URLSearchParams(document.location.search).get('engine_url');
@@ -49,7 +51,7 @@ export default function TopBar({ app, appLayout, startGuide }) {
     selections = <Selections app={app} />;
     if (appLayout) {
       reloaded = <ReloadTime lastReloadTime={appLayout.qLastReloadTime} className="reloaded" />;
-      star = <Star />;
+      star = <Star isLocalStorage={isLocalStorage} />;
     }
   }
   return (
@@ -74,10 +76,12 @@ TopBar.defaultProps = {
   app: null,
   appLayout: null,
   startGuide: null,
+  isLocalStorage: false,
 };
 
 TopBar.propTypes = {
   app: PropTypes.object,
   appLayout: PropTypes.object,
   startGuide: PropTypes.func,
+  isLocalStorage: PropTypes.bool,
 };

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
 import Cube from './cube';
@@ -14,7 +14,7 @@ import useForce from './use/force';
 
 import './cubes.pcss';
 
-export function Cubes({ app, closeOnClickOutside }) {
+export function Cubes({ app, closeOnClickOutside, isLocalStorage }) {
   const [count, setCount] = useState(1);
   const [cubeList, setCubeList] = useState([]);
   const forceUpdate = useForce();
@@ -30,8 +30,14 @@ export function Cubes({ app, closeOnClickOutside }) {
 
   function addCube(column) {
     if (column) {
-      const newCube = { id: count, initialColumns: [column] };
-      setCount(count + 1);
+      let newId = count;
+      const checkId = i => i.id === newId;
+
+      while (cubeList.find(checkId)) {
+        newId += 1;
+      }
+      const newCube = { id: newId, initialColumns: [column] };
+      setCount(newId + 1);
       setCubeList([
         newCube,
         ...cubeList,
@@ -41,6 +47,19 @@ export function Cubes({ app, closeOnClickOutside }) {
     addOpen.current = false;
     forceUpdate();
   }
+
+  useEffect(() => {
+    // Check if cubes are stored in localstorage.
+    if (!isLocalStorage) return;
+    const key = `${app.id}/cubes/`;
+    const storedCubeList = [];
+    Object.keys(localStorage).filter(item => item.indexOf(key) >= 0).forEach((item) => {
+      const cube = { id: Number(item.replace(key, '')), initialColumns: JSON.parse(localStorage.getItem(item)) };
+      storedCubeList.push(cube);
+      refs.current[cube.id] = React.createRef();
+    });
+    setCubeList(storedCubeList);
+  }, []);
 
   function removeCube(id) {
     setCubeList(cubeList.filter(item => item.id !== id));
@@ -81,7 +100,7 @@ export function Cubes({ app, closeOnClickOutside }) {
         <SVGInline className="copy" svg={copy} onClick={() => copyToClipboard(cube.id)} title="Copy hypercube def to clipboard" />
         <SVGInline {...closeButton} onClick={() => removeCube(cube.id)} title="Close cube" />
       </div>
-      <Cube ref={refs.current[cube.id]} app={app} tableData={cube} closeOnClickOutside={closeOnClickOutside} />
+      <Cube ref={refs.current[cube.id]} app={app} tableData={cube} closeOnClickOutside={closeOnClickOutside} id={cube.id} isLocalStorage={isLocalStorage} />
     </div>
   ));
   return (
@@ -100,6 +119,11 @@ export function Cubes({ app, closeOnClickOutside }) {
 Cubes.propTypes = {
   app: PropTypes.object.isRequired,
   closeOnClickOutside: PropTypes.func.isRequired,
+  isLocalStorage: PropTypes.bool,
+};
+
+Cubes.defaultProps = {
+  isLocalStorage: false,
 };
 
 export default Cubes;

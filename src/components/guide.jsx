@@ -5,6 +5,7 @@ import React,
   forwardRef,
   useImperativeHandle,
 } from 'react';
+import PropTypes from 'prop-types';
 import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride';
 import steps from './guide-steps';
 
@@ -12,8 +13,8 @@ import './guide.pcss';
 
 // The component needs to be wrapped in `forwardRef` to give access to the
 // ref object assigned using the `ref` prop.
-const Guide = forwardRef((props, ref) => {
-  const [runGuide, setRunGuide] = useState(!localStorage.getItem('catwalkGuide'));
+const Guide = forwardRef(({ isLocalStorage }, ref) => {
+  const [runGuide, setRunGuide] = useState(!isLocalStorage ? true : !localStorage.getItem('catwalkGuide'));
   const [stepIndex, setStepIndex] = useState(0);
 
   // Any instance of the component is extended with what is returned from the
@@ -79,7 +80,9 @@ const Guide = forwardRef((props, ref) => {
   const endGuide = () => {
     setRunGuide(false);
     setStepIndex(0);
-    localStorage.setItem('catwalkGuide', 'catwalk');
+    if (isLocalStorage) {
+      localStorage.setItem('catwalkGuide', 'catwalk');
+    }
     document.removeEventListener('mouseup', onClick);
   };
 
@@ -170,5 +173,13 @@ const Guide = forwardRef((props, ref) => {
     />
   );
 });
+
+Guide.propTypes = {
+  isLocalStorage: PropTypes.bool,
+};
+
+Guide.defaultProps = {
+  isLocalStorage: false,
+};
 
 export default Guide;
