@@ -32,7 +32,11 @@ export default function TopBar({
     window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=${wsUrl}`);
   };
   const goToGithub = () => {
-    window.open('https://github.com/qlik-oss/catwalk');
+    window.open('https://github.com/qlik-oss/catwalk/blob/master/README.md#Data-Policy');
+  };
+
+  const goToDataPolicy = () => {
+    window.open('https://github.com/qlik-oss/catwalk/blob/master/README.md#Data-Policy');
   };
 
   const TopbarMenu = () => (
@@ -42,6 +46,8 @@ export default function TopBar({
       <Item onClick={startGuide}>Start Guide</Item>
       <Separator />
       <Item onClick={goToGithub}>Go to GitHub</Item>
+      <Separator />
+      <Item onClick={goToDataPolicy}>Data Policy</Item>
     </Menu>
   );
   let selections;

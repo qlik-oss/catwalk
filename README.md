@@ -61,7 +61,7 @@ To install the extension you have to zip the folder and import it into you Qlik 
 We created a javascript bookmark that can be found in the [bookmark](./bookmark) folder that will open up a new tab to the Qlik hosted catwalk UI with the current open app.
 To setup, create a bookmark and paste the content of [bookmark.js](./bookmark/bookmark.js) in the URL field.
 
-## 3. Data Policy
+# Data Policy
 catwalk is running in a browser environment only, and creates a websocket connection directly to the QIX engine specified with the `engine_url` query parameter. This means that nothing other than the browser session and the engine will ever access the data in an app.
 
 ```
@@ -74,4 +74,4 @@ catwalk is running in a browser environment only, and creates a websocket connec
    |    you    |           | engine |
    |-----------|           |--------|
 ```
-The only data collected is via Google Analytics which stores cookies on the users` PC. This is to gain insight into how catwalk is used, how much and by whom. Examples of this information could be how long the users are staying, where the users are coming from (e.g. social media links, but also where in the world), and errors and exceptions.
+The only data collected is via Google Analytics which stores cookies on the users\` PC. This is to gain insight into how catwalk is used, how much and by whom. Examples of this information could be how long the users are staying, where the users are coming from (e.g. social media links, but also where in the world), and errors and exceptions.
