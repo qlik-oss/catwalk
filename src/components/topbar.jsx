@@ -32,7 +32,7 @@ export default function TopBar({
     window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=${wsUrl}`);
   };
   const goToGithub = () => {
-    window.open('https://github.com/qlik-oss/catwalk/blob/master/README.md#Data-Policy');
+    window.open('https://github.com/qlik-oss/catwalk');
   };
 
   const goToDataPolicy = () => {
