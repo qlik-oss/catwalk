@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Column } from 'react-virtualized';
+import { useLayout } from 'hamus.js';
 
 import VirtualTable from './virtual-table';
 
 import './hypercube-table.pcss';
-import useLayout from './use/layout';
 
 function cellGetterForIndex(index) {
   return function cellGetter({ rowData }) {
@@ -132,7 +132,10 @@ function getTotalTableWidth(layout, dimensions, measures) {
 export default function HypercubeTable({
   model, measures, dimensions, height, maxWidth, onHeaderClick,
 }) {
-  const layout = useLayout(model);
+  const [layout, layoutError] = useLayout(model);
+  if (layoutError) {
+    throw layoutError;
+  }
   if (!model || !layout) {
     return null;
   }

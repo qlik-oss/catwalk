@@ -1,10 +1,10 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import usePromise from 'react-use-promise';
 import enigma from 'enigma.js';
+import { useLayout } from 'hamus.js';
 
 import { InfoBoxProvider } from './info-box';
 import config from '../enigma/config';
-import useLayout from './use/layout';
 import TopBar from './topbar';
 import Model from './model';
 import Splash from './splash';
@@ -25,7 +25,10 @@ export default function App() {
   const [global, socketError, socketState] = useGlobal(session);
   const [app, appError, appState] = useApp(global);
   const [docs, docsError] = useDocList(global, appError && global);
-  const appLayout = useLayout(app);
+  const [appLayout, layoutError] = useLayout(app);
+  if (layoutError) {
+    throw layoutError;
+  }
   const guideRef = useRef();
 
   useEffect(() => () => {

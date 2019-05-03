@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
+import { useLayout, useModel } from 'hamus.js';
 import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
 import Field from './field';
 import Filterbox from './filterbox';
-import useModel from './use/model';
-import useLayout from './use/layout';
 import { getTooltipForField, getTooltipForSyntheticField } from './tooltip';
 
 import './table-field.pcss';
@@ -143,8 +142,14 @@ const createDefinition = field => ({
 export default function TableField({
   app, field, fieldData, showFilterbox,
 }) {
-  const model = useModel(app, createDefinition(field));
-  const layout = useLayout(model);
+  const [model, modelError] = useModel(app, createDefinition(field));
+  if (modelError) {
+    throw modelError;
+  }
+  const [layout, layoutError] = useLayout(model);
+  if (layoutError) {
+    throw layoutError;
+  }
   const fieldDataToModify = fieldData;
   fieldDataToModify.layout = layout;
   return TableFieldWithoutState({

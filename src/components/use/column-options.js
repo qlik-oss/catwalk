@@ -1,7 +1,5 @@
 import { useMemo } from 'react';
-
-import useModel from './model';
-import useLayout from './layout';
+import { useLayout, useModel } from 'hamus.js';
 
 const genericObjectProperties = {
   qInfo: {
@@ -76,8 +74,14 @@ export function layoutToListsStructure(layout) {
 }
 
 export default function useColumnOptions(app) {
-  const model = useModel(app, genericObjectProperties);
-  const layout = useLayout(model);
+  const [model, modelError] = useModel(app, genericObjectProperties);
+  if (modelError) {
+    throw modelError;
+  }
+  const [layout, layoutError] = useLayout(model);
+  if (layoutError) {
+    throw layoutError;
+  }
   const listStructure = useMemo(() => layoutToListsStructure(layout), [layout]);
   return listStructure;
 }
