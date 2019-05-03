@@ -35,6 +35,10 @@ export default function TopBar({
     window.open('https://github.com/qlik-oss/catwalk');
   };
 
+  const goToDataPolicy = () => {
+    window.open('https://github.com/qlik-oss/catwalk/blob/master/README.md#Data-Policy');
+  };
+
   const TopbarMenu = () => (
     <Menu id="menu_id" className="menu" animation={animation.fade}>
       <Item onClick={chooseApp}>Choose App</Item>
@@ -42,6 +46,8 @@ export default function TopBar({
       <Item onClick={startGuide}>Start Guide</Item>
       <Separator />
       <Item onClick={goToGithub}>Go to GitHub</Item>
+      <Separator />
+      <Item onClick={goToDataPolicy}>Data Policy</Item>
     </Menu>
   );
   let selections;
