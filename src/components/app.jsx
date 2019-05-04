@@ -12,7 +12,7 @@ import Cubes from './cubes';
 import Guide from './guide';
 import Loading from './loading';
 import isLocalStorage from './local-storage';
-import useErrorThrow from './use/error-throw';
+import useResolvedValue from './use/resolved-value';
 
 import { useReloadInProgress } from '../enigma/reload-in-progress-interceptor';
 import './app.pcss';
@@ -26,7 +26,7 @@ export default function App() {
   const [global, socketError, socketState] = useGlobal(session);
   const [app, appError, appState] = useApp(global);
   const [docs, docsError] = useDocList(global, appError && global);
-  const appLayout = useErrorThrow(useLayout(app));
+  const appLayout = useResolvedValue(useLayout(app));
   const guideRef = useRef();
 
   useEffect(() => () => {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
 import { useLayout, useModel } from 'hamus.js';
 import SelectionField from './selection-field';
-import useErrorThrow from './use/error-throw';
+import useResolvedValue from './use/resolved-value';
 
 import close from '../assets/close-outline.svg';
 
@@ -26,8 +26,8 @@ export default function Selections({ app }) {
     }
   }
 
-  const model = useErrorThrow(useModel(app, definition));
-  const layout = useErrorThrow(useLayout(model));
+  const model = useResolvedValue(useModel(app, definition));
+  const layout = useResolvedValue(useLayout(model));
   let items;
   let clearAll;
 

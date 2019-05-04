@@ -15,7 +15,7 @@ import useColumnOptions from './use/column-options';
 import CubeColumnChooser from './cube-column-chooser';
 import HypercubeTable from './hypercube-table';
 import useForce from './use/force';
-import useErrorThrow from './use/error-throw';
+import useResolvedValue from './use/resolved-value';
 
 import './cube.pcss';
 
@@ -144,7 +144,7 @@ const Cube = forwardRef(({
   const measures = columns.filter(column => column.type === 'measure');
   const dimensions = columns.filter(column => column.type === 'dimension' || column.type === 'field');
   hypercubeProps = useMemo(() => createProperties(dimensions, measures), [columns]);
-  model = useErrorThrow(useModel(app, hypercubeProps));
+  model = useResolvedValue(useModel(app, hypercubeProps));
 
   const isEmpty = measures.length + dimensions.length === 0;
   if (isEmpty && addOpen.current) {
