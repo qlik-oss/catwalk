@@ -4,6 +4,7 @@ import { Column } from 'react-virtualized';
 import { useLayout } from 'hamus.js';
 
 import VirtualTable from './virtual-table';
+import useErrorThrow from './use/error-throw';
 
 import './hypercube-table.pcss';
 
@@ -132,10 +133,7 @@ function getTotalTableWidth(layout, dimensions, measures) {
 export default function HypercubeTable({
   model, measures, dimensions, height, maxWidth, onHeaderClick,
 }) {
-  const [layout, layoutError] = useLayout(model);
-  if (layoutError) {
-    throw layoutError;
-  }
+  const layout = useErrorThrow(useLayout(model));
   if (!model || !layout) {
     return null;
   }

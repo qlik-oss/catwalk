@@ -4,6 +4,7 @@ import { useLayout, useModel } from 'hamus.js';
 import Field from './field';
 import Filterbox from './filterbox';
 import useClickOutside from './use/click-outside';
+import useErrorThrow from './use/error-throw';
 import './selection-field.pcss';
 
 const createDefinition = field => ({
@@ -40,14 +41,8 @@ export default function SelectionField({
 }) {
   const selfRef = useRef(null);
   const [showFilterbox, setShowFilterbox] = useState(false);
-  const [model, modelError] = useModel(app, createDefinition(field));
-  if (modelError) {
-    throw modelError;
-  }
-  const [layout, layoutError] = useLayout(model);
-  if (layoutError) {
-    throw layoutError;
-  }
+  const model = useErrorThrow(useModel(app, createDefinition(field)));
+  const layout = useErrorThrow(useLayout(model));
 
   function useVisible(ref, callback) {
     useEffect(() => {

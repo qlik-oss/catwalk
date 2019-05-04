@@ -6,6 +6,7 @@ import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
 import Field from './field';
 import Filterbox from './filterbox';
 import { getTooltipForField, getTooltipForSyntheticField } from './tooltip';
+import useErrorThrow from './use/error-throw';
 
 import './table-field.pcss';
 import './tooltip.pcss';
@@ -142,14 +143,9 @@ const createDefinition = field => ({
 export default function TableField({
   app, field, fieldData, showFilterbox,
 }) {
-  const [model, modelError] = useModel(app, createDefinition(field));
-  if (modelError) {
-    throw modelError;
-  }
-  const [layout, layoutError] = useLayout(model);
-  if (layoutError) {
-    throw layoutError;
-  }
+  const model = useErrorThrow(useModel(app, createDefinition(field)));
+  const layout = useErrorThrow(useLayout(model));
+
   const fieldDataToModify = fieldData;
   fieldDataToModify.layout = layout;
   return TableFieldWithoutState({
