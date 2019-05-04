@@ -1,6 +1,5 @@
 import schema from 'enigma.js/schemas/12.170.2.json';
 
-import listCache from './list-cache';
 import layoutCache from './layout-cache';
 import getDoc from './get-doc';
 import { reloadInProgressInterceptor } from './reload-in-progress-interceptor';
@@ -25,7 +24,7 @@ const config = {
   schema,
   url: engineUrl,
   createSocket: url => new WebSocket(url),
-  mixins: [listCache, ...layoutCache, getDoc],
+  mixins: [...layoutCache, getDoc],
   responseInterceptors: [reloadInProgressInterceptor, {
     onRejected(session, request, error) {
       if (error.code === ERR_ABORTED) {

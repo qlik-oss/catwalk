@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { useLayout, useModel } from 'hamus.js';
 import Field from './field';
 import Filterbox from './filterbox';
-import useModel from './use/model';
-import useLayout from './use/layout';
 import useClickOutside from './use/click-outside';
+import useResolvedValue from './use/resolved-value';
 import './selection-field.pcss';
 
 const createDefinition = field => ({
@@ -41,8 +41,8 @@ export default function SelectionField({
 }) {
   const selfRef = useRef(null);
   const [showFilterbox, setShowFilterbox] = useState(false);
-  const model = useModel(app, createDefinition(field));
-  const layout = useLayout(model);
+  const model = useResolvedValue(useModel(app, createDefinition(field)));
+  const layout = useResolvedValue(useLayout(model));
 
   function useVisible(ref, callback) {
     useEffect(() => {

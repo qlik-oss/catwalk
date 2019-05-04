@@ -9,12 +9,13 @@ import React,
 } from 'react';
 import PropTypes from 'prop-types';
 import copy from 'copy-to-clipboard';
+import { useModel } from 'hamus.js';
 
 import useColumnOptions from './use/column-options';
 import CubeColumnChooser from './cube-column-chooser';
 import HypercubeTable from './hypercube-table';
 import useForce from './use/force';
-import useModel from './use/model';
+import useResolvedValue from './use/resolved-value';
 
 import './cube.pcss';
 
@@ -143,7 +144,7 @@ const Cube = forwardRef(({
   const measures = columns.filter(column => column.type === 'measure');
   const dimensions = columns.filter(column => column.type === 'dimension' || column.type === 'field');
   hypercubeProps = useMemo(() => createProperties(dimensions, measures), [columns]);
-  model = useModel(app, hypercubeProps);
+  model = useResolvedValue(useModel(app, hypercubeProps));
 
   const isEmpty = measures.length + dimensions.length === 0;
   if (isEmpty && addOpen.current) {
