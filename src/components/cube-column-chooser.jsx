@@ -76,9 +76,9 @@ export default function CubeColumnChooser({
       </div>
       <Tabs>
         <TabList>
-          <Tab>Fields</Tab>
-          <Tab>Dimensions</Tab>
-          <Tab>Measures</Tab>
+          <Tab data-title="fields">Fields</Tab>
+          <Tab data-title="dimensions">Dimensions</Tab>
+          <Tab data-title="measures">Measures</Tab>
         </TabList>
         <TabPanel>
           {getElementList('field')}
