@@ -43,8 +43,8 @@ export default function CubeColumnChooser({
 
   const itemElement = filteredColumnsOptions.map(column => (
     <li className="expression" key={`${column.title}:${column.type}`} data-title={column.title}>
-      <span className="expression-title">{column.title}</span>
-      <span className="expression-type">{column.type}</span>
+      <span className={`expression-title ${column.type}-color`}>{column.title}</span>
+      <span className={`expression-type ${column.type}-color`}>{column.type}</span>
     </li>
   ));
 
