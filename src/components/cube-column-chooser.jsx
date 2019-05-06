@@ -1,10 +1,14 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import SVGInline from 'react-svg-inline';
+import {
+  Tabs, Tab, TabList, TabPanel,
+} from 'react-tabs';
 
 import useClickOutside from './use/click-outside';
 import funnel from '../assets/funnel-outline.svg';
 
+import 'react-tabs/style/react-tabs.css';
 import './cube-column-chooser.pcss';
 
 function findAttribute(event, attrName) {
@@ -41,14 +45,6 @@ export default function CubeColumnChooser({
     chooseColumn(selectableColumns.find(c => c.title === title));
   }
 
-  const itemElement = filteredColumnsOptions.map(column => (
-    <li className="expression" key={`${column.title}:${column.type}`} data-title={column.title}>
-      <span className="expression-title">{column.title}</span>
-      <span className="expression-type">{column.type}</span>
-    </li>
-  ));
-
-
   const rect = alignTo.getBoundingClientRect();
   let popupStyle;
   if (arrowStyle === 'arrowRight') {
@@ -56,6 +52,19 @@ export default function CubeColumnChooser({
   } else {
     popupStyle = { left: rect.left + rect.width / 2, top: rect.top - 43 * 8 - 4 };
   }
+
+  const getElementList = (type) => {
+    const elements = filteredColumnsOptions.filter(c => c.type === type).map(column => (
+      <li className="expression" key={`${column.title}:${column.type}`} data-title={column.title}>
+        <span className="expression-title">{column.title}</span>
+      </li>
+    ));
+    return (
+      <ul className="expression-list" onClick={e => selectRow(e)}>
+        {elements}
+      </ul>
+    );
+  };
 
   return (
     <div className={`cube-column-chooser ${arrowStyle}`} style={popupStyle} ref={selfRef}>
@@ -65,9 +74,22 @@ export default function CubeColumnChooser({
         </div>
         <input type="text" autoFocus ref={inputRef} onKeyUp={e => updateFilter(e)} />
       </div>
-      <ul className="expression-list" onClick={e => selectRow(e)}>
-        {itemElement}
-      </ul>
+      <Tabs>
+        <TabList>
+          <Tab data-title="fields">Fields</Tab>
+          <Tab data-title="dimensions">Dimensions</Tab>
+          <Tab data-title="measures">Measures</Tab>
+        </TabList>
+        <TabPanel>
+          {getElementList('field')}
+        </TabPanel>
+        <TabPanel>
+          {getElementList('dimension')}
+        </TabPanel>
+        <TabPanel>
+          {getElementList('measure')}
+        </TabPanel>
+      </Tabs>
     </div>
   );
 }
