@@ -38,7 +38,8 @@
     "react-outside-click-handler": "1.2.3",
     "react-svg-inline": "2.1.1",
     "react-use-promise": "0.2.0",
-    "react-virtualized": "9.21.0"
+    "react-virtualized": "9.21.0",
+    "react-tabs": "3.0.0"
   },
   "devDependencies": {
     "@after-work.js/cli": "6.0.3",
