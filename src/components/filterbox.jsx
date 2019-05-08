@@ -183,7 +183,7 @@ function useSearch(model, selfRef, inputRef) {
   return { onSearch };
 }
 
-export default function Filterbox({ model, layout }) {
+export default function Filterbox({ model, layout, className }) {
   const selfRef = useRef(null);
   const inputRef = useRef(null);
   const { onRowClick } = useSelections(model, layout, selfRef);
@@ -223,6 +223,7 @@ export default function Filterbox({ model, layout }) {
             flexShrink={1}
             cellDataGetter={listboxNameColumnGetter}
             cellRenderer={nameCellRenderer}
+            className={className}
           />
           <Column
             width={50}
@@ -242,9 +243,11 @@ export default function Filterbox({ model, layout }) {
 Filterbox.defaultProps = {
   model: null,
   layout: null,
+  className: null,
 };
 
 Filterbox.propTypes = {
   model: PropTypes.object,
   layout: PropTypes.object,
+  className: PropTypes.object,
 };
