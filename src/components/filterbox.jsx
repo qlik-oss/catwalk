@@ -49,7 +49,7 @@ function freqCellRenderer({ rowData }) {
     return (<div>...</div>);
   }
   if (rowData[0].qState === 'X') {
-    return (<div />);
+    return (<div title="no frequency information">-</div>);
   }
 
   const freq = rowData[0].qFrequency;
