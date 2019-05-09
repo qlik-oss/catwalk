@@ -23,13 +23,15 @@ function nameCellRenderer({ rowData }) {
     return (<div>...</div>);
   }
   let title;
+  let className;
   if (!rowData[0].qNum || rowData[0].qNum === 'NaN') {
     title = `'${rowData[0].qText || ''}' (No numerical representation)`;
   } else {
+    className = 'numeric';
     title = `'${rowData[0].qText}' (Numerical representation: ${rowData[0].qNum})`;
   }
   return (
-    <div title={title}>
+    <div title={title} className={className}>
       {rowData[0].qText ? rowData[0].qText : '< empty >'}
     </div>
   );
@@ -60,7 +62,7 @@ function freqCellRenderer({ rowData }) {
     );
   }
   return (
-    <div />
+    <div title="no frequency information">-</div>
   );
 }
 freqCellRenderer.propTypes = {
@@ -183,7 +185,7 @@ function useSearch(model, selfRef, inputRef) {
   return { onSearch };
 }
 
-export default function Filterbox({ model, layout, className }) {
+export default function Filterbox({ model, layout }) {
   const selfRef = useRef(null);
   const inputRef = useRef(null);
   const { onRowClick } = useSelections(model, layout, selfRef);
@@ -223,7 +225,6 @@ export default function Filterbox({ model, layout, className }) {
             flexShrink={1}
             cellDataGetter={listboxNameColumnGetter}
             cellRenderer={nameCellRenderer}
-            className={className}
           />
           <Column
             width={50}
@@ -243,11 +244,9 @@ export default function Filterbox({ model, layout, className }) {
 Filterbox.defaultProps = {
   model: null,
   layout: null,
-  className: null,
 };
 
 Filterbox.propTypes = {
   model: PropTypes.object,
   layout: PropTypes.object,
-  className: PropTypes.object,
 };

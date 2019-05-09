@@ -49,10 +49,6 @@ function TableFieldWithoutState({
 
   const total = layout.qListObject.qDimensionInfo.qCardinal;
   const states = layout.qListObject.qDimensionInfo.qStateCounts;
-  let filterboxClassName;
-  if ((fieldData.qTags && fieldData.qTags.find(item => item === '$numeric'))) {
-    filterboxClassName = 'right-align';
-  }
 
   if (states.qSelected) {
     classes += ' filtered';
@@ -81,7 +77,7 @@ function TableFieldWithoutState({
     border: `2px ${stroke} ${fieldData.backgroundColor}`,
   };
 
-  const filterBox = showFilterbox ? <Filterbox model={model} layout={layout} className={filterboxClassName} /> : null;
+  const filterBox = showFilterbox ? <Filterbox model={model} layout={layout} /> : null;
   return (
     <div
       className={classes}
