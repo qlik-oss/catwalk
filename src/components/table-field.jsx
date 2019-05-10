@@ -77,7 +77,7 @@ function TableFieldWithoutState({
     border: `2px ${stroke} ${fieldData.backgroundColor}`,
   };
 
-  const filterBox = showFilterbox ? <Filterbox model={model} layout={layout} field={field} /> : null;
+  const filterBox = showFilterbox ? <Filterbox model={model} layout={layout} /> : null;
   return (
     <div
       className={classes}

@@ -23,13 +23,15 @@ function nameCellRenderer({ rowData }) {
     return (<div>...</div>);
   }
   let title;
+  let className;
   if (!rowData[0].qNum || rowData[0].qNum === 'NaN') {
     title = `'${rowData[0].qText || ''}' (No numerical representation)`;
   } else {
+    className = 'numeric';
     title = `'${rowData[0].qText}' (Numerical representation: ${rowData[0].qNum})`;
   }
   return (
-    <div title={title}>
+    <div title={title} className={className}>
       {rowData[0].qText ? rowData[0].qText : '< empty >'}
     </div>
   );
@@ -47,7 +49,7 @@ function freqCellRenderer({ rowData }) {
     return (<div>...</div>);
   }
   if (rowData[0].qState === 'X') {
-    return (<div />);
+    return (<div title="no frequency information">n/a</div>);
   }
 
   const freq = rowData[0].qFrequency;
@@ -60,7 +62,7 @@ function freqCellRenderer({ rowData }) {
     );
   }
   return (
-    <div />
+    <div title="no frequency information">n/a</div>
   );
 }
 freqCellRenderer.propTypes = {
