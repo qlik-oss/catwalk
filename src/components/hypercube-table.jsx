@@ -92,13 +92,34 @@ headerRowRenderer.propTypes = {
   style: PropTypes.object.isRequired,
 };
 
+function columnHeaderRenderer({ label }) {
+  return (
+    <div className="column-header">
+      <span className="ReactVirtualized__Table__headerTruncatedText" key="label">
+        {label}
+      </span>
+      <span>
+        <svg title="remove column" width={16} height={16} viewBox="0 0 24 24">
+          <path d="M21 6h-5V4.33A2.42 2.42 0 0 0 13.5 2h-3A2.42 2.42 0 0 0 8 4.33V6H3a1 1 0 0 0 0 2h1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8h1a1 1 0 0 0 0-2zM10 4.33c0-.16.21-.33.5-.33h3c.29 0 .5.17.5.33V6h-4zM18 19a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V8h12z" />
+          <path d="M9 17a1 1 0 0 0 1-1v-4a1 1 0 0 0-2 0v4a1 1 0 0 0 1 1z" />
+          <path d="M15 17a1 1 0 0 0 1-1v-4a1 1 0 0 0-2 0v4a1 1 0 0 0 1 1z" />
+        </svg>
+      </span>
+    </div>
+  );
+}
+
+columnHeaderRenderer.propTypes = {
+  label: PropTypes.any.isRequired,
+};
+
 function noRowsRenderer() {
   return <div className="no-values">No values</div>;
 }
 
 const GLYPH_SIZE = 8; // Aproximate max width in pixels of a glyph
 const MAX_ROW_GLYTH_LENGTH = 40; // If the column is more than 40 glyphs wide then limit it
-const PADDING = 8; // The total padding added around table cells
+const PADDING = 20; // The total padding added around table cells
 const BORDER = 1; // The size added by the border between cells
 const SCROLLBAR_PADDING = 17; // React-virtualized adds and subtracts this value to accomodate for the space stolen by the scroll bar
 
@@ -149,35 +170,37 @@ export default function HypercubeTable({
           headerRowRenderer={headerRowRenderer}
           onHeaderClick={data => onHeaderClick(data)}
           headerRowHeight={24}
-          width={calculatedWidth < maxWidth ? calculatedWidth : maxWidth}
+          width={(calculatedWidth < maxWidth || maxWidth === 0) ? calculatedWidth : maxWidth}
           height={height}
           defPath="/qHyperCubeDef"
         >
           {dimensions.map((dim, dimensionIndex) => (
             <Column
+              minWidth={80}
               label={dim.title}
               dataKey={dim.title}
               columnData={dim}
               key={dim.title}
               width={getDimensionWidth(layout, dimensionIndex, dim.title)}
               flexGrow={1}
-              flexShrink={1}
               cellDataGetter={cellGetterForIndex(dimensionIndex)}
               cellRenderer={cellRendererForIndex(dimensionIndex)}
+              headerRenderer={columnHeaderRenderer}
             />
           ))
           }
           {measures.map((measure, measureIndex) => (
             <Column
               width={getMeasureWidth(layout, measureIndex, measure.title)}
+              minWidth={80}
               label={measure.title}
               dataKey={measure.title}
               columnData={measure}
-              key="measure"
+              key={measure.title}
               flexGrow={1}
-              flexShrink={1}
               cellDataGetter={cellGetterForIndex(dimensions.length + measureIndex)}
               cellRenderer={cellRendererForIndex(dimensions.length + measureIndex)}
+              headerRenderer={columnHeaderRenderer}
             />
           ))
            }
@@ -193,7 +216,7 @@ HypercubeTable.propTypes = {
   measures: PropTypes.arrayOf(PropTypes.object),
   dimensions: PropTypes.arrayOf(PropTypes.object),
   model: PropTypes.object,
-  maxWidth: PropTypes.number.isRequired,
+  maxWidth: PropTypes.number,
   height: PropTypes.number.isRequired,
 };
 HypercubeTable.defaultProps = {
@@ -201,4 +224,5 @@ HypercubeTable.defaultProps = {
   measures: [],
   dimensions: [],
   model: null,
+  maxWidth: 0,
 };

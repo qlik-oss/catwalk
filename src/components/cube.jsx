@@ -106,8 +106,14 @@ const Cube = forwardRef(({
   }
 
   function onHeaderClick({ columnData, event }) {
-    columnToReplace.current = columnData;
-    toggleAdd(event);
+    if (event.target && (event.target.tagName === 'path' || event.target.tagName === 'svg')) {
+      // remove column
+      setColumns(columns.filter(c => c !== columnData));
+    } else {
+      // add column
+      columnToReplace.current = columnData;
+      toggleAdd(event);
+    }
   }
 
   function createProperties(dimensions, measures) {
@@ -157,7 +163,7 @@ const Cube = forwardRef(({
         <div role="button" title="Add another column" tabIndex="-1" className={`column-add-button ${isEmpty ? 'empty' : ''}`} onClick={e => toggleAdd(e)}>
           <span className="text">+</span>
         </div>
-        {!isEmpty ? <HypercubeTable model={model} onHeaderClick={data => onHeaderClick(data)} dimensions={dimensions} measures={measures} height={28 * 8} maxWidth={100 * 8} /> : null}
+        {!isEmpty ? <HypercubeTable model={model} onHeaderClick={data => onHeaderClick(data)} dimensions={dimensions} measures={measures} height={28 * 8} /> : null}
       </div>
     </div>
   );
