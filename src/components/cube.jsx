@@ -22,7 +22,7 @@ import './cube.pcss';
 // The component needs to be wrapped in `forwardRef` to give access to the
 // ref object assigned using the `ref` prop.
 const Cube = forwardRef(({
-  app, tableData: { initialColumns }, closeOnClickOutside, id, isLocalStorage,
+  app, tableData: { initialColumns }, closeOnClickOutside, id, isLocalStorage, closeCube,
 }, ref) => {
   const selectableColumns = useColumnOptions(app);
   const [columns, setColumns] = useState(initialColumns);
@@ -156,6 +156,11 @@ const Cube = forwardRef(({
   if (isEmpty && addOpen.current) {
     return popup;
   }
+
+  if (isEmpty && closeCube) {
+    closeCube(id);
+  }
+
   return (
     <div className={`cube ${isEmpty ? 'empty' : ''}`}>
       {popup}
@@ -173,6 +178,7 @@ export default Cube;
 Cube.defaultProps = {
   closeOnClickOutside: () => true,
   isLocalStorage: false,
+  closeCube: undefined,
 };
 
 Cube.propTypes = {
@@ -181,4 +187,5 @@ Cube.propTypes = {
   closeOnClickOutside: PropTypes.func,
   id: PropTypes.number.isRequired,
   isLocalStorage: PropTypes.bool,
+  closeCube: PropTypes.func,
 };
