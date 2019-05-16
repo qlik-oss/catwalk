@@ -100,7 +100,7 @@ export function Cubes({ app, closeOnClickOutside, isLocalStorage }) {
         <SVGInline className="copy" svg={copy} onClick={() => copyToClipboard(cube.id)} title="Copy hypercube def to clipboard" />
         <SVGInline {...closeButton} onClick={() => removeCube(cube.id)} title="Close cube" />
       </div>
-      <Cube ref={refs.current[cube.id]} app={app} tableData={cube} closeOnClickOutside={closeOnClickOutside} id={cube.id} isLocalStorage={isLocalStorage} />
+      <Cube ref={refs.current[cube.id]} app={app} tableData={cube} closeOnClickOutside={closeOnClickOutside} id={cube.id} isLocalStorage={isLocalStorage} closeCube={removeCube} />
     </div>
   ));
   return (

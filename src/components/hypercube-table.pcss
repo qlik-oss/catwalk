@@ -49,6 +49,26 @@
     outline: none;
   }
 
+  svg {
+    cursor: pointer;
+    display: none;
+    fill: #4d4d4d;
+    float: right;
+
+    &:hover {
+      fill: #ff3232;
+    }
+  }
+
+  .column-header {
+    &:hover {
+      svg {
+        animation: fade 0.4s ease-in;
+        display: block;
+      }
+    }
+  }
+
   .ReactVirtualized__Table__rowColumn {
     background-color: white;
     border-bottom: 1px solid #d9d9d9;
