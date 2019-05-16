@@ -23,7 +23,7 @@ function cellRendererForIndex(index) {
       return (<div>...</div>);
     }
     let title;
-    if (!rowData[index].qNum || rowData[index].qNum === 'NaN') {
+    if (rowData[index].qNum == null || rowData[index].qNum === 'NaN') {
       title = `'${rowData[index].qText || ''}' (No numerical representation)`;
     } else {
       title = `'${rowData[index].qText}' (Numerical representation: ${rowData[index].qNum})`;
