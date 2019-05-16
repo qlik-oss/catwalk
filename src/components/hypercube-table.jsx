@@ -183,8 +183,8 @@ export default function HypercubeTable({
               key={dim.title}
               width={getDimensionWidth(layout, dimensionIndex, dim.title)}
               flexGrow={1}
-              cellDataGetter={cellGetterForIndex(dimensionIndex)}
-              cellRenderer={cellRendererForIndex(dimensionIndex)}
+              cellDataGetter={cellGetterForIndex(layout.qHyperCube.qEffectiveInterColumnSortOrder.indexOf(dimensionIndex))}
+              cellRenderer={cellRendererForIndex(layout.qHyperCube.qEffectiveInterColumnSortOrder.indexOf(dimensionIndex))}
               headerRenderer={columnHeaderRenderer}
             />
           ))
@@ -198,8 +198,8 @@ export default function HypercubeTable({
               columnData={measure}
               key={measure.title}
               flexGrow={1}
-              cellDataGetter={cellGetterForIndex(dimensions.length + measureIndex)}
-              cellRenderer={cellRendererForIndex(dimensions.length + measureIndex)}
+              cellDataGetter={cellGetterForIndex(layout.qHyperCube.qEffectiveInterColumnSortOrder.indexOf(dimensions.length + measureIndex))}
+              cellRenderer={cellRendererForIndex(layout.qHyperCube.qEffectiveInterColumnSortOrder.indexOf(dimensions.length + measureIndex))}
               headerRenderer={columnHeaderRenderer}
             />
           ))
