@@ -8,31 +8,29 @@ import useResolvedValue from './use/resolved-value';
 
 import './hypercube-table.pcss';
 
-function cellGetterForIndex(index, layout) {
+function cellGetterForIndex(index) {
   return function cellGetter({ rowData }) {
-    const indexInQMatrix = layout.qHyperCube.qEffectiveInterColumnSortOrder.indexOf(index);
-    if (!rowData || !rowData[indexInQMatrix]) {
+    if (!rowData || !rowData[index]) {
       return '';
     }
-    return rowData[indexInQMatrix].qText;
+    return rowData[index].qText;
   };
 }
 
-function cellRendererForIndex(index, layout) {
+function cellRendererForIndex(index) {
   function cellRenderer({ rowData }) {
-    const indexInQMatrix = layout.qHyperCube.qEffectiveInterColumnSortOrder.indexOf(index);
-    if (!rowData || !rowData[indexInQMatrix]) {
+    if (!rowData || !rowData[index]) {
       return (<div>...</div>);
     }
     let title;
-    if (!rowData[indexInQMatrix].qNum || rowData[indexInQMatrix].qNum === 'NaN') {
-      title = `'${rowData[indexInQMatrix].qText || ''}' (No numerical representation)`;
+    if (!rowData[index].qNum || rowData[index].qNum === 'NaN') {
+      title = `'${rowData[index].qText || ''}' (No numerical representation)`;
     } else {
-      title = `'${rowData[indexInQMatrix].qText}' (Numerical representation: ${rowData[indexInQMatrix].qNum})`;
+      title = `'${rowData[index].qText}' (Numerical representation: ${rowData[index].qNum})`;
     }
     return (
       <div title={title}>
-        {rowData[indexInQMatrix].qText ? rowData[indexInQMatrix].qText : '< empty >'}
+        {rowData[index].qText ? rowData[index].qText : '< empty >'}
       </div>
     );
   }
@@ -185,8 +183,8 @@ export default function HypercubeTable({
               key={dim.title}
               width={getDimensionWidth(layout, dimensionIndex, dim.title)}
               flexGrow={1}
-              cellDataGetter={cellGetterForIndex(dimensionIndex, layout)}
-              cellRenderer={cellRendererForIndex(dimensionIndex, layout)}
+              cellDataGetter={cellGetterForIndex(layout.qHyperCube.qEffectiveInterColumnSortOrder.indexOf(dimensionIndex))}
+              cellRenderer={cellRendererForIndex(layout.qHyperCube.qEffectiveInterColumnSortOrder.indexOf(dimensionIndex))}
               headerRenderer={columnHeaderRenderer}
             />
           ))
@@ -200,8 +198,8 @@ export default function HypercubeTable({
               columnData={measure}
               key={measure.title}
               flexGrow={1}
-              cellDataGetter={cellGetterForIndex(dimensions.length + measureIndex, layout)}
-              cellRenderer={cellRendererForIndex(dimensions.length + measureIndex, layout)}
+              cellDataGetter={cellGetterForIndex(layout.qHyperCube.qEffectiveInterColumnSortOrder.indexOf(dimensions.length + measureIndex))}
+              cellRenderer={cellRendererForIndex(layout.qHyperCube.qEffectiveInterColumnSortOrder.indexOf(dimensions.length + measureIndex))}
               headerRenderer={columnHeaderRenderer}
             />
           ))
