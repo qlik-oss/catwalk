@@ -24,7 +24,7 @@ function nameCellRenderer({ rowData }) {
   }
   let title;
   let className;
-  if (!rowData[0].qNum || rowData[0].qNum === 'NaN') {
+  if (rowData[0].qNum == null || rowData[0].qNum === 'NaN') {
     title = `'${rowData[0].qText || ''}' (No numerical representation)`;
   } else {
     className = 'numeric';
