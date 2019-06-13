@@ -78,7 +78,7 @@ export default function App() {
         {guide}
         <InfoBoxProvider>
           <TopBar app={app} appLayout={appLayout} startGuide={() => guideRef.current.startGuideFunc()} isLocalStorage={localStorageEnabled} />
-          <Model app={app} appLayout={appLayout} />
+          <Model app={app} appLayout={appLayout} isLocalStorage={localStorageEnabled} />
           {cubes}
         </InfoBoxProvider>
       </div>
