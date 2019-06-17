@@ -61,7 +61,6 @@ export default function Model({ app, appLayout, isLocalStorage }) {
     setAtPlayModel(newAtPlayModel);
   }, [tablesAndKeys]);
 
-
   function showFieldDetails(table, field, boxId) {
     // toggle the detailsView - if already open in this box, close.
     if (currentDetailsView && boxId === currentDetailsView.boxId) {
@@ -142,7 +141,6 @@ export default function Model({ app, appLayout, isLocalStorage }) {
 
   let odd = false;
   const assocationsHighlighted = Object.keys(openBoxes).length > 1;
-  const defaultTableWidth = 232;
   const gridz = queryModel.resultTableList.map((tableName) => {
     let columnClasses = 'column';
     let headerClasses = 'vertcell tableheader';
@@ -157,21 +155,18 @@ export default function Model({ app, appLayout, isLocalStorage }) {
     }
     odd = !odd;
 
-    const saveTableWidth = (delta, name) => {
+    const saveTableWidth = (ref, name) => {
       if (isLocalStorage) {
         const key = `${app.id}/tables/${name}`;
-        let width = Number(localStorage.getItem(key) || defaultTableWidth);
-        width += delta.width;
-        if (width === defaultTableWidth) {
-          localStorage.removeItem(key);
-        } else {
-          localStorage.setItem(key, width);
-        }
+
+        localStorage.setItem(key, ref.offsetWidth);
       }
     };
 
     const key = `${app.id}/tables/${tableName}`;
-    const tableWidth = (isLocalStorage && localStorage.getItem(key)) || defaultTableWidth;
+    const minTableWidth = 29 * 8;
+    const savedTableWidth = (isLocalStorage && localStorage.getItem(key));
+    const tableSize = savedTableWidth ? { width: `${savedTableWidth}px` } : 'auto';
     const handleStyle = {
       right: {
         zIndex: 3,
@@ -181,8 +176,8 @@ export default function Model({ app, appLayout, isLocalStorage }) {
     return (
       <Resizable
         key={tableName}
-        defaultSize={{ width: `${tableWidth}px` }}
-        minWidth={defaultTableWidth}
+        defaultSize={tableSize}
+        minWidth={minTableWidth}
         enable={{
           top: false,
           right: true,
@@ -194,7 +189,7 @@ export default function Model({ app, appLayout, isLocalStorage }) {
           topLeft: false,
         }}
         onResizeStart={e => e.stopPropagation()}
-        onResizeStop={(e, dir, ref, delta) => saveTableWidth(delta, tableName)}
+        onResizeStop={(e, dir, ref) => saveTableWidth(ref, tableName)}
         handleStyles={handleStyle}
       >
         <div>
