@@ -170,6 +170,7 @@ export default function Model({ app, appLayout, isLocalStorage }) {
     const handleStyle = {
       right: {
         zIndex: 3,
+        width: '3.5em',
       },
     };
 
