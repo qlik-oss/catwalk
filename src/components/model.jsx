@@ -13,7 +13,6 @@ import atplay from '../logic/atplay';
 import demoApp from '../demo-app';
 
 import { getExtraInfoForField, getAssosicationTooltip, getTableTooltip } from './tooltip';
-
 import './model.pcss';
 import './tooltip.pcss';
 
@@ -164,16 +163,13 @@ export default function Model({ app, appLayout, isLocalStorage }) {
     };
 
     const key = `${app.id}/tables/${tableName}`;
-    const minTableWidth = 29 * 8;
+    const styles = getComputedStyle(document.documentElement);
+    const fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const padding = +styles.getPropertyValue('--padding').replace('em', '');
+    const minTableFieldWidth = +styles.getPropertyValue('--table-field-min-size').replace('em', '');
+    const minTableWidth = (minTableFieldWidth + padding * 2) * fontSize;
     const savedTableWidth = (isLocalStorage && localStorage.getItem(key));
     const tableSize = savedTableWidth ? { width: `${savedTableWidth}px` } : 'auto';
-    const handleStyle = {
-      right: {
-        zIndex: 3,
-        width: '3.5em',
-      },
-    };
-
     return (
       <Resizable
         key={tableName}
@@ -191,7 +187,7 @@ export default function Model({ app, appLayout, isLocalStorage }) {
         }}
         onResizeStart={e => e.stopPropagation()}
         onResizeStop={(e, dir, ref) => saveTableWidth(ref, tableName)}
-        handleStyles={handleStyle}
+        handleClasses={{ right: 'resize-handle' }}
       >
         <div>
           <div
