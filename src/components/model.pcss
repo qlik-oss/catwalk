@@ -1,6 +1,6 @@
 .model {
-  --table-background: #f2f2f2;
-  --grid-background: #f2f2f2;
+  --table-background: var(--light-grey);
+  --grid-background: var(--light-grey);
   --even-column-background: #f6f6f6;
   --odd-column-background: #e8e8e8;
   --association-border: #999;
@@ -26,7 +26,7 @@
     font-weight: bold;
     justify-content: center;
     min-height: 11rem;
-    padding: 3.5rem;
+    padding: var(--padding);
     text-align: center;
     word-break: break-word;
 
@@ -83,7 +83,7 @@
   .association-to-right-b {
     box-sizing: border-box;
     height: 0.5em;
-    width: 3.5em;
+    width: var(--padding);
   }
 
   .association-to-right-c {
@@ -141,7 +141,7 @@
     box-sizing: border-box;
     height: 0.5em;
     transform: translateX(-2.5em);
-    width: 3.5em;
+    width: var(--padding);
   }
 
   .association-to-left-c {
@@ -166,10 +166,10 @@
 
   .betweener .lineyinner {
     bottom: 3em;
-    left: -3.5em;
+    left: var(--padding-negative);
     position: absolute;
-    right: -3.5em;
-    top: 3.5em;
+    right: var(--padding-negative);
+    top: var(--padding);
   }
 
   .betweener.insideTable {
@@ -191,7 +191,7 @@
 
     .column {
       box-sizing: border-box;
-      padding: 3.5em;
+      padding: var(--padding);
       padding-top: 0;
     }
 
@@ -256,5 +256,10 @@
 
   .notTableAtPlay .insideTable {
     background-color: var(--table-background);
+  }
+
+  .resize-handle {
+    z-index: 3;
+    width: var(--padding) !important;
   }
 }
