@@ -40,7 +40,7 @@
     "react-use-promise": "0.2.0",
     "react-virtualized": "9.21.1",
     "react-tabs": "3.0.0",
-    "re-resizable": "4.11.0"
+    "re-resizable": "5.0.1"
   },
   "devDependencies": {
     "@after-work.js/cli": "6.0.3",
