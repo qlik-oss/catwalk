@@ -2,9 +2,6 @@
   "modules": false,
   "plugins": {
     "postcss-nested": {},
-    "autoprefixer": {
-      "browsers": ["last 2 versions"]
-    },
     "stylelint": {}
   }
 }
