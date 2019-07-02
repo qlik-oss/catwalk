@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import usePromise from 'react-use-promise';
 import ReactFloater from 'react-floater';
-import Resizable from 're-resizable';
+import { Resizable } from 're-resizable';
 
 import ScrollArea from './scroll-area';
 import TableField from './table-field';
