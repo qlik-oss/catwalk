@@ -54,13 +54,25 @@ export default function Splash({
       <h3>Engine running in Docker container</h3>
       <p>
         For connecting to an Engine running in a Docker container with a mounted data volume containing the app and starting
-        engine with <strong>DocumentDirectory=&lt;data-folder&gt;</strong>, the websocket URL will
-        be <strong>ws://&lt;host&gt;:&lt;port&gt;/&lt;data-folder/&lt;app&gt;</strong>. E.g. <strong>ws://localhost:9076/data/my-excellent-app</strong>.
+        engine with
+        {' '}
+        <strong>DocumentDirectory=&lt;data-folder&gt;</strong>
+, the websocket URL will
+        be
+        {' '}
+        <strong>ws://&lt;host&gt;:&lt;port&gt;/&lt;data-folder/&lt;app&gt;</strong>
+. E.g.
+        {' '}
+        <strong>ws://localhost:9076/data/my-excellent-app</strong>
+.
       </p>
       <h3>Qlik Sense Enterprise on Windows</h3>
       <p>
         For connecting to a Qlik Sense Enterprise on Windows using default virtual proxy, the websocket URL will
-        be <strong>wss://&lt;sense-host.com&gt;/app/&lt;app-GUID&gt;</strong>. If using a custom virtual proxy the
+        be
+        {' '}
+        <strong>wss://&lt;sense-host.com&gt;/app/&lt;app-GUID&gt;</strong>
+. If using a custom virtual proxy the
         websocket URL will need to reflect this. Also note that for the Sense Proxy to allow sessions from catwalk,
         catwalk needs to be whitelisted in Qlik Sense Enterprise.
       </p>
@@ -70,7 +82,10 @@ export default function Splash({
       </p>
       <h3>Qlik Sense Desktop</h3>
       <p>
-        For connecting to a Qlik Sense Desktop, the websocket URL will be <strong>ws://localhost:4848/app/&lt;app-name&gt;</strong>.
+        For connecting to a Qlik Sense Desktop, the websocket URL will be
+        {' '}
+        <strong>ws://localhost:4848/app/&lt;app-name&gt;</strong>
+.
       </p>
     </Collapsible>
   );

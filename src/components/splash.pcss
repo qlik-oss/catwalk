@@ -90,23 +90,23 @@
   }
 
   .Collapsible__trigger {
+    border: 1px solid white;
     display: block;
     font-weight: 400;
-    text-decoration: none;
-    position: relative;
-    border: 1px solid white;
     padding: 10px;
+    position: relative;
+    text-decoration: none;
 
-    &:after {
+    &::after {
       content: '〉';
-      position: relative;
       display: block;
-      transition: transform 300ms;
+      position: relative;
       transform: rotateZ(90deg);
+      transition: transform 300ms;
     }
 
     &.is-open {
-      &:after {
+      &::after {
         transform: rotateZ(270deg);
       }
     }
