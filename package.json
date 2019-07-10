@@ -28,7 +28,9 @@
     "enigma.js": "2.4.0",
     "hamus.js": "0.3.0",
     "prop-types": "15.7.2",
+    "re-resizable": "5.0.1",
     "react": "16.8.6",
+    "react-collapsible": "2.6.0",
     "react-contexify": "4.1.1",
     "react-cookie-consent": "2.3.2",
     "react-dom": "16.8.6",
@@ -37,10 +39,9 @@
     "react-joyride": "2.0.5",
     "react-outside-click-handler": "1.2.3",
     "react-svg-inline": "2.1.1",
-    "react-use-promise": "0.2.0",
-    "react-virtualized": "9.21.1",
     "react-tabs": "3.0.0",
-    "re-resizable": "5.0.1"
+    "react-use-promise": "0.2.0",
+    "react-virtualized": "9.21.1"
   },
   "devDependencies": {
     "@after-work.js/cli": "6.0.3",
