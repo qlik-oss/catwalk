@@ -10,7 +10,7 @@ describe('doc-list', () => {
     await page.click('.Collapsible__trigger');
     await page.waitForSelector('.Collapsible__trigger.is-open');
     img = await page.screenshot({ fullPage: true });
-    await expect(img).to.matchImageOf('learn-more-info' ,OPTS);
+    await expect(img).to.matchImageOf('learn-more-info', OPTS);
   });
 
   it('should show the doc list when a valid engine url is provided', async () => {
