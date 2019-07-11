@@ -56,14 +56,14 @@ export default function Splash({
         For connecting to a Qlik Core engine running in a Docker container, with a mounted data volume containing the app and starting
         engine with
         {' '}
-        <strong>DocumentDirectory=&lt;data-folder&gt;</strong>
+        <code>DocumentDirectory=&lt;data-folder&gt;</code>
 , the websocket URL will
         be
         {' '}
-        <strong>ws://&lt;host&gt;:&lt;port&gt;/app/&lt;data-folder&gt;/&lt;app-name&gt;</strong>
+        <code>ws://&lt;host&gt;:&lt;port&gt;/app/&lt;data-folder&gt;/&lt;app-name&gt;</code>
 . E.g.
         {' '}
-        <strong>ws://localhost:9076/app/my-data-folder/my-excellent-app</strong>
+        <code>ws://localhost:9076/app/my-data-folder/my-excellent-app</code>
 . For more info, visit
         {' '}
         <a href="https://core.qlik.com/services/qix-engine/apis/qix/introduction/#websockets">https://core.qlik.com/services/qix-engine/apis/qix/introduction/#websockets</a>
@@ -71,23 +71,22 @@ export default function Splash({
       </p>
       <h3>Qlik Sense Enterprise on Windows</h3>
       <p>
-        For connecting to Qlik Sense Enterprise on Windows using default virtual proxy, the websocket URL will
+        For connecting to Qlik Sense Enterprise on Windows, the websocket URL will
         be
         {' '}
-        <strong>wss://&lt;sense-host.com&gt;/app/&lt;app-GUID&gt;</strong>
-. If using a custom virtual proxy the
-        websocket URL will need to reflect this. Also note that for the Sense Proxy to allow sessions from catwalk,
+        <code>wss://&lt;sense-host.com&gt;/&lt;virtual-proxy-prefix&gt;/app/&lt;app-GUID&gt;</code>
+. Note that for the Sense Proxy to allow sessions from catwalk,
         https://catwalk.core.qlik.com needs to be whitelisted in QMC in your Qlik Sense Enterprise on Windows deployment.
       </p>
       <p>
         Make sure that you are logged in to Qlik Sense in another browser tab/window. Then the browser tab running catwalk can use
-        the X-Qlik-Session cookie and attach to the session.
+        the session cookie and attach to the session.
       </p>
       <h3>Qlik Sense Desktop</h3>
       <p>
         For connecting to Qlik Sense Desktop, the websocket URL will be
         {' '}
-        <strong>ws://localhost:4848/app/&lt;app-name&gt;</strong>
+        <code>ws://localhost:4848/app/&lt;app-name&gt;</code>
 .
       </p>
     </Collapsible>
