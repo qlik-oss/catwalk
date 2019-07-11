@@ -16,17 +16,17 @@ Array [
           }
         }
       />
-      <h3>
-        Sets the stage for your Qlik data models
-      </h3>
-      <div>
+      <div
+        className="center-text info"
+      >
         <p>
-          WebSocket connected but no open app, in addition the app list was empty.
+          Websocket connected but the app list was empty.
         </p>
         <p>
           Please make sure there are apps accessible on this engine and reload the page, or connect to another one:
         </p>
         <form
+          className="url-form centered-content"
           onSubmit={[Function]}
         >
           <label
@@ -139,12 +139,11 @@ Array [
           }
         }
       />
-      <h3>
-        Sets the stage for your Qlik data models
-      </h3>
-      <div>
+      <div
+        className="info"
+      >
         <p>
-          WebSocket connected, but no open app. Choose one below:
+          Websocket connected, but no open app. Choose one below:
         </p>
         <ul
           className="doc-list"

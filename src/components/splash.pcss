@@ -5,16 +5,19 @@
 
 .splash {
   max-width: 80%;
+  min-width: 50%;
 
   .logo-svg {
     animation: fade 1s ease-in;
     height: 200px;
+    width: 100%;
   }
 
   .error-logo-svg {
     filter: blur(5px);
     height: 200px;
     opacity: 0.1;
+    width: 100%;
   }
 
   .doc-list {
@@ -63,5 +66,51 @@
 
   .error h1 {
     color: red;
+  }
+
+  .info {
+    margin: auto;
+    margin-top: var(--padding);
+    width: 70%;
+  }
+
+  .center-text {
+    text-align: center;
+  }
+
+  .centered-content {
+    display: inline-block;
+    text-align: left;
+  }
+
+  .url-form {
+    width: 70%;
+  }
+
+  .Collapsible__contentOuter {
+    text-align: left;
+  }
+
+  .Collapsible__trigger {
+    border: 1px solid white;
+    display: block;
+    font-weight: 400;
+    padding: 10px;
+    position: relative;
+    text-decoration: none;
+
+    &::after {
+      content: '〉';
+      display: block;
+      position: relative;
+      transform: rotateZ(90deg);
+      transition: transform 300ms;
+    }
+
+    &.is-open {
+      &::after {
+        transform: rotateZ(270deg);
+      }
+    }
   }
 }
