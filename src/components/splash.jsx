@@ -53,14 +53,14 @@ export default function Splash({
       <p>Make sure that you have the right privileges to list apps or view the app.</p>
       <h3>Connect to a Qlik Core engine</h3>
       <p>
-        For connecting to a Qlik Core engine running in a Docker container with a mounted data volume containing the app and starting
+        For connecting to a Qlik Core engine running in a Docker container, with a mounted data volume containing the app and starting
         engine with
         {' '}
         <strong>DocumentDirectory=&lt;data-folder&gt;</strong>
 , the websocket URL will
         be
         {' '}
-        <strong>ws://&lt;host&gt;:&lt;port&gt;/app/&lt;data-folder&gt;/&lt;app&gt;</strong>
+        <strong>ws://&lt;host&gt;:&lt;port&gt;/app/&lt;data-folder&gt;/&lt;app-name&gt;</strong>
 . E.g.
         {' '}
         <strong>ws://localhost:9076/app/my-data-folder/my-excellent-app</strong>
@@ -71,7 +71,7 @@ export default function Splash({
       </p>
       <h3>Qlik Sense Enterprise on Windows</h3>
       <p>
-        For connecting to a Qlik Sense Enterprise on Windows using default virtual proxy, the websocket URL will
+        For connecting to Qlik Sense Enterprise on Windows using default virtual proxy, the websocket URL will
         be
         {' '}
         <strong>wss://&lt;sense-host.com&gt;/app/&lt;app-GUID&gt;</strong>
@@ -85,7 +85,7 @@ export default function Splash({
       </p>
       <h3>Qlik Sense Desktop</h3>
       <p>
-        For connecting to a Qlik Sense Desktop, the websocket URL will be
+        For connecting to Qlik Sense Desktop, the websocket URL will be
         {' '}
         <strong>ws://localhost:4848/app/&lt;app-name&gt;</strong>
 .
