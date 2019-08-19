@@ -44,7 +44,7 @@ const Guide = forwardRef(({ isLocalStorage }, ref) => {
 
   const setStep = (stepName) => {
     setRunGuide(false);
-    setStepIndex(steps.findIndex(s => s.step === stepName));
+    setStepIndex(steps.findIndex((s) => s.step === stepName));
     setTimeout(() => setRunGuide(true), 300);
   };
 

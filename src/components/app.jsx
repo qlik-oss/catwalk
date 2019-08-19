@@ -17,8 +17,8 @@ import useResolvedValue from './use/resolved-value';
 import { useReloadInProgress } from '../enigma/reload-in-progress-interceptor';
 import './app.pcss';
 
-const useGlobal = session => usePromise(() => session.open(), [session]);
-const useApp = global => usePromise(() => (global ? global.getDoc() : null), [global]);
+const useGlobal = (session) => usePromise(() => session.open(), [session]);
+const useApp = (global) => usePromise(() => (global ? global.getDoc() : null), [global]);
 const useDocList = (global, fetchList) => usePromise(() => (fetchList ? global.getDocList() : null), [global, fetchList]);
 
 export default function App() {
@@ -73,7 +73,7 @@ export default function App() {
     guide = <Guide ref={guideRef} isLocalStorage={localStorageEnabled} />;
   }
   return (
-    <React.Fragment>
+    <>
       <div className="app">
         {guide}
         <InfoBoxProvider>
@@ -83,6 +83,6 @@ export default function App() {
         </InfoBoxProvider>
       </div>
       {reloadSplasher}
-    </React.Fragment>
+    </>
   );
 }

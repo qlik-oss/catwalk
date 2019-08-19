@@ -31,7 +31,7 @@ export function Cubes({ app, closeOnClickOutside, isLocalStorage }) {
   function addCube(column) {
     if (column) {
       let newId = count;
-      const checkId = i => i.id === newId;
+      const checkId = (i) => i.id === newId;
 
       while (cubeList.find(checkId)) {
         newId += 1;
@@ -53,7 +53,7 @@ export function Cubes({ app, closeOnClickOutside, isLocalStorage }) {
     if (!isLocalStorage) return;
     const key = `${app.id}/cubes/`;
     const storedCubeList = [];
-    Object.keys(localStorage).filter(item => item.indexOf(key) >= 0).forEach((item) => {
+    Object.keys(localStorage).filter((item) => item.indexOf(key) >= 0).forEach((item) => {
       const cube = { id: Number(item.replace(key, '')), initialColumns: JSON.parse(localStorage.getItem(item)) };
       storedCubeList.push(cube);
       refs.current[cube.id] = React.createRef();
@@ -62,7 +62,7 @@ export function Cubes({ app, closeOnClickOutside, isLocalStorage }) {
   }, []);
 
   function removeCube(id) {
-    setCubeList(cubeList.filter(item => item.id !== id));
+    setCubeList(cubeList.filter((item) => item.id !== id));
     refs.current[id] = null;
   }
 
@@ -91,14 +91,14 @@ export function Cubes({ app, closeOnClickOutside, isLocalStorage }) {
     }
   };
 
-  const popup = addOpen.current ? <CubeColumnChooser arrowStyle="arrowRight" alignTo={addButtonRef.current} selectableColumns={selectableColumns} chooseColumn={column => addCube(column)} closeOnClickOutside={closeOnClickOutside} /> : null;
-  const cubeDivs = cubeList.map(cube => (
+  const popup = addOpen.current ? <CubeColumnChooser arrowStyle="arrowRight" alignTo={addButtonRef.current} selectableColumns={selectableColumns} chooseColumn={(column) => addCube(column)} closeOnClickOutside={closeOnClickOutside} /> : null;
+  const cubeDivs = cubeList.map((cube) => (
     <div key={cube.id} className="card">
       <div className="top-bar">
         <div className="title">HYPERCUBE</div>
         { spinner ? <SVGInline className="spinner" svg={loader} /> : <SVGInline className="export" svg={exportCube} onClick={() => exportHypercube(cube.id)} title="Export to excel" /> }
         <SVGInline className="copy" svg={copy} onClick={() => copyToClipboard(cube.id)} title="Copy hypercube def to clipboard" />
-        <SVGInline {...closeButton} onClick={() => removeCube(cube.id)} title="Close cube" />
+        <SVGInline className={closeButton.className} svg={closeButton.svg} onClick={() => removeCube(cube.id)} title="Close cube" />
       </div>
       <Cube ref={refs.current[cube.id]} app={app} tableData={cube} closeOnClickOutside={closeOnClickOutside} id={cube.id} isLocalStorage={isLocalStorage} closeCube={removeCube} />
     </div>

@@ -100,7 +100,7 @@ export default function Model({ app, appLayout, isLocalStorage }) {
       // Open or close a field
       // If synthetic, do nothing.
       const fieldData = queryModel.grid[field][table];
-      const isSynthetic = (fieldData.qTags && fieldData.qTags.find(item => item === '$synthetic'));
+      const isSynthetic = (fieldData.qTags && fieldData.qTags.find((item) => item === '$synthetic'));
       if (isSynthetic) return;
       if (openBoxes[field]) {
         delete openBoxes[field];
@@ -185,7 +185,7 @@ export default function Model({ app, appLayout, isLocalStorage }) {
           bottomLeft: false,
           topLeft: false,
         }}
-        onResizeStart={e => e.stopPropagation()}
+        onResizeStart={(e) => e.stopPropagation()}
         onResizeStop={(e, dir, ref) => saveTableWidth(ref, tableName)}
         handleClasses={{ right: 'resize-handle' }}
       >
@@ -371,7 +371,7 @@ export default function Model({ app, appLayout, isLocalStorage }) {
       />
     ) : null;
   return (
-    <React.Fragment>
+    <>
       <ScrollArea className="scrollArea" height="100%" width="100%">
         <div className="model">
 
@@ -387,7 +387,7 @@ export default function Model({ app, appLayout, isLocalStorage }) {
         </div>
       </ScrollArea>
       {extraInfoContainer}
-    </React.Fragment>
+    </>
   );
 }
 

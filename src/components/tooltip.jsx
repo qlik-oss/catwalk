@@ -55,7 +55,7 @@ export function getExtraInfoForField(fieldData) {
   function keyDescription() {
     if (fieldData.srcTable.qLoose) {
       return (
-        <React.Fragment>
+        <>
           <div className="headerContainer">
             <h3 className="loose">Circular reference</h3>
           </div>
@@ -64,61 +64,61 @@ export function getExtraInfoForField(fieldData) {
             To avoid ambiguous results, table <i>{fieldData.srcTable.qName}</i> is marked as “loosely coupled”,
             which means that the logical inference cannot propagate through this table. Avoid circular references.
           </p>
-        </React.Fragment>
+        </>
       );
     }
     switch (fieldData.qKeyType) {
       case 'PERFECT_KEY':
         return (
-          <React.Fragment>
+          <>
             <div className="headerContainer">
               <h3 className="perfect-key">Perfect key</h3>
             </div>
             <span>Each row in the  <i>{fieldData.srcTable.qName}</i> table is uniquely identified by its <i>{fieldData.qName}</i> value.</span>
             <p>All <i>{fieldData.qName}</i> values in the entire data model are present in the <i>{fieldData.srcTable.qName}</i> table.</p>
-          </React.Fragment>
+          </>
         );
       case 'PRIMARY_KEY':
         return (
-          <React.Fragment>
+          <>
             <div className="headerContainer">
               <h3 className="primary-key">Primary key</h3>
             </div>
             <span>Each row in the  <i>{fieldData.srcTable.qName}</i> table is uniquely identified by its <i>{fieldData.qName}</i> value.</span>
-          </React.Fragment>
+          </>
         );
       case 'ANY_KEY':
         if (allNonNullValuesAreUnique) {
           return (
-            <React.Fragment>
+            <>
               <div className="headerContainer">
                 <h3 className="foreign-key">Foreign key</h3><h3> - Contains null rows</h3>
               </div>
               <p>All present values are unique but there are {nullCount} rows with nulls.</p>
               <p>A single <i>{fieldData.qName} </i> value identifies at most one row in the <i>{fieldData.srcTable.qName}</i> table.</p>
-            </React.Fragment>
+            </>
           );
         }
         if (fieldData.qHasNull) {
           return (
-            <React.Fragment>
+            <>
               <div className="headerContainer">
                 <h3 className="foreign-key">Foreign Key</h3><h3> - Many rows per value + null rows</h3>
               </div>
               <p>Values are repeated on several rows plus there are {nullCount} rows with nulls.</p>
               <p>A single <i>{fieldData.qName} </i> value may identify several rows in the <i>{fieldData.srcTable.qName}</i> table.</p>
-            </React.Fragment>
+            </>
           );
         }
         return (
-          <React.Fragment>
+          <>
             <div className="headerContainer">
               <h3 className="foreign-key">Foreign key</h3><h3> - Many rows per value</h3>
             </div>
             <p>Values are repeated on several rows. All rows have values.</p>
             <p>A single <i>{fieldData.qName} </i> value may identify several rows in the <i>{fieldData.srcTable.qName}</i> table.</p>
             {/* <span>Average row count per value is {avgDup} times. No nulls.</span> */}
-          </React.Fragment>
+          </>
         );
       default:
         return null;
@@ -147,7 +147,7 @@ export function getExtraInfoForField(fieldData) {
             </tr>
             {(fieldData.qnTotalDistinctValues > fieldData.qnPresentDistinctValues)
               ? (
-                <React.Fragment>
+                <>
                   <tr>
                     <th>Unique values (in this table)</th>
                     <td>{fieldData.qnPresentDistinctValues}</td>
@@ -156,15 +156,14 @@ export function getExtraInfoForField(fieldData) {
                     <th>Unique values (in all tables)</th>
                     <td>{fieldData.qnTotalDistinctValues}</td>
                   </tr>
-                </React.Fragment>
+                </>
               )
               : (
                 <tr>
                   <th>Unique values</th>
                   <td>{fieldData.qnPresentDistinctValues}</td>
                 </tr>
-              )
-            }
+              )}
             <tr>
               <th>Rows per unique value</th>
               <td>{avgDup}</td>
@@ -208,10 +207,10 @@ export function getTooltipForSyntheticField(fieldData) {
 
 
 function firstFewValues(layout) {
-  const rowToText = row => `${row[0].qText || '<empty>'}`;
+  const rowToText = (row) => `${row[0].qText || '<empty>'}`;
 
-  const selected = layout.qListObject.qDataPages[0].qMatrix.filter(row => row[0].qState === 'S' || row[0].qState === 'O');
-  const excluded = layout.qListObject.qDataPages[0].qMatrix.filter(row => row[0].qState === 'X');
+  const selected = layout.qListObject.qDataPages[0].qMatrix.filter((row) => row[0].qState === 'S' || row[0].qState === 'O');
+  const excluded = layout.qListObject.qDataPages[0].qMatrix.filter((row) => row[0].qState === 'X');
 
   let result = '';
   if (selected.length > 0) {
@@ -260,5 +259,5 @@ export function getAssosicationTooltip(fieldName) {
 }
 
 export function getTableTooltip(table) {
-  return `Table ${table.qName}${getComment(table)}\n\nRow count: ${table.qNoOfRows}\n\nFields: ${reduceWithAnd(table.qFields.map(item => item.qName), 5)}`;
+  return `Table ${table.qName}${getComment(table)}\n\nRow count: ${table.qNoOfRows}\n\nFields: ${reduceWithAnd(table.qFields.map((item) => item.qName), 5)}`;
 }

@@ -2,7 +2,7 @@
 /* eslint-disable import/no-amd */
 
 define(['qlik'],
-  qlik => ({
+  (qlik) => ({
     support: {
       snapshot: false,
       export: false,

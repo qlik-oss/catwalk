@@ -96,7 +96,7 @@ const Cube = forwardRef(({
   function addColumn(column) {
     if (column) {
       if (columnToReplace.current) {
-        setColumns(columns.map(existingColumn => (existingColumn === columnToReplace.current ? column : existingColumn)));
+        setColumns(columns.map((existingColumn) => (existingColumn === columnToReplace.current ? column : existingColumn)));
         columnToReplace.current = null;
       } else {
         setColumns([...columns, column]);
@@ -108,7 +108,7 @@ const Cube = forwardRef(({
   function onHeaderClick({ columnData, event }) {
     if (event.target && (event.target.tagName === 'path' || event.target.tagName === 'svg')) {
       // remove column
-      setColumns(columns.filter(c => c !== columnData));
+      setColumns(columns.filter((c) => c !== columnData));
     } else {
       // add column
       columnToReplace.current = columnData;
@@ -133,12 +133,12 @@ const Cube = forwardRef(({
       },
     };
     if (dimensions && dimensions.length) {
-      hypercubeDef.qHyperCubeDef.qDimensions = dimensions.map(dimension => dimension.hyperCubeContent);
+      hypercubeDef.qHyperCubeDef.qDimensions = dimensions.map((dimension) => dimension.hyperCubeContent);
     } else {
       hypercubeDef.qHyperCubeDef.qDimensions = [];
     }
     if (measures && measures.length) {
-      hypercubeDef.qHyperCubeDef.qMeasures = measures.map(measure => measure.hyperCubeContent);
+      hypercubeDef.qHyperCubeDef.qMeasures = measures.map((measure) => measure.hyperCubeContent);
     } else {
       hypercubeDef.qHyperCubeDef.qMeasures = [];
     }
@@ -147,8 +147,8 @@ const Cube = forwardRef(({
 
   const popup = addOpen.current ? <CubeColumnChooser alignTo={currentHeader.current} selectableColumns={selectableColumns} chooseColumn={addColumn} closeOnClickOutside={closeOnClickOutside} /> : null;
 
-  const measures = columns.filter(column => column.type === 'measure');
-  const dimensions = columns.filter(column => column.type === 'dimension' || column.type === 'field');
+  const measures = columns.filter((column) => column.type === 'measure');
+  const dimensions = columns.filter((column) => column.type === 'dimension' || column.type === 'field');
   hypercubeProps = useMemo(() => createProperties(dimensions, measures), [columns]);
   model = useResolvedValue(useModel(app, hypercubeProps));
 
@@ -165,10 +165,10 @@ const Cube = forwardRef(({
     <div className={`cube ${isEmpty ? 'empty' : ''}`}>
       {popup}
       <div className="table-wrapper">
-        <div role="button" title="Add another column" tabIndex="-1" className={`column-add-button ${isEmpty ? 'empty' : ''}`} onClick={e => toggleAdd(e)}>
+        <div role="button" title="Add another column" tabIndex="-1" className={`column-add-button ${isEmpty ? 'empty' : ''}`} onClick={(e) => toggleAdd(e)}>
           <span className="text">+</span>
         </div>
-        {!isEmpty ? <HypercubeTable model={model} onHeaderClick={data => onHeaderClick(data)} dimensions={dimensions} measures={measures} height={28 * 8} /> : null}
+        {!isEmpty ? <HypercubeTable model={model} onHeaderClick={(data) => onHeaderClick(data)} dimensions={dimensions} measures={measures} height={28 * 8} /> : null}
       </div>
     </div>
   );

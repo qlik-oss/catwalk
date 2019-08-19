@@ -75,7 +75,7 @@ function rowRenderer({
   const classes = `item state-${rowData ? rowData[0].qState : 'Loading'} ${className}`;
   return (
     <div
-      {...defaultProps}
+      {...defaultProps} // eslint-disable-line react/jsx-props-no-spreading
       className={classes}
       key={key}
       role="row"

@@ -1,5 +1,4 @@
 
-
 class AtPlayModel {
   /**
    * @param QueryModel model

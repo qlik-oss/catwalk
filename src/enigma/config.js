@@ -23,7 +23,7 @@ if (!engineUrl && engineUrl !== '') {
 const config = {
   schema,
   url: engineUrl,
-  createSocket: url => new WebSocket(url),
+  createSocket: (url) => new WebSocket(url),
   mixins: [...layoutCache, getDoc],
   responseInterceptors: [reloadInProgressInterceptor, {
     onRejected(session, request, error) {

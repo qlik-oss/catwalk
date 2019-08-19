@@ -97,7 +97,7 @@ export default function Splash({
       <div className="info">
         <p>Websocket connected, but no open app. Choose one below:</p>
         <ul className="doc-list">
-          {docs.map(doc => (
+          {docs.map((doc) => (
             <li onClick={() => updateEngineURL(engineURL, doc.qDocId)} key={doc.qDocId}>
               <i className="icon" />
               <span className="title">
@@ -156,10 +156,10 @@ export default function Splash({
 
   if (content) {
     return (
-      <React.Fragment>
+      <>
         <div className="center-content">
           <div className="splash">
-            <SVGInline {...contentLogo} />
+            <SVGInline className={contentLogo.className} svg={contentLogo.svg} />
             {content}
           </div>
         </div>
@@ -168,7 +168,7 @@ export default function Splash({
           onClick={speechBubbleClick}
           width="7em"
         />
-      </React.Fragment>
+      </>
     );
   }
 

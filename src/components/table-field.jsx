@@ -16,7 +16,7 @@ function TableFieldWithoutState({
 }) {
   let classes = `table-field ${fieldData.qKeyType}`;
 
-  const isSynthetic = (fieldData.qTags && fieldData.qTags.find(item => item === '$synthetic'));
+  const isSynthetic = (fieldData.qTags && fieldData.qTags.find((item) => item === '$synthetic'));
   if (isSynthetic) {
     const syntheticFieldStyle = {
       border: `2px dashed ${fieldData.backgroundColor}`,
@@ -112,7 +112,7 @@ TableFieldWithoutState.defaultProps = {
   showFilterbox: false,
 };
 
-const createDefinition = field => ({
+const createDefinition = (field) => ({
   qInfo: { qType: 'dmi-field' },
   qListObjectDef: {
     qFrequencyMode: 'V',
