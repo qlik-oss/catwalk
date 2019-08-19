@@ -7,7 +7,7 @@ import useClickOutside from './use/click-outside';
 import useResolvedValue from './use/resolved-value';
 import './selection-field.pcss';
 
-const createDefinition = field => ({
+const createDefinition = (field) => ({
   qInfo: { qType: 'dmi-field' },
   qListObjectDef: {
     qFrequencyMode: 'V',

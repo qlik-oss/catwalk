@@ -32,7 +32,7 @@ export default function CubeColumnChooser({
     }
   });
 
-  const filteredColumnsOptions = selectableColumns.filter(item => item.title.toLowerCase().indexOf(filter) >= 0);
+  const filteredColumnsOptions = selectableColumns.filter((item) => item.title.toLowerCase().indexOf(filter) >= 0);
 
 
   function updateFilter(e) {
@@ -42,7 +42,7 @@ export default function CubeColumnChooser({
 
   function selectRow(e) {
     const title = findAttribute(e, 'data-title');
-    chooseColumn(selectableColumns.find(c => c.title === title));
+    chooseColumn(selectableColumns.find((c) => c.title === title));
   }
 
   const rect = alignTo.getBoundingClientRect();
@@ -54,13 +54,13 @@ export default function CubeColumnChooser({
   }
 
   const getElementList = (type) => {
-    const elements = filteredColumnsOptions.filter(c => c.type === type).map(column => (
+    const elements = filteredColumnsOptions.filter((c) => c.type === type).map((column) => (
       <li className="expression" key={`${column.title}:${column.type}`} data-title={column.title}>
         <span className="expression-title">{column.title}</span>
       </li>
     ));
     return (
-      <ul className="expression-list" onClick={e => selectRow(e)}>
+      <ul className="expression-list" onClick={(e) => selectRow(e)}>
         {elements}
       </ul>
     );
@@ -72,7 +72,7 @@ export default function CubeColumnChooser({
         <div className="filter">
           <SVGInline className="funnel" svg={funnel} />
         </div>
-        <input type="text" autoFocus ref={inputRef} onKeyUp={e => updateFilter(e)} />
+        <input type="text" autoFocus ref={inputRef} onKeyUp={(e) => updateFilter(e)} />
       </div>
       <Tabs>
         <TabList>

@@ -38,7 +38,7 @@ export default function Field({
   const showClearSelection = onClearSelection !== null && !layout.qListObject.qDimensionInfo.qIsOneAndOnlyOne;
   const clearSelection = showClearSelection
     ? (
-      <SVGInline {...clearButton} onClick={(event) => { onClearSelection(event, field); }} />
+      <SVGInline className={clearButton.className} svg={clearButton.svg} onClick={(event) => { onClearSelection(event, field); }} />
     ) : null;
   return (
     <div className="field">

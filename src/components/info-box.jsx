@@ -9,9 +9,19 @@ import './info-box.pcss';
 
 const context = React.createContext();
 
-const InfoBoxContainer = props => (
-  <div {...props} />
+const InfoBoxContainer = ({ className, children }) => (
+  <div className={className}>
+    {children}
+  </div>
 );
+
+InfoBoxContainer.propTypes = {
+  className: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+};
 
 const InfoBox = ({ children, alert, visible }) => (
   <div className={`info-box ${visible ? 'visible' : 'hidden'}`}>
@@ -62,8 +72,7 @@ export function InfoBoxProvider({ children }) {
             <InfoBox key={infoBox.id} alert={infoBox.alert} visible={infoBox.visible}>
               <p>{infoBox.content}</p>
             </InfoBox>
-          ) : null
-        }
+          ) : null}
       </InfoBoxContainer>
     </context.Provider>
   );

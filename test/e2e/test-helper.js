@@ -9,7 +9,7 @@ const setIntervalWS = (callback, delay) => {
 };
 
 module.exports = {
-  waitUntilNoRequests: idleTime => new Promise((resolve) => {
+  waitUntilNoRequests: (idleTime) => new Promise((resolve) => {
     const intervalID = setIntervalWS(() => {
       const silence = new Date().getTime() - lastRequest;
       if (idArray.length === 0 && silence > idleTime) {

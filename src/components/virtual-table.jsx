@@ -36,19 +36,19 @@ function wrappingRowRenderer(inputParams, rowRenderer) {
     a11yProps.tabIndex = 0;
 
     if (onRowClick) {
-      a11yProps.onClick = event => onRowClick({ event, index, rowData });
+      a11yProps.onClick = (event) => onRowClick({ event, index, rowData });
     }
     if (onRowDoubleClick) {
-      a11yProps.onDoubleClick = event => onRowDoubleClick({ event, index, rowData });
+      a11yProps.onDoubleClick = (event) => onRowDoubleClick({ event, index, rowData });
     }
     if (onRowMouseOut) {
-      a11yProps.onMouseOut = event => onRowMouseOut({ event, index, rowData });
+      a11yProps.onMouseOut = (event) => onRowMouseOut({ event, index, rowData });
     }
     if (onRowMouseOver) {
-      a11yProps.onMouseOver = event => onRowMouseOver({ event, index, rowData });
+      a11yProps.onMouseOver = (event) => onRowMouseOver({ event, index, rowData });
     }
     if (onRowRightClick) {
-      a11yProps.onContextMenu = event => onRowRightClick({ event, index, rowData });
+      a11yProps.onContextMenu = (event) => onRowRightClick({ event, index, rowData });
     }
   }
   return rowRenderer({ defaultProps: a11yProps, ...inputParams });
@@ -125,7 +125,7 @@ export default function VirtualTable({
               tabIndex={null}
               onRowClick={onRowClick}
               onHeaderClick={onHeaderClick}
-              rowRenderer={params => wrappingRowRenderer(params, rowRenderer)}
+              rowRenderer={(params) => wrappingRowRenderer(params, rowRenderer)}
               headerRowRenderer={headerRowRenderer}
               headerHeight={headerRowHeight || 0}
               noRowsRenderer={noRowsRenderer}

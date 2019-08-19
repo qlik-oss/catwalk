@@ -61,7 +61,7 @@ export function layoutToListsStructure(layout) {
         }
       );
     }) : [];
-    const fields = layout.qFieldList.qItems ? layout.qFieldList.qItems.map(field => ({ title: field.qName, type: 'field', hyperCubeContent: { qDef: { qFieldDefs: [field.qName] } } })) : [];
+    const fields = layout.qFieldList.qItems ? layout.qFieldList.qItems.map((field) => ({ title: field.qName, type: 'field', hyperCubeContent: { qDef: { qFieldDefs: [field.qName] } } })) : [];
 
     const result = [
       ...measures,

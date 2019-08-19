@@ -32,13 +32,13 @@ export default function Selections({ app }) {
   let clearAll;
 
   if (layout) {
-    items = layout.qSelectionObject.qSelections.map(item => (
+    items = layout.qSelectionObject.qSelections.map((item) => (
       <li key={item.qField}>
         <SelectionField app={app} field={item.qField} fieldData={item} />
       </li>
     ));
     if (items.length) {
-      clearAll = <SVGInline {...clearButton} onClick={() => clearAllSelections()} title="Clear all selections" />;
+      clearAll = <SVGInline className={clearButton.className} svg={clearButton.svg} onClick={() => clearAllSelections()} title="Clear all selections" />;
     }
   }
 

@@ -46,7 +46,7 @@ function rowRenderer({
   const classes = `item state-${rowData ? rowData[0].qState : 'Loading'} ${className}`;
   return (
     <div
-      {...defaultProps}
+      {...defaultProps} // eslint-disable-line react/jsx-props-no-spreading
       className={classes}
       key={key}
       role="row"
@@ -168,7 +168,7 @@ export default function HypercubeTable({
           rowRenderer={rowRenderer}
           noRowsRenderer={noRowsRenderer}
           headerRowRenderer={headerRowRenderer}
-          onHeaderClick={data => onHeaderClick(data)}
+          onHeaderClick={(data) => onHeaderClick(data)}
           headerRowHeight={24}
           width={(calculatedWidth < maxWidth || maxWidth === 0) ? calculatedWidth : maxWidth}
           height={height}
@@ -187,8 +187,7 @@ export default function HypercubeTable({
               cellRenderer={cellRendererForIndex(layout.qHyperCube.qEffectiveInterColumnSortOrder.indexOf(dimensionIndex))}
               headerRenderer={columnHeaderRenderer}
             />
-          ))
-          }
+          ))}
           {measures.map((measure, measureIndex) => (
             <Column
               width={getMeasureWidth(layout, measureIndex, measure.title)}
@@ -202,8 +201,7 @@ export default function HypercubeTable({
               cellRenderer={cellRendererForIndex(layout.qHyperCube.qEffectiveInterColumnSortOrder.indexOf(dimensions.length + measureIndex))}
               headerRenderer={columnHeaderRenderer}
             />
-          ))
-           }
+          ))}
         </VirtualTable>
       </div>
     );

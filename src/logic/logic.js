@@ -67,7 +67,7 @@ function toSubsetRatioTitle(field) {
 function sortTablesBySize(tables) {
   const array = Object.values(tables);
   array.sort((a, b) => b.qNoOfRows - a.qNoOfRows);
-  return array.map(item => item.qName);
+  return array.map((item) => item.qName);
 }
 
 function sortFieldsByKeyAndName(fields) {
@@ -81,7 +81,7 @@ function sortFieldsByKeyAndName(fields) {
     }
     return a.qName.localeCompare(b.qName);
   });
-  return array.map(item => item.qName);
+  return array.map((item) => item.qName);
 }
 
 function isKey(cell) {
@@ -89,7 +89,7 @@ function isKey(cell) {
 }
 
 function biggestTableNotAnalyzed(listOfTables, tablesAlreadyAnalyzedMap) {
-  return listOfTables.find(table => !tablesAlreadyAnalyzedMap[table]);
+  return listOfTables.find((table) => !tablesAlreadyAnalyzedMap[table]);
 }
 
 
@@ -376,19 +376,19 @@ class QueryModel {
   }
 
   otherTablesOfField(tableName, fieldName) {
-    return Object.keys(this.tablesNamesOfFieldMapMap[fieldName]).filter(name => name !== tableName);
+    return Object.keys(this.tablesNamesOfFieldMapMap[fieldName]).filter((name) => name !== tableName);
   }
 
   fieldsOfTable(tableName) {
-    const keys = this.tables[tableName].qFields.filter(field => field.qKeyType !== 'NOT_KEY');
+    const keys = this.tables[tableName].qFields.filter((field) => field.qKeyType !== 'NOT_KEY');
     keys.sort((a, b) => b.qnPresentDistinctValues - a.qnPresentDistinctValues);
-    return keys.map(key => key.qName);
+    return keys.map((key) => key.qName);
   }
 
   allFieldsOfTable(tableName) {
     const keys = this.tables[tableName].qFields.slice();
     keys.sort((a, b) => b.qnPresentDistinctValues - a.qnPresentDistinctValues);
-    return keys.map(key => key.qName);
+    return keys.map((key) => key.qName);
   }
 }
 

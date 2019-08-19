@@ -38,7 +38,7 @@ export default function ScrollArea({
     }
   };
 
-  const renderChildren = dom => React.cloneElement(dom, { onMouseUp, onMouseDown });
+  const renderChildren = (dom) => React.cloneElement(dom, { onMouseUp, onMouseDown });
 
   return (
     <div
@@ -46,7 +46,7 @@ export default function ScrollArea({
       onMouseUp={onMouseUp}
       onMouseMove={onMouseMove}
       ref={scrollArea}
-      {...scrollStyle}
+      style={scrollStyle.style}
       role="tablist"
       tabIndex={-1}
     >
