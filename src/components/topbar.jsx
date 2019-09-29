@@ -17,18 +17,21 @@ import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
 
 import '../assets/ReactContexify.min.css';
 import './topbar.pcss';
+// TODO: fix issue with listing apps localhost:9076/data. Clicking an app in list will add data/app.qvf
 
 export default function TopBar({
   app, appLayout, startGuide, isLocalStorage,
 }) {
   const chooseApp = () => {
     // we need to add connected ws, if any.
-    const engineUrl = new URLSearchParams(document.location.search).get('engine_url');
+    const engineURL = new URLSearchParams(document.location.search).get('engine_url');
     let wsUrl = '';
-    if (engineUrl) {
-      wsUrl = new URL(engineUrl).origin;
+    if (engineURL) {
+      const newEngineURL = new URL(engineURL);
+      wsUrl = `${newEngineURL.origin}${newEngineURL.pathname.replace(/[^/]*$/.exec(newEngineURL.pathname)[0], '')}${newEngineURL.search}`;
     }
     const URLobject = new URL(window.location.href);
+
     window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=${wsUrl}`);
   };
   const goToGithub = () => {

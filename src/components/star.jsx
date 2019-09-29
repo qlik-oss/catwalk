@@ -3,10 +3,10 @@ import SVGInline from 'react-svg-inline';
 import star from '../assets/star.svg';
 
 export default function Star() {
-  const engineUrl = new URLSearchParams(document.location.search).get('engine_url');
+  const engineURL = new URLSearchParams(document.location.search).get('engine_url');
   let wsUrl = '';
-  if (engineUrl) {
-    wsUrl = new URL(engineUrl).origin;
+  if (engineURL) {
+    wsUrl = new URL(engineURL).origin;
   }
   const [starred, setStarred] = useState(localStorage.getItem('websocketUrl') === wsUrl);
 

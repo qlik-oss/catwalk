@@ -2,7 +2,8 @@ export default {
   types: ['Global'],
   init(args) {
     const { api, config } = args;
-    const appID = /[^/]*$/.exec(config.url)[0];
+    const url = new URL(config.url);
+    const appID = /[^/]*$/.exec(url.pathname)[0];
     api.appID = appID;
   },
   extend: {
