@@ -30,22 +30,22 @@ jobs:
           command:
             npm run test:unit
 
-      - run:
-          name: Component tests
-          command: |
-            npm run test:comp
-            if [ ! -z "$COVERALLS_REPO_TOKEN" ]; then
-              echo "Uploading coverage results to coveralls.io..."
-              cat coverage/lcov.info | npx coveralls
-            fi
+      # - run:
+      #     name: Component tests
+      #     command: |
+      #       npm run test:comp
+      #       if [ ! -z "$COVERALLS_REPO_TOKEN" ]; then
+      #         echo "Uploading coverage results to coveralls.io..."
+      #         cat coverage/lcov.info | npx coveralls
+      #       fi
 
-      - run:
-          name: E2E tests
-          command: |
-            DocID=$(curl -s --data-binary @data/drugcases.qvf http://localhost:9076/v1/apps/import | jq -r '.attributes.id')
-            npm run start:cov &
-            DocID=$DocID npm run test:e2e
-            npx nyc report -r html
+      # - run:
+      #     name: E2E tests
+      #     command: |
+      #       DocID=$(curl -s --data-binary @data/drugcases.qvf http://localhost:9076/v1/apps/import | jq -r '.attributes.id')
+      #       npm run start:cov &
+      #       DocID=$DocID npm run test:e2e
+      #       npx nyc report -r html
 
       - save_cache:
           paths:
