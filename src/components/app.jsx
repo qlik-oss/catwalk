@@ -16,7 +16,7 @@ import isLocalStorage from './local-storage';
 import useResolvedValue from './use/resolved-value';
 // TODO: rename useBackend
 
-//TODO: login to qcs when entering sockerurl in field
+// TODO: login to qcs when entering sockerurl in field
 
 import { useReloadInProgress } from '../enigma/reload-in-progress-interceptor';
 import './app.pcss';
