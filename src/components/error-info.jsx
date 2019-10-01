@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Collapsible from 'react-collapsible';
 
 export default function ErrorInfo({ error, componentStack, engineURL }) {
-  let showForm = false;
+  let showForm = true;
   let showMoreInfo = true;
 
   const learnMore = (
@@ -76,7 +76,7 @@ export default function ErrorInfo({ error, componentStack, engineURL }) {
 
   const form = (
     <>
-      <p>Please enter a valid websocket URL</p>
+      {/* <p>Please enter a valid websocket URL.</p> */}
       <form
         className="url-form centered-content"
         onSubmit={(evt) => {
@@ -97,13 +97,16 @@ Websocket address
 
   let errorText = '';
   if (error.target && error.target.constructor.name === 'WebSocket') {
-    errorText = (<p>Websocket connection failed.</p>);
-    showForm = true;
+    errorText = (
+      <>
+        <p>Websocket connection failed.</p>
+        <p>Please enter a valid websocket URL.</p>
+      </>
+    );
   } else if (error.message === 'Not connected') {
-    errorText = (<p>Websocket connection failed. If using Qlik Sense Enterprise on Windows, please log in and try again.</p>);
+    errorText = (<p>Websocket connection failed. If using Qlik Sense Enterprise on Windows, please log in and try again, or connect to another websocket.</p>);
   } else if (error.message === 'Network Error') {
     errorText = (<p>A Network Error occurred, check the websocket address for spelling errors.</p>);
-    showForm = true;
   } else if (error.message === 'Empty doc list') {
     errorText = (
       <>
@@ -112,12 +115,11 @@ Websocket address
         <p>Please make sure there are apps accessible on this engine and reload the page, or connect to another one.</p>
       </>
     );
-    showForm = true;
   } else if (!engineURL) {
     errorText = (<p>No websocket URL is provided. For more information about the websocket URL see Learn more below.</p>);
-    showForm = true;
   } else {
     showMoreInfo = false;
+    showForm = false;
     errorText = (
       <>
         <pre className="centered-content"><code>{error.stack}</code></pre>

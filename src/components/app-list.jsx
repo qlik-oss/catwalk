@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import usePromise from 'react-use-promise';
 import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroller';
 import useBackend from './use/use-backend';
-
-const useDocList = (global) => usePromise(() => (global ? global.getDocList() : null), [global]);
+import useDocList from './use/doc-list';
 
 export default function AppList({ webIntegrationId, global, engineURL }) {
   const [hasMore, setHasMore] = useState(true);
@@ -35,19 +33,14 @@ export default function AppList({ webIntegrationId, global, engineURL }) {
     window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${URLobject}`);
   }
 
-  // TODO: fix empty doc list
-  // if (tempArray.length < 1) {
-  //   throw new Error('Empty doc list');
-  // }
+  // TODO: login not redirected from ws field?
+
+  // TODO: load of applist is blinking.. set size of applist before response has been fetched?
 
   function loadMoreRows() {
     if (!isLoading && webIntegrationId) {
       loadApps();
     }
-  }
-
-  if (error) {
-    throw (error);
   }
 
   if (appsResponse && !isLoading) {
@@ -56,8 +49,8 @@ export default function AppList({ webIntegrationId, global, engineURL }) {
       if (!apps.some((a) => a.id === appsResponse.data[0].resourceId)) {
         appsResponse.data.map((app) => tempApps.push({ name: app.name, id: app.resourceId, description: app.resourceAttributes.description }));
         if (appsResponse.links.next.href) {
-          const t = appsResponse.links.next.href.substring(appsResponse.links.next.href.indexOf('/v1'));
-          setNext(t);
+          const nextHref = appsResponse.links.next.href.substring(appsResponse.links.next.href.indexOf('/v1'));
+          setNext(nextHref);
           setApps(tempApps);
         } else {
           setHasMore(false);
@@ -70,23 +63,29 @@ export default function AppList({ webIntegrationId, global, engineURL }) {
         setHasMore(false);
       }
     }
+    if (apps.length < 1) {
+      error = Error('Empty doc list');
+    }
   }
-  const loader = <div className="loader">Loading ...</div>;
+
+  if (error) {
+    throw (error);
+  }
+
+  const loader = <div key={0} className="loader">Loading ...</div>;
   const items = [];
-  if (apps.length > 0) {
-    apps.map((app) => items.push(
-      <li key={app.id} onClick={() => updateEngineURL(engineURL, app.id)}>
-        <i className="icon" />
-        <span className="title">
-          <b>{app.name}</b>
-          {' '}
+  apps.map((app) => items.push(
+    <li key={app.id} onClick={() => updateEngineURL(engineURL, app.id)}>
+      <i key={app.id} className="icon" />
+      <span className="title">
+        <b>{app.name}</b>
+        {' '}
     (
-          {app.description || 'No description'}
+        {app.description || 'No description'}
     )
-        </span>
-      </li>,
-    ));
-  }
+      </span>
+    </li>,
+  ));
 
   return (
     <div className="info">
