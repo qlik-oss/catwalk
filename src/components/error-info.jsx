@@ -6,6 +6,7 @@ export default function ErrorInfo({ error, componentStack, engineURL }) {
   let showForm = true;
   let showMoreInfo = true;
 
+  //TODO: add info about qcs in Learn more
   const learnMore = (
     <Collapsible trigger="Learn more">
       <h3>General</h3>
@@ -92,8 +93,6 @@ Websocket address
       </form>
     </>
   );
-
-  // TODO: redesign the error, logo is sometimws showing error and sometimes catwalk. Catwalk should always be there?
 
   let errorText = '';
   if (error.target && error.target.constructor.name === 'WebSocket') {

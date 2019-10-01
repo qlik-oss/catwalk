@@ -5,7 +5,7 @@ describe('<AppList />', () => {
   it('should render app list correctly', () => {
     const [{ default: AppList }] = aw.mock(
       [
-        ['**/use/use-backend.jsx', () => () => [{
+        ['**/use/rest.jsx', () => () => [{
           data: [
             { resourceId: '0ea199f3-7edc-4d17-87d2-1e68814b4c6d', name: 'FDA - Drug Cases', resourceAttributes: { description: 'This Dashboard is based on the 2015 Q4 data.' } },
             { resourceId: '909c5376-e4ed-40aa-811b-bd7fff0d49da', name: 'Consumer_Sales', resourceAttributes: { description: 'See through the eyes of a consumer goods company.  Analyze sales data by sales rep, by region, by product, etc.' } },

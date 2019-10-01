@@ -17,7 +17,6 @@ import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
 
 import '../assets/ReactContexify.min.css';
 import './topbar.pcss';
-// TODO: fix issue with listing apps localhost:9076/data. Clicking an app in list will add data/app.qvf
 
 export default function TopBar({
   app, appLayout, startGuide, isLocalStorage,

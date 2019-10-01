@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroller';
-import useBackend from './use/use-backend';
+import useRest from './use/rest';
 import useDocList from './use/doc-list';
 
 export default function AppList({ webIntegrationId, global, engineURL }) {
@@ -14,7 +14,7 @@ export default function AppList({ webIntegrationId, global, engineURL }) {
   let loadApps;
   if (webIntegrationId) {
     // QCS/QSEoK
-    [appsResponse, error, isLoading, , loadApps] = useBackend({ url: `${next}`, manual: true });
+    [appsResponse, error, isLoading, , loadApps] = useRest({ url: `${next}`, manual: true });
   } else if (global) {
     // Qlik Core/QSEoW/QS Desktop
     [appsResponse, error] = useDocList(global);

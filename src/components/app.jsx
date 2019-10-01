@@ -14,12 +14,10 @@ import Guide from './guide';
 import Loading from './loading';
 import isLocalStorage from './local-storage';
 import useResolvedValue from './use/resolved-value';
-// TODO: rename useBackend
-
-// TODO: login to qcs when entering sockerurl in field
-
 import { useReloadInProgress } from '../enigma/reload-in-progress-interceptor';
 import './app.pcss';
+
+//TODO: add tests of login flow
 
 const useGlobal = (session) => usePromise(() => session.open(), [session]);
 const useApp = (global) => usePromise(() => (global ? global.getDoc() : null), [global]);

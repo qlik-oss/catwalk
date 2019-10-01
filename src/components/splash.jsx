@@ -10,7 +10,6 @@ import { getWebIntegrationId } from '../util';
 import AppList from './app-list';
 import ErrorInfo from './error-info';
 import './splash.pcss';
-// TODO: fix catwalkaway
 
 export default function Splash({
   error = null,
