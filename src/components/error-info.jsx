@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Collapsible from 'react-collapsible';
 
-export default function ErrorInfo({ error, componentStack, engineURL }) {
+export default function ErrorInfo({ error, engineURL }) {
   let showForm = true;
   let showMoreInfo = true;
 
@@ -32,7 +32,7 @@ export default function ErrorInfo({ error, componentStack, engineURL }) {
       <p>
         The websocket URL to Qlik Cloud Services will be
         {' '}
-        <code>wss://&lt;tenant-url&gt;.eu.qlikcloud.com/app/&lt;app-GUID&gt;?qlik-web-integration-id=&lt;web-integration-id&gt;</code>
+        <code>wss://&lt;tenant-url&gt;.&lt;region&gt;.qlikcloud.com/app/&lt;app-GUID&gt;?qlik-web-integration-id=&lt;web-integration-id&gt;</code>
         {' '}
         and for a custom Kubernetes deployment
         {' '}
@@ -138,10 +138,7 @@ Websocket address
     showMoreInfo = false;
     showForm = false;
     errorText = (
-      <>
-        <pre className="centered-content"><code>{error.stack}</code></pre>
-        <pre className="centered-content"><code>{componentStack}</code></pre>
-      </>
+      <pre className="centered-content"><code>{error.stack}</code></pre>
     );
     if (error.message.includes('WebSocket')) {
       showForm = true;
@@ -159,11 +156,9 @@ Websocket address
 
 ErrorInfo.propTypes = {
   error: PropTypes.object.isRequired,
-  componentStack: PropTypes.string,
   engineURL: PropTypes.string,
 };
 
 ErrorInfo.defaultProps = {
-  componentStack: '',
   engineURL: '',
 };
