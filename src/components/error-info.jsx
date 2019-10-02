@@ -37,7 +37,11 @@ export default function ErrorInfo({ error, componentStack, engineURL }) {
         and for a custom Kubernetes deployment
         {' '}
         <code>wss://&lt;sense-on-kubernetes-host.com&gt;/app/&lt;app-GUID&gt;?qlik-web-integration-id=&lt;web-integration-id&gt;</code>
-        . The <code>web-integration-id</code> must be present in order for Qlik Sense to confirm that the request derives from a whitelisted domain.
+        . The
+        {' '}
+        <code>web-integration-id</code>
+        {' '}
+must be present in order for Qlik Sense to confirm that the request derives from a whitelisted domain.
         For more info, visit
         {' '}
         <a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/Admin/mc-adminster-web-integrations.htm">https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/Admin/mc-adminster-web-integrations.htm</a>
