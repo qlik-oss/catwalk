@@ -6,7 +6,6 @@ export default function ErrorInfo({ error, componentStack, engineURL }) {
   let showForm = true;
   let showMoreInfo = true;
 
-  //TODO: add info about qcs in Learn more
   const learnMore = (
     <Collapsible trigger="Learn more">
       <h3>General</h3>
@@ -28,6 +27,21 @@ export default function ErrorInfo({ error, componentStack, engineURL }) {
         {' '}
         <a href="https://core.qlik.com/services/qix-engine/apis/qix/introduction/#websockets">https://core.qlik.com/services/qix-engine/apis/qix/introduction/#websockets</a>
 .
+      </p>
+      <h3>Qlik Cloud Services / Qlik Sense on Kubernetes</h3>
+      <p>
+        The websocket URL to Qlik Cloud Services will be
+        {' '}
+        <code>wss://&lt;tenant-url&gt;.eu.qlikcloud.com/app/&lt;app-GUID&gt;?qlik-web-integration-id=&lt;web-integration-id&gt;</code>
+        {' '}
+        and for a custom Kubernetes deployment
+        {' '}
+        <code>wss://&lt;sense-on-kubernetes-host.com&gt;/app/&lt;app-GUID&gt;?qlik-web-integration-id=&lt;web-integration-id&gt;</code>
+        . The <code>web-integration-id</code> must be present in order for Qlik Sense to confirm that the request derives from a whitelisted domain.
+        For more info, visit
+        {' '}
+        <a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/Admin/mc-adminster-web-integrations.htm">https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/Admin/mc-adminster-web-integrations.htm</a>
+      .
       </p>
       <h3>Qlik Sense Enterprise on Windows</h3>
       <p>
