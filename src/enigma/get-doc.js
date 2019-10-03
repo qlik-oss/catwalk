@@ -3,8 +3,7 @@ export default {
   init(args) {
     const { api, config } = args;
     const url = new URL(config.url);
-    const appID = /[^/]*$/.exec(url.pathname)[0];
-    api.appID = appID;
+    api.appID = decodeURI(/[^/]*$/.exec(url.pathname)[0]);
   },
   extend: {
     async getDoc() {

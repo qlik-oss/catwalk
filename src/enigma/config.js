@@ -29,8 +29,6 @@ if (!engineUrl) {
     let engineFullUrl = new URL(`${newUrl.origin + path}?${params}`);
     engineFullUrl = encodeURI(engineFullUrl);
     engineUrl = engineFullUrl.toString();
-  } else {
-    engineUrl = newUrl.toString();
   }
 }
 
