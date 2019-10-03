@@ -40,8 +40,6 @@ export default function AppList({ webIntegrationId, global, engineURL }) {
     window.location.assign(`${window.location.protocol}//${document.location.host}?engine_url=${URLobject}`);
   }
 
-  // TODO: login not redirected from ws field?
-
   function loadMoreRows() {
     if (!isLoading && webIntegrationId) {
       loadApps();

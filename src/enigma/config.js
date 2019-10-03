@@ -20,16 +20,12 @@ if (!engineUrl) {
     window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${engineUrl}`);
   }
 } else {
-  // TODO: snygga upp config
   const paramIndex = document.location.search.indexOf('engine_url');
-  const engineUrlWParams = document.location.search.slice(paramIndex + 11, document.location.search.length);
-  const newUrl = new URL(engineUrlWParams);
+  const newUrl = new URL(document.location.search.slice(paramIndex + 11, document.location.search.length));
   if (newUrl.search) {
     const params = newUrl.search.slice(1, newUrl.search.length);
     const path = newUrl.pathname;
-    let engineFullUrl = new URL(`${newUrl.origin + path}?${params}`);
-    engineFullUrl = encodeURI(engineFullUrl);
-    engineUrl = engineFullUrl.toString();
+    engineUrl = encodeURI(new URL(`${newUrl.origin + path}?${params}`)).toString();
   }
 }
 

@@ -19,8 +19,6 @@ import './app.pcss';
 
 // TODO: add tests of login flow
 
-// TODO: testa utan wid i url
-
 const useGlobal = (session) => usePromise(() => session.open(), [session]);
 const useApp = (global) => usePromise(() => (global ? global.getDoc() : null), [global]);
 
