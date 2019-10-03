@@ -37,7 +37,7 @@ export default function AppList({ webIntegrationId, global, engineURL }) {
       }
     }
     URLobject = `${URLobject.origin}${path || ''}${appId}${URLobject.search}`;
-    window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${URLobject}`);
+    window.location.assign(`${window.location.protocol}//${document.location.host}?engine_url=${URLobject}`);
   }
 
   // TODO: login not redirected from ws field?

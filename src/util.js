@@ -1,13 +1,17 @@
-export function getWebIntegrationId() {
-  let wid = new URLSearchParams(document.location.search).get('qlik-web-integration-id');
-  if (!wid) {
+export function getParamFromEngineUrl(paramToFetch) {
+  let param = new URLSearchParams(document.location.search).get(paramToFetch);
+  if (!param) {
     const params = new URLSearchParams(document.location.search).get('engine_url');
     if (params) {
       const urlObject = new URL(new URLSearchParams(document.location.search).get('engine_url'));
-      wid = new URLSearchParams(urlObject.search).get('qlik-web-integration-id');
+      param = new URLSearchParams(urlObject.search).get(paramToFetch);
     }
   }
-  return wid;
+  return param;
+}
+
+export function getWebIntegrationId() {
+  return getParamFromEngineUrl('qlik-web-integration-id');
 }
 
 export function getTenantUrl() {

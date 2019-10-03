@@ -17,6 +17,7 @@ if (!engineUrl) {
     // or last call, use default apps.core.qlik.com
     const storedWSUrl = localStorage.getItem('websocketUrl');
     engineUrl = storedWSUrl || demoApp;
+    window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${engineUrl}`);
   }
 } else {
   // TODO: snygga upp config

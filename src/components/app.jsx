@@ -61,8 +61,7 @@ export default function App({ csrfToken }) {
       newUrl.searchParams.delete('qlik-csrf-token');
       newUrl.searchParams.append('qlik-csrf-token', csrfToken);
 
-      const newLocationUrl = `http://${document.location.host}?engine_url=${newUrl.href}`;
-      window.location.assign(newLocationUrl);
+      window.location.assign(`${window.location.protocol}//${document.location.host}?engine_url=${newUrl.href}`);
     }
   }
 

@@ -9,6 +9,7 @@ import {
   Separator,
 } from 'react-contexify';
 import Star from './star';
+import demoApp from '../demo-app';
 
 import Selections from './selections';
 import ReloadTime from './reload-time';
@@ -26,13 +27,14 @@ export default function TopBar({
     const engineURL = new URLSearchParams(document.location.search).get('engine_url');
     let wsUrl = '';
     if (engineURL) {
-      const newEngineURL = new URL(engineURL);
-      wsUrl = `${newEngineURL.origin}${newEngineURL.pathname.replace(/[^/]*$/.exec(newEngineURL.pathname)[0], '')}${newEngineURL.search}`;
+      if (engineURL !== demoApp) {
+        const newEngineURL = new URL(engineURL);
+        wsUrl = `${newEngineURL.origin}${newEngineURL.pathname.replace(/[^/]*$/.exec(newEngineURL.pathname)[0], '')}${newEngineURL.search}`;
+      }
     }
-    const URLobject = new URL(window.location.href);
-
-    window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=${wsUrl}`);
+    window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${wsUrl}`);
   };
+
   const goToGithub = () => {
     window.open('https://github.com/qlik-oss/catwalk');
   };

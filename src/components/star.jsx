@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import SVGInline from 'react-svg-inline';
+import { getWebIntegrationId, getParamFromEngineUrl } from '../util';
 import star from '../assets/star.svg';
 
 export default function Star() {
   const engineURL = new URLSearchParams(document.location.search).get('engine_url');
   let wsUrl = '';
   if (engineURL) {
-    wsUrl = new URL(engineURL).origin;
+    const wid = getWebIntegrationId();
+    let searchParams = '';
+    if (wid) {
+      const csrf = getParamFromEngineUrl('qlik-csrf-token');
+      searchParams = `/?qlik-web-integration-id=${wid}&qlik-csrf-token=${csrf}`;
+    }
+    wsUrl = new URL(engineURL).origin + (searchParams ? `${searchParams}` : '');
   }
   const [starred, setStarred] = useState(localStorage.getItem('websocketUrl') === wsUrl);
 
