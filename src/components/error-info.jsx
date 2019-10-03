@@ -80,22 +80,8 @@ must be present in order for Qlik Sense to confirm that the request derives from
     window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${URLobject}`);
   }
 
-  // function updateEngineURL(url, appId) {
-  //   const URLobject = new URL(url);
-  //   const protocol = URLobject.protocol === 'ws:' ? 'http://' : 'https://';
-  //   let newURL = url;
-
-  //   if (appId) {
-  //     // Adding slash to support doclist for sense Desktop
-  //     const UniformedAppId = appId.charAt(0) === '/' ? appId : `/${appId}`;
-  //     newURL = `${URLobject.origin}${UniformedAppId}`;
-  //   }
-  //   window.location.assign(`${protocol}${window.location.host}?engine_url=${encodeURI(newURL)}`);
-  // }
-
   const form = (
     <>
-      {/* <p>Please enter a valid websocket URL.</p> */}
       <form
         className="url-form centered-content"
         onSubmit={(evt) => {

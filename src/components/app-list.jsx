@@ -24,18 +24,23 @@ export default function AppList({ webIntegrationId, global, engineURL }) {
     let URLobject = new URL(url);
     let path = URLobject.pathname.length > 1 ? URLobject.pathname : '';
     if (appId.includes(path)) {
-      path = null;
+      path = undefined;
     }
     if (path && path.charAt(path.length - 1) !== '/') {
       path += '/';
+    }
+    if (engineURL.includes('qlikcloud')) {
+      if (!path) {
+        path = '/app/';
+      } else if (!path.includes('app')) {
+        path += '/app/';
+      }
     }
     URLobject = `${URLobject.origin}${path || ''}${appId}${URLobject.search}`;
     window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${URLobject}`);
   }
 
   // TODO: login not redirected from ws field?
-
-  // TODO: load of applist is blinking.. set size of applist before response has been fetched?
 
   function loadMoreRows() {
     if (!isLoading && webIntegrationId) {
