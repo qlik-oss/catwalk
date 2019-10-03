@@ -10,11 +10,13 @@ import {
 } from 'react-contexify';
 import Star from './star';
 import demoApp from '../demo-app';
+import { getWebIntegrationId, getParamFromEngineUrl } from '../util';
 
 import Selections from './selections';
 import ReloadTime from './reload-time';
 import logo from '../assets/catwalk.svg';
 import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
+
 
 import '../assets/ReactContexify.min.css';
 import './topbar.pcss';
@@ -29,7 +31,16 @@ export default function TopBar({
     if (engineURL) {
       if (engineURL !== demoApp) {
         const newEngineURL = new URL(engineURL);
-        wsUrl = `${newEngineURL.origin}${newEngineURL.pathname.replace(/[^/]*$/.exec(newEngineURL.pathname)[0], '')}${newEngineURL.search}`;
+        let searchParams = '';
+        const wid = getWebIntegrationId();
+        if (wid) {
+          const csrf = getParamFromEngineUrl('qlik-csrf-token');
+          searchParams = `?qlik-web-integration-id=${wid}&qlik-csrf-token=${csrf}`;
+        }
+        wsUrl = `${newEngineURL.origin}${newEngineURL.pathname.replace(/[^/]*$/.exec(newEngineURL.pathname)[0], '')}`;
+        if (searchParams) {
+          wsUrl += searchParams;
+        }
       }
     }
     window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${wsUrl}`);
