@@ -24,15 +24,13 @@ export default function AppList({ webIntegrationId, global, engineURL }) {
     let URLobject = new URL(url);
     let path = URLobject.pathname.length > 1 ? URLobject.pathname : '';
     if (appId.includes(path)) {
-      path = undefined;
+      path = '';
     }
     if (path && path.charAt(path.length - 1) !== '/') {
       path += '/';
     }
     if (engineURL.includes('qlikcloud')) {
-      if (!path) {
-        path = '/app/';
-      } else if (!path.includes('app')) {
+      if (!path || !path.includes('app')) {
         path += '/app/';
       }
     }
@@ -76,18 +74,18 @@ export default function AppList({ webIntegrationId, global, engineURL }) {
   }
 
   const loader = <div key={0} className="loader">Loading ...</div>;
-  const items = [];
-  apps.map((app) => items.push(
+
+  const items = apps.map((app) => (
     <li key={app.id} onClick={() => updateEngineURL(engineURL, app.id)}>
       <i key={app.id} className="icon" />
       <span className="title">
         <b>{app.name}</b>
         {' '}
-    (
+      (
         {app.description || 'No description'}
-    )
+      )
       </span>
-    </li>,
+    </li>
   ));
 
   return (

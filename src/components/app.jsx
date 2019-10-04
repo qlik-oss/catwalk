@@ -50,12 +50,13 @@ export default function App({ csrfToken }) {
       <Loading />
     );
   }
+  // We need to update the csrf-token if the one present in the url has expired/is falsy.
   if (csrfToken) {
     const paramIndex = document.location.search.indexOf('engine_url');
     const engineUrlWParams = document.location.search.slice(paramIndex + 11, document.location.search.length);
     const newUrl = new URL(engineUrlWParams);
-    const crsfTokenParam = new URLSearchParams(newUrl.search).get('qlik-csrf-token');
-    if (!crsfTokenParam || crsfTokenParam !== csrfToken) {
+    const csrfTokenParam = new URLSearchParams(newUrl.search).get('qlik-csrf-token');
+    if (!csrfTokenParam || csrfTokenParam !== csrfToken) {
       newUrl.searchParams.delete('qlik-csrf-token');
       newUrl.searchParams.append('qlik-csrf-token', csrfToken);
 
@@ -64,12 +65,7 @@ export default function App({ csrfToken }) {
   }
 
   if (!global || (!app && appState !== 'pending')) {
-    let fetchDocList = false;
-    if (csrfToken) {
-      fetchDocList = true;
-    } else if (global) {
-      fetchDocList = true;
-    }
+    const fetchDocList = !!((csrfToken || global));
     return (
       <Splash
         error={socketError || appError}
