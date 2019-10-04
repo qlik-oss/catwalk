@@ -9,11 +9,14 @@ import {
   Separator,
 } from 'react-contexify';
 import Star from './star';
+import demoApp from '../demo-app';
+import { getWebIntegrationId, getParamFromEngineUrl } from '../util';
 
 import Selections from './selections';
 import ReloadTime from './reload-time';
 import logo from '../assets/catwalk.svg';
 import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
+
 
 import '../assets/ReactContexify.min.css';
 import './topbar.pcss';
@@ -23,14 +26,26 @@ export default function TopBar({
 }) {
   const chooseApp = () => {
     // we need to add connected ws, if any.
-    const engineUrl = new URLSearchParams(document.location.search).get('engine_url');
+    const engineURL = new URLSearchParams(document.location.search).get('engine_url');
     let wsUrl = '';
-    if (engineUrl) {
-      wsUrl = new URL(engineUrl).origin;
+    if (engineURL) {
+      if (engineURL !== demoApp) {
+        const newEngineURL = new URL(engineURL);
+        let searchParams = '';
+        const wid = getWebIntegrationId();
+        if (wid) {
+          const csrf = getParamFromEngineUrl('qlik-csrf-token');
+          searchParams = `?qlik-web-integration-id=${wid}&qlik-csrf-token=${csrf}`;
+        }
+        wsUrl = `${newEngineURL.origin}${newEngineURL.pathname.replace(/[^/]*$/.exec(newEngineURL.pathname)[0], '')}`;
+        if (searchParams) {
+          wsUrl += searchParams;
+        }
+      }
     }
-    const URLobject = new URL(window.location.href);
-    window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=${wsUrl}`);
+    window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${wsUrl}`);
   };
+
   const goToGithub = () => {
     window.open('https://github.com/qlik-oss/catwalk');
   };

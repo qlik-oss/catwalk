@@ -4,11 +4,10 @@
 }
 
 .splash {
-  max-width: 80%;
-  min-width: 50%;
+  width: 80%;
 
   .logo-svg {
-    animation: fade 1s ease-in;
+    animation: fade 1.5s ease-in;
     height: 200px;
     width: 100%;
   }
@@ -21,13 +20,14 @@
   }
 
   .doc-list {
-    max-height: 40vh;
+    height: 37vh;
     overflow: auto;
 
     li {
       align-items: center;
       display: flex;
       padding: 1rem;
+      padding-left: 0;
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
@@ -74,6 +74,8 @@
   }
 
   .info {
+    animation: fade 0.8s ease-in;
+    height: 40vh;
     margin: auto;
     margin-top: var(--padding);
     width: 70%;

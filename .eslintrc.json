@@ -11,5 +11,15 @@
     "jsx-a11y/no-autofocus": 0,
     "import/no-named-as-default": 0,
     "max-len": 0
-  }
+  }, "overrides": [
+      {
+        "files": ["test/**/*.spec.jsx"],
+        "globals": {
+          "aw": true
+        },
+        "rules": {
+          "no-unused-expressions": 0
+        }
+      }
+    ]
 }

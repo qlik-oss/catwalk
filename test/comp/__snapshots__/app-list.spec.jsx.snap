@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`'should call openDoc if having a global' 1`] = `
+<div
+  className="info"
+>
+  <p>
+    Connection to the websocket was successful, but there is no open app. Choose one below:
+  </p>
+  <div>
+    <ul
+      className="doc-list"
+    >
+      <li
+        onClick={[Function]}
+      >
+        <i
+          className="icon"
+        />
+        <span
+          className="title"
+        >
+          <b>
+            New_QVNCycles_with_measures_dimensions_visualizations_
+          </b>
+           
+          (
+          An app with some measures and dimensions and master visualizations.
+Texten finns också på skånska.
+          )
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`'should render app list correctly' 1`] = `
+<div
+  className="info"
+>
+  <p>
+    Connection to the websocket was successful, but there is no open app. Choose one below:
+  </p>
+  <div>
+    <ul
+      className="doc-list"
+    >
+      <li
+        onClick={[Function]}
+      >
+        <i
+          className="icon"
+        />
+        <span
+          className="title"
+        >
+          <b>
+            FDA - Drug Cases
+          </b>
+           
+          (
+          This Dashboard is based on the 2015 Q4 data.
+          )
+        </span>
+      </li>
+      <li
+        onClick={[Function]}
+      >
+        <i
+          className="icon"
+        />
+        <span
+          className="title"
+        >
+          <b>
+            Consumer_Sales
+          </b>
+           
+          (
+          See through the eyes of a consumer goods company.  Analyze sales data by sales rep, by region, by product, etc.
+          )
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

@@ -56,10 +56,10 @@ const Cube = forwardRef(({
     async exportHypercube() {
       if (model) {
         const result = await model.exportData('OOXML', '/qHyperCubeDef');
-        const engineUrl = new URLSearchParams(document.location.search).get('engine_url');
-        if (engineUrl) {
+        const engineURL = new URLSearchParams(document.location.search).get('engine_url');
+        if (engineURL) {
           const elem = document.createElement('a');
-          elem.href = `${new URL(engineUrl).origin.replace('ws', 'http')}${result.qUrl}`;
+          elem.href = `${new URL(engineURL).origin.replace('ws', 'http')}${result.qUrl}`;
           elem.target = '_blank';
           document.body.appendChild(elem);
           elem.click();

@@ -1,39 +1,69 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Splash from '../../src/components/splash';
 
-describe('Splash', () => {
-  it('should render docList correctly', () => {
-    const docs = [{
-      qDocId: '/data/Consumer_Sales.qvf', qMeta: { description: 'See through the eyes of a consumer goods company.  Analyze sales data by sales rep, by region, by product, etc.' }, qTitle: 'Consumer_Sales',
-    }, {
-      qDocId: '/data/drugcases.qvf', qMeta: { description: 'This Dashboard is based on the 2015 Q4 data.' }, qTitle: 'FDA - Drug Cases',
-    }, {
-      qDocId: '/data/New_QVNCycles_with_measures_dimensions_visualizations_.qvf', qMeta: { description: 'An app with some measures and dimensions and master visualizations.\nTexten finns också på skånska.' }, qTitle: 'New_QVNCycles_with_measures_dimensions_visualizations_',
-    }];
+describe('<Splash />', () => {
+  const appList = <ul>list</ul>;
+  const errorInfo = <span>Some error</span>;
+
+  const [{ default: Splash }] = aw.mock(
+    [
+      ['**/src/components/app-list.jsx', () => () => appList],
+      ['**/src/components/error-info.jsx', () => () => errorInfo],
+    ],
+    ['../../src/components/splash'],
+  );
+
+  it('should render <AppList />', () => {
     const error = null;
     const engineURL = '';
+    const fetchDockList = true;
 
-    const tree = renderer.create(<Splash
-      docs={docs}
+    const instance = renderer.create(<Splash
+      error={error}
+      engineURL={engineURL}
+      fetchDocList={fetchDockList}
+    />).toJSON();
+
+    expect(instance).toMatchSnapshot();
+  });
+
+  it('should render <ErrorInfo /> when having error', () => {
+    const error = new Error('An error occurred');
+    const engineURL = '';
+
+    const instance = renderer.create(<Splash
       error={error}
       engineURL={engineURL}
     />).toJSON();
 
-    expect(tree).toMatchSnapshot();
+    expect(instance).toMatchSnapshot();
   });
 
-  it('should display message if empty docList array', () => {
-    const docs = [];
-    const error = null;
+  it('should render <AppList /> even though error is provided', () => {
+    const error = new Error('An error occurred');
     const engineURL = '';
+    const fetchDockList = true;
 
-    const tree = renderer.create(<Splash
-      docs={docs}
+    const instance = renderer.create(<Splash
       error={error}
       engineURL={engineURL}
+      fetchDocList={fetchDockList}
     />).toJSON();
 
-    expect(tree).toMatchSnapshot();
+    expect(instance).toMatchSnapshot();
   });
+
+  // it('should display message if empty docList array', () => {
+  //   const docs = [];
+  //   const error = null;
+  //   const engineURL = '';
+
+  //   const tree = renderer.create(<Splash
+  //     docs={docs}
+  //     error={error}
+  //     engineURL={engineURL}
+  //   />).toJSON();
+
+  //   expect(tree).toMatchSnapshot();
+  // });
 });

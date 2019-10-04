@@ -2,8 +2,8 @@ export default {
   types: ['Global'],
   init(args) {
     const { api, config } = args;
-    const appID = /[^/]*$/.exec(config.url)[0];
-    api.appID = appID;
+    const url = new URL(config.url);
+    api.appID = decodeURI(/[^/]*$/.exec(url.pathname)[0]);
   },
   extend: {
     async getDoc() {

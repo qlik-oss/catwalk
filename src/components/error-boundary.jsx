@@ -8,19 +8,18 @@ class ErrorBoundary extends React.Component {
     super(props);
     this.state = {
       error: false,
-      info: null,
     };
   }
 
-  componentDidCatch(error, info) {
-    this.setState({ error, info });
+  componentDidCatch(error) {
+    this.setState({ error });
   }
 
   render() {
-    const { error, info } = this.state;
+    const { error } = this.state;
     const { children } = this.props;
     if (error) {
-      return (<Splash error={error} componentStack={info.componentStack} />);
+      return (<Splash error={error} />);
     }
     return children;
   }

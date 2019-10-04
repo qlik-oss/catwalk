@@ -1,4 +1,5 @@
 import React, { useMemo, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import usePromise from 'react-use-promise';
 import enigma from 'enigma.js';
 import { useLayout } from 'hamus.js';
@@ -13,19 +14,18 @@ import Guide from './guide';
 import Loading from './loading';
 import isLocalStorage from './local-storage';
 import useResolvedValue from './use/resolved-value';
-
 import { useReloadInProgress } from '../enigma/reload-in-progress-interceptor';
 import './app.pcss';
 
+// TODO: add tests of login flow
+
 const useGlobal = (session) => usePromise(() => session.open(), [session]);
 const useApp = (global) => usePromise(() => (global ? global.getDoc() : null), [global]);
-const useDocList = (global, fetchList) => usePromise(() => (fetchList ? global.getDocList() : null), [global, fetchList]);
 
-export default function App() {
+export default function App({ csrfToken }) {
   const session = useMemo(() => enigma.create(config), [false]);
   const [global, socketError, socketState] = useGlobal(session);
   const [app, appError, appState] = useApp(global);
-  const [docs, docsError] = useDocList(global, appError && global);
   const appLayout = useResolvedValue(useLayout(app));
   const guideRef = useRef();
 
@@ -33,6 +33,7 @@ export default function App() {
     if (!app) return;
     session.close();
   }, [app]);
+
   const reloadInProgress = useReloadInProgress(app);
 
   let reloadSplasher = null;
@@ -49,19 +50,28 @@ export default function App() {
       <Loading />
     );
   }
+  // We need to update the csrf-token if the one present in the url has expired/is falsy.
+  if (csrfToken) {
+    const paramIndex = document.location.search.indexOf('engine_url');
+    const engineUrlWParams = document.location.search.slice(paramIndex + 11, document.location.search.length);
+    const newUrl = new URL(engineUrlWParams);
+    const csrfTokenParam = new URLSearchParams(newUrl.search).get('qlik-csrf-token');
+    if (!csrfTokenParam || csrfTokenParam !== csrfToken) {
+      newUrl.searchParams.delete('qlik-csrf-token');
+      newUrl.searchParams.append('qlik-csrf-token', csrfToken);
 
-  const engineUrl = new URLSearchParams(document.location.search).get('engine_url');
-  if (!engineUrl && engineUrl !== '') {
-    const URLobject = new URL(window.location.href);
-    window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=${config.url}`);
+      window.location.assign(`${window.location.protocol}//${document.location.host}?engine_url=${newUrl.href}`);
+    }
   }
 
   if (!global || (!app && appState !== 'pending')) {
+    const fetchDocList = !!((csrfToken || global));
     return (
       <Splash
-        docs={docs}
-        error={socketError || docsError}
+        error={socketError || appError}
+        global={global}
         engineURL={config.url}
+        fetchDocList={fetchDocList}
       />
     );
   }
@@ -86,3 +96,11 @@ export default function App() {
     </>
   );
 }
+
+App.defaultProps = {
+  csrfToken: null,
+};
+
+App.propTypes = {
+  csrfToken: PropTypes.string,
+};

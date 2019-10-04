@@ -20,7 +20,11 @@ InfoBoxContainer.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
-  ]).isRequired,
+  ]),
+};
+
+InfoBoxContainer.defaultProps = {
+  children: null,
 };
 
 const InfoBox = ({ children, alert, visible }) => (
