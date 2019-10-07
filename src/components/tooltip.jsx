@@ -14,23 +14,23 @@ export function getTooltipForSubsetRatio(field) {
         </h2>
         <p>
           <b>{field.qnPresentDistinctValues}</b>
-          {' out of '}
+           out of
           <b>{field.qnTotalDistinctValues}</b>
           {' '}
           <i>{field.qName}</i>
-          {' values are present in the '}
+           values are present in the
           <i>{field.srcTable.qName}</i>
-          {' table. '}
+           table.
         </p>
         <p>
           {'The remaining '}
           {field.qnTotalDistinctValues - field.qnPresentDistinctValues}
           {' values only exist in other tables ('}
           <i>{field.otherTables.join(', ')}</i>
-          {').'}
+          ).
         </p>
         <p>
-          {'This means that there are '}
+          This means that there are
           <i>rows in associated tables that do not have any matching rows in this table.</i>
         </p>
         <p>Note that when interacting with a field - all values are shown - not only the ones that are present in the underlying table.</p>
