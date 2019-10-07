@@ -10,7 +10,7 @@ export class Popover extends React.Component {
     this.state = {};
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() { // eslint-disable-line camelcase
     const { alignTo } = this.props;
     if (alignTo) {
       const rect = alignTo.getBoundingClientRect();
