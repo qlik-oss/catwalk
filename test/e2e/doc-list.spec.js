@@ -9,6 +9,7 @@ describe('doc-list', () => {
 
     await page.click('.Collapsible__trigger');
     await page.waitForSelector('.Collapsible__trigger.is-open');
+    await page.waitForFunction("document.querySelector('.Collapsible__contentOuter').clientHeight != 0");
     img = await page.screenshot({ fullPage: true });
     await expect(img).to.matchImageOf('learn-more-info', OPTS);
   });
