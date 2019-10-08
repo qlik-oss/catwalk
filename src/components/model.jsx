@@ -134,7 +134,10 @@ export default function Model({ app, appLayout, isLocalStorage }) {
         target={`[data-boxid="${currentDetailsView.boxId}"]`}
         content={currentDetailsView.content}
         callback={(event) => { if (event === 'close') { setCurrentDetailsView(null); } }}
-      />
+      >
+        <>
+        </>
+      </ReactFloater>
     </div>
   ) : null;
 
