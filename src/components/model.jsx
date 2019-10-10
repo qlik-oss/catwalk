@@ -15,6 +15,7 @@ import demoApp from '../demo-app';
 import { getExtraInfoForField, getAssosicationTooltip, getTableTooltip } from './tooltip';
 import './model.pcss';
 import './tooltip.pcss';
+import { assignEngineUrl } from '../util';
 
 function findAttribute(event, attrName) {
   let el = event.target;
@@ -360,10 +361,7 @@ export default function Model({ app, appLayout, isLocalStorage }) {
   });
 
   const speechBubbleClick = () => {
-    if (window.location) {
-      const URLobject = new URL(window.location.href);
-      window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=`);
-    }
+    assignEngineUrl('');
   };
   const catWithBubble = demoApp.includes(appLayout.qFileName)
     ? (

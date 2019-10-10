@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroller';
 import useRest from './use/rest';
 import useDocList from './use/doc-list';
+import { assignEngineUrl } from '../util';
 
 export default function AppList({ webIntegrationId, global, engineURL }) {
   const [hasMore, setHasMore] = useState(true);
@@ -35,7 +36,7 @@ export default function AppList({ webIntegrationId, global, engineURL }) {
       }
     }
     URLobject = `${URLobject.origin}${path || ''}${appId}${URLobject.search}`;
-    window.location.assign(`${window.location.protocol}//${document.location.host}?engine_url=${URLobject}`);
+    assignEngineUrl(URLobject);
   }
 
   function loadMoreRows() {

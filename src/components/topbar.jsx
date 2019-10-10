@@ -10,7 +10,7 @@ import {
 } from 'react-contexify';
 import Star from './star';
 import demoApp from '../demo-app';
-import { getWebIntegrationId, getParamFromEngineUrl } from '../util';
+import { getWebIntegrationId, getParamFromEngineUrl, assignEngineUrl } from '../util';
 
 import Selections from './selections';
 import ReloadTime from './reload-time';
@@ -43,7 +43,7 @@ export default function TopBar({
         }
       }
     }
-    window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${wsUrl}`);
+    assignEngineUrl(wsUrl);
   };
 
   const goToGithub = () => {

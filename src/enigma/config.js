@@ -4,6 +4,7 @@ import layoutCache from './layout-cache';
 import getDoc from './get-doc';
 import { reloadInProgressInterceptor } from './reload-in-progress-interceptor';
 import demoApp from '../demo-app';
+import { assignEngineUrl } from '../util';
 
 const ERR_ABORTED = 15;
 
@@ -17,7 +18,7 @@ if (!engineUrl) {
     // or last call, use default apps.core.qlik.com
     const storedWSUrl = localStorage.getItem('websocketUrl');
     engineUrl = storedWSUrl || demoApp;
-    window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${engineUrl}`);
+    assignEngineUrl(engineUrl);
   }
 } else {
   const paramIndex = document.location.search.indexOf('engine_url');

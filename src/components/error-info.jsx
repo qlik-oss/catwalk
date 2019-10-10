@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Collapsible from 'react-collapsible';
+import { assignEngineUrl } from '../util';
 
 export default function ErrorInfo({ error, engineURL }) {
   let showForm = true;
@@ -77,7 +78,7 @@ must be present in order for Qlik Sense to confirm that the request derives from
     const path = URLobject.pathname.length > 1 ? URLobject.pathname : '';
     const app = appId || '';
     URLobject = URLobject.origin + path + app + URLobject.search;
-    window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${URLobject}`);
+    assignEngineUrl(URLobject);
   }
 
   const form = (

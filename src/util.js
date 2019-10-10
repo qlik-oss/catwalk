@@ -10,6 +10,12 @@ export function getParamFromEngineUrl(paramToFetch) {
   return param;
 }
 
+export function assignEngineUrl(engineUrl) {
+  if (window.location) {
+    window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${engineUrl}`);
+  }
+}
+
 export function getWebIntegrationId() {
   return getParamFromEngineUrl('qlik-web-integration-id');
 }

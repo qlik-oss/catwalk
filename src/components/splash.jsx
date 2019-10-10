@@ -6,7 +6,7 @@ import CatWithBubble from './cat-with-bubble';
 import logo from '../assets/catwalk.svg';
 import catwalkAway from '../assets/catwalk-away.svg';
 import demoApp from '../demo-app';
-import { getWebIntegrationId } from '../util';
+import { getWebIntegrationId, assignEngineUrl } from '../util';
 import AppList from './app-list';
 import ErrorInfo from './error-info';
 import './splash.pcss';
@@ -20,10 +20,7 @@ export default function Splash({
   let contentLogo = { className: 'logo', svg: logo };
 
   const speechBubbleClick = () => {
-    if (window.location) {
-      const URLobject = new URL(window.location.href);
-      window.location.assign(`${URLobject.protocol}//${window.location.host}?engine_url=${demoApp}`);
-    }
+    assignEngineUrl(demoApp);
   };
 
   const webIntegrationId = getWebIntegrationId(document.location);
