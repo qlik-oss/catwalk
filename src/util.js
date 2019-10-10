@@ -12,7 +12,10 @@ export function getParamFromEngineUrl(paramToFetch) {
 
 export function assignEngineUrl(engineUrl) {
   if (window.location) {
-    window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${engineUrl}`);
+    // if url starts with http or https, move to ws or wss
+    const httpReplace = /^http(s){0,1}/;
+    const newUrl = engineUrl.replace(httpReplace, 'ws$1');
+    window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${newUrl}`);
   }
 }
 
