@@ -81,6 +81,12 @@ must be present in order for Qlik Sense to confirm that the request derives from
     assignEngineUrl(URLobject);
   }
 
+  const urlChanged = (evt) => {
+    // replace http with ws on the fly
+    const httpReplace = /^http(s){0,1}/;
+    evt.target.value = evt.target.value.replace(httpReplace, 'ws$1');
+  };
+
   const form = (
     <>
       <form
@@ -92,7 +98,7 @@ must be present in order for Qlik Sense to confirm that the request derives from
       >
         <label htmlFor="engineURL">
 Websocket address
-          <input id="engineURL" type="text" defaultValue={engineURL} placeholder="Enter a valid websocket address" />
+          <input id="engineURL" type="text" onChange={urlChanged} defaultValue={engineURL} placeholder="Enter a valid websocket address" />
           <input type="submit" value="Connect" />
         </label>
       </form>
