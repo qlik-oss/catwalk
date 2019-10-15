@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Collapsible from 'react-collapsible';
-import { assignEngineUrl } from '../util';
+import { assignEngineUrl, convertProtocol } from '../util';
 
 export default function ErrorInfo({ error, engineURL }) {
   let showForm = true;
@@ -82,9 +82,7 @@ must be present in order for Qlik Sense to confirm that the request derives from
   }
 
   const urlChanged = (evt) => {
-    // replace http with ws on the fly
-    const httpReplace = /^http(s){0,1}/;
-    document.getElementById('engineURL').value = evt.target.value.replace(httpReplace, 'ws$1');
+    document.getElementById('engineURL').value = convertProtocol(evt.target.value);
   };
 
   const form = (
