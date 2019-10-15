@@ -10,11 +10,15 @@ export function getParamFromEngineUrl(paramToFetch) {
   return param;
 }
 
+export function convertProtocol(url) {
+  // if url starts with http or https, move to ws or wss
+  const httpReplace = /^http(s){0,1}/;
+  return url.replace(httpReplace, 'ws$1');
+}
+
 export function assignEngineUrl(engineUrl) {
   if (window.location) {
-    // if url starts with http or https, move to ws or wss
-    const httpReplace = /^http(s){0,1}/;
-    const newUrl = engineUrl.replace(httpReplace, 'ws$1');
+    const newUrl = convertProtocol(engineUrl);
     window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${newUrl}`);
   }
 }

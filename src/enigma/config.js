@@ -4,7 +4,7 @@ import layoutCache from './layout-cache';
 import getDoc from './get-doc';
 import { reloadInProgressInterceptor } from './reload-in-progress-interceptor';
 import demoApp from '../demo-app';
-import { assignEngineUrl } from '../util';
+import { assignEngineUrl, convertProtocol } from '../util';
 
 const ERR_ABORTED = 15;
 
@@ -27,6 +27,9 @@ if (!engineUrl) {
     const params = newUrl.search.slice(1, newUrl.search.length);
     const path = newUrl.pathname;
     engineUrl = encodeURI(new URL(`${newUrl.origin + path}?${params}`)).toString();
+  }
+  if (engineUrl.toLowerCase().startsWith('http' || 'https')) {
+    engineUrl = convertProtocol(engineUrl);
   }
 }
 
