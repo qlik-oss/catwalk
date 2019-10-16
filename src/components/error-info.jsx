@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Collapsible from 'react-collapsible';
+import { assignEngineUrl, convertProtocol } from '../util';
 
 export default function ErrorInfo({ error, engineURL }) {
   let showForm = true;
@@ -77,8 +78,12 @@ must be present in order for Qlik Sense to confirm that the request derives from
     const path = URLobject.pathname.length > 1 ? URLobject.pathname : '';
     const app = appId || '';
     URLobject = URLobject.origin + path + app + URLobject.search;
-    window.location.assign(`${window.location.protocol}//${window.location.host}?engine_url=${URLobject}`);
+    assignEngineUrl(URLobject);
   }
+
+  const urlChanged = (evt) => {
+    document.getElementById('engineURL').value = convertProtocol(evt.target.value);
+  };
 
   const form = (
     <>
@@ -91,7 +96,7 @@ must be present in order for Qlik Sense to confirm that the request derives from
       >
         <label htmlFor="engineURL">
 Websocket address
-          <input id="engineURL" type="text" defaultValue={engineURL} placeholder="Enter a valid websocket address" />
+          <input id="engineURL" type="text" onChange={urlChanged} defaultValue={engineURL} placeholder="Enter a valid websocket address" />
           <input type="submit" value="Connect" />
         </label>
       </form>

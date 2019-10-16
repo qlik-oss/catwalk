@@ -16,6 +16,7 @@ import isLocalStorage from './local-storage';
 import useResolvedValue from './use/resolved-value';
 import { useReloadInProgress } from '../enigma/reload-in-progress-interceptor';
 import './app.pcss';
+import { assignEngineUrl } from '../util';
 
 // TODO: add tests of login flow
 
@@ -60,7 +61,7 @@ export default function App({ csrfToken }) {
       newUrl.searchParams.delete('qlik-csrf-token');
       newUrl.searchParams.append('qlik-csrf-token', csrfToken);
 
-      window.location.assign(`${window.location.protocol}//${document.location.host}?engine_url=${newUrl.href}`);
+      assignEngineUrl(newUrl.href);
     }
   }
 
