@@ -34,7 +34,7 @@ copyProps(window, global);
 module.exports = {
   glob: 'test/comp/**/*.spec.jsx',
   coverage: true,
-  src: ['src/components/**/*.jsx'],
+  src: [],
   mocks: [
     ['**/*.{svg,css,scss,pcss}'],
   ],
