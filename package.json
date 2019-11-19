@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "axios": "0.19.0",
-    "axios-cache-adapter": "2.4.1",
+    "axios-cache-adapter": "2.5.0",
     "axios-hooks": "1.7.2",
     "copy-to-clipboard": "3.2.0",
     "enigma.js": "2.6.0",
@@ -59,7 +59,7 @@
     "@babel/plugin-transform-runtime": "7.6.2",
     "@babel/preset-env": "7.6.3",
     "@babel/preset-react": "7.7.0",
-    "autoprefixer": "9.7.1",
+    "autoprefixer": "9.7.2",
     "babel-eslint": "10.0.3",
     "babel-plugin-import": "1.12.2",
     "babel-plugin-istanbul": "5.2.0",
