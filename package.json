@@ -28,7 +28,7 @@
     "axios-cache-adapter": "2.4.1",
     "axios-hooks": "1.6.0",
     "copy-to-clipboard": "3.2.0",
-    "enigma.js": "2.5.0",
+    "enigma.js": "2.6.0",
     "hamus.js": "0.3.0",
     "prop-types": "15.7.2",
     "re-resizable": "6.1.0",
