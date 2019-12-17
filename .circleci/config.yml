@@ -5,7 +5,7 @@ jobs:
       - image: circleci/node:10
       - image: qlikcore/engine:12.515.0
         command: -S AcceptEULA=yes
-      - image: browserless/chrome:1.21.0-puppeteer-2.0.0
+      - image: browserless/chrome:1.21-puppeteer-1.19.0
 
     working_directory: ~/catwalk
 
@@ -18,7 +18,7 @@ jobs:
       - run:
           name: Install dependencies
           command:
-            npm ci
+            npm install --quiet
 
       - run:
           name: Run ESLint
