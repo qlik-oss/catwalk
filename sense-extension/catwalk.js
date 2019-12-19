@@ -18,6 +18,9 @@ define(['qlik'],
             <img src="/extensions/catwalk/catwalk.svg" />
           </a>
         `);
+        return null;
+      }).catch((error) => {
+        console.log('error', error); // eslint-disable-line no-console
       });
       return qlik.Promise.resolve();
     },
