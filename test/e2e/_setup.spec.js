@@ -2,7 +2,7 @@
 /* eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }] */
 
 const fs = require('fs-extra');
-const NYC = require('nyc');
+// const NYC = require('nyc');
 const wsHelper = require('./test-helper');
 
 let coverageFlag = false;
