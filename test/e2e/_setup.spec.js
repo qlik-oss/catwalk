@@ -2,7 +2,7 @@
 /* eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }] */
 
 const fs = require('fs-extra');
-const NYC = require('nyc');
+// const NYC = require('nyc');
 const wsHelper = require('./test-helper');
 
 let coverageFlag = false;
@@ -62,8 +62,8 @@ afterEach(async function () {
 });
 
 after(async () => {
-  const nyc = new NYC();
-  await nyc.report();
+  // const nyc = new NYC();
+  // await nyc.report();
   if (!coverageFlag) {
     console.log('\u001b[31m The code hasn´t been instrumented! Please start the server with `npm run start:cov`\u001b[0m'); // eslint-disable-line no-console
   }
