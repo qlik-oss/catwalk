@@ -10,7 +10,7 @@ describe('usage', () => {
     await wsHelper.waitUntilNoRequests(250);
 
     // Skip tutorial
-    await page.click('[data-test-id=button-skip]');
+    await page.click('[data-action=skip]');
 
     // Make and verify a selection
     await page.click('[fieldz=Key_Ind_Drug]');
