@@ -15,7 +15,7 @@
     "build": "cross-env NODE_ENV=production parcel build src/index.html",
     "start": "parcel src/index.html --open",
     "start:build": "cross-env NODE_ENV=test parcel build src/index.html",
-    "start:serve": "cross-env NODE_ENV=test parcel servce src/index.html",
+    "start:serve": "cross-env NODE_ENV=test parcel serve src/index.html",
     "test:unit": "aw --glob test/unit/*.spec.js --src src/logic/*.js --coverage",
     "test:comp": "aw -c ./test/comp/aw.config.js && nyc report -t ./coverage/.nyc_output -r lcov -r text",
     "test:e2e": "aw puppeteer -c ./test/e2e/aw.config.js",
