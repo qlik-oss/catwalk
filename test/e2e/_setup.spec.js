@@ -65,7 +65,7 @@ after(async () => {
   const nyc = new NYC({});
   await nyc.report();
   if (!coverageFlag) {
-    console.log('\u001b[31m The code hasn´t been instrumented! Please start the server with `npm run start:build` and then `npm run start:serve`\u001b[0m'); // eslint-disable-line no-console
+    console.log('\u001b[31m The code hasn´t been instrumented! Please start the server with `npm run start:cov`\u001b[0m'); // eslint-disable-line no-console
   }
 
   await browser.close();
