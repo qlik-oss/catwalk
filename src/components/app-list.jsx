@@ -82,9 +82,9 @@ export default function AppList({ webIntegrationId, global, engineURL }) {
       <span className="title">
         <b>{app.name}</b>
         {' '}
-      (
+        (
         {app.description || 'No description'}
-      )
+        )
       </span>
     </li>
   ));

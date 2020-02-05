@@ -108,7 +108,7 @@ const steps = [
   {
     content: (
       <div>
-          A field can have different border colors where the color represents different type of keys.
+        A field can have different border colors where the color represents different type of keys.
         <div className="guide-step">
           <div className="perfect" />
           <p>Perfect key.</p>
