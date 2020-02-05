@@ -17,17 +17,17 @@ export default function ErrorInfo({ error, engineURL }) {
         engine with
         {' '}
         <code>DocumentDirectory=&lt;data-folder&gt;</code>
-, the websocket URL will
+        , the websocket URL will
         be
         {' '}
         <code>ws://&lt;host&gt;:&lt;port&gt;/app/&lt;data-folder&gt;/&lt;app-name&gt;</code>
-. E.g.
+        . E.g.
         {' '}
         <code>ws://localhost:9076/app/my-data-folder/my-excellent-app</code>
-. For more info, visit
+        . For more info, visit
         {' '}
         <a href="https://core.qlik.com/services/qix-engine/apis/qix/introduction/#websockets">https://core.qlik.com/services/qix-engine/apis/qix/introduction/#websockets</a>
-.
+        .
       </p>
       <h3>Qlik Cloud Services / Qlik Sense on Kubernetes</h3>
       <p>
@@ -42,11 +42,11 @@ export default function ErrorInfo({ error, engineURL }) {
         {' '}
         <code>web-integration-id</code>
         {' '}
-must be present in order for Qlik Sense to confirm that the request derives from a whitelisted domain.
+        must be present in order for Qlik Sense to confirm that the request derives from a whitelisted domain.
         For more info, visit
         {' '}
         <a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/Admin/mc-adminster-web-integrations.htm">https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/Admin/mc-adminster-web-integrations.htm</a>
-      .
+        .
       </p>
       <h3>Qlik Sense Enterprise on Windows</h3>
       <p>
@@ -54,7 +54,7 @@ must be present in order for Qlik Sense to confirm that the request derives from
         be
         {' '}
         <code>wss://&lt;sense-host.com&gt;/&lt;virtual-proxy-prefix&gt;/app/&lt;app-GUID&gt;</code>
-. Note that for the Sense Proxy to allow sessions from catwalk,
+        . Note that for the Sense Proxy to allow sessions from catwalk,
         https://catwalk.core.qlik.com needs to be whitelisted in QMC in your Qlik Sense Enterprise on Windows deployment.
       </p>
       <p>
@@ -66,7 +66,7 @@ must be present in order for Qlik Sense to confirm that the request derives from
         For connecting to Qlik Sense Desktop, the websocket URL will be
         {' '}
         <code>ws://localhost:4848/app/&lt;app-name&gt;</code>
-.
+        .
       </p>
     </Collapsible>
   );
@@ -95,7 +95,7 @@ must be present in order for Qlik Sense to confirm that the request derives from
         }}
       >
         <label htmlFor="engineURL">
-Websocket address
+          Websocket address
           <input id="engineURL" type="text" onChange={urlChanged} defaultValue={engineURL} placeholder="Enter a valid websocket address" />
           <input type="submit" value="Connect" />
         </label>

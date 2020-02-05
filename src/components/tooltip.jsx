@@ -14,13 +14,13 @@ export function getTooltipForSubsetRatio(field) {
         </h2>
         <p>
           <b>{field.qnPresentDistinctValues}</b>
-           out of
+          out of
           <b>{field.qnTotalDistinctValues}</b>
           {' '}
           <i>{field.qName}</i>
-           values are present in the
+          values are present in the
           <i>{field.srcTable.qName}</i>
-           table.
+          table.
         </p>
         <p>
           {'The remaining '}
