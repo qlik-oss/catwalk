@@ -73,7 +73,7 @@
     "eslint-plugin-react": "7.18.3",
     "fs-extra": "8.1.0",
     "http-server": "0.12.1",
-    "jsdom": "16.1.0",
+    "jsdom": "16.2.0",
     "nyc": "15.0.0",
     "parcel-bundler": "1.12.4",
     "parcel-plugin-inlinesvg": "0.1.1",
