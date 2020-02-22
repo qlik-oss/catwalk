@@ -28,7 +28,7 @@
     "axios": "0.19.2",
     "axios-cache-adapter": "2.5.0",
     "axios-hooks": "1.9.0",
-    "copy-to-clipboard": "3.2.1",
+    "copy-to-clipboard": "3.3.1",
     "enigma.js": "2.6.3",
     "hamus.js": "0.3.0",
     "prop-types": "15.7.2",
