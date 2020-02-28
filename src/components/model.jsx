@@ -95,7 +95,7 @@ export default function Model({ app, appLayout, isLocalStorage }) {
       showFieldDetails(table, field, boxId);
     } else if (dataTableHeader) {
       // Re-sort the main data model based on the clicked table
-      const newQueryModel = new logic.QueryModel(tablesAndKeys, table);
+      const newQueryModel = new logic.QueryModel(tablesAndKeys, dataTableHeader);
       setQueryModel(newQueryModel);
     } else if (field) {
       // Open or close a field
