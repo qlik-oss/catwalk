@@ -3,9 +3,9 @@ jobs:
   build:
     docker:
       - image: circleci/node:10
-      - image: qlikcore/engine:12.556.0
+      - image: qlikcore/engine:12.612.0
         command: -S AcceptEULA=yes
-      - image: browserless/chrome:1.26-puppeteer-2.0.0
+      - image: browserless/chrome:1.28-puppeteer-2.0.0
 
     working_directory: ~/catwalk
 
