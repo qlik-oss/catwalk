@@ -14,6 +14,6 @@ services:
       - ./data:/data
 
   chrome:
-    image: browserless/chrome:1.26-puppeteer-2.0.0
+    image: browserless/chrome:1.28-puppeteer-2.0.0
     ports:
       - 3000:3000
