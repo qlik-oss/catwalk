@@ -58,9 +58,9 @@
     "@babel/plugin-transform-async-to-generator": "7.8.3",
     "@babel/plugin-transform-react-jsx": "7.9.4",
     "@babel/plugin-transform-runtime": "7.9.0",
-    "@babel/preset-env": "7.9.0",
+    "@babel/preset-env": "7.9.5",
     "@babel/preset-react": "7.9.4",
-    "autoprefixer": "9.7.5",
+    "autoprefixer": "9.7.6",
     "babel-eslint": "10.1.0",
     "babel-plugin-import": "1.13.0",
     "babel-plugin-istanbul": "6.0.0",
@@ -80,7 +80,7 @@
     "postcss-nested": "4.2.1",
     "raf": "3.4.1",
     "react-test-renderer": "16.13.1",
-    "stylelint": "13.3.0",
+    "stylelint": "13.3.1",
     "stylelint-config-standard": "20.0.0",
     "stylelint-order": "4.0.0"
   }
