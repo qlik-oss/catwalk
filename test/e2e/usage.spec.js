@@ -43,7 +43,7 @@ describe('usage', () => {
     await expect(img).to.matchImageOf('cleared-selections', OPTS);
 
     // Accept the cookies since the button is blocking opening of the hypercube
-    await page.click('.cookieConsent > button');
+    await page.click('#rcc-confirm-button');
 
     // Open hypercube view
     await page.click('[title="Create a new hypercube"]');
