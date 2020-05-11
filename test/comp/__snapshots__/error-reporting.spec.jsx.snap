@@ -2,7 +2,7 @@
 
 exports[`'should display cookie if not set' 1`] = `
 <div
-  className="cookieConsent "
+  className=""
   style={
     Object {
       "alignItems": "baseline",
@@ -44,26 +44,30 @@ exports[`'should display cookie if not set' 1`] = `
       Learn more
     </a>
   </div>
-  <button
+  <div
     className=""
-    id=""
-    onClick={[Function]}
-    style={
-      Object {
-        "background": "#3D8706",
-        "border": "0",
-        "borderRadius": "0px",
-        "boxShadow": "none",
-        "color": "#fff",
-        "cursor": "pointer",
-        "flex": "0 0 auto",
-        "fontSize": "2rem",
-        "margin": "15px",
-        "padding": "5px 10px",
-      }
-    }
   >
-    Got it!
-  </button>
+    <button
+      className=""
+      id="rcc-confirm-button"
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "#3D8706",
+          "border": "0",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "color": "#fff",
+          "cursor": "pointer",
+          "flex": "0 0 auto",
+          "fontSize": "2rem",
+          "margin": "15px",
+          "padding": "5px 10px",
+        }
+      }
+    >
+      Got it!
+    </button>
+  </div>
 </div>
 `;
