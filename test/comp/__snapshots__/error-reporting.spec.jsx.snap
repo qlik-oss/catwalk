@@ -2,7 +2,7 @@
 
 exports[`'should display cookie if not set' 1`] = `
 <div
-  className=""
+  className="CookieConsent"
   style={
     Object {
       "alignItems": "baseline",
