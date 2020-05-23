@@ -80,7 +80,7 @@
     "postcss-nested": "4.2.1",
     "raf": "3.4.1",
     "react-test-renderer": "16.13.1",
-    "stylelint": "13.4.0",
+    "stylelint": "13.5.0",
     "stylelint-config-standard": "20.0.0",
     "stylelint-order": "4.0.0"
   }
