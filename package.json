@@ -36,7 +36,7 @@
     "react": "16.13.1",
     "react-collapsible": "2.8.0",
     "react-contexify": "4.1.1",
-    "react-cookie-consent": "4.1.0",
+    "react-cookie-consent": "5.0.0",
     "react-dom": "16.13.1",
     "react-floater": "0.7.2",
     "react-ga": "2.7.0",
