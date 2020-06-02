@@ -12,7 +12,6 @@
   ],
   "plugins": [
     "@babel/plugin-transform-runtime",
-    "@babel/plugin-proposal-class-properties",
     ["import", { "libraryName": "hamus.js", "libraryDirectory": "src"}] 
   ],
   "env": {
@@ -30,7 +29,6 @@
       ],
       "plugins": [
         "@babel/plugin-transform-runtime",
-        "@babel/plugin-proposal-class-properties",
         "@babel/plugin-transform-react-jsx",
         "istanbul"
       ]
