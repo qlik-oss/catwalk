@@ -1,4 +1,3 @@
-
 class AtPlayModel {
   /**
    * @param QueryModel model
@@ -12,7 +11,6 @@ class AtPlayModel {
 
     const keysAtPlay = {};
     const tablesAtPlay = {};
-
 
     if (Object.keys(openFieldsMap).length >= 2) {
       let loopCount = 1000;
@@ -76,6 +74,5 @@ class AtPlayModel {
     this.tablesAtPlay = tablesAtPlay;
   }
 }
-
 
 exports.AtPlayModel = AtPlayModel;

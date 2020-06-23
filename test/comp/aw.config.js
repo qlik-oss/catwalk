@@ -30,7 +30,6 @@ global.window.cancelAnimationFrame = () => {};
 global.window.requestAnimationFrame = () => {};
 copyProps(window, global);
 
-
 module.exports = {
   glob: 'test/comp/**/*.spec.jsx',
   coverage: true,

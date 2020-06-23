@@ -178,7 +178,6 @@ export function getExtraInfoForField(fieldData) {
   );
 }
 
-
 function reduceWithAnd(items, maxItems) {
   let result = '';
   if (items.length > maxItems) {
@@ -204,7 +203,6 @@ export function getTooltipForSyntheticField(fieldData) {
   }
   return 'Synthetic field';
 }
-
 
 function firstFewValues(layout) {
   const rowToText = (row) => `${row[0].qText || '<empty>'}`;

@@ -35,7 +35,6 @@ const createDefinition = (field) => ({
   },
 });
 
-
 export default function SelectionField({
   app, field, fieldData,
 }) {

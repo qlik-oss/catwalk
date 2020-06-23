@@ -34,7 +34,6 @@ export default function CubeColumnChooser({
 
   const filteredColumnsOptions = selectableColumns.filter((item) => item.title.toLowerCase().indexOf(filter) >= 0);
 
-
   function updateFilter(e) {
     const { value } = e.target;
     setFilter(value.toLowerCase());
