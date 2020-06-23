@@ -17,7 +17,6 @@ import ReloadTime from './reload-time';
 import logo from '../assets/catwalk.svg';
 import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
 
-
 import '../assets/ReactContexify.min.css';
 import './topbar.pcss';
 

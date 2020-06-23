@@ -92,7 +92,6 @@ function biggestTableNotAnalyzed(listOfTables, tablesAlreadyAnalyzedMap) {
   return listOfTables.find((table) => !tablesAlreadyAnalyzedMap[table]);
 }
 
-
 class QueryModel {
   constructor(tablesAndKeys, userChosenStartTable) {
     const grid = {};
@@ -237,7 +236,6 @@ class QueryModel {
       }
     }
 
-
     let minAllowedLevel = 0;
     for (let t = 0; t < this.resultTableList.length; t += 1) {
       const tableName = this.resultTableList[t];
@@ -315,7 +313,6 @@ class QueryModel {
       return 1 + maxFurtherDepth;
     };
 
-
     const depthOfField = (fieldName) => {
       const traversedTables = {};
       tablesAlreadyAdded.forEach((tableName) => {
@@ -323,7 +320,6 @@ class QueryModel {
       });
       return countDepth(currentTable, fieldName, traversedTables);
     };
-
 
     this.fieldsOfTable(currentTable).forEach(() => {
       const traversedTables = {};
