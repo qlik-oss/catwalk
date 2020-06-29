@@ -1,75 +1,73 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`'should display cookie if not set' 1`] = `
-<div>
+<div
+  className="CookieConsent"
+  style={
+    Object {
+      "alignItems": "baseline",
+      "background": "#5F6062",
+      "bottom": "0",
+      "color": "#D6D6D6",
+      "display": "flex",
+      "flexWrap": "wrap",
+      "fontSize": "2rem",
+      "justifyContent": "space-between",
+      "left": "0",
+      "position": "fixed",
+      "width": "100%",
+      "zIndex": "999",
+    }
+  }
+>
   <div
-    className="CookieConsent"
+    className=""
     style={
       Object {
-        "alignItems": "baseline",
-        "background": "#5F6062",
-        "bottom": "0",
-        "color": "#D6D6D6",
-        "display": "flex",
-        "flexWrap": "wrap",
-        "fontSize": "2rem",
-        "justifyContent": "space-between",
-        "left": "0",
-        "position": "fixed",
-        "width": "100%",
-        "zIndex": "999",
+        "flex": "1 0 300px",
+        "margin": "15px",
       }
     }
   >
-    <div
-      className=""
+    This website uses cookies to ensure you get the best experience on our website.
+     
+    <a
+      href="https://www.qlik.com/us/legal/cookies-and-privacy-policy"
+      rel="noopener noreferrer"
       style={
         Object {
-          "flex": "1 0 300px",
+          "color": "#D6D6D6",
+        }
+      }
+      target="_blank"
+    >
+      Learn more
+    </a>
+  </div>
+  <div
+    className=""
+  >
+    <button
+      className=""
+      id="rcc-confirm-button"
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "#3D8706",
+          "border": "0",
+          "borderRadius": "0px",
+          "boxShadow": "none",
+          "color": "#fff",
+          "cursor": "pointer",
+          "flex": "0 0 auto",
+          "fontSize": "2rem",
           "margin": "15px",
+          "padding": "5px 10px",
         }
       }
     >
-      This website uses cookies to ensure you get the best experience on our website.
-       
-      <a
-        href="https://www.qlik.com/us/legal/cookies-and-privacy-policy"
-        rel="noopener noreferrer"
-        style={
-          Object {
-            "color": "#D6D6D6",
-          }
-        }
-        target="_blank"
-      >
-        Learn more
-      </a>
-    </div>
-    <div
-      className=""
-    >
-      <button
-        className=""
-        id="rcc-confirm-button"
-        onClick={[Function]}
-        style={
-          Object {
-            "background": "#3D8706",
-            "border": "0",
-            "borderRadius": "0px",
-            "boxShadow": "none",
-            "color": "#fff",
-            "cursor": "pointer",
-            "flex": "0 0 auto",
-            "fontSize": "2rem",
-            "margin": "15px",
-            "padding": "5px 10px",
-          }
-        }
-      >
-        Got it!
-      </button>
-    </div>
+      Got it!
+    </button>
   </div>
 </div>
 `;
