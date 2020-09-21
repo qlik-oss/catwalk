@@ -34,7 +34,7 @@
     "prop-types": "15.7.2",
     "re-resizable": "6.5.5",
     "react": "16.13.1",
-    "react-collapsible": "2.8.0",
+    "react-collapsible": "2.8.1",
     "react-contexify": "4.1.1",
     "react-cookie-consent": "5.1.3",
     "react-dom": "16.13.1",
@@ -49,10 +49,10 @@
     "react-infinite-scroller": "1.2.4"
   },
   "devDependencies": {
-    "@after-work.js/cli": "6.0.13",
-    "@after-work.js/node": "6.0.13",
-    "@after-work.js/puppeteer": "6.0.13",
-    "@after-work.js/serve": "6.0.13",
+    "@after-work.js/cli": "6.0.14",
+    "@after-work.js/node": "6.0.14",
+    "@after-work.js/puppeteer": "6.0.14",
+    "@after-work.js/serve": "6.0.14",
     "@babel/core": "7.11.6",
     "@babel/plugin-proposal-class-properties": "7.10.4",
     "@babel/plugin-transform-async-to-generator": "7.10.4",
