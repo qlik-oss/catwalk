@@ -48,6 +48,7 @@ exports[`'should display cookie if not set' 1`] = `
     className=""
   >
     <button
+      aria-label="Accept cookies"
       className=""
       id="rcc-confirm-button"
       onClick={[Function]}
