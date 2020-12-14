@@ -4,7 +4,7 @@ import SVGInline from 'react-svg-inline';
 import {
   Menu,
   Item,
-  MenuProvider,
+  useContextMenu,
   animation,
   Separator,
 } from 'react-contexify';
@@ -74,6 +74,10 @@ export default function TopBar({
       star = <Star isLocalStorage={isLocalStorage} />;
     }
   }
+  const { show } = useContextMenu({ id: 'menu_id' });
+  const showMenu = (e) => {
+    show(e);
+  };
   return (
     <div className="topbar">
       <div className="topbarLogo" onClick={goToGithub} role="navigation">
@@ -82,11 +86,9 @@ export default function TopBar({
       {selections}
       {star}
       {reloaded}
-      <MenuProvider id="menu_id" event="onClick" className="menu-provider">
-        <div>
-          <SVGInline className="more-icon" svg={moreHorizontalOutline} />
-        </div>
-      </MenuProvider>
+      <div id="menu_id" onContextMenu={showMenu} className="menu-provider">
+        <SVGInline className="more-icon" svg={moreHorizontalOutline} />
+      </div>
       <TopbarMenu />
     </div>
   );
