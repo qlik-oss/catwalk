@@ -1,6 +1,6 @@
 import useAxios from 'axios-hooks';
 
-export default function ({
+export default function ({ // eslint-disable-line func-names
   url = '/', method = 'get', data = null, manual = false,
 }) {
   const [{

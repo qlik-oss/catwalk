@@ -86,7 +86,7 @@ export default function TopBar({
       {selections}
       {star}
       {reloaded}
-      <div id="menu_id" onClick={showMenu} className="menu-provider">
+      <div id="menu_id" onClick={showMenu} role="button" tabIndex={0} className="menu-provider">
         <SVGInline className="more-icon" svg={moreHorizontalOutline} />
       </div>
       <TopbarMenu />
