@@ -1,6 +1,7 @@
 {
   "modules": false,
   "plugins": {
+    "autoprefixer": {},
     "postcss-nested": {},
     "stylelint": {}
   }
