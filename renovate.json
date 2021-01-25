@@ -2,5 +2,6 @@
   "extends": [
     "qlik-oss",
     "qlik-oss:groupMinorPatch"
-  ]
+  ],
+  "ignoreDeps": ["react-joyride"]
 }
