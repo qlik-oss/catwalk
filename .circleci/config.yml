@@ -47,7 +47,7 @@ jobs:
           command: npx cypress install
       - run:
           name: Running e2e tests
-           command: |
+          command: |
             npm run parcel:build
             npm run test:e2e:ci
       - store_artifacts:
