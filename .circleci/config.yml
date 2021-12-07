@@ -37,6 +37,7 @@ jobs:
             - node_modules
           key: npm-dependency-cache-{{ checksum "package-lock.json" }}
   e2e:
+    working_directory: ~/catwalk
     docker:
       - image: cypress/base:14.17.3
     steps:
