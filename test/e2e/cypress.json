@@ -1,0 +1,13 @@
+{
+  "baseUrl": "http://localhost:1234/",
+  "integrationFolder": "./integration",
+  "fixturesFolder": "./fixtures",
+  "pluginsFile": "./plugins/index.js",
+  "screenshotsFolder": "./screenshots/",
+  "supportFile": "./support/index.js",
+  "video": false,
+  "viewportHeight": 1080,
+  "viewportWidth": 1920,
+  "defaultCommandTimeout": 10000,
+  "chromeWebSecurity": false
+}
