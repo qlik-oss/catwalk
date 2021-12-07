@@ -43,7 +43,7 @@ describe('usage', () => {
     cy.findByTitle('Add another column').click();
     cy.get('[data-title="measures"]').click();
     cy.get('[data-title="Cost"]').click();
-    cy.findByRole('table').should('exist');
+    cy.get('.hypercube-table').should('exist');
     cy.get('.ReactVirtualized__Table').should('have.attr', 'aria-colcount', '2');
 
     // Close hypercube and open menu
