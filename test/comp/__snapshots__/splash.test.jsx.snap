@@ -1,0 +1,175 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Splash /> should render <AppList /> 1`] = `
+Array [
+  <div
+    className="center-content"
+  >
+    <div
+      className="splash"
+    >
+      <span
+        className="SVGInline logo"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<svg class=\\"SVGInline-svg logo-svg\\" data-testid=\\"svg-element\\" />",
+          }
+        }
+      />
+      <ul>
+        list
+      </ul>
+    </div>
+  </div>,
+  <div
+    className="cat-with-bubble"
+    style={null}
+  >
+    <span
+      className="SVGInline close-me"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<svg class=\\"SVGInline-svg close-me-svg\\" data-testid=\\"svg-element\\" />",
+        }
+      }
+      onClick={[Function]}
+      title="Hide cat"
+    />
+    <span
+      className="SVGInline cat"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<svg class=\\"SVGInline-svg cat-svg\\" data-testid=\\"svg-element\\" />",
+        }
+      }
+    />
+    <p
+      className="bubble"
+      onClick={[Function]}
+      style={
+        Object {
+          "width": "7em",
+        }
+      }
+    >
+      Click my speech bubble to open the demo app.
+    </p>
+  </div>,
+]
+`;
+
+exports[`<Splash /> should render <AppList /> even though error is provided 1`] = `
+Array [
+  <div
+    className="center-content"
+  >
+    <div
+      className="splash"
+    >
+      <span
+        className="SVGInline logo"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<svg class=\\"SVGInline-svg logo-svg\\" data-testid=\\"svg-element\\" />",
+          }
+        }
+      />
+      <ul>
+        list
+      </ul>
+    </div>
+  </div>,
+  <div
+    className="cat-with-bubble"
+    style={null}
+  >
+    <span
+      className="SVGInline close-me"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<svg class=\\"SVGInline-svg close-me-svg\\" data-testid=\\"svg-element\\" />",
+        }
+      }
+      onClick={[Function]}
+      title="Hide cat"
+    />
+    <span
+      className="SVGInline cat"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<svg class=\\"SVGInline-svg cat-svg\\" data-testid=\\"svg-element\\" />",
+        }
+      }
+    />
+    <p
+      className="bubble"
+      onClick={[Function]}
+      style={
+        Object {
+          "width": "7em",
+        }
+      }
+    >
+      Click my speech bubble to open the demo app.
+    </p>
+  </div>,
+]
+`;
+
+exports[`<Splash /> should render <ErrorInfo /> when having error 1`] = `
+Array [
+  <div
+    className="center-content"
+  >
+    <div
+      className="splash"
+    >
+      <span
+        className="SVGInline error-logo"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<svg class=\\"SVGInline-svg error-logo-svg\\" data-testid=\\"svg-element\\" />",
+          }
+        }
+      />
+      <span>
+        Some error
+      </span>
+    </div>
+  </div>,
+  <div
+    className="cat-with-bubble"
+    style={null}
+  >
+    <span
+      className="SVGInline close-me"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<svg class=\\"SVGInline-svg close-me-svg\\" data-testid=\\"svg-element\\" />",
+        }
+      }
+      onClick={[Function]}
+      title="Hide cat"
+    />
+    <span
+      className="SVGInline cat"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<svg class=\\"SVGInline-svg cat-svg\\" data-testid=\\"svg-element\\" />",
+        }
+      }
+    />
+    <p
+      className="bubble"
+      onClick={[Function]}
+      style={
+        Object {
+          "width": "7em",
+        }
+      }
+    >
+      Click my speech bubble to open the demo app.
+    </p>
+  </div>,
+]
+`;

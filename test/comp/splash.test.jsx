@@ -1,18 +1,17 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import AppList from '../../src/components/app-list';
+import ErrorInfo from '../../src/components/error-info';
+import Splash from '../../src/components/splash';
+
+const appList = <ul>list</ul>;
+const errorInfo = <span>Some error</span>;
+jest.mock('../../src/components/app-list', () => jest.fn());
+AppList.mockImplementation(() => appList);
+jest.mock('../../src/components/error-info', () => jest.fn());
+ErrorInfo.mockImplementation(() => errorInfo);
 
 describe('<Splash />', () => {
-  const appList = <ul>list</ul>;
-  const errorInfo = <span>Some error</span>;
-
-  const [{ default: Splash }] = aw.mock(
-    [
-      ['**/src/components/app-list.jsx', () => () => appList],
-      ['**/src/components/error-info.jsx', () => () => errorInfo],
-    ],
-    ['../../src/components/splash'],
-  );
-
   it('should render <AppList />', () => {
     const error = null;
     const engineURL = '';

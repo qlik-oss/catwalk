@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`'should call openDoc if having a global' 1`] = `
+exports[`<AppList /> should call openDoc if having a global 1`] = `
 <div
   className="info"
 >
@@ -35,7 +35,7 @@ Texten finns också på skånska.
 </div>
 `;
 
-exports[`'should render app list correctly' 1`] = `
+exports[`<AppList /> should render app list correctly 1`] = `
 <div
   className="info"
 >
