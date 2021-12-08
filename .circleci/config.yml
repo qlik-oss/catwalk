@@ -1,11 +1,8 @@
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:10
-      - image: qlikcore/engine:12.1070.0
-        command: -S AcceptEULA=yes
-      - image: browserless/chrome:1.35-puppeteer-2.0.0
+      - image: circleci/node:17
 
     working_directory: ~/catwalk
 
@@ -34,31 +31,40 @@ jobs:
           name: Component tests
           command: |
             npm run test:comp
-            if [ ! -z "$COVERALLS_REPO_TOKEN" ]; then
-              echo "Uploading coverage results to coveralls.io..."
-              cat coverage/lcov.info | npx coveralls
-            fi
-
-      - run:
-          name: E2E tests
-          command: |
-            DocID=$(curl -s --data-binary @data/drugcases.qvf http://localhost:9076/v1/apps/import | jq -r '.attributes.id')
-            npm run parcel:build
-            npm run server:start &
-            DocID=$DocID npm run test:e2e
-            npx nyc report -r html
 
       - save_cache:
           paths:
             - node_modules
           key: npm-dependency-cache-{{ checksum "package-lock.json" }}
 
+      - persist_to_workspace:
+          root: ~/catwalk
+          paths:
+            - ./
+  e2e:
+    working_directory: ~/catwalk
+    docker:
+      - image: cypress/base:14.17.3
+    steps:
+      - attach_workspace:
+          at: ~/catwalk
+      - run:
+          name: Install cypress binaries
+          command: npx cypress install
+      - run:
+          name: Running e2e tests
+          command: |
+            npm run parcel:build
+            npm run test:e2e:ci
       - store_artifacts:
-          path: test/e2e/__artifacts__
-
-      - store_artifacts:
-          path: coverage
-
+          path: cypress/
+  deploy:
+    working_directory: ~/catwalk
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - attach_workspace:
+          at: ~/catwalk
       - run:
           name: Sync dist to S3 bucket
           command: |
@@ -70,3 +76,13 @@ jobs:
               aws s3 sync dist/ s3://catwalk.core.qlik.com/ --delete
               aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
             fi
+workflows:
+  build-deploy:
+    jobs:
+      - build
+      - e2e:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - e2e
