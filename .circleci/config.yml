@@ -44,7 +44,7 @@ jobs:
   e2e:
     working_directory: ~/catwalk
     docker:
-      - image: cypress/base:14.17.3
+      - image: cypress/base:16.13.0
     steps:
       - attach_workspace:
           at: ~/catwalk
