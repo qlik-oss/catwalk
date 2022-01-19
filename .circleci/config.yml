@@ -73,7 +73,7 @@ jobs:
               aws configure set preview.cloudfront true
 
               npm run build
-              aws s3 sync dist/ s3://catwalk.core.qlik.com/ --delete
+              aws s3 sync dist/ s3://catwalk-qlik-dev/ --delete
               aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
             fi
 workflows:
