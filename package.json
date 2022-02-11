@@ -42,7 +42,7 @@
     "react-cookie-consent": "7.0.1",
     "react-dom": "17.0.2",
     "react-floater": "0.7.3",
-    "react-ga": "3.3.0",
+    "react-gtm-module": "2.0.11",
     "react-infinite-scroller": "1.2.4",
     "react-joyride": "2.2.1",
     "react-outside-click-handler": "1.3.0",
