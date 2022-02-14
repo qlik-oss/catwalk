@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
+
+import TagManager from 'react-gtm-module';
 
 import ErrorBoundary from './components/error-boundary';
 import App from './components/app';
-import UseErrorReporting from './components/error-reporting';
 import { getWebIntegrationId, getTenantUrl } from './util';
 import useCsrf from './components/use/csrf';
 import Loading from './components/loading';
@@ -26,11 +27,19 @@ const Index = () => {
 
     app = <App csrfToken={csrfToken} />;
   }
-
+  useEffect(() => {
+    if (process.env.GTM_ID) {
+      TagManager.initialize({
+        gtmId: process.env.GTM_ID,
+        dataLayer: {
+          site: 'qlikdev',
+        },
+      });
+    }
+  }, []);
   return (
     <ErrorBoundary>
       {app}
-      <UseErrorReporting GA={process.env.GA} />
     </ErrorBoundary>
   );
 };

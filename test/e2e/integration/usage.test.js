@@ -29,9 +29,6 @@ describe('usage', () => {
     cy.findAllByText('2 of 3').should('not.exist');
     cy.get('.selection-field').should('not.exist');
 
-    // Accept the cookies since the button is blocking opening of the hypercube
-    cy.get('#rcc-confirm-button').click();
-
     // Open hypercube view
     cy.get('.cube-column-chooser').should('not.exist');
     cy.findByTitle('Create a new hypercube').click();
