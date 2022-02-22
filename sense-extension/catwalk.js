@@ -14,7 +14,7 @@ define(['qlik'],
         const cleandWS = wsString.substring(0, wsString.indexOf('?'));
         $element.empty();
         $element.append(`
-          <a target="_blank" rel="noopener noreferrer" href="https://catwalk.core.qlik.com/?engine_url=${cleandWS}">
+          <a target="_blank" rel="noopener noreferrer" href="https://catwalk.qlik.dev/?engine_url=${cleandWS}">
             <img src="/extensions/catwalk/catwalk.svg" />
           </a>
         `);

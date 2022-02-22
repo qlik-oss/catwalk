@@ -55,7 +55,7 @@ export default function ErrorInfo({ error, engineURL }) {
         {' '}
         <code>wss://&lt;sense-host.com&gt;/&lt;virtual-proxy-prefix&gt;/app/&lt;app-GUID&gt;</code>
         . Note that for the Sense Proxy to allow sessions from catwalk,
-        https://catwalk.core.qlik.com needs to be whitelisted in QMC in your Qlik Sense Enterprise on Windows deployment.
+        https://catwalk.qlik.dev needs to be whitelisted in QMC in your Qlik Sense Enterprise on Windows deployment.
       </p>
       <p>
         Make sure that you are logged in to Qlik Sense in another browser tab/window. Then the browser tab running catwalk can use
