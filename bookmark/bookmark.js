@@ -23,10 +23,10 @@ javascript: (function bookmark() {
     const port = window.location.port === '' ? '' : `:${window.location.port}`;
 
     const engineUrl = `${protocol}://${hostname}${port}/app/${appId}`;
-    const url = `http://catwalk.core.qlik.com/?engine_url=${engineUrl}`;
+    const url = `http://catwalk.qlik.dev/?engine_url=${engineUrl}`;
     window.open(url, '_blank');
   } else {
-    const url = 'http://catwalk.core.qlik.com';
+    const url = 'http://catwalk.qlik.dev';
     window.open(url, '_blank');
   }
 }());

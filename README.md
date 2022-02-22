@@ -16,7 +16,7 @@ For catwalk to work there are two things needed:
 
 ## Hosted
 
-You can use catwalk from [catwalk.core.qlik.com](https://catwalk.core.qlik.com), where the latest master build is deployed. It can be used against any Qlik Associative Engine, local or hosted.
+You can use catwalk from [catwalk.qlik.dev](https://catwalk.qlik.dev), where the latest master build is deployed. It can be used against any Qlik Associative Engine, local or hosted.
 
 ## Local
 
@@ -33,7 +33,7 @@ npm start
 You need to provide catwalk with a websocket URL to the app. The URL is set with the `engine_url` query parameter.
 
 ### Example App
-For convenience there is an example app and docker-compose.yml in the catwalk repository
+For convenience, there is an example app and docker-compose.yml in the catwalk repository
 ```bash
 ACCEPT_EULA=yes docker-compose up -d
 ```
@@ -41,7 +41,7 @@ The docker-compose.yml in the repository will expose the Qlik Associative Engine
 
 `ws://localhost:9076/data/drugcases.qvf`
 
-and is viewable in catwalk with e.g. `https://catwalk.core.qlik.com/?engine_url=ws://localhost:9076/data/drugcases.qvf`
+and is viewable in catwalk with e.g. `https://catwalk.qlik.dev/?engine_url=ws://localhost:9076/data/drugcases.qvf`
 
 ### Qlik Sense Desktop
 For connecting to a Qlik Sense Desktop the websocket URL will be:
@@ -52,7 +52,7 @@ For connecting to a Qlik Sense Desktop the websocket URL will be:
 In order to connect to an app residing in Qlik Cloud Services or Qlik Sense Enterprise on Kubernetes, the `qlik-web-integration-id` has to be provided. You can create web integrations to add origins that are whitelisted to access the tenant. When a request arrives, Qlik Sense Enterprise confirms that the request derives from a whitelisted domain and then approves the request, else not. This is administered by tenant admins from the management console on the Integrations page. More info about this can be found [here](https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/Admin/mc-adminster-web-integrations.htm). The id is provided to catwalk by adding it as url parameter to the websocket address, e.g. `wss://tenant.qlikcloud.com/app/<app-guid>?qlik-web-integration-id=<web-integration-id>`.
 
 ### Qlik Sense Enterprise on Windows
-The catwalk UI doesn't provide a login to the Qlik Sense app, but as long as there has been a login to the app in another tab/window the `X-Qlik-Session` cookie is set, and catwalk can "reuse" that session. The URL [catwalk.core.qlik.com](https://catwalk.core.qlik.com) has to be white listed in the QMC -> virtual proxy (per virtual proxy being used) for the Sense Proxy to allow sessions from catwalk. Since catwalk is running client side only, there is nothing other then the browser session and the engine that accesses the data in the app. This means that catwalk can be seen as any externally hosted mashup which also needs to be whitelisted.
+The catwalk UI doesn't provide a login to the Qlik Sense app, but as long as there has been a login to the app in another tab/window the `X-Qlik-Session` cookie is set, and catwalk can "reuse" that session. The URL [catwalk.qlik.dev](https://catwalk.qlik.dev) has to be white listed in the QMC -> virtual proxy (per virtual proxy being used) for the Sense Proxy to allow sessions from catwalk. Since catwalk is running client side only, there is nothing other then the browser session and the engine that accesses the data in the app. This means that catwalk can be seen as any externally hosted mashup which also needs to be whitelisted.
 
 ![host white list](./images/qmc-whitelist.png)
 
