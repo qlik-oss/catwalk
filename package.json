@@ -45,7 +45,7 @@
     "react-joyride": "2.2.1",
     "react-outside-click-handler": "1.3.0",
     "react-svg-inline": "2.1.1",
-    "react-tabs": "4.0.1",
+    "react-tabs": "5.1.0",
     "react-use-promise": "0.4.1",
     "react-virtualized": "9.22.3"
   },
