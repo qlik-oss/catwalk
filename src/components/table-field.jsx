@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SVGInline from 'react-svg-inline';
 import { useLayout, useModel } from 'hamus.js';
-import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
+import SVGmoreHorizontalOutline from '../assets/more-horizontal-outline.svg';
 import Field from './field';
 import Filterbox from './filterbox';
 import { getTooltipForField, getTooltipForSyntheticField } from './tooltip';
@@ -87,7 +86,7 @@ function TableFieldWithoutState({
       <Field layout={layout} field={field} fieldData={fieldData} />
       <div className="extra-information" title="Click for more information">
         <div data-extra-info-icon>
-          <SVGInline className="extra-information-icon" svg={moreHorizontalOutline} />
+          <SVGmoreHorizontalOutline className="extra-information-icon" />
         </div>
       </div>
       <div className="details">

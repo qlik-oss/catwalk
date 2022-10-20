@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import SVGInline from 'react-svg-inline';
 import { getWebIntegrationId, getParamFromEngineUrl } from '../util';
-import star from '../assets/star.svg';
+import SVGstar from '../assets/star.svg';
 
 export default function Star() {
   const engineURL = new URLSearchParams(document.location.search).get('engine_url');
@@ -36,7 +35,7 @@ export default function Star() {
 
   return (
     <div className="star" onClick={starClick} role="navigation" title={starTitle}>
-      <SVGInline className={`star ${starClass}`} svg={star} />
+      <SVGstar className={`star ${starClass}`} />
     </div>
   );
 }

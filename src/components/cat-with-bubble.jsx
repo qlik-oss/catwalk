@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import SVGInline from 'react-svg-inline';
-import cat from '../assets/peekaboocat.svg';
-import close from '../assets/close-outline.svg';
+
+import SVGcat from '../assets/peekaboocat.svg';
+import SVGclose from '../assets/close-outline.svg';
 
 import './cat-with-bubble.pcss';
 
@@ -23,8 +23,8 @@ export default function CatWithBubble({ text, onClick, width }) {
   if (show) {
     return (
       <div className="cat-with-bubble" style={totalWidth}>
-        <SVGInline className="close-me" svg={close} onClick={() => hide()} title="Hide cat" />
-        <SVGInline className="cat" svg={cat} />
+        <SVGclose className="close-me" onClick={() => hide()} title="Hide cat" />
+        <SVGcat className="cat" />
         <p className="bubble" onClick={onClick} style={{ width: `${width}` }} ref={bubbleElement}>
           {text}
         </p>

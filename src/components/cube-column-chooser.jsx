@@ -1,12 +1,11 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import SVGInline from 'react-svg-inline';
 import {
   Tabs, Tab, TabList, TabPanel,
 } from 'react-tabs';
 
 import useClickOutside from './use/click-outside';
-import funnel from '../assets/funnel-outline.svg';
+import SVGfunnel from '../assets/funnel-outline.svg';
 
 import 'react-tabs/style/react-tabs.css';
 import './cube-column-chooser.pcss';
@@ -69,7 +68,7 @@ export default function CubeColumnChooser({
     <div className={`cube-column-chooser ${arrowStyle}`} style={popupStyle} ref={selfRef}>
       <div className="input-wrapper">
         <div className="filter">
-          <SVGInline className="funnel" svg={funnel} />
+          <SVGfunnel className="funnel"/>
         </div>
         <input type="text" autoFocus ref={inputRef} onKeyUp={(e) => updateFilter(e)} />
       </div>

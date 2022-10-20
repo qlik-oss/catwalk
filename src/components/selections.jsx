@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SVGInline from 'react-svg-inline';
 import { useLayout, useModel } from 'hamus.js';
 import SelectionField from './selection-field';
 import useResolvedValue from './use/resolved-value';
 
-import close from '../assets/close-outline.svg';
+import SVGclose from '../assets/close-outline.svg';
 
 import './selections.pcss';
 
-const clearButton = { className: 'clear', svg: close };
+const clearButton = { className: 'clear'};
 
 const definition = {
   qInfo: { qType: 'selections' },
@@ -38,7 +37,7 @@ export default function Selections({ app }) {
       </li>
     ));
     if (items.length) {
-      clearAll = <SVGInline className={clearButton.className} svg={clearButton.svg} onClick={() => clearAllSelections()} title="Clear all selections" />;
+      clearAll = <SVGclose className={clearButton.className} onClick={() => clearAllSelections()} title="Clear all selections" />;
     }
   }
 

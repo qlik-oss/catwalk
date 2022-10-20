@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SVGInline from 'react-svg-inline';
-import close from '../assets/close-outline.svg';
+import SVGClose from '../assets/close-outline.svg';
 import { getSelectionBarTooltip } from './tooltip';
 import './field.pcss';
 
@@ -38,7 +37,7 @@ export default function Field({
   const showClearSelection = onClearSelection !== null && !layout.qListObject.qDimensionInfo.qIsOneAndOnlyOne;
   const clearSelection = showClearSelection
     ? (
-      <SVGInline className={clearButton.className} svg={clearButton.svg} onClick={(event) => { onClearSelection(event, field); }} />
+      <SVGClose className={clearButton.className} onClick={(event) => { onClearSelection(event, field); }} />
     ) : null;
   return (
     <div className="field">

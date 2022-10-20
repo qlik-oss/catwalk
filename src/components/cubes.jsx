@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import SVGInline from 'react-svg-inline';
 import Cube from './cube';
 import { useInfoBox } from './info-box';
-import close from '../assets/close-outline.svg';
-import copy from '../assets/copy-outline.svg';
-import exportCube from '../assets/download-outline.svg';
-import loader from '../assets/loader-outline.svg';
+import SVGclose from '../assets/close-outline.svg';
+import SVGcopy from '../assets/copy-outline.svg';
+import SVGexportCube from '../assets/download-outline.svg';
+import SVGloader from '../assets/loader-outline.svg';
 
 import useColumnOptions from './use/column-options';
 import CubeColumnChooser from './cube-column-chooser';
@@ -96,9 +95,9 @@ export function Cubes({ app, closeOnClickOutside, isLocalStorage }) {
     <div key={cube.id} className="card">
       <div className="top-bar">
         <div className="title">HYPERCUBE</div>
-        { spinner ? <SVGInline className="spinner" svg={loader} /> : <SVGInline className="export" svg={exportCube} onClick={() => exportHypercube(cube.id)} title="Export to excel" /> }
-        <SVGInline className="copy" svg={copy} onClick={() => copyToClipboard(cube.id)} title="Copy hypercube def to clipboard" />
-        <SVGInline className={closeButton.className} svg={closeButton.svg} onClick={() => removeCube(cube.id)} title="Close cube" />
+        { spinner ? <SVGloader className="spinner" /> : <SVGexportCube className="export" onClick={() => exportHypercube(cube.id)} title="Export to excel" /> }
+        <SVGcopy className="copy" onClick={() => copyToClipboard(cube.id)} title="Copy hypercube def to clipboard" />
+        <SVGclose className={closeButton.className} onClick={() => removeCube(cube.id)} title="Close cube" />
       </div>
       <Cube ref={refs.current[cube.id]} app={app} tableData={cube} closeOnClickOutside={closeOnClickOutside} id={cube.id} isLocalStorage={isLocalStorage} closeCube={removeCube} />
     </div>

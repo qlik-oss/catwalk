@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SVGInline from 'react-svg-inline';
 
-import CatWithBubble from './cat-with-bubble';
-import logo from '../assets/catwalk.svg';
-import catwalkAway from '../assets/catwalk-away.svg';
+import SVGcatWithBubble from './cat-with-bubble';
+import SVGlogo from '../assets/catwalk.svg';
+import SVGcatwalkAway from '../assets/catwalk-away.svg';
 import demoApp from '../demo-app';
 import { getWebIntegrationId, assignEngineUrl } from '../util';
 import AppList from './app-list';
@@ -17,7 +16,7 @@ export default function Splash({
   global,
   fetchDocList,
 }) {
-  let contentLogo = { className: 'logo', svg: logo };
+  let contentLogo = { className: 'logo' };
 
   const speechBubbleClick = () => {
     assignEngineUrl(demoApp);
@@ -26,13 +25,13 @@ export default function Splash({
   const webIntegrationId = getWebIntegrationId(document.location);
   const showError = error && !fetchDocList;
   if (showError) {
-    contentLogo = { className: 'error-logo', svg: catwalkAway };
+    contentLogo = { className: 'error-logo' };
   }
   return (
     <>
       <div className="center-content">
         <div className="splash">
-          <SVGInline className={contentLogo.className} svg={contentLogo.svg} />
+          <SVGlogo className={contentLogo.className} />
           { fetchDocList
             && <AppList webIntegrationId={webIntegrationId} global={global} engineURL={engineURL} />}
           {
@@ -41,7 +40,7 @@ export default function Splash({
 }
         </div>
       </div>
-      <CatWithBubble
+      <SVGcatWithBubble
         text="Click my speech bubble to open the demo app."
         onClick={speechBubbleClick}
         width="7em"

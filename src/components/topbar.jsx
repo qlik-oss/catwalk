@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SVGInline from 'react-svg-inline';
 import {
   Menu,
   Item,
@@ -14,8 +13,8 @@ import { getWebIntegrationId, getParamFromEngineUrl, assignEngineUrl } from '../
 
 import Selections from './selections';
 import ReloadTime from './reload-time';
-import logo from '../assets/catwalk.svg';
-import moreHorizontalOutline from '../assets/more-horizontal-outline.svg';
+import SVGlogo from '../assets/catwalk.svg';
+import SVGmoreHorizontalOutline from '../assets/more-horizontal-outline.svg';
 
 import '../assets/ReactContexify.min.css';
 import './topbar.pcss';
@@ -81,13 +80,13 @@ export default function TopBar({
   return (
     <div className="topbar">
       <div className="topbarLogo" onClick={goToGithub} role="navigation">
-        <SVGInline className="logo" svg={logo} />
+        <SVGlogo className="logo"/>
       </div>
       {selections}
       {star}
       {reloaded}
       <div id="menu_id" onClick={showMenu} role="button" tabIndex={0} className="menu-provider">
-        <SVGInline className="more-icon" svg={moreHorizontalOutline} />
+        <SVGmoreHorizontalOutline className="more-icon" />
       </div>
       <TopbarMenu />
     </div>

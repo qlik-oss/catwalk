@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import SVGInline from 'react-svg-inline';
 
-import success from '../assets/checkmark-circle-2-outline.svg';
-import warning from '../assets/alert-triangle-outline.svg';
+import SVGsuccess from '../assets/checkmark-circle-2-outline.svg';
+import SVGwarning from '../assets/alert-triangle-outline.svg';
 
 import './info-box.pcss';
 
@@ -29,7 +28,7 @@ InfoBoxContainer.defaultProps = {
 
 const InfoBox = ({ children, alert, visible }) => (
   <div className={`info-box ${visible ? 'visible' : 'hidden'}`}>
-    <SVGInline className={`alert ${alert}`} svg={alert === 'success' ? success : warning} />
+    <SVGsuccess className={`alert ${alert}`} svg={alert === 'success' ? success : warning} />
     {children}
   </div>
 );
