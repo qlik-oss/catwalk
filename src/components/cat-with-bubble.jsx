@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import SVGcat from '../assets/peekaboocat.svg';
@@ -8,13 +8,6 @@ import './cat-with-bubble.pcss';
 
 export default function CatWithBubble({ text, onClick, width }) {
   const [show, setShow] = useState(true);
-  const [totalWidth, setTotalWidth] = useState(null);
-  const bubbleElement = useRef(null);
-  useEffect(() => {
-    if (bubbleElement && bubbleElement.current) {
-      setTotalWidth({ width: `${bubbleElement.current.getBoundingClientRect().right}px` });
-    }
-  }, []);
 
   const hide = () => {
     setShow(false);
@@ -22,10 +15,10 @@ export default function CatWithBubble({ text, onClick, width }) {
 
   if (show) {
     return (
-      <div className="cat-with-bubble" style={totalWidth}>
+      <div className="cat-with-bubble">
         <SVGclose className="close-me" onClick={() => hide()} title="Hide cat" />
         <SVGcat className="cat" />
-        <p className="bubble" onClick={onClick} style={{ width: `${width}` }} ref={bubbleElement}>
+        <p className="bubble" onClick={onClick} style={{ width: `${width}` }}>
           {text}
         </p>
       </div>

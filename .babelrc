@@ -1,4 +1,5 @@
 {
+  "presets": ["@parcel/babel-preset-env", "@babel/preset-react"],
   "plugins": [
     "@babel/plugin-transform-runtime",
     ["import", { "libraryName": "hamus.js", "libraryDirectory": "src"}] 

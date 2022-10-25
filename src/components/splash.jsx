@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import SVGcatwalkAway from '../assets/catwalk-away.svg';
 import SVGcatWithBubble from './cat-with-bubble';
 import SVGlogo from '../assets/catwalk.svg';
 import demoApp from '../demo-app';
@@ -15,28 +15,28 @@ export default function Splash({
   global,
   fetchDocList,
 }) {
-  let contentLogo = { className: 'logo' };
-
   const speechBubbleClick = () => {
     assignEngineUrl(demoApp);
   };
-
-  const webIntegrationId = getWebIntegrationId(document.location);
   const showError = error && !fetchDocList;
-  if (showError) {
-    contentLogo = { className: 'error-logo' };
-  }
+  const webIntegrationId = getWebIntegrationId(document.location);
   return (
     <>
       <div className="center-content">
         <div className="splash">
-          <SVGlogo className={contentLogo.className} />
-          { fetchDocList
-            && <AppList webIntegrationId={webIntegrationId} global={global} engineURL={engineURL} />}
-          {
-  showError
-  && <ErrorInfo error={error} engineURL={engineURL} />
-}
+          {showError ? (
+            <SVGcatwalkAway className="error-logo" />
+          ) : (
+            <SVGlogo className="logo" />
+          )}
+          {fetchDocList && (
+            <AppList
+              webIntegrationId={webIntegrationId}
+              global={global}
+              engineURL={engineURL}
+            />
+          )}
+          {showError && <ErrorInfo error={error} engineURL={engineURL} />}
         </div>
       </div>
       <SVGcatWithBubble

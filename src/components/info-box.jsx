@@ -69,7 +69,8 @@ export function InfoBoxProvider({ children }) {
   };
 
   return (
-    <context.Provider value={React.useMemo({ show }, [])}>
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
+    <context.Provider value={{ show }}>
       {children}
       <InfoBoxContainer className="info-box-container">
         {infoBox
