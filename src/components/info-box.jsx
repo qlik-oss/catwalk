@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
 import SVGsuccess from '../assets/checkmark-circle-2-outline.svg';
-import SVGwarning from '../assets/alert-triangle-outline.svg';
 
 import './info-box.pcss';
 

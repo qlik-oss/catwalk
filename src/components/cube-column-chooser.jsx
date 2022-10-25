@@ -68,7 +68,7 @@ export default function CubeColumnChooser({
     <div className={`cube-column-chooser ${arrowStyle}`} style={popupStyle} ref={selfRef}>
       <div className="input-wrapper">
         <div className="filter">
-          <SVGfunnel className="funnel"/>
+          <SVGfunnel className="funnel" />
         </div>
         <input type="text" autoFocus ref={inputRef} onKeyUp={(e) => updateFilter(e)} />
       </div>

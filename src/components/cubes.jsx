@@ -25,7 +25,7 @@ export function Cubes({ app, closeOnClickOutside, isLocalStorage }) {
   const [spinner, setSpinner] = useState(false);
   const infoBox = useInfoBox();
 
-  const closeButton = { className: 'close', svg: close };
+  const closeButton = { className: 'close', svg: SVGclose };
 
   function addCube(column) {
     if (column) {

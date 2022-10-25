@@ -4,7 +4,7 @@ import SVGClose from '../assets/close-outline.svg';
 import { getSelectionBarTooltip } from './tooltip';
 import './field.pcss';
 
-const clearButton = { className: 'clear-selection', svg: close };
+const clearButton = { className: 'clear-selection', svg: SVGClose };
 
 function fieldCounts(dimInfo, field) {
   let str = '';

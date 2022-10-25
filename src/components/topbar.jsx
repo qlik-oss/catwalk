@@ -52,7 +52,7 @@ export default function TopBar({
     window.open('https://github.com/qlik-oss/catwalk/blob/master/README.md#Data-Policy');
   };
 
-  const TopbarMenu = () => (
+  const TopbarMenu = (
     <Menu id="menu_id" className="menu" animation={animation.fade}>
       <Item onClick={chooseApp}>Choose App</Item>
       <Separator />
@@ -80,7 +80,7 @@ export default function TopBar({
   return (
     <div className="topbar">
       <div className="topbarLogo" onClick={goToGithub} role="navigation">
-        <SVGlogo className="logo"/>
+        <SVGlogo className="logo" />
       </div>
       {selections}
       {star}
@@ -88,7 +88,7 @@ export default function TopBar({
       <div id="menu_id" onClick={showMenu} role="button" tabIndex={0} className="menu-provider">
         <SVGmoreHorizontalOutline className="more-icon" />
       </div>
-      <TopbarMenu />
+      { TopbarMenu }
     </div>
   );
 }

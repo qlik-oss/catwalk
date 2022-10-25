@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import SVGcatWithBubble from './cat-with-bubble';
 import SVGlogo from '../assets/catwalk.svg';
-import SVGcatwalkAway from '../assets/catwalk-away.svg';
 import demoApp from '../demo-app';
 import { getWebIntegrationId, assignEngineUrl } from '../util';
 import AppList from './app-list';

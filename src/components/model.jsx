@@ -12,7 +12,11 @@ import logic from '../logic/logic';
 import atplay from '../logic/atplay';
 import demoApp from '../demo-app';
 
-import { getExtraInfoForField, getAssosicationTooltip, getTableTooltip } from './tooltip';
+import {
+  getExtraInfoForField,
+  getAssosicationTooltip,
+  getTableTooltip,
+} from './tooltip';
 import './model.pcss';
 import './tooltip.pcss';
 import { assignEngineUrl } from '../util';
@@ -28,15 +32,16 @@ function findAttribute(event, attrName) {
 }
 
 function useTablesAndKeys(app, appLayout) {
-  const [tablesAndKeys] = usePromise(() => app.getTablesAndKeys({}, {}, 0, true, false), [appLayout.qLastReloadTime]);
+  const [tablesAndKeys] = usePromise(
+    () => app.getTablesAndKeys({}, {}, 0, true, false),
+    [appLayout.qLastReloadTime],
+  );
   return tablesAndKeys;
 }
 
 export default function Model({ app, appLayout, isLocalStorage }) {
   if (!appLayout) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
   const tablesAndKeys = useTablesAndKeys(app, appLayout);
   const [openBoxes, setOpenBoxes] = useState({});
@@ -66,7 +71,10 @@ export default function Model({ app, appLayout, isLocalStorage }) {
     if (currentDetailsView && boxId === currentDetailsView.boxId) {
       setCurrentDetailsView(null);
     } else {
-      setCurrentDetailsView({ boxId, content: getExtraInfoForTableField(table, field) });
+      setCurrentDetailsView({
+        boxId,
+        content: getExtraInfoForTableField(table, field),
+      });
     }
   }
   const onClick = (evt) => {
@@ -95,13 +103,17 @@ export default function Model({ app, appLayout, isLocalStorage }) {
       showFieldDetails(table, field, boxId);
     } else if (dataTableHeader) {
       // Re-sort the main data model based on the clicked table
-      const newQueryModel = new logic.QueryModel(tablesAndKeys, dataTableHeader);
+      const newQueryModel = new logic.QueryModel(
+        tablesAndKeys,
+        dataTableHeader,
+      );
       setQueryModel(newQueryModel);
     } else if (field) {
       // Open or close a field
       // If synthetic, do nothing.
       const fieldData = queryModel.grid[field][table];
-      const isSynthetic = (fieldData.qTags && fieldData.qTags.find((item) => item === '$synthetic'));
+      const isSynthetic = fieldData.qTags
+        && fieldData.qTags.find((item) => item === '$synthetic');
       if (isSynthetic) return;
       if (openBoxes[field]) {
         delete openBoxes[field];
@@ -134,11 +146,12 @@ export default function Model({ app, appLayout, isLocalStorage }) {
         placement="right"
         target={`[data-boxid="${currentDetailsView.boxId}"]`}
         content={currentDetailsView.content}
-        callback={(event) => { if (event === 'close') { setCurrentDetailsView(null); } }}
-      >
-        <>
-        </>
-      </ReactFloater>
+        callback={(event) => {
+          if (event === 'close') {
+            setCurrentDetailsView(null);
+          }
+        }}
+      />
     </div>
   ) : null;
 
@@ -168,12 +181,18 @@ export default function Model({ app, appLayout, isLocalStorage }) {
 
     const key = `${app.id}/tables/${tableName}`;
     const styles = getComputedStyle(document.documentElement);
-    const fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const fontSize = parseFloat(
+      getComputedStyle(document.documentElement).fontSize,
+    );
     const padding = +styles.getPropertyValue('--padding').replace('em', '');
-    const minTableFieldWidth = +styles.getPropertyValue('--table-field-min-size').replace('em', '');
+    const minTableFieldWidth = +styles
+      .getPropertyValue('--table-field-min-size')
+      .replace('em', '');
     const minTableWidth = (minTableFieldWidth + padding * 2) * fontSize;
-    const savedTableWidth = (isLocalStorage && localStorage.getItem(key));
-    const tableSize = savedTableWidth ? { width: `${savedTableWidth}px` } : 'auto';
+    const savedTableWidth = isLocalStorage && localStorage.getItem(key);
+    const tableSize = savedTableWidth
+      ? { width: `${savedTableWidth}px` }
+      : 'auto';
     return (
       <Resizable
         key={tableName}
@@ -199,11 +218,16 @@ export default function Model({ app, appLayout, isLocalStorage }) {
             data-tableheader={tableName}
             title={getTableTooltip(queryModel.tables[tableName])}
             style={{
-              margin: 0, zIndex: 3, position: 'sticky', top: 0,
+              margin: 0,
+              zIndex: 3,
+              position: 'sticky',
+              top: 0,
             }}
           >
             <div>{tableName}</div>
-            <div className="nbr-of-rows">{queryModel.tables[tableName].qNoOfRows}</div>
+            <div className="nbr-of-rows">
+              {queryModel.tables[tableName].qNoOfRows}
+            </div>
           </div>
           <div className={columnClasses} role="tab" tablez={tableName}>
             <div>
@@ -266,25 +290,51 @@ export default function Model({ app, appLayout, isLocalStorage }) {
                       fieldz={fieldName}
                       role="tab"
                     >
-                      <TableField app={app} field={fieldName} fieldData={x} tableData={queryModel.tables[tableName]} showFilterbox={isFilterboxOpen} />
+                      <TableField
+                        app={app}
+                        field={fieldName}
+                        fieldData={x}
+                        tableData={queryModel.tables[tableName]}
+                        showFilterbox={isFilterboxOpen}
+                      />
 
                       {x.subsetRatioText ? (
-                        <div className="subsetratio" title={x.subsetRatioTitle}>{x.subsetRatioText}</div>
+                        <div className="subsetratio" title={x.subsetRatioTitle}>
+                          {x.subsetRatioText}
+                        </div>
                       ) : null}
                       {x.hasAssociationToLeft ? (
-                        <div className="association-to-left" style={assocStyle} title={getAssosicationTooltip(fieldName)}>
+                        <div
+                          className="association-to-left"
+                          style={assocStyle}
+                          title={getAssosicationTooltip(fieldName)}
+                        >
                           <div className="association-to-left-a" />
-                          <div className="association-to-left-b" style={leftAssocStyle} />
+                          <div
+                            className="association-to-left-b"
+                            style={leftAssocStyle}
+                          />
                           <div className="association-to-left-c" />
-                          <div className="association-to-left-d">{x.assocSymbol}</div>
+                          <div className="association-to-left-d">
+                            {x.assocSymbol}
+                          </div>
                         </div>
                       ) : null}
                       {x.hasAssociationToRight ? (
-                        <div className="association-to-right" style={assocStyle} title={getAssosicationTooltip(fieldName)}>
+                        <div
+                          className="association-to-right"
+                          style={assocStyle}
+                          title={getAssosicationTooltip(fieldName)}
+                        >
                           <div className="association-to-right-a" />
-                          <div className="association-to-right-b" style={rightAssocStyle} />
+                          <div
+                            className="association-to-right-b"
+                            style={rightAssocStyle}
+                          />
                           <div className="association-to-right-c" />
-                          <div className="association-to-right-d">{x.assocSymbol}</div>
+                          <div className="association-to-right-d">
+                            {x.assocSymbol}
+                          </div>
                         </div>
                       ) : null}
                     </div>
@@ -310,10 +360,19 @@ export default function Model({ app, appLayout, isLocalStorage }) {
                   return null;
                 }
                 return (
-                  <div className="vertcell" key={`${tableName}:${fieldName}`} style={cellContainerStyle} title={x.betweenKeys ? getAssosicationTooltip(fieldName) : ''}>
+                  <div
+                    className="vertcell"
+                    key={`${tableName}:${fieldName}`}
+                    style={cellContainerStyle}
+                    title={
+                      x.betweenKeys ? getAssosicationTooltip(fieldName) : ''
+                    }
+                  >
                     <div className={classes}>
                       <div
-                        className={x.betweenKeys && !x.isKey ? 'lineyinner ' : ''}
+                        className={
+                          x.betweenKeys && !x.isKey ? 'lineyinner ' : ''
+                        }
                         style={lineystyle}
                       />
                     </div>
@@ -347,7 +406,12 @@ export default function Model({ app, appLayout, isLocalStorage }) {
                       key={fieldData.qName}
                       style={cellContainerStyle}
                     >
-                      <TableField app={app} field={fieldData.qName} fieldData={fieldData} showFilterbox={isFilterboxOpen} />
+                      <TableField
+                        app={app}
+                        field={fieldData.qName}
+                        fieldData={fieldData}
+                        showFilterbox={isFilterboxOpen}
+                      />
                     </div>
                   );
                 }
@@ -363,19 +427,17 @@ export default function Model({ app, appLayout, isLocalStorage }) {
   const speechBubbleClick = () => {
     assignEngineUrl('');
   };
-  const catWithBubble = demoApp.includes(appLayout.qFileName)
-    ? (
-      <CatWithBubble
-        text="Note that this is a demo app. If you want to connect to your own engine
+  const catWithBubble = demoApp.includes(appLayout.qFileName) ? (
+    <CatWithBubble
+      text="Note that this is a demo app. If you want to connect to your own engine
         running your own apps, click my speech bubble, and enter the websocket URL."
-        onClick={speechBubbleClick}
-      />
-    ) : null;
+      onClick={speechBubbleClick}
+    />
+  ) : null;
   return (
     <>
       <ScrollArea className="scrollArea" height="100%" width="100%">
         <div className="model">
-
           <div
             className="colset"
             onClick={onClick}

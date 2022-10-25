@@ -86,21 +86,19 @@ export default function ErrorInfo({ error, engineURL }) {
   };
 
   const form = (
-    <>
-      <form
-        className="url-form centered-content"
-        onSubmit={(evt) => {
-          evt.preventDefault();
-          updateEngineURL(evt.target[0].value);
-        }}
-      >
-        <label htmlFor="engineURL">
-          Websocket address
-          <input id="engineURL" type="text" onChange={urlChanged} defaultValue={engineURL} placeholder="Enter a valid websocket address" />
-          <input type="submit" value="Connect" />
-        </label>
-      </form>
-    </>
+    <form
+      className="url-form centered-content"
+      onSubmit={(evt) => {
+        evt.preventDefault();
+        updateEngineURL(evt.target[0].value);
+      }}
+    >
+      <label htmlFor="engineURL">
+        Websocket address
+        <input id="engineURL" type="text" onChange={urlChanged} defaultValue={engineURL} placeholder="Enter a valid websocket address" />
+        <input type="submit" value="Connect" />
+      </label>
+    </form>
   );
 
   let errorText = '';

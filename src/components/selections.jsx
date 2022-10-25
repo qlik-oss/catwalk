@@ -8,7 +8,7 @@ import SVGclose from '../assets/close-outline.svg';
 
 import './selections.pcss';
 
-const clearButton = { className: 'clear'};
+const clearButton = { className: 'clear' };
 
 const definition = {
   qInfo: { qType: 'selections' },

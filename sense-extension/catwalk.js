@@ -1,7 +1,8 @@
 /* globals define */
 /* eslint-disable import/no-amd */
 
-define(['qlik'],
+define(
+  ['qlik'],
   (qlik) => ({
     support: {
       snapshot: false,
@@ -24,4 +25,5 @@ define(['qlik'],
       });
       return qlik.Promise.resolve();
     },
-  }));
+  }),
+);
