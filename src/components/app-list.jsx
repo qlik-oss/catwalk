@@ -39,11 +39,11 @@ export default function AppList({ webIntegrationId, global, engineURL }) {
     assignEngineUrl(URLobject);
   }
 
-  function loadMoreRows() {
+  const loadMoreRows = () => {
     if (!isLoading && webIntegrationId) {
       loadApps();
     }
-  }
+  };
 
   if (appsResponse && !isLoading) {
     const tempApps = apps;

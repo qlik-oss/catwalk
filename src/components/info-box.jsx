@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import SVGsuccess from '../assets/checkmark-circle-2-outline.svg';
-
+import SVGwarning from '../assets/alert-triangle-outline.svg';
 import './info-box.pcss';
 
 const context = React.createContext();
@@ -26,7 +26,11 @@ InfoBoxContainer.defaultProps = {
 
 const InfoBox = ({ children, alert, visible }) => (
   <div className={`info-box ${visible ? 'visible' : 'hidden'}`}>
-    <SVGsuccess className={`alert ${alert}`} svg={alert === 'success' ? success : warning} />
+    {
+      alert === 'success'
+        ? <SVGsuccess className={`alert ${alert}`} />
+        : <SVGwarning className={`alert ${alert}`} />
+    }
     {children}
   </div>
 );
@@ -52,7 +56,7 @@ export function InfoBoxProvider({ children }) {
   useEffect(() => { clearTimeout(showTimer); clearTimeout(animateOutTimer); }, []);
 
   const show = (alert, text) => {
-    const id = Math.random().toString(36).substr(2, 9);
+    const id = Math.random().toString(36).substring(2, 9);
     setAnimateOutTimer(setTimeout(() => {
       setInfoBox({
         content: text, id, alert, visible: false,
@@ -65,7 +69,7 @@ export function InfoBoxProvider({ children }) {
   };
 
   return (
-    <context.Provider value={{ show }}>
+    <context.Provider value={React.useMemo({ show }, [])}>
       {children}
       <InfoBoxContainer className="info-box-container">
         {infoBox

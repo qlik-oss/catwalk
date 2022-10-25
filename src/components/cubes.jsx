@@ -60,22 +60,22 @@ export function Cubes({ app, closeOnClickOutside, isLocalStorage }) {
     setCubeList(storedCubeList);
   }, []);
 
-  function removeCube(id) {
+  const removeCube = (id) => {
     setCubeList(cubeList.filter((item) => item.id !== id));
     refs.current[id] = null;
-  }
+  };
 
-  function openColumnChooser() {
+  const openColumnChooser = () => {
     addOpen.current = true;
     forceUpdate();
-  }
+  };
 
-  function copyToClipboard(id) {
+  const copyToClipboard = (id) => {
     if (refs.current && refs.current[id] && refs.current[id].current) {
       refs.current[id].current.copyToClipboard();
       infoBox.show('success', 'The hypercube def was copied to clipboard.');
     }
-  }
+  };
 
   const exportHypercube = async (id) => {
     if (refs.current && refs.current[id] && refs.current[id].current) {

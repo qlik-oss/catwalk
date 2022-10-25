@@ -93,7 +93,7 @@ const Cube = forwardRef(({
     }
   }
 
-  function addColumn(column) {
+  const addColumn = (column) => {
     if (column) {
       if (columnToReplace.current) {
         setColumns(columns.map((existingColumn) => (existingColumn === columnToReplace.current ? column : existingColumn)));
@@ -103,7 +103,7 @@ const Cube = forwardRef(({
       }
     }
     closeAdd();
-  }
+  };
 
   function onHeaderClick({ columnData, event }) {
     if (event.target && (event.target.tagName === 'path' || event.target.tagName === 'svg')) {

@@ -7,9 +7,7 @@ let wasInReloadOnStartup;
 let reloadInProgress;
 let setReloadInProgress;
 
-function sleep(time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
+const sleep = (time) => new Promise((resolve) => { setTimeout(resolve, time); });
 
 export function useReloadInProgress(app) {
   [reloadInProgress, setReloadInProgress] = useState(wasInReloadOnStartup);

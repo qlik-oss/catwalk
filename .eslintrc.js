@@ -27,6 +27,13 @@ module.exports = {
         unnamedComponents: ['arrow-function', 'function-expression'],
       },
     ],
+    'import/no-import-module-exports': [
+      'error',
+      {
+        exceptions: ['**/*/index.jsx'],
+      },
+    ],
+    'react/no-unknown-property': ['error', { ignore: ['fieldz', 'tablez'] }],
   },
   plugins: ['promise'],
 };
