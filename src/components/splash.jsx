@@ -30,6 +30,12 @@ export default function Splash({
   }
   return (
     <>
+      <div style={{ padding: '5px 10px', fontSize: '1.5rem' }}>
+        <span style={{ color: 'red' }}>&#9888;</span>
+        {' '}
+        This project is no longer maintained. If you are interested in working on the project you can still create a fork of it on Github. This web-app will be shut down in February 2023.
+        <hr />
+      </div>
       <div className="center-content">
         <div className="splash">
           <SVGInline className={contentLogo.className} svg={contentLogo.svg} />
