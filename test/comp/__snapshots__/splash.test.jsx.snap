@@ -3,6 +3,27 @@
 exports[`<Splash /> should render <AppList /> 1`] = `
 Array [
   <div
+    style={
+      Object {
+        "fontSize": "1.5rem",
+        "padding": "5px 10px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "color": "red",
+        }
+      }
+    >
+      ⚠
+    </span>
+     
+    This project is no longer maintained. If you are interested in working on the project you can still create a fork of it on Github. This web-app will be shut down in February 2023.
+    <hr />
+  </div>,
+  <div
     className="center-content"
   >
     <div
@@ -61,6 +82,27 @@ Array [
 exports[`<Splash /> should render <AppList /> even though error is provided 1`] = `
 Array [
   <div
+    style={
+      Object {
+        "fontSize": "1.5rem",
+        "padding": "5px 10px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "color": "red",
+        }
+      }
+    >
+      ⚠
+    </span>
+     
+    This project is no longer maintained. If you are interested in working on the project you can still create a fork of it on Github. This web-app will be shut down in February 2023.
+    <hr />
+  </div>,
+  <div
     className="center-content"
   >
     <div
@@ -118,6 +160,27 @@ Array [
 
 exports[`<Splash /> should render <ErrorInfo /> when having error 1`] = `
 Array [
+  <div
+    style={
+      Object {
+        "fontSize": "1.5rem",
+        "padding": "5px 10px",
+      }
+    }
+  >
+    <span
+      style={
+        Object {
+          "color": "red",
+        }
+      }
+    >
+      ⚠
+    </span>
+     
+    This project is no longer maintained. If you are interested in working on the project you can still create a fork of it on Github. This web-app will be shut down in February 2023.
+    <hr />
+  </div>,
   <div
     className="center-content"
   >
