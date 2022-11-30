@@ -69,6 +69,7 @@ jobs:
           name: Sync dist to S3 bucket
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ] && [ "${TARGET_USER}" != "" ]; then
+              sudo apt-get update
               sudo apt-get -y -qq install awscli
               aws configure set preview.cloudfront true
 
