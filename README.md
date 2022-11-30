@@ -1,3 +1,6 @@
+:warning: This project is no longer maintained. If you are interested in working on the project you can still create a fork of it on Github.
+
+
 ![catwalk](./src/assets/catwalk.svg)
 
 [![CircleCI](https://circleci.com/gh/qlik-oss/catwalk/tree/master.svg?style=svg)](https://circleci.com/gh/qlik-oss/catwalk/tree/master)
