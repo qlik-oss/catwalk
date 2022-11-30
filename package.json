@@ -27,7 +27,7 @@
     "test:e2e:dev": "start-server-and-test start http://localhost:1234 cy:open"
   },
   "dependencies": {
-    "axios": "0.21.2",
+    "axios": "1.2.0",
     "axios-cache-adapter": "2.7.3",
     "axios-hooks": "3.0.0",
     "copy-to-clipboard": "3.3.1",
